@@ -4,7 +4,7 @@
         "name": "Measurement Uncertainty Evaluation Tool v2.0",
         "description": "Enhanced Excel-based tool for ISO 15189 compliant measurement uncertainty calculations across multiple calculation modes.",
         "status": "In Progress",
-        "targetDate": "Q3 2024",
+        "targetDate": "Q3 2026",
         "objectives": [
             "Implement three calculation modes: s_wr + s_br, s_total/CV%, GUM bottom-up",
             "Create automated Analyte Library with common analytes",
@@ -24,7 +24,7 @@
         "name": "Blood Gas Analysis Educational Deck",
         "description": "Comprehensive PowerPoint presentation covering blood gas parameters, acid-base mechanisms, compensation, and clinical case studies.",
         "status": "In Progress",
-        "targetDate": "Q2 2024",
+        "targetDate": "Q2 2026",
         "objectives": [
             "Create 8-10 slide deck with parameter explanations",
             "Develop acid-base compensation flowcharts",
@@ -44,7 +44,7 @@
         "name": "Comprehensive Analyzer Database",
         "description": "Complete reference database for all laboratory analyzers with specifications, parameters, troubleshooting guides, and maintenance schedules.",
         "status": "Planning",
-        "targetDate": "Q4 2024",
+        "targetDate": "Q4 2026",
         "objectives": [
             "Document 20+ analyzer models (Mindray, Roche, Abbott, Siemens)",
             "Create standardized specification sheets",
@@ -64,7 +64,7 @@
         "name": "Internal Quality Control (IQC) Dashboard",
         "description": "Interactive Excel dashboard for tracking and analyzing internal quality control data with Levy-Jennings charts and Westgard rules.",
         "status": "Planning",
-        "targetDate": "Q3 2024",
+        "targetDate": "Q3 2026",
         "objectives": [
             "Create Levy-Jennings charting system",
             "Implement Westgard multirule QC interpretation",
@@ -84,7 +84,7 @@
         "name": "Advanced Urinalysis Morphology Guide",
         "description": "Detailed reference guide for identifying and classifying all urinalysis formed elements with high-resolution microscopy images.",
         "status": "Completed",
-        "targetDate": "Q1 2024",
+        "targetDate": "Q1 2026",
         "objectives": [
             "Catalog all RBC subtypes (isomorphic, dysmorphic, acanthocyte, etc.)",
             "Classify all epithelial cell types with clinical significance",
@@ -104,7 +104,7 @@
         "name": "LIS-Based Autoverification Protocol Development",
         "description": "Design and implement autoverification rules in laboratory information system to reduce TAT and improve result quality.",
         "status": "Planning",
-        "targetDate": "Q4 2024",
+        "targetDate": "Q4 2026",
         "objectives": [
             "Review CLSI autoverification guidelines",
             "Develop laboratory-specific rules by analyte",
