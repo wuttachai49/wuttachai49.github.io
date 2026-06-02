@@ -1,0 +1,74 @@
+[
+    {
+        "id": "dysmorphic_rbc",
+        "term": "Dysmorphic RBC",
+        "category": "Urinalysis",
+        "definition": "Red blood cells with distorted or altered morphology, indicating renal origin rather than contamination.",
+        "explanation": "Dysmorphic RBCs are damaged during passage through the renal tubules, resulting in abnormal shapes. Types include acanthocytes (irregular edges), annular RBCs (ring-shaped), and jagged RBCs. Their presence suggests glomerulonephritis or other renal pathology.",
+        "clinicalSignificance": "Presence of >5% dysmorphic RBCs in urine indicates glomerular disease and warrants further investigation with RBC casts and proteinuria.",
+        "relatedTerms": ["Acanthocyte", "Isomorphic RBC", "Hematuria", "Glomerulonephritis"]
+    },
+    {
+        "id": "acanthocyte",
+        "term": "Acanthocyte",
+        "category": "Urinalysis - RBC Subtypes",
+        "definition": "A dysmorphic RBC with irregular, spiculated edges created by mechanical distortion in the renal tubules.",
+        "explanation": "Acanthocytes have multiple irregular protrusions (spicules) on their surface, giving them a spiky appearance. They are highly specific for glomerular hematuria.",
+        "clinicalSignificance": "Highly specific marker for glomerular disease. >5% acanthocytes suggests primary glomerulonephritis.",
+        "relatedTerms": ["Dysmorphic RBC", "Glomerular hematuria"]
+    },
+    {
+        "id": "urinary_cast",
+        "term": "Urinary Casts",
+        "category": "Urinalysis",
+        "definition": "Cylindrical protein structures formed in the collecting duct of the kidney nephron, composed primarily of Tamm-Horsfall protein.",
+        "explanation": "Casts form when concentrated urine contains high protein levels and low urine flow. Types include hyaline (most common), granular, cellular, waxy, and fatty casts. Each type indicates different renal conditions.",
+        "clinicalSignificance": "Presence of casts indicates renal disease. Type of cast helps diagnose condition: granular casts in diabetic nephropathy, RBC casts in glomerulonephritis, WBC casts in pyelonephritis.",
+        "relatedTerms": ["Hyaline cast", "Granular cast", "RBC cast", "Proteinuria"]
+    },
+    {
+        "id": "epithelial_cells",
+        "term": "Urinary Epithelial Cells",
+        "category": "Urinalysis",
+        "definition": "Cells that line the urinary tract, classified by their origin (renal, ureteral, bladder, or urethral).",
+        "explanation": "Main types: Squamous epithelial cells (contamination indicator, normal <5/lpf), transitional/urothelial cells (normal <5/lpf), and renal tubular epithelial cells (abnormal when present, suggests kidney injury).",
+        "clinicalSignificance": "High squamous epithelial cells indicate contamination. Presence of renal tubular epithelial cells suggests acute tubular necrosis or glomerular disease.",
+        "relatedTerms": ["Squamous epithelial cells", "Renal tubular epithelial cells", "Urothelial cells"]
+    },
+    {
+        "id": "pH_urine",
+        "term": "Urine pH",
+        "category": "Urinalysis - Chemistry",
+        "definition": "Measures the acidity or alkalinity of urine, normal range 4.5-8.0.",
+        "explanation": "pH affects crystal formation and bacterial growth. Acidic urine promotes uric acid and calcium oxalate crystals. Alkaline urine promotes phosphate and magnesium crystals. pH varies with diet and metabolic status.",
+        "clinicalSignificance": "Persistently alkaline urine may indicate UTI (Proteus, Klebsiella), renal tubular acidosis, or vegetarian diet. Acidic urine with crystals may cause kidney stones.",
+        "relatedTerms": ["Crystals", "Bacteria", "UTI"]
+    },
+    {
+        "id": "NTU",
+        "term": "NTU (Nephelometric Turbidity Units)",
+        "category": "Laboratory Science",
+        "definition": "A unit of measurement for turbidity (cloudiness) in solutions, commonly used in clinical chemistry and coagulation testing.",
+        "explanation": "Nephelometry measures light scatter caused by suspended particles. NTU quantifies the degree of turbidity. Higher NTU values indicate greater cloudiness/turbidity. Used in protein quantification, hemolysis detection, and coagulation assays.",
+        "clinicalSignificance": "Hemolyzed or lipemic samples show high NTU and may produce false results. NTU measurements critical in immunoturbidimetric assays.",
+        "relatedTerms": ["Turbidity", "Hemolysis", "Lipemia", "Coagulation"]
+    },
+    {
+        "id": "iso_15189",
+        "term": "ISO 15189",
+        "category": "Quality Management",
+        "definition": "International standard specifying requirements for medical laboratories regarding quality management systems and competence.",
+        "explanation": "ISO 15189 establishes guidelines for laboratory management including pre-analytical, analytical, and post-analytical phases. Covers personnel qualifications, equipment maintenance, quality control, proficiency testing, and error management.",
+        "clinicalSignificance": "Essential for laboratory accreditation and credibility. Compliance ensures consistent, reliable, and clinically valid results. Required by many healthcare systems.",
+        "relatedTerms": ["CAP", "CLIA", "Quality Control", "Accreditation"]
+    },
+    {
+        "id": "measurement_uncertainty",
+        "term": "Measurement Uncertainty (MU)",
+        "category": "Quality Management",
+        "definition": "The range of values around a measured result within which the true value is expected to lie with a stated level of confidence.",
+        "explanation": "MU quantifies the doubt about any measurement. Includes both systematic (bias) and random (precision) errors. Expressed as expanded uncertainty (U) with a coverage factor (k, typically 2 for 95% confidence).",
+        "clinicalSignificance": "Understanding MU ensures appropriate interpretation of results and prevents over-interpretation of small differences. Critical for comparing results over time or between labs.",
+        "relatedTerms": ["Precision", "Accuracy", "Bias", "Standard deviation", "ISO 15189"]
+    }
+]
