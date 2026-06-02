@@ -1,0 +1,75 @@
+[
+    {
+        "id": "ua5600",
+        "name": "Mindray UA-5600",
+        "type": "Urinalysis Analyzer",
+        "manufacturer": "Mindray",
+        "description": "Automated urinalysis system for high-volume laboratories with 5-part differential RBC classification and advanced morphology analysis.",
+        "parameters": [
+            "WBC - White Blood Cells",
+            "RBC - Red Blood Cells",
+            "Epithelial Cells (5 types)",
+            "Bacteria",
+            "Crystals (multiple types)",
+            "Casts (Hyaline, Granular, Cellular)",
+            "Yeast",
+            "Sperm Cells"
+        ],
+        "troubleshooting": [
+            "No aspiration: Check sample level, verify sampling tube is correct",
+            "Air bubble detection: Allow 2 minutes for sample degassing",
+            "High background: Run cleaning cycle, check optical window",
+            "Inconsistent results: Perform system calibration with control samples"
+        ],
+        "notes": "Equipped with flow cytometry and microscopic imaging. Expert in identifying dysmorphic RBC subtypes (acanthocyte, annular RBC, jagged RBC)."
+    },
+    {
+        "id": "eh2090",
+        "name": "Mindray EH-2090B/C",
+        "type": "Hematology Analyzer",
+        "manufacturer": "Mindray",
+        "description": "3-part or 5-part differential hematology analyzer with advanced blood cell classification and quality control features.",
+        "parameters": [
+            "WBC - Total White Blood Cell Count",
+            "RBC - Red Blood Cell Count",
+            "HGB - Hemoglobin",
+            "HCT - Hematocrit",
+            "MCV - Mean Corpuscular Volume",
+            "MCH - Mean Corpuscular Hemoglobin",
+            "MCHC - Mean Corpuscular Hemoglobin Concentration",
+            "PLT - Platelet Count"
+        ],
+        "troubleshooting": [
+            "Cold sample: Warm to room temperature (18-25°C) before analysis",
+            "Clotted sample: Discard, recollect in proper anticoagulant",
+            "Instrument error E001: Check reagent bottles, perform purge cycle",
+            "Flagged results: Review with microscope, assess clinical context"
+        ],
+        "notes": "Popular in Asian laboratories. Supports both 3-part (WBC, RBC, PLT) and 5-part (NEUT, LYMPH, MONO, EOS, BASO) differential modes."
+    },
+    {
+        "id": "bloodgas",
+        "name": "Blood Gas Analyzer (Generic)",
+        "type": "Point-of-Care Testing",
+        "manufacturer": "Various (ABL, Radiometer, etc.)",
+        "description": "Measures acid-base balance, electrolytes, and blood gases in clinical specimens.",
+        "parameters": [
+            "pH - Hydrogen ion concentration",
+            "pCO2 - Partial pressure of carbon dioxide",
+            "pO2 - Partial pressure of oxygen",
+            "HCO3- - Bicarbonate",
+            "BE - Base Excess",
+            "SaO2 - Oxygen saturation",
+            "K+ - Potassium",
+            "Na+ - Sodium",
+            "Cl- - Chloride"
+        ],
+        "troubleshooting": [
+            "Air bubbles in sample: Expel immediately, samples are anaerobic",
+            "Delayed analysis: Re-analyze if delay > 15 minutes, apply ice bath if delays unavoidable",
+            "Calibration drift: Perform 2-point calibration before critical samples",
+            "Out-of-range results: Verify electrode function, check standard solutions"
+        ],
+        "notes": "Critical for ICU and emergency departments. Understand acid-base compensation mechanisms for clinical interpretation."
+    }
+]
