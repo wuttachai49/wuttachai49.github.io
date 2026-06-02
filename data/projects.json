@@ -1,0 +1,124 @@
+[
+    {
+        "id": "mu_tool",
+        "name": "Measurement Uncertainty Evaluation Tool v2.0",
+        "description": "Enhanced Excel-based tool for ISO 15189 compliant measurement uncertainty calculations across multiple calculation modes.",
+        "status": "In Progress",
+        "targetDate": "Q3 2024",
+        "objectives": [
+            "Implement three calculation modes: s_wr + s_br, s_total/CV%, GUM bottom-up",
+            "Create automated Analyte Library with common analytes",
+            "Add visual dashboard for uncertainty trends",
+            "Enable batch uncertainty calculations for multiple analytes"
+        ],
+        "resourcesNeeded": [
+            "Excel VBA programming time",
+            "Reference materials (EURACHEM/CITAC CG4)",
+            "Test data from existing laboratories"
+        ],
+        "timeline": "Month 1: Design framework | Month 2: Formula implementation | Month 3: Testing and refinement | Month 4: Documentation",
+        "notes": "Building on existing MU_Evaluation_Tool.xlsx and MU_Flex_v1.xlsx experience"
+    },
+    {
+        "id": "blood_gas_deck",
+        "name": "Blood Gas Analysis Educational Deck",
+        "description": "Comprehensive PowerPoint presentation covering blood gas parameters, acid-base mechanisms, compensation, and clinical case studies.",
+        "status": "In Progress",
+        "targetDate": "Q2 2024",
+        "objectives": [
+            "Create 8-10 slide deck with parameter explanations",
+            "Develop acid-base compensation flowcharts",
+            "Include 5-10 worked case examples",
+            "Produce both light and dark theme versions"
+        ],
+        "resourcesNeeded": [
+            "PowerPoint design time",
+            "Clinical case references",
+            "Diagram tools for acid-base concepts"
+        ],
+        "timeline": "Week 1-2: Outline and research | Week 3-4: Slide creation | Week 5: Case study development | Week 6: Review and refinement",
+        "notes": "Target audience: laboratory technicians and students"
+    },
+    {
+        "id": "analyzer_db",
+        "name": "Comprehensive Analyzer Database",
+        "description": "Complete reference database for all laboratory analyzers with specifications, parameters, troubleshooting guides, and maintenance schedules.",
+        "status": "Planning",
+        "targetDate": "Q4 2024",
+        "objectives": [
+            "Document 20+ analyzer models (Mindray, Roche, Abbott, Siemens)",
+            "Create standardized specification sheets",
+            "Build troubleshooting guides for common errors",
+            "Develop maintenance checklists and schedule templates"
+        ],
+        "resourcesNeeded": [
+            "Analyzer manuals and specification sheets",
+            "Input from laboratory managers and technicians",
+            "Database design expertise"
+        ],
+        "timeline": "Month 1: Collect specifications | Month 2: Create standardized templates | Month 3: Build troubleshooting guides | Month 4: Database integration",
+        "notes": "Will be central resource for AS training and onboarding"
+    },
+    {
+        "id": "iqc_tool",
+        "name": "Internal Quality Control (IQC) Dashboard",
+        "description": "Interactive Excel dashboard for tracking and analyzing internal quality control data with Levy-Jennings charts and Westgard rules.",
+        "status": "Planning",
+        "targetDate": "Q3 2024",
+        "objectives": [
+            "Create Levy-Jennings charting system",
+            "Implement Westgard multirule QC interpretation",
+            "Build trend analysis and alerts",
+            "Enable comparison between runs and reagent lots"
+        ],
+        "resourcesNeeded": [
+            "Statistical software/VBA knowledge",
+            "IQC data from multiple analyzers",
+            "Knowledge of Westgard QC rules"
+        ],
+        "timeline": "Month 1: Design and templates | Month 2: Chart automation | Month 3: Alert system | Month 4: Validation",
+        "notes": "Will integrate with lab LIS system eventually"
+    },
+    {
+        "id": "urinalysis_guide",
+        "name": "Advanced Urinalysis Morphology Guide",
+        "description": "Detailed reference guide for identifying and classifying all urinalysis formed elements with high-resolution microscopy images.",
+        "status": "Completed",
+        "targetDate": "Q1 2024",
+        "objectives": [
+            "Catalog all RBC subtypes (isomorphic, dysmorphic, acanthocyte, etc.)",
+            "Classify all epithelial cell types with clinical significance",
+            "Document crystal types and formation conditions",
+            "Create flowcharts for differential diagnosis"
+        ],
+        "resourcesNeeded": [
+            "Microscopy images from quality specimens",
+            "Reference literature and pathology inputs",
+            "Design tools for infographics"
+        ],
+        "timeline": "Completed - Available in library",
+        "notes": "Used for training new laboratory staff on Mindray UA-5600"
+    },
+    {
+        "id": "autoverification",
+        "name": "LIS-Based Autoverification Protocol Development",
+        "description": "Design and implement autoverification rules in laboratory information system to reduce TAT and improve result quality.",
+        "status": "Planning",
+        "targetDate": "Q4 2024",
+        "objectives": [
+            "Review CLSI autoverification guidelines",
+            "Develop laboratory-specific rules by analyte",
+            "Create delta check protocols",
+            "Implement reflex testing logic",
+            "Establish monitoring and audit trail system"
+        ],
+        "resourcesNeeded": [
+            "CLSI GP16 guidelines access",
+            "LIS technical support team",
+            "Historical data for rule development",
+            "Clinical pathologist consultation"
+        ],
+        "timeline": "Month 1: Guidelines review and planning | Month 2: Rule development | Month 3: Testing and validation | Month 4: LIS implementation",
+        "notes": "Based on research from Thai institutions (Ramathibodi, Siriraj, Lopburi Cancer Hospital)"
+    }
+]
