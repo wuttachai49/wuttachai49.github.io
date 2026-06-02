@@ -5,37 +5,205 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wuttachai - Medical Laboratory Specialist</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f4f4f4; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; }
-        h1 { color: #2c3e50; }
-        .section { margin: 20px 0; }
-        a { color: #3498db; text-decoration: none; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .title {
+            font-size: 1.3em;
+            color: #764ba2;
+            margin-bottom: 5px;
+        }
+        
+        .location {
+            color: #666;
+            font-size: 0.95em;
+        }
+        
+        .section {
+            margin: 30px 0;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            border-left: 4px solid #764ba2;
+            padding-left: 15px;
+        }
+        
+        .section p {
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+        
+        ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .expertise-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .contact-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #764ba2;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Wuttachai</h1>
-        <p><strong>Medical Laboratory Specialist</strong> | Thailand</p>
+        <header>
+            <h1>Wuttachai</h1>
+            <p class="title">Medical Laboratory Specialist | Application Specialist</p>
+            <p class="location">📍 Thailand</p>
+        </header>
         
-        <div class="section">
-            <h2>Expertise</h2>
+        <section class="section">
+            <h2>👨‍⚕️ About Me</h2>
+            <p>Experienced medical laboratory specialist with expertise in clinical laboratory science, quality management, and analyzer validation. Dedicated to supporting laboratory professionals with technical knowledge and practical tools.</p>
+        </section>
+        
+        <section class="section">
+            <h2>🔬 Core Expertise</h2>
+            <div class="expertise-grid">
+                <div class="expertise-item">
+                    <strong>Urinalysis</strong>
+                    <p>Mindray UA-5600, cell morphology, crystal analysis</p>
+                </div>
+                <div class="expertise-item">
+                    <strong>Hematology</strong>
+                    <p>Clinical interpretation, quality control</p>
+                </div>
+                <div class="expertise-item">
+                    <strong>Blood Gas Analysis</strong>
+                    <p>Parameters, acid-base mechanisms, case interpretation</p>
+                </div>
+                <div class="expertise-item">
+                    <strong>Quality Management</strong>
+                    <p>ISO 15189, CLSI, EFLM standards</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2>💼 Professional Experience</h2>
             <ul>
-                <li>Clinical Laboratory Science</li>
-                <li>Urinalysis & Hematology</li>
-                <li>Laboratory Quality Management</li>
-                <li>ISO 15189 Compliance</li>
+                <li><strong>Application Specialist</strong> – Technical support and analyzer validation</li>
+                <li><strong>Laboratory Consultant</strong> – Quality management and compliance</li>
+                <li>Expert in customer-facing technical support and training</li>
+                <li>Experienced with EPC (Expert, Partner, Coach) framework</li>
             </ul>
-        </div>
+        </section>
         
-        <div class="section">
-            <h2>Experience</h2>
-            <p>Application Specialist with expertise in analyzer validation and customer support...</p>
-        </div>
+        <section class="section">
+            <h2>📚 Key Areas of Focus</h2>
+            <ul>
+                <li>Clinical laboratory instrument validation and troubleshooting</li>
+                <li>Laboratory quality management systems (ISO 15189)</li>
+                <li>Professional development for laboratory specialists</li>
+                <li>Educational materials and training resources</li>
+                <li>Inter-laboratory comparison and EQA methodologies</li>
+            </ul>
+        </section>
         
-        <div class="section">
-            <h2>Contact</h2>
-            <p>Email: <a href="mailto:panpan49.th@gmail.com">your@email.com</a></p>
-        </div>
+        <section class="section">
+            <h2>🛠️ Tools & Resources</h2>
+            <p>I create practical tools for laboratory professionals:</p>
+            <ul>
+                <li>Measurement Uncertainty Evaluation Tools (ISO 15189 compliant)</li>
+                <li>Analyzer Concordance Analysis Workbooks</li>
+                <li>Blood Gas Analysis Educational Materials</li>
+                <li>Urinalysis Reference Guides and Classifications</li>
+            </ul>
+        </section>
+        
+        <section class="section">
+            <h2>📞 Get in Touch</h2>
+            <p>Feel free to reach out for collaboration, questions, or professional opportunities:</p>
+            <div class="contact-links">
+                <a href="mailto:panpan49.th@gmail.com" class="btn">📧 Email Me</a>
+                <a href="https://github.com/wuttachai49" class="btn">🐙 GitHub</a>
+            </div>
+        </section>
+        
+        <footer>
+            <p>&copy; 2024 Wuttachai. All rights reserved.</p>
+            <p>Last updated: June 2024</p>
+        </footer>
     </div>
 </body>
 </html>
