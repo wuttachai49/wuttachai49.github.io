@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Base - Laboratory Technical Terms</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="analyzers.html">🔬 Analyzers</a></li>
+            <li><a href="knowledge.html">📚 Knowledge Base</a></li>
+            <li><a href="projects.html">📋 Projects</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>📚 Laboratory Knowledge Base</h1>
+            <p>Technical terminology and clinical concepts explained</p>
+        </header>
+
+        <div class="content">
+            <h2>Technical Terms & Definitions</h2>
+            
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    id="search-knowledge" 
+                    class="search-input" 
+                    placeholder="Search for terms or concepts..."
+                    onkeypress="if(event.key==='Enter') searchKnowledge(this.value)"
+                >
+                <button onclick="searchKnowledge(document.getElementById('search-knowledge').value)">Search</button>
+            </div>
+
+            <div id="knowledge-container" class="card-grid"></div>
+
+            <div id="knowledge-detail" class="detail-view"></div>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 Wuttachai. Medical Laboratory Knowledge Base.</p>
+        </footer>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
