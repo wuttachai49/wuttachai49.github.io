@@ -72,4 +72,40 @@
         ],
         "notes": "Critical for ICU and emergency departments. Understand acid-base compensation mechanisms for clinical interpretation."
     }
+    ,
+{
+    "id": "bricyte_e6",
+    "name": "Bricyte E6",
+    "type": "Hematology Analyzer",
+    "manufacturer": "Shenzhen Mindray Bio-Medical Electronics",
+    "description": "Automated hematology analyzer with 6-part differential WBC classification, advanced blood cell counting and morphology analysis. Suitable for clinical laboratories and hospital settings.",
+    "parameters": [
+        "WBC - Total White Blood Cell Count",
+        "RBC - Red Blood Cell Count",
+        "HGB - Hemoglobin",
+        "HCT - Hematocrit",
+        "MCV - Mean Corpuscular Volume",
+        "MCH - Mean Corpuscular Hemoglobin",
+        "MCHC - Mean Corpuscular Hemoglobin Concentration",
+        "PLT - Platelet Count",
+        "NEUT - Neutrophils (%)",
+        "LYMPH - Lymphocytes (%)",
+        "MONO - Monocytes (%)",
+        "EOS - Eosinophils (%)",
+        "BASO - Basophils (%)",
+        "RDW - Red Cell Distribution Width",
+        "PDW - Platelet Distribution Width",
+        "MPV - Mean Platelet Volume"
+    ],
+    "troubleshooting": [
+        "Cold sample: Warm to room temperature (18-25°C) before analysis",
+        "Clotted sample: Discard, recollect in proper anticoagulant (EDTA K2)",
+        "Low platelet count: Verify no clumping, review blood smear",
+        "Instrument error E001: Check reagent bottles and perform purge cycle",
+        "Abnormal WBC differential: Review with microscope for morphology assessment",
+        "High NTU (turbidity): Check for hemolysis or lipemia, recollect if necessary",
+        "No aspiration: Verify sample level in tube, check sampling needle is clear"
+    ],
+    "notes": "Flow Cytometry Analyzer of Mindray. Compatible with EDTA / Heparin anticoagulated whole blood specimens. Results include complete CBC with differential and RBC/platelet indices. Regular maintenance and calibration required for optimal performance."
+}
 ]
