@@ -71,9 +71,8 @@
             "Out-of-range results: Verify electrode function, check standard solutions"
         ],
         "notes": "Critical for ICU and emergency departments. Understand acid-base compensation mechanisms for clinical interpretation."
-    }
-    ,
-{
+    },
+    {
     "id": "bricyte_e6",
     "name": "Bricyte E6",
     "type": "Hematology Analyzer",
