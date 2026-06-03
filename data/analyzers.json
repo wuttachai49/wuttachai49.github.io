@@ -105,7 +105,7 @@
         "High NTU (turbidity): Check for hemolysis or lipemia, recollect if necessary",
         "No aspiration: Verify sample level in tube, check sampling needle is clear"
     ],
-    "notes": "Flow Cytometry Analyzer of Mindray. Compatible with EDTA / Heparin anticoagulated whole blood specimens. Results include complete CBC with differential and RBC/platelet indices. Regular maintenance and calibration required for optimal performance."
+    "notes": "Flow Cytometry Analyzer of Mindray. Compatible with EDTA / Heparin anticoagulated whole blood specimens. Results include complete CBC with differential and RBC/platelet indices. Regular maintenance and calibration required for optimal performance.",
     "attachments": [
         {
             "name": "📖 Bricyte E6 Reference Guide",
