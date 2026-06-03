@@ -78,7 +78,7 @@
     "name": "Bricyte E6",
     "type": "Hematology Analyzer",
     "manufacturer": "Shenzhen Mindray Bio-Medical Electronics",
-    "description": "Automated hematology analyzer with 6-part differential WBC classification, advanced blood cell counting and morphology analysis. Suitable for clinical laboratories and hospital settings.",
+    "description": "Automated hematology analyzer with Flow Cytometry. Suitable for clinical laboratories and hospital settings.",
     "parameters": [
         "WBC - Total White Blood Cell Count",
         "RBC - Red Blood Cell Count",
