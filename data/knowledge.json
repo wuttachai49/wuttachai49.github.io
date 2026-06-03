@@ -377,4 +377,26 @@
         "clinicalSignificance": "Most common bacterial infection in women. Untreated pyelonephritis risks sepsis and renal scarring. Urinalysis findings (WBC, bacteria, nitrites, LE) support clinical diagnosis. Culture confirmation and sensitivity testing guide antibiotic selection.",
         "relatedTerms": ["Bacteria", "Pyuria", "Nitrites", "Urine culture", "Pyelonephritis"]
     }
+,
+{
+    "id": "bloodgas_cardfile",
+    "term": "Blood Gas Card File by PANTONE",
+    "category": "Bloodgas - CARD FILE",
+    "definition": "Interpretation and Card File for Blood Gas Analysis",
+    "explanation": "This is my personal collection of urinalysis knowledge covering RBC morphology (isomorphic, dysmorphic, acanthocyte, annular, jagged), epithelial cell classification (squamous, transitional, renal tubular, and subtypes), crystal identification, and clinical significance. Includes reference images and detailed morphology descriptions based on clinical experience.",
+    "clinicalSignificance": "Personal training and reference material for laboratory staff onboarding, especially for Mindray UA-5600 analyzer interpretation. Combines CLSI standards with practical clinical experience.",
+    "relatedTerms": ["Dysmorphic RBC", "Epithelial cells", "Crystals", "Urinalysis", "Microscopy"],
+    "attachments": [
+        {
+            "name": "Blood Gas Analysis Card File",
+            "type": "html",
+            "url": "database/blood_gas_cardfile.html"
+        },
+        {
+            "name": "RBC Classification Flowchart",
+            "type": "Image",
+            "url": "assets/images/rbc_classification_flowchart.png"
+        }
+    ]
+}
 ]
