@@ -389,7 +389,7 @@
         {
             "name": "📚 Open Blood Gas Card File",
             "type": "Interactive HTML",
-            "url": "blood_gas_cardfile.html"
+            "url": "database/blood_gas_cardfile.html"
         }
     ]
 }
