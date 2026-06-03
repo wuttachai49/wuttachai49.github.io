@@ -46,9 +46,10 @@
         }
         .plot-container {
             border: 1px solid #ddd;
-            padding: 10px;
+            padding: 15px;
             background: #fff;
             text-align: center;
+            overflow: visible;
         }
         .interpretation {
             background-color: #f0f8ff;
@@ -73,8 +74,9 @@
             margin: 15px 0;
         }
         .axis-label {
-            font-size: 11px;
+            font-size: 14px;
             font-weight: bold;
+            letter-spacing: 0.5px;
         }
         .plot-annotation {
             font-size: 10px;
@@ -86,6 +88,8 @@
             border: 1px solid #ddd;
             width: 100%;
             height: auto;
+            padding: 10px;
+            margin: 10px 0;
         }
         @media print {
             body { margin: 0; padding: 0; background: white; }
@@ -107,7 +111,7 @@
             <div class="plot-grid">
                 <div class="plot-container">
                     <div class="plot-title">Plot A: FSC-SSC (Lymphocyte Gate)</div>
-                    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="-15 0 315 300" xmlns="http://www.w3.org/2000/svg">
                         <!-- Axes -->
                         <line x1="30" y1="270" x2="270" y2="270" stroke="black" stroke-width="2"/>
                         <line x1="30" y1="30" x2="30" y2="270" stroke="black" stroke-width="2"/>
@@ -138,7 +142,7 @@
 
                 <div class="plot-container">
                     <div class="plot-title">Plot B: CD3 vs CD45 (T-Cell Population)</div>
-                    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="-15 0 315 300" xmlns="http://www.w3.org/2000/svg">
                         <!-- Axes -->
                         <line x1="30" y1="270" x2="270" y2="270" stroke="black" stroke-width="2"/>
                         <line x1="30" y1="30" x2="30" y2="270" stroke="black" stroke-width="2"/>
@@ -164,7 +168,7 @@
             <div class="plot-grid">
                 <div class="plot-container">
                     <div class="plot-title">Plot C: CD4 vs CD8 (T-Cell Subsets)</div>
-                    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="-15 0 315 300" xmlns="http://www.w3.org/2000/svg">
                         <!-- Axes -->
                         <line x1="30" y1="270" x2="270" y2="270" stroke="black" stroke-width="2"/>
                         <line x1="30" y1="30" x2="30" y2="270" stroke="black" stroke-width="2"/>
@@ -197,7 +201,7 @@
 
                 <div class="plot-container">
                     <div class="plot-title">Plot D: CD3 Histogram (Intensity)</div>
-                    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="-15 0 315 300" xmlns="http://www.w3.org/2000/svg">
                         <!-- Axes -->
                         <line x1="30" y1="250" x2="270" y2="250" stroke="black" stroke-width="2"/>
                         <line x1="30" y1="30" x2="30" y2="250" stroke="black" stroke-width="2"/>
@@ -248,7 +252,7 @@
             <div class="plot-grid">
                 <div class="plot-container">
                     <div class="plot-title">T-Cell Subset (CD4 vs CD8)</div>
-                    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="-15 0 315 300" xmlns="http://www.w3.org/2000/svg">
                         <!-- Axes -->
                         <line x1="30" y1="270" x2="270" y2="270" stroke="black" stroke-width="2"/>
                         <line x1="30" y1="30" x2="30" y2="270" stroke="black" stroke-width="2"/>
@@ -280,7 +284,7 @@
 
                 <div class="plot-container">
                     <div class="plot-title">CD3 Histogram (Depleted T Cells)</div>
-                    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="-15 0 315 300" xmlns="http://www.w3.org/2000/svg">
                         <!-- Axes -->
                         <line x1="30" y1="250" x2="270" y2="250" stroke="black" stroke-width="2"/>
                         <line x1="30" y1="30" x2="30" y2="250" stroke="black" stroke-width="2"/>
@@ -333,7 +337,7 @@
             <div class="plot-grid">
                 <div class="plot-container">
                     <div class="plot-title">Isotype Control (Background Staining)</div>
-                    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="-15 0 315 300" xmlns="http://www.w3.org/2000/svg">
                         <!-- Axes -->
                         <line x1="30" y1="270" x2="270" y2="270" stroke="black" stroke-width="2"/>
                         <line x1="30" y1="30" x2="30" y2="270" stroke="black" stroke-width="2"/>
@@ -360,7 +364,7 @@
 
                 <div class="plot-container">
                     <div class="plot-title">HLA-B27 Test (Negative)</div>
-                    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="-15 0 315 300" xmlns="http://www.w3.org/2000/svg">
                         <!-- Axes -->
                         <line x1="30" y1="270" x2="270" y2="270" stroke="black" stroke-width="2"/>
                         <line x1="30" y1="30" x2="30" y2="270" stroke="black" stroke-width="2"/>
@@ -414,7 +418,7 @@
             <div class="plot-grid">
                 <div class="plot-container">
                     <div class="plot-title">Isotype Control (Background)</div>
-                    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="-15 0 315 300" xmlns="http://www.w3.org/2000/svg">
                         <!-- Axes -->
                         <line x1="30" y1="270" x2="270" y2="270" stroke="black" stroke-width="2"/>
                         <line x1="30" y1="30" x2="30" y2="270" stroke="black" stroke-width="2"/>
@@ -439,7 +443,7 @@
 
                 <div class="plot-container">
                     <div class="plot-title">HLA-B27 Test (POSITIVE)</div>
-                    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="-15 0 315 300" xmlns="http://www.w3.org/2000/svg">
                         <!-- Axes -->
                         <line x1="30" y1="270" x2="270" y2="270" stroke="black" stroke-width="2"/>
                         <line x1="30" y1="30" x2="30" y2="270" stroke="black" stroke-width="2"/>
@@ -501,7 +505,7 @@
             <div class="plot-grid">
                 <div class="plot-container">
                     <div class="plot-title">Isotype Control</div>
-                    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="-15 0 315 300" xmlns="http://www.w3.org/2000/svg">
                         <!-- Axes -->
                         <line x1="30" y1="270" x2="270" y2="270" stroke="black" stroke-width="2"/>
                         <line x1="30" y1="30" x2="30" y2="270" stroke="black" stroke-width="2"/>
@@ -524,7 +528,7 @@
 
                 <div class="plot-container">
                     <div class="plot-title">HLA-B27 Test (GREY ZONE)</div>
-                    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="-15 0 315 300" xmlns="http://www.w3.org/2000/svg">
                         <!-- Axes -->
                         <line x1="30" y1="270" x2="270" y2="270" stroke="black" stroke-width="2"/>
                         <line x1="30" y1="30" x2="30" y2="270" stroke="black" stroke-width="2"/>
