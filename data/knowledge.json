@@ -376,27 +376,22 @@
         "explanation": "Common organisms: E. coli (85%), Klebsiella, Proteus, Staphylococcus saprophyticus. Presentation: dysuria, frequency, urgency (cystitis) vs. fever, flank pain (pyelonephritis). Diagnosis requires urine culture; urinalysis suggests but doesn't confirm.",
         "clinicalSignificance": "Most common bacterial infection in women. Untreated pyelonephritis risks sepsis and renal scarring. Urinalysis findings (WBC, bacteria, nitrites, LE) support clinical diagnosis. Culture confirmation and sensitivity testing guide antibiotic selection.",
         "relatedTerms": ["Bacteria", "Pyuria", "Nitrites", "Urine culture", "Pyelonephritis"]
-    }
-,
+    },
 {
-    "id": "bloodgas_cardfile",
-    "term": "Blood Gas Card File by PANTONE",
-    "category": "Bloodgas - CARD FILE",
-    "definition": "Interpretation and Card File for Blood Gas Analysis",
-    "explanation": "This is my personal collection of urinalysis knowledge covering RBC morphology (isomorphic, dysmorphic, acanthocyte, annular, jagged), epithelial cell classification (squamous, transitional, renal tubular, and subtypes), crystal identification, and clinical significance. Includes reference images and detailed morphology descriptions based on clinical experience.",
-    "clinicalSignificance": "Personal training and reference material for laboratory staff onboarding, especially for Mindray UA-5600 analyzer interpretation. Combines CLSI standards with practical clinical experience.",
-    "relatedTerms": ["Dysmorphic RBC", "Epithelial cells", "Crystals", "Urinalysis", "Microscopy"],
+    "id": "blood_gas_cardfile",
+    "term": "Blood Gas Analysis - Interactive Card File",
+    "category": "Blood Gas Analysis - Learning Tools",
+    "definition": "Interactive HTML card file for learning blood gas parameters, acid-base mechanisms, and case interpretation.",
+    "explanation": "Comprehensive interactive learning tool covering all blood gas parameters (pH, pCO2, pO2, HCO3-, BE, SaO2), acid-base balance physiology, the four primary acid-base disorders (respiratory acidosis/alkalosis, metabolic acidosis/alkalosis), compensation mechanisms, and practical case studies for clinical interpretation.",
+    "clinicalSignificance": "Essential learning resource for laboratory technicians and students. Provides structured approach to blood gas interpretation with interactive examples.",
+    "relatedTerms": ["Acid-base balance", "pH", "pCO2", "pO2", "HCO3-", "Respiratory acidosis", "Metabolic acidosis"],
     "attachments": [
         {
-            "name": "Blood Gas Analysis Card File",
-            "type": "html",
-            "url": "database/blood_gas_cardfile.html"
-        },
-        {
-            "name": "RBC Classification Flowchart",
-            "type": "Image",
-            "url": "assets/images/rbc_classification_flowchart.png"
+            "name": "📚 Open Blood Gas Card File",
+            "type": "Interactive HTML",
+            "url": "blood_gas_cardfile.html"
         }
     ]
 }
+    
 ]
