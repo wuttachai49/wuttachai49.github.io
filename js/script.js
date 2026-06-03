@@ -67,6 +67,28 @@ function showAnalyzerDetail(analyzerId) {
     });
     troubleshootHtml += '</ul>';
     
+    // BUILD ATTACHMENTS SECTION
+    let attachmentsHtml = '';
+    if (analyzer.attachments && analyzer.attachments.length > 0) {
+        attachmentsHtml = '<h4>📎 Resources</h4><div style="display: flex; flex-direction: column; gap: 10px;">';
+        analyzer.attachments.forEach(attachment => {
+            if (attachment.type === 'Interactive HTML' || attachment.url.endsWith('.html')) {
+                attachmentsHtml += `
+                    <a href="${attachment.url}" style="display: inline-block; padding: 12px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; text-align: center; font-weight: 500; transition: background 0.3s;" onmouseover="this.style.background='#764ba2'" onmouseout="this.style.background='#667eea'">
+                        ${attachment.name}
+                    </a>
+                `;
+            } else {
+                attachmentsHtml += `
+                    <a href="${attachment.url}" target="_blank" download style="padding: 10px 15px; background: #f0f0f0; border-left: 4px solid #667eea; text-decoration: none; border-radius: 3px; display: block;">
+                        📄 ${attachment.name} (${attachment.type})
+                    </a>
+                `;
+            }
+        });
+        attachmentsHtml += '</div>';
+    }
+    
     detailContainer.innerHTML = `
         <h3>${analyzer.name}</h3>
         <p><strong>Type:</strong> ${analyzer.type}</p>
@@ -81,6 +103,8 @@ function showAnalyzerDetail(analyzerId) {
         
         <h4>Additional Notes</h4>
         <p>${analyzer.notes}</p>
+        
+        ${attachmentsHtml}
         
         <button onclick="closeDetail()">Close</button>
     `;
