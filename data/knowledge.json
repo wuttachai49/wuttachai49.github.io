@@ -2,73 +2,379 @@
     {
         "id": "dysmorphic_rbc",
         "term": "Dysmorphic RBC",
-        "category": "Urinalysis",
+        "category": "Urinalysis - RBC Morphology",
         "definition": "Red blood cells with distorted or altered morphology, indicating renal origin rather than contamination.",
-        "explanation": "Dysmorphic RBCs are damaged during passage through the renal tubules, resulting in abnormal shapes. Types include acanthocytes (irregular edges), annular RBCs (ring-shaped), and jagged RBCs. Their presence suggests glomerulonephritis or other renal pathology.",
-        "clinicalSignificance": "Presence of >5% dysmorphic RBCs in urine indicates glomerular disease and warrants further investigation with RBC casts and proteinuria.",
-        "relatedTerms": ["Acanthocyte", "Isomorphic RBC", "Hematuria", "Glomerulonephritis"]
+        "explanation": "Dysmorphic RBCs are damaged during passage through the renal tubules, resulting in abnormal shapes. Types include acanthocytes (irregular edges), annular RBCs (ring-shaped), and jagged RBCs. Their presence suggests glomerulonephritis or other renal pathology. Normal finding: <5% dysmorphic RBCs.",
+        "clinicalSignificance": "Presence of >5% dysmorphic RBCs in urine indicates glomerular disease and warrants further investigation with RBC casts and proteinuria. Highly specific for glomerulonephritis.",
+        "relatedTerms": ["Acanthocyte", "Isomorphic RBC", "Hematuria", "Glomerulonephritis", "RBC casts"]
     },
     {
         "id": "acanthocyte",
         "term": "Acanthocyte",
         "category": "Urinalysis - RBC Subtypes",
         "definition": "A dysmorphic RBC with irregular, spiculated edges created by mechanical distortion in the renal tubules.",
-        "explanation": "Acanthocytes have multiple irregular protrusions (spicules) on their surface, giving them a spiky appearance. They are highly specific for glomerular hematuria.",
-        "clinicalSignificance": "Highly specific marker for glomerular disease. >5% acanthocytes suggests primary glomerulonephritis.",
-        "relatedTerms": ["Dysmorphic RBC", "Glomerular hematuria"]
+        "explanation": "Acanthocytes have multiple irregular protrusions (spicules) on their surface, giving them a spiky or ring-with-notches appearance. They are highly specific for glomerular hematuria. Distinguished from artifact RBCs by irregular, permanent shape changes. Key identifier: irregular edges that persist through focus adjustment.",
+        "clinicalSignificance": "Highly specific marker for glomerular disease. >5% acanthocytes strongly suggests primary glomerulonephritis (IgA nephropathy, ANCA-associated vasculitis, lupus nephritis). Not found in lower urinary tract bleeding.",
+        "relatedTerms": ["Dysmorphic RBC", "Annular RBC", "Jagged RBC", "Glomerular hematuria"]
+    },
+    {
+        "id": "annular_rbc",
+        "term": "Annular RBC (Ring Cell)",
+        "category": "Urinalysis - RBC Subtypes",
+        "definition": "A dysmorphic RBC with a ring or donut-like shape, caused by loss of hemoglobin content in the center.",
+        "explanation": "Annular RBCs appear as rings or hollow circles due to extrusion of hemoglobin during passage through narrow tubular segments. The cell membrane remains intact but hemoglobin is expelled, leaving a clear center. Formed during severe hyperosmotic stress in the renal tubules.",
+        "clinicalSignificance": "Specific indicator of glomerular hematuria in nephritic syndrome. When combined with RBC casts and proteinuria, highly suggestive of acute glomerulonephritis. Often seen with acanthocytes.",
+        "relatedTerms": ["Dysmorphic RBC", "Acanthocyte", "Jagged RBC", "RBC casts"]
+    },
+    {
+        "id": "jagged_rbc",
+        "term": "Jagged RBC (ACA-RBC, JAG-RBC)",
+        "category": "Urinalysis - RBC Subtypes",
+        "definition": "A dysmorphic RBC with irregular, jagged or saw-tooth-like edges from multiple small indentations.",
+        "explanation": "Jagged RBCs have a fragmented appearance with sharp protrusions along the cell membrane, different from the smoother irregular edges of acanthocytes. Also called ACA-RBC (Acanthocyte-like) or JAG-RBC. Indicates severe mechanical trauma to RBCs in renal tubules during glomerular bleeding.",
+        "clinicalSignificance": "Indicates significant glomerular pathology. The presence of jagged RBCs with dysmorphic RBCs and casts is pathognomonic for glomerulonephritis. Requires immediate clinical follow-up.",
+        "relatedTerms": ["Dysmorphic RBC", "Acanthocyte", "Annular RBC", "Glomerulonephritis"]
+    },
+    {
+        "id": "isomorphic_rbc",
+        "term": "Isomorphic RBC",
+        "category": "Urinalysis - RBC Morphology",
+        "definition": "Red blood cells with normal, uniform morphology (intact circular discs) found in urine without evidence of renal damage.",
+        "explanation": "Isomorphic RBCs maintain their characteristic biconcave disc shape and appear uniform under microscopy. Their presence in urine suggests lower urinary tract bleeding (cystitis, urethritis, stone, tumor) rather than glomerular disease. This is because RBCs exiting at the bladder/urethral level don't experience the osmotic stress of renal tubule passage.",
+        "clinicalSignificance": "Isomorphic RBCs indicate non-glomerular hematuria. Normal RBCs with bacteria suggest UTI. Normal RBCs with crystals may indicate stones. Absence of casts and dysmorphic RBCs supports lower urinary tract origin.",
+        "relatedTerms": ["Dysmorphic RBC", "Hematuria", "Non-glomerular hematuria", "UTI"]
     },
     {
         "id": "urinary_cast",
         "term": "Urinary Casts",
-        "category": "Urinalysis",
-        "definition": "Cylindrical protein structures formed in the collecting duct of the kidney nephron, composed primarily of Tamm-Horsfall protein.",
-        "explanation": "Casts form when concentrated urine contains high protein levels and low urine flow. Types include hyaline (most common), granular, cellular, waxy, and fatty casts. Each type indicates different renal conditions.",
-        "clinicalSignificance": "Presence of casts indicates renal disease. Type of cast helps diagnose condition: granular casts in diabetic nephropathy, RBC casts in glomerulonephritis, WBC casts in pyelonephritis.",
-        "relatedTerms": ["Hyaline cast", "Granular cast", "RBC cast", "Proteinuria"]
+        "category": "Urinalysis - Casts",
+        "definition": "Cylindrical protein structures formed in the collecting duct of the kidney nephron, composed primarily of Tamm-Horsfall protein (uromodulin).",
+        "explanation": "Casts form when concentrated urine contains high protein levels, low urine flow, and acidic pH. They are cylindrical because they mold to the collecting duct shape. Types include hyaline, granular, cellular (RBC, WBC), waxy, fatty, and crystal casts. Each type indicates different renal conditions. Presence of any pathologic cast indicates kidney disease.",
+        "clinicalSignificance": "Hyaline casts (0-2/lpf) are normal. >2 hyaline casts indicate dehydration or stress. Granular, cellular, or waxy casts are always pathologic. RBC casts indicate glomerulonephritis. WBC casts indicate pyelonephritis or interstitial nephritis. Waxy casts indicate chronic kidney disease.",
+        "relatedTerms": ["Hyaline cast", "Granular cast", "RBC cast", "WBC cast", "Tamm-Horsfall protein", "Proteinuria"]
+    },
+    {
+        "id": "hyaline_cast",
+        "term": "Hyaline Cast",
+        "category": "Urinalysis - Cast Types",
+        "definition": "The most common type of urinary cast, composed primarily of Tamm-Horsfall protein with few or no inclusions.",
+        "explanation": "Hyaline casts are transparent, colorless cylinders that are difficult to visualize under bright field microscopy (require phase contrast or reduced light). Appear as ghost-like structures. 0-2 per low power field (lpf) is normal, especially in concentrated urine, after exercise, or fever.",
+        "clinicalSignificance": "Small numbers are normal and not clinically significant. >2/lpf may indicate dehydration, exercise, or early kidney disease. Always correlate with clinical context. If accompanied by proteinuria or dysmorphic RBCs, warrants investigation.",
+        "relatedTerms": ["Urinary casts", "Granular cast", "RBC cast"]
+    },
+    {
+        "id": "granular_cast",
+        "term": "Granular Cast",
+        "category": "Urinalysis - Cast Types",
+        "definition": "A urinary cast with fine or coarse granular inclusions trapped within the Tamm-Horsfall protein matrix.",
+        "explanation": "Granules represent degenerated cellular debris, proteins, or minerals within the cast. Granular casts are pathologic and indicate tubular damage or proteinuria. Coarse granular casts suggest more advanced kidney disease. Always warrant investigation.",
+        "clinicalSignificance": "Presence of granular casts indicates kidney disease. Common in diabetic nephropathy, pyelonephritis, and glomerulonephritis. Requires clinical correlation with proteinuria, hematuria, and renal function. Any granular cast is pathologic.",
+        "relatedTerms": ["Urinary casts", "Hyaline cast", "Proteinuria", "Kidney disease"]
+    },
+    {
+        "id": "rbc_cast",
+        "term": "RBC Cast (Red Blood Cell Cast)",
+        "category": "Urinalysis - Cast Types",
+        "definition": "A urinary cast containing intact red blood cells within the Tamm-Horsfall protein matrix, indicating active glomerulonephritis.",
+        "explanation": "RBC casts form when RBCs enter the renal tubule lumen and are trapped in Tamm-Horsfall protein, indicating bleeding directly from the glomerulus. Highly specific for glomerulonephritis. Any presence of RBC casts is pathologic. Usually accompanied by dysmorphic RBCs, proteinuria, and acanthocytes.",
+        "clinicalSignificance": "RBC casts are pathognomonic for glomerulonephritis. Their presence mandates urgent clinical investigation. Indicates active renal disease. Often seen with acute glomerulonephritis, lupus nephritis, ANCA vasculitis, or IgA nephropathy.",
+        "relatedTerms": ["Dysmorphic RBC", "Glomerulonephritis", "Acanthocyte", "Proteinuria"]
+    },
+    {
+        "id": "wbc_cast",
+        "term": "WBC Cast (White Blood Cell Cast)",
+        "category": "Urinalysis - Cast Types",
+        "definition": "A urinary cast containing white blood cells within the Tamm-Horsfall matrix, indicating pyelonephritis or interstitial nephritis.",
+        "explanation": "WBC casts form when white blood cells infiltrate the renal tubules and are trapped in casts. Indicates pyuria from infection (pyelonephritis) or inflammation (interstitial nephritis). Usually accompanied by WBCs and bacteria in urine.",
+        "clinicalSignificance": "WBC casts indicate kidney infection (pyelonephritis) or inflammatory kidney disease. Always warrant urine culture and antibiotic therapy if infection confirmed. Common in acute pyelonephritis, especially with fever and flank pain.",
+        "relatedTerms": ["Pyelonephritis", "Interstitial nephritis", "Pyuria", "Bacteria"]
     },
     {
         "id": "epithelial_cells",
         "term": "Urinary Epithelial Cells",
-        "category": "Urinalysis",
+        "category": "Urinalysis - Cells",
         "definition": "Cells that line the urinary tract, classified by their origin (renal, ureteral, bladder, or urethral).",
-        "explanation": "Main types: Squamous epithelial cells (contamination indicator, normal <5/lpf), transitional/urothelial cells (normal <5/lpf), and renal tubular epithelial cells (abnormal when present, suggests kidney injury).",
-        "clinicalSignificance": "High squamous epithelial cells indicate contamination. Presence of renal tubular epithelial cells suggests acute tubular necrosis or glomerular disease.",
-        "relatedTerms": ["Squamous epithelial cells", "Renal tubular epithelial cells", "Urothelial cells"]
+        "explanation": "Main types: (1) Squamous epithelial cells - from urethra/external genitalia, normal <5/lpf, high numbers indicate contamination; (2) Transitional/urothelial cells - from bladder, normal <5/lpf; (3) Renal tubular epithelial cells (RTEC) - from kidney tubules, abnormal when present (indicates kidney damage). Each type has different clinical meaning.",
+        "clinicalSignificance": "Squamous cells >5/lpf indicate contamination (especially in women). RTEC presence always indicates acute tubular necrosis or kidney injury. Abundance of transitional cells may indicate bladder inflammation or irritation. Critical for determining sample quality.",
+        "relatedTerms": ["Squamous epithelial cells", "Renal tubular epithelial cells", "Urothelial cells", "Contamination"]
+    },
+    {
+        "id": "squamous_epithelial_cells",
+        "term": "Squamous Epithelial Cells (SEC)",
+        "category": "Urinalysis - Epithelial Cell Types",
+        "definition": "Large, flat epithelial cells from the urethra and external genitalia, indicating contamination when present in high numbers.",
+        "explanation": "Squamous cells are the largest epithelial cells (40-60 μm), have abundant cytoplasm, and a small eccentric nucleus. Their presence in high numbers indicates improper sample collection (contamination from skin/genitalia). Females more likely to have contamination. Normal: <5/lpf.",
+        "clinicalSignificance": ">5 squamous cells suggest contamination; sample should be recollected with clean-catch midstream technique. High numbers invalidate other urine findings. In males, any squamous cells may indicate contamination.",
+        "relatedTerms": ["Epithelial cells", "Contamination", "Clean-catch specimen"]
+    },
+    {
+        "id": "renal_tubular_epithelial_cells",
+        "term": "Renal Tubular Epithelial Cells (RTEC)",
+        "category": "Urinalysis - Epithelial Cell Types",
+        "definition": "Small epithelial cells from the kidney tubules, always abnormal when present in urine, indicating kidney tubular damage.",
+        "explanation": "RTECs are small (12-20 μm), round to columnar, with a large nucleus. Presence of even 1-2 cells is pathologic and indicates acute tubular necrosis (ATN), acute kidney injury (AKI), or nephrotoxic drug exposure. Never normal to find RTECs in urine.",
+        "clinicalSignificance": "Any presence of RTEC is abnormal and indicates kidney damage. Warrants investigation for acute kidney injury, sepsis, nephrotoxin exposure, or rhabdomyolysis. Often accompanied by granular casts and proteinuria. Requires urgent clinical evaluation.",
+        "relatedTerms": ["Epithelial cells", "Acute kidney injury", "Proteinuria", "Granular casts"]
+    },
+    {
+        "id": "urothelial_cells",
+        "term": "Urothelial Cells (Transitional Epithelial Cells)",
+        "category": "Urinalysis - Epithelial Cell Types",
+        "definition": "Medium-sized epithelial cells from the bladder lining, generally normal when <5/lpf.",
+        "explanation": "Urothelial cells (15-30 μm) are medium-sized with a central nucleus. Can appear round or slightly columnar. Presence of >5/lpf may indicate bladder irritation, infection, or trauma. In clusters, may suggest malignancy, but require cytology confirmation.",
+        "clinicalSignificance": "Small numbers are normal. Increased numbers with dysuria suggest UTI or bladder irritation. Atypical urothelial cells warrant evaluation for malignancy. Always correlate with clinical presentation.",
+        "relatedTerms": ["Epithelial cells", "UTI", "Bladder disease"]
+    },
+    {
+        "id": "crystals_urine",
+        "term": "Urinary Crystals",
+        "category": "Urinalysis - Crystals",
+        "definition": "Solid crystalline structures formed in urine from supersaturation of various minerals, depending on pH and concentration.",
+        "explanation": "Crystals form when urine becomes supersaturated with minerals. Different crystals form at different pH levels: acidic pH favors uric acid and calcium oxalate; alkaline pH favors phosphate and magnesium crystals. Normal finding but may indicate stone-forming risk. Identification requires microscopy.",
+        "clinicalSignificance": "Crystal presence may indicate kidney stone risk, metabolic disorders, or medication side effects. Context-dependent: calcium oxalate crystals common in normal individuals but excess suggests stone risk. Abnormal crystals (cystine, leucine) always pathologic.",
+        "relatedTerms": ["Calcium oxalate", "Uric acid crystal", "Phosphate crystal", "Kidney stones"]
+    },
+    {
+        "id": "bacteria_urine",
+        "term": "Bacteria in Urine",
+        "category": "Urinalysis - Microorganisms",
+        "definition": "Bacterial presence in urine, significant when >10^5 CFU/mL (colony forming units per milliliter) on culture.",
+        "explanation": "Small numbers of bacteria (<10/lpf) may be contamination. Significant bacteriuria (>10/lpf with symptoms) or bacteriuria >10^5 CFU/mL on culture indicates UTI. Must correlate with WBCs, nitrites, and symptoms. Clean-catch specimen essential.",
+        "clinicalSignificance": "Positive for UTI if bacteria >10^5 CFU/mL with symptoms. Asymptomatic bacteriuria in non-pregnant females often doesn't require treatment. Positive in catheterized patients frequently without infection. Always culture positive urinalysis findings.",
+        "relatedTerms": ["UTI", "Pyuria", "Nitrites", "Urine culture"]
+    },
+    {
+        "id": "wbc_urine",
+        "term": "WBC in Urine (Pyuria)",
+        "category": "Urinalysis - Cells",
+        "definition": "White blood cells in urine, normal <5/lpf, indicating infection or inflammation when elevated.",
+        "explanation": "WBCs in urine (pyuria) indicate infection or non-infectious inflammation of the urinary tract. Must be confirmed with at least 5 WBCs/lpf. Types include neutrophils (most common in infection) and occasional lymphocytes/eosinophils. Always correlate with bacteria and nitrites.",
+        "clinicalSignificance": ">5 WBC/lpf suggests UTI, pyelonephritis, or non-infectious inflammation. With bacteria and nitrites, strongly suggests UTI. Without bacteria may indicate pyelonephritis, interstitial nephritis, or non-urologic causes (appendicitis, PID).",
+        "relatedTerms": ["Pyuria", "UTI", "Bacteria", "Nitrites", "WBC casts"]
+    },
+    {
+        "id": "nitrites_urine",
+        "term": "Nitrites in Urine",
+        "category": "Urinalysis - Chemistry",
+        "definition": "Chemical indicator of gram-negative bacteria in urine, formed when bacteria convert urinary nitrates to nitrites.",
+        "explanation": "Positive nitrites indicate gram-negative bacteria (E. coli, Klebsiella, Proteus, Pseudomonas). Gram-positive bacteria don't produce nitrites. Requires 4 hours of bladder incubation, so negative nitrites don't rule out UTI in early infection or with gram-positive organisms.",
+        "clinicalSignificance": "Positive nitrites strongly suggest gram-negative UTI. Negative nitrites don't exclude infection. Must combine with WBCs and bacteria for diagnosis. Negative in early UTI or with gram-positive organisms (Streptococcus saprophyticus).",
+        "relatedTerms": ["UTI", "Bacteria", "Pyuria", "Leukocyte esterase"]
+    },
+    {
+        "id": "leukocyte_esterase",
+        "term": "Leukocyte Esterase",
+        "category": "Urinalysis - Chemistry",
+        "definition": "An enzyme test detecting WBCs in urine through reaction with reagent pad, positive when >5 WBC/lpf.",
+        "explanation": "Leukocyte esterase is produced by neutrophils in urine. Positive indicates pyuria (>5 WBC/lpf). Good negative predictor (95% sensitive for >10 WBC/lpf) but can be falsely positive with trichomonas or contamination. Combination with nitrites increases UTI suspicion.",
+        "clinicalSignificance": "Positive LE + positive nitrites = strong indicator of bacterial UTI. Positive LE alone may indicate infection or non-bacterial pyuria. Negative LE effectively rules out UTI when sensitivity is adequate.",
+        "relatedTerms": ["Pyuria", "Nitrites", "UTI", "WBC"]
+    },
+    {
+        "id": "proteinuria",
+        "term": "Proteinuria",
+        "category": "Urinalysis - Chemistry",
+        "definition": "Presence of protein in urine, normal <150 mg/24h, indicating glomerular or tubular disease when elevated.",
+        "explanation": "Normal urine contains trace amounts of protein (<150 mg/24h). Elevated protein indicates either glomerular leak (due to disease or damage) or tubular reabsorption defect. Can be transient (fever, exercise, dehydration) or persistent (kidney disease). Requires quantification on 24-hour collection or spot urine.",
+        "clinicalSignificance": "Nephrotic range proteinuria (>3.5 g/24h) indicates significant glomerular disease. Nephritic range (0.5-3.5 g/24h) common in glomerulonephritis. Always combined with hematuria, casts, and renal function for diagnosis.",
+        "relatedTerms": ["Glomerulonephritis", "Nephrotic syndrome", "Dysmorphic RBC", "Casts", "Microalbuminuria"]
     },
     {
         "id": "pH_urine",
         "term": "Urine pH",
         "category": "Urinalysis - Chemistry",
-        "definition": "Measures the acidity or alkalinity of urine, normal range 4.5-8.0.",
-        "explanation": "pH affects crystal formation and bacterial growth. Acidic urine promotes uric acid and calcium oxalate crystals. Alkaline urine promotes phosphate and magnesium crystals. pH varies with diet and metabolic status.",
-        "clinicalSignificance": "Persistently alkaline urine may indicate UTI (Proteus, Klebsiella), renal tubular acidosis, or vegetarian diet. Acidic urine with crystals may cause kidney stones.",
-        "relatedTerms": ["Crystals", "Bacteria", "UTI"]
+        "definition": "Measures the acidity or alkalinity of urine, normal range 4.5-8.0, affecting crystal formation and bacterial growth.",
+        "explanation": "pH varies with diet (meat acidifies, vegetables alkalinize), metabolic state, and bacterial infection. Acidic urine <5.5 promotes uric acid and calcium oxalate crystals. Alkaline urine >7.0 promotes phosphate, magnesium ammonium phosphate (triple phosphate), and calcium carbonate crystals.",
+        "clinicalSignificance": "Persistently alkaline urine suggests UTI (especially Proteus, Klebsiella, Staphylococcus), renal tubular acidosis, or vegetarian diet. Acidic urine with crystals may indicate kidney stone risk. Abnormal pH in asymptomatic patients warrants monitoring.",
+        "relatedTerms": ["Crystals", "Bacteria", "UTI", "Renal tubular acidosis"]
+    },
+    {
+        "id": "decoy_cells",
+        "term": "Decoy Cells",
+        "category": "Urinalysis - Artifacts",
+        "definition": "Benign urinary epithelial cells with nuclear enlargement and irregular cytoplasm, mimicking malignant cells, commonly seen after BPH treatment or viral infection.",
+        "explanation": "Decoy cells are non-malignant urothelial cells with degenerative changes causing nuclear enlargement and hyperchromasia. Named 'decoy' because they mimic malignant cells. Common after cytoxan treatment (BPH), polyomavirus infection (BK virus), or other urinary tract insults. Identification important to avoid misdiagnosis.",
+        "clinicalSignificance": "Critical to differentiate from malignancy. Presence of decoy cells with benign background excludes malignancy. If clinical suspicion for cancer remains high despite decoy cells, recommend follow-up or cystoscopy. Always evaluate in clinical context.",
+        "relatedTerms": ["Urothelial cells", "Cytology", "Atypical cells"]
+    },
+    {
+        "id": "triple_phosphate_crystal",
+        "term": "Triple Phosphate Crystal (Magnesium Ammonium Phosphate)",
+        "category": "Urinalysis - Crystal Types",
+        "definition": "A crystal forming in alkaline urine, composed of magnesium ammonium phosphate, appearing as coffin-lid shaped structures.",
+        "explanation": "Triple phosphate crystals form in alkaline pH (>7.0) and are characteristic of urinary tract infections, especially with ammonia-producing bacteria like Proteus and Klebsiella. Appear as distinctive coffin-lid or envelope shapes. Not seen in acidic urine.",
+        "clinicalSignificance": "Presence of triple phosphate crystals suggests alkaline urine from UTI or other causes of alkalinuria. When associated with WBCs and bacteria, indicates bacterial UTI. Important clue for diagnosis.",
+        "relatedTerms": ["Crystals", "Alkaline urine", "Bacteria", "UTI", "Proteus"]
     },
     {
         "id": "NTU",
         "term": "NTU (Nephelometric Turbidity Units)",
-        "category": "Laboratory Science",
+        "category": "Laboratory Science - Measurement",
         "definition": "A unit of measurement for turbidity (cloudiness) in solutions, commonly used in clinical chemistry and coagulation testing.",
-        "explanation": "Nephelometry measures light scatter caused by suspended particles. NTU quantifies the degree of turbidity. Higher NTU values indicate greater cloudiness/turbidity. Used in protein quantification, hemolysis detection, and coagulation assays.",
-        "clinicalSignificance": "Hemolyzed or lipemic samples show high NTU and may produce false results. NTU measurements critical in immunoturbidimetric assays.",
-        "relatedTerms": ["Turbidity", "Hemolysis", "Lipemia", "Coagulation"]
+        "explanation": "Nephelometry measures light scatter caused by suspended particles. NTU quantifies the degree of turbidity. Higher NTU values indicate greater cloudiness/turbidity. Used in protein quantification, hemolysis detection, and immunoturbidimetric assays. Requires proper wavelength and reference standards.",
+        "clinicalSignificance": "Hemolyzed samples show high NTU and may produce false results in many assays. Lipemic samples also increase NTU. Critical quality parameter for sample acceptance. NTU measurements vital in immunoturbidimetric assays for CRP, immunoglobulins, and others.",
+        "relatedTerms": ["Turbidity", "Hemolysis", "Lipemia", "Coagulation", "Immunoturbidimetric"]
     },
     {
         "id": "iso_15189",
-        "term": "ISO 15189",
-        "category": "Quality Management",
+        "term": "ISO 15189:2022",
+        "category": "Quality Management - Standards",
         "definition": "International standard specifying requirements for medical laboratories regarding quality management systems and competence.",
-        "explanation": "ISO 15189 establishes guidelines for laboratory management including pre-analytical, analytical, and post-analytical phases. Covers personnel qualifications, equipment maintenance, quality control, proficiency testing, and error management.",
-        "clinicalSignificance": "Essential for laboratory accreditation and credibility. Compliance ensures consistent, reliable, and clinically valid results. Required by many healthcare systems.",
-        "relatedTerms": ["CAP", "CLIA", "Quality Control", "Accreditation"]
+        "explanation": "ISO 15189 is the main accreditation standard for clinical laboratories globally. Covers all aspects: organization, personnel competence, equipment, pre-analytical, analytical, post-analytical phases, quality control, proficiency testing, and continuous improvement. Requires documented procedures, audits, and management review.",
+        "clinicalSignificance": "Essential for laboratory accreditation and credibility. Compliance ensures consistent, reliable, and clinically valid results. Required by many healthcare systems, insurance companies, and quality bodies. Demonstrates commitment to excellence.",
+        "relatedTerms": ["CAP", "CLIA", "Quality Control", "Accreditation", "Management review"]
     },
     {
         "id": "measurement_uncertainty",
         "term": "Measurement Uncertainty (MU)",
-        "category": "Quality Management",
-        "definition": "The range of values around a measured result within which the true value is expected to lie with a stated level of confidence.",
-        "explanation": "MU quantifies the doubt about any measurement. Includes both systematic (bias) and random (precision) errors. Expressed as expanded uncertainty (U) with a coverage factor (k, typically 2 for 95% confidence).",
-        "clinicalSignificance": "Understanding MU ensures appropriate interpretation of results and prevents over-interpretation of small differences. Critical for comparing results over time or between labs.",
-        "relatedTerms": ["Precision", "Accuracy", "Bias", "Standard deviation", "ISO 15189"]
+        "category": "Quality Management - Statistics",
+        "definition": "The range of values around a measured result within which the true value is expected to lie with a stated level of confidence (typically 95%).",
+        "explanation": "MU quantifies doubt about any measurement. Includes both systematic (bias) and random (precision) errors. Expressed as expanded uncertainty (U) with coverage factor (k=2 for 95% CI). Calculation methods: GUM (bottom-up), top-down (s_wr), or validation data approach. Critical for result interpretation.",
+        "clinicalSignificance": "Understanding MU ensures appropriate interpretation of results and prevents over-interpretation of small differences. Result ±U is the complete answer. Critical for comparing results over time, between methods, or between labs. Required by ISO 15189.",
+        "relatedTerms": ["Precision", "Accuracy", "Bias", "Standard deviation", "GUM", "EURACHEM"]
+    },
+    {
+        "id": "wbc_differential",
+        "term": "WBC Differential (Leukocyte Differential)",
+        "category": "Hematology - WBC Analysis",
+        "definition": "Classification and percentage determination of white blood cell types: neutrophils, lymphocytes, monocytes, eosinophils, and basophils.",
+        "explanation": "Normal values (adult): Neutrophils 50-70%, Lymphocytes 20-40%, Monocytes 3-8%, Eosinophils 1-4%, Basophils 0.5-1%. Obtained by microscopy (manual) or automated hematology analyzers (5-part differential). Can be 3-part (WBC, RBC, platelets) or expanded (segmented/bands, etc.).",
+        "clinicalSignificance": "Shift left (increased bands/immature cells) indicates infection or stress. Relative vs. absolute lymphocytosis requires absolute count calculation. Critical for diagnosis of infection, leukemia, lymphoma, and immune disorders.",
+        "relatedTerms": ["Neutrophils", "Lymphocytes", "Left shift", "Absolute count", "Hematology"]
+    },
+    {
+        "id": "hemoglobin",
+        "term": "Hemoglobin (HGB)",
+        "category": "Hematology - RBC Parameters",
+        "definition": "The oxygen-carrying protein in red blood cells; measured in g/dL. Normal: M 13.5-17.5 g/dL, F 12-15.5 g/dL.",
+        "explanation": "Hemoglobin comprises globin chains and heme groups. Carries oxygen from lungs to tissues. Decreased hemoglobin = anemia (causes: bleeding, hemolysis, decreased production). Elevated = polycythemia (causes: dehydration, smoking, hypoxia, EPO-producing tumors).",
+        "clinicalSignificance": "Critical parameter for anemia diagnosis and classification. Combined with MCV and RBC indices, helps determine anemia type (microcytic, normocytic, macrocytic, hypochromic, normochromic). Trend is important; single low value may not be clinically significant.",
+        "relatedTerms": ["Hematocrit", "MCV", "MCH", "MCHC", "Anemia"]
+    },
+    {
+        "id": "hematocrit",
+        "term": "Hematocrit (HCT)",
+        "category": "Hematology - RBC Parameters",
+        "definition": "Percentage of red blood cells in total blood volume. Normal: M 41-53%, F 36-46%.",
+        "explanation": "Reflects RBC mass relative to plasma. Directly correlates with hemoglobin. Decreased in anemia, bleeding, pregnancy. Elevated in polycythemia, dehydration, EPO-producing conditions. Can be calculated from hemoglobin or measured directly by analyzer.",
+        "clinicalSignificance": "Used to assess anemia severity and monitor blood loss. Followed serially in critically ill patients. May be falsely elevated if blood is hemoconcentrated (dehydration). Hematocrit :hemoglobin ratio ~3:1 for quality check.",
+        "relatedTerms": ["Hemoglobin", "Anemia", "Polycythemia", "Blood volume"]
+    },
+    {
+        "id": "mcv",
+        "term": "Mean Corpuscular Volume (MCV)",
+        "category": "Hematology - RBC Indices",
+        "definition": "Average volume of red blood cells in femtoliters (fL). Normal: 80-100 fL. Classifies anemias by RBC size.",
+        "explanation": "MCV = (HCT × 10) / RBC count. Used to classify anemias: Microcytic MCV <80 (iron deficiency, thalassemia), Normocytic 80-100 (hemolysis, bleeding, early iron deficiency), Macrocytic >100 (B12 deficiency, folate deficiency, alcoholism).",
+        "clinicalSignificance": "First step in anemia diagnosis. Directs further investigation (iron studies, B12/folate levels, hemolysis workup). Essential for selecting appropriate treatment. Falsely low in sickle cell disease; requires review of RBC morphology.",
+        "relatedTerms": ["Hemoglobin", "Hematocrit", "MCH", "MCHC", "Anemia", "RBC indices"]
+    },
+    {
+        "id": "mch",
+        "term": "Mean Corpuscular Hemoglobin (MCH)",
+        "category": "Hematology - RBC Indices",
+        "definition": "Average amount of hemoglobin per red blood cell in picograms (pg). Normal: 27-33 pg.",
+        "explanation": "MCH = (Hemoglobin × 10) / RBC count. Reflects hemoglobin content per RBC. Decreases in iron deficiency (hypochromic). Increases in B12/folate deficiency (macrocytic cells contain more hemoglobin). Usually parallels MCV.",
+        "clinicalSignificance": "Helps confirm anemia type. Low MCH = hypochromic (iron deficiency). High MCH = macrocytic RBCs. Normal MCH with low MCV suggests thalassemia trait. Complements MCV and MCHC for complete RBC assessment.",
+        "relatedTerms": ["MCV", "MCHC", "Hemoglobin", "Iron deficiency", "Thalassemia"]
+    },
+    {
+        "id": "mchc",
+        "term": "Mean Corpuscular Hemoglobin Concentration (MCHC)",
+        "category": "Hematology - RBC Indices",
+        "definition": "Average concentration of hemoglobin within red blood cells in g/dL. Normal: 32-36 g/dL. Most stable RBC index.",
+        "explanation": "MCHC = (Hemoglobin × 100) / HCT. Reflects saturation of RBCs with hemoglobin. Rarely abnormal because RBCs can't exceed hemoglobin saturation (maximum ~37 g/dL). Very low MCHC suggests instrument error or hemoglobinopathy.",
+        "clinicalSignificance": "Most stable RBC index; low MCHC indicates severe iron deficiency or hemoglobinopathy. Normal MCHC with low MCV suggests thalassemia trait. Used for quality control check: MCHC should be within narrow range; variation indicates technical problem.",
+        "relatedTerms": ["MCV", "MCH", "RBC indices", "Iron deficiency", "Hemoglobinopathy"]
+    },
+    {
+        "id": "platelet_count",
+        "term": "Platelet Count (PLT)",
+        "category": "Hematology - Coagulation",
+        "definition": "Number of platelets per microliter of blood. Normal: 150,000-400,000/μL. Critical for hemostasis.",
+        "explanation": "Platelets are fragments of megakaryocytes involved in primary hemostasis and clot formation. Decreased (thrombocytopenia) causes bleeding risk. Elevated (thrombocytosis) may indicate inflammation, infection, or myeloproliferative disease. Pseudothrombocytopenia from clumping requires review.",
+        "clinicalSignificance": "Critical parameter for bleeding risk assessment. <20,000/μL high bleeding risk. <50,000/μL avoid invasive procedures. >1 million may indicate leukemia. Must review blood smear for platelet clumping (pseudothrombocytopenia).",
+        "relatedTerms": ["Thrombocytopenia", "Hemostasis", "Coagulation", "Megakaryocyte"]
+    },
+    {
+        "id": "acid_base_balance",
+        "term": "Acid-Base Balance",
+        "category": "Blood Gas Analysis - Physiology",
+        "definition": "Homeostatic mechanism maintaining blood pH between 7.35-7.45 through buffering, respiratory control, and renal regulation.",
+        "explanation": "Three systems: (1) Buffer systems (bicarbonate, phosphate, hemoglobin) provide immediate response, (2) Respiratory system (CO2 elimination) responds in minutes, (3) Renal system (HCO3- and H+ regulation) responds in hours. Disturbance in any system causes acid-base disorder.",
+        "clinicalSignificance": "Abnormal acid-base status indicates serious pathology requiring immediate intervention. pH <7.35 = acidemia, pH >7.45 = alkalemia. Understanding compensation mechanisms critical for interpretation and treatment planning.",
+        "relatedTerms": ["pH", "pCO2", "HCO3-", "Respiratory acidosis", "Metabolic acidosis", "Compensation"]
+    },
+    {
+        "id": "respiratory_acidosis",
+        "term": "Respiratory Acidosis",
+        "category": "Blood Gas Analysis - Disorders",
+        "definition": "Acid-base disorder with pH <7.35 and pCO2 >45 mmHg caused by inadequate respiratory CO2 elimination.",
+        "explanation": "Primary problem: elevated pCO2 from hypoventilation. Causes: COPD, asthma, sedation, CNS depression, chest wall/muscle weakness, pneumonia. Renal compensation: HCO3- increases (metabolic compensation) within 24-48 hours in chronic respiratory acidosis.",
+        "clinicalSignificance": "Indicates ventilatory failure. Requires urgent assessment of respiratory status and oxygenation. Treatment directed at underlying cause: mechanical ventilation if severe, oxygen therapy, bronchodilators for airway obstruction.",
+        "relatedTerms": ["pH", "pCO2", "Hypoventilation", "Respiratory failure", "Compensation"]
+    },
+    {
+        "id": "metabolic_acidosis",
+        "term": "Metabolic Acidosis",
+        "category": "Blood Gas Analysis - Disorders",
+        "definition": "Acid-base disorder with pH <7.35 and HCO3- <22 mEq/L caused by loss of bicarbonate or accumulation of acid.",
+        "explanation": "Two types: (1) High anion gap (increased unmeasured anions from organic acids: lactic acidosis, ketoacidosis, uremia, methanol, ethylene glycol), (2) Normal anion gap (bicarbonate loss from diarrhea or renal tubular dysfunction). Respiratory compensation: increased ventilation (Kussmaul breathing) to lower pCO2.",
+        "clinicalSignificance": "Indicates serious pathology. Anion gap helps determine cause. High AG: sepsis, DKA, lactic acidosis, toxins. Normal AG: diarrhea, RTA. Treatment directed at underlying cause: insulin for DKA, lactate clearance for lactic acidosis, dialysis for uremia.",
+        "relatedTerms": ["pH", "HCO3-", "Anion gap", "Lactic acidosis", "Ketoacidosis", "Respiratory compensation"]
+    },
+    {
+        "id": "clsi",
+        "term": "CLSI (Clinical & Laboratory Standards Institute)",
+        "category": "Quality Management - Standards",
+        "definition": "Non-profit organization developing consensus standards for laboratory testing, including urinalysis interpretation guidelines.",
+        "explanation": "CLSI publishes standards for specimen collection, analysis, and reporting (e.g., M20 for urinalysis, GP16 for autoverification). These standards are widely adopted by laboratories worldwide and accepted by accreditation bodies. Updated regularly as science evolves.",
+        "clinicalSignificance": "CLSI standards ensure consistency and quality of laboratory testing. Following CLSI guidelines supports accreditation and regulatory compliance. Essential reference for establishing laboratory policies and procedures.",
+        "relatedTerms": ["ISO 15189", "CAP", "Accreditation", "Standards"]
+    },
+    {
+        "id": "eflm",
+        "term": "EFLM (European Federation of Clinical Chemistry and Laboratory Medicine)",
+        "category": "Quality Management - Organizations",
+        "definition": "European professional organization providing evidence-based guidelines for laboratory medicine, quality, and patient outcomes.",
+        "explanation": "EFLM develops recommendations for pre-analytical variables, quality specifications, analytical performance, and harmonization of laboratory results across Europe. Works alongside CLSI on international standards.",
+        "clinicalSignificance": "EFLM guidance supports laboratory quality and harmonization. Particularly important for European laboratories and those seeking international accreditation. Complements ISO 15189 and CLSI standards.",
+        "relatedTerms": ["ISO 15189", "CLSI", "Quality specifications", "Pre-analytical variables"]
+    },
+    {
+        "id": "iqa_eqa",
+        "term": "IQA/EQA (Internal & External Quality Assessment)",
+        "category": "Quality Management - Testing",
+        "definition": "IQA: In-lab QC with control materials daily. EQA: External proficiency testing by 3rd party monthly/quarterly to verify lab performance against peers.",
+        "explanation": "IQA (Internal QC): Detects within-run and between-run imprecision, maintains analyzer function. EQA (Proficiency Testing): Compares lab results with peer groups, detects systematic errors and calibration drift. Both essential for accreditation.",
+        "clinicalSignificance": "IQA ensures day-to-day reliability. EQA detects significant errors before patient harm. Failure in either requires investigation and corrective action. Critical components of continuous quality improvement.",
+        "relatedTerms": ["Quality control", "Proficiency testing", "Westgard rules", "Levy-Jennings"]
+    },
+    {
+        "id": "delta_check",
+        "term": "Delta Check",
+        "category": "Quality Management - Autoverification",
+        "definition": "Comparison of current patient result with previous result to detect analytical errors or sample mix-up based on acceptable change magnitude.",
+        "explanation": "Delta limits set based on biology and analytical variation. Example: Hemoglobin change >2 g/dL, creatinine change >0.5 mg/dL in 24 hours warrants review. Can be absolute or percentage-based. Important in LIS autoverification systems.",
+        "clinicalSignificance": "Detects transcription errors, sample mix-up, and analytical problems before results are reported. Prevents harm from incorrect patient results. Critical quality control measure in modern laboratories.",
+        "relatedTerms": ["Autoverification", "Quality control", "LIS", "Result verification"]
+    },
+    {
+        "id": "glomerulonephritis",
+        "term": "Glomerulonephritis",
+        "category": "Clinical Pathology - Kidney Disease",
+        "definition": "Inflammation of renal glomeruli causing hematuria, proteinuria, and progressive renal dysfunction if untreated.",
+        "explanation": "Many types: IgA nephropathy (most common worldwide), post-infectious GN, ANCA-associated vasculitis, lupus nephritis, anti-GBM disease. Presentation varies: acute nephritic (rapid, severe hematuria) vs. nephrotic (heavy proteinuria). Diagnosis: urinalysis + serology + kidney biopsy.",
+        "clinicalSignificance": "Classic urinalysis finding: dysmorphic RBCs + RBC casts + proteinuria = glomerular disease. Warrants immediate investigation with renal function, serology (ANA, ANCA, complement), and biopsy. Early diagnosis and treatment critical for preserving renal function.",
+        "relatedTerms": ["Dysmorphic RBC", "RBC casts", "Hematuria", "Proteinuria", "Acute kidney injury"]
+    },
+    {
+        "id": "uti_infection",
+        "term": "Urinary Tract Infection (UTI)",
+        "category": "Clinical Pathology - Infection",
+        "definition": "Bacterial infection of urinary tract (lower: cystitis/urethritis vs. upper: pyelonephritis). Diagnosis: >10^5 CFU/mL + symptoms or >10^2 CFU/mL in catheterized patients.",
+        "explanation": "Common organisms: E. coli (85%), Klebsiella, Proteus, Staphylococcus saprophyticus. Presentation: dysuria, frequency, urgency (cystitis) vs. fever, flank pain (pyelonephritis). Diagnosis requires urine culture; urinalysis suggests but doesn't confirm.",
+        "clinicalSignificance": "Most common bacterial infection in women. Untreated pyelonephritis risks sepsis and renal scarring. Urinalysis findings (WBC, bacteria, nitrites, LE) support clinical diagnosis. Culture confirmation and sensitivity testing guide antibiotic selection.",
+        "relatedTerms": ["Bacteria", "Pyuria", "Nitrites", "Urine culture", "Pyelonephritis"]
     }
 ]
