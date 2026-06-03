@@ -111,6 +111,76 @@ function loadKnowledge() {
         .catch(error => console.log('Knowledge data loaded (or not found):', error));
 }
 
+function showKnowledgeDetail(termId) {
+    const term = knowledgeData.find(t => t.id === termId);
+    if (!term) return;
+    
+    const detailContainer = document.getElementById('knowledge-detail');
+    if (!detailContainer) {
+        alert(`
+${term.term}
+
+Definition: ${term.definition}
+
+Category: ${term.category}
+
+Detailed Explanation:
+${term.explanation}
+
+Clinical Significance:
+${term.clinicalSignificance}
+
+Related Terms: ${term.relatedTerms.join(', ')}
+        `);
+        return;
+    }
+    
+    // Build attachments section with links and buttons
+    let attachmentsHtml = '';
+    if (term.attachments && term.attachments.length > 0) {
+        attachmentsHtml = '<h4>📎 Resources</h4><div style="display: flex; flex-direction: column; gap: 10px;">';
+        term.attachments.forEach(attachment => {
+            // Check if it's an HTML file or other file type
+            if (attachment.type === 'Interactive HTML' || attachment.url.endsWith('.html')) {
+                attachmentsHtml += `
+                    <a href="${attachment.url}" style="display: inline-block; padding: 12px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; text-align: center; font-weight: 500; transition: background 0.3s;" onmouseover="this.style.background='#764ba2'" onmouseout="this.style.background='#667eea'">
+                        ${attachment.name}
+                    </a>
+                `;
+            } else {
+                // Regular file download
+                attachmentsHtml += `
+                    <a href="${attachment.url}" target="_blank" download style="padding: 10px 15px; background: #f0f0f0; border-left: 4px solid #667eea; text-decoration: none; border-radius: 3px; display: block;">
+                        📄 ${attachment.name} (${attachment.type})
+                    </a>
+                `;
+            }
+        });
+        attachmentsHtml += '</div>';
+    }
+    
+    detailContainer.innerHTML = `
+        <h3>${term.term}</h3>
+        <p><strong>Category:</strong> ${term.category}</p>
+        
+        <h4>Definition</h4>
+        <p>${term.definition}</p>
+        
+        <h4>Detailed Explanation</h4>
+        <p>${term.explanation}</p>
+        
+        <h4>Clinical Significance</h4>
+        <p>${term.clinicalSignificance}</p>
+        
+        <h4>Related Terms</h4>
+        <p>${term.relatedTerms.join(', ')}</p>
+        
+        ${attachmentsHtml}
+        
+        <button onclick="closeDetail()">Close</button>
+    `;
+}
+
 function displayKnowledge(terms) {
     const container = document.getElementById('knowledge-container');
     if (!container) return;
