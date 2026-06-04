@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow Cytometry & CD Marker Reference Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #185FA5 0%, #0F6E56 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e0e0e0;
+            background: #fafafa;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 16px 20px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-button:hover {
+            background: #f0f0f0;
+        }
+
+        .tab-button.active {
+            color: #185FA5;
+            border-bottom-color: #185FA5;
+            background: white;
+        }
+
+        .content {
+            padding: 24px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Search bar */
+        .search-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 12px;
+            color: #999;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 12px 10px 40px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #185FA5;
+            box-shadow: 0 0 0 3px rgba(24, 95, 165, 0.1);
+        }
+
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        thead {
+            background: #f5f5f5;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            padding: 12px 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: #fafafa;
+        }
+
+        tbody tr.expanded {
+            background: #f0f7ff;
+        }
+
+        td {
+            padding: 12px;
+            color: #333;
+        }
+
+        .cd-marker {
+            font-weight: 600;
+            color: #185FA5;
+            font-size: 14px;
+        }
+
+        .cell-type {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .function-text {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .expand-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            color: #999;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .expand-btn:hover {
+            color: #185FA5;
+        }
+
+        .expanded-row {
+            display: none;
+        }
+
+        .expanded-row.show {
+            display: table-row;
+        }
+
+        .expanded-content {
+            padding: 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .expanded-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .expanded-label {
+            font-weight: 600;
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .expanded-text {
+            color: #333;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* Tree styles */
+        .tree-note {
+            background: #f0f7ff;
+            border: 1px solid #B5D4F4;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: #185FA5;
+        }
+
+        .tree-node {
+            margin-bottom: 8px;
+        }
+
+        .tree-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: #f5f5f5;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tree-header:hover {
+            background: #efefef;
+        }
+
+        .tree-header.collapsed .arrow {
+            transform: rotate(0deg);
+        }
+
+        .tree-header.expanded .arrow {
+            transform: rotate(90deg);
+        }
+
+        .arrow {
+            width: 16px;
+            text-align: center;
+            color: #666;
+            transition: transform 0.2s;
+            font-size: 12px;
+        }
+
+        .tree-no-arrow {
+            width: 16px;
+        }
+
+        .tree-title {
+            font-weight: 500;
+            font-size: 13px;
+            color: #333;
+            flex: 1;
+        }
+
+        .tree-cd {
+            font-size: 10px;
+            color: #999;
+            font-style: italic;
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid #eee;
+        }
+
+        .tree-children {
+            display: none;
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .tree-children.show {
+            display: block;
+        }
+
+        .tree-markers {
+            margin-left: 16px;
+            margin-top: 4px;
+            font-size: 11px;
+            color: #666;
+            padding: 4px 8px;
+            background: white;
+            border-radius: 4px;
+            border-left: 2px solid #185FA5;
+        }
+
+        .color-level-1 { color: #7F77DD; }
+        .color-level-2 { color: #1D9E75; }
+        .color-level-3 { color: #D85A30; }
+        .color-level-4 { color: #3B6D11; }
+        .color-level-5 { color: #BA7517; }
+
+        .bg-color-1 { background: #7F77DD15; border: 0.5px solid #7F77DD50; }
+        .bg-color-2 { background: #1D9E7515; border: 0.5px solid #1D9E7550; }
+        .bg-color-3 { background: #D85A3015; border: 0.5px solid #D85A3050; }
+        .bg-color-4 { background: #3B6D1115; border: 0.5px solid #3B6D1150; }
+        .bg-color-5 { background: #BA751715; border: 0.5px solid #BA751750; }
+
+        /* Reference box */
+        .reference-box {
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 20px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .reference-box h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .reference-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .reference-item {
+            font-size: 13px;
+            color: #666;
+            padding: 8px 0;
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        .reference-item:last-child {
+            border-bottom: none;
+        }
+
+        .reference-item strong {
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-state svg {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .tab-button {
+                flex: 1 1 50%;
+            }
+
+            .reference-list {
+                grid-template-columns: 1fr;
+            }
+
+            .expanded-content {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 16px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+
+            .tabs {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🧬 Flow Cytometry & CD Marker Reference</h1>
+            <p>Interactive guide for immune cell classification by surface CD markers</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-button active" data-tab="table">
+                📊 CD Marker Reference Table
+            </button>
+            <button class="tab-button" data-tab="tree">
+                🌳 Immune Cell Classification
+            </button>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Tab 1: CD Marker Table -->
+            <div class="tab-content active" id="table">
+                <div class="search-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        id="searchInput" 
+                        placeholder="Search CD markers, cell types, or functions... (e.g., CD4, Helper, T cells)"
+                    >
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 8%;">CD</th>
+                            <th style="width: 22%;">Cell Type</th>
+                            <th style="width: 40%;">Function/Characteristic</th>
+                            <th style="width: 20%;">Typical Panel</th>
+                            <th style="width: 10%; text-align: center;">Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="markerTable">
+                    </tbody>
+                </table>
+
+                <div class="reference-box">
+                    <h3>💡 Normal Reference Ranges (Adults)</h3>
+                    <div class="reference-list">
+                        <div class="reference-item"><strong>CD4+ T cells:</strong> 500–1500 cells/μL</div>
+                        <div class="reference-item"><strong>CD8+ T cells:</strong> 200–900 cells/μL</div>
+                        <div class="reference-item"><strong>CD4/CD8 ratio:</strong> 1.5–2.5</div>
+                        <div class="reference-item"><strong>CD19+ B cells:</strong> 100–500 cells/μL</div>
+                        <div class="reference-item"><strong>CD56+ NK cells:</strong> 50–300 cells/μL</div>
+                        <div class="reference-item"><strong>CD14+ Monocytes:</strong> 200–900 cells/μL</div>
+                        <div class="reference-item"><strong>CD15+ Neutrophils:</strong> 2000–7500 cells/μL</div>
+                        <div class="reference-item"><strong>CD20+ B cells:</strong> 100–500 cells/μL</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Cell Classification Tree -->
+            <div class="tab-content" id="tree">
+                <div class="tree-note">
+                    <strong>ℹ️ Interactive Tree:</strong> Click any cell type to expand/collapse. Colors represent different functional groups.
+                </div>
+
+                <div id="treeContainer"></div>
+
+                <div class="reference-box">
+                    <h3>🔄 Basic Gating Strategy</h3>
+                    <div class="reference-list" style="grid-template-columns: 1fr;">
+                        <div class="reference-item">
+                            <strong>Step 1:</strong> Gate singlets (FSC-A vs FSC-H) → exclude doublets
+                        </div>
+                        <div class="reference-item">
+                            <strong>Step 2:</strong> Gate live cells → exclude dead cell markers (PI/7-AAD)
+                        </div>
+                        <div class="reference-item">
+                            <strong>Step 3:</strong> Gate CD45+ leukocytes → all white blood cells
+                        </div>
+                        <div class="reference-item">
+                            <strong>Step 4a:</strong> T cells → CD3+ → CD4+ (Helper) or CD8+ (Cytotoxic)
+                        </div>
+                        <div class="reference-item">
+                            <strong>Step 4b:</strong> B cells → CD19+ or CD20+ (separate from T cells)
+                        </div>
+                        <div class="reference-item">
+                            <strong>Step 4c:</strong> Monocytes → CD14+ (use FSC/SSC for separation from lymphocytes)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CD Marker Data
+        const cdMarkerData = [
+            { cd: 'CD3', cellType: 'T lymphocytes', function: 'T cell marker; present on all mature T cells', typical: 'CD3+', clinical: 'HIV diagnosis, T-cell immunodeficiency, T-cell activation assessment' },
+            { cd: 'CD4', cellType: 'Helper T cells', function: 'Recognizes MHC Class II; coordinates immune response', typical: 'CD3+CD4+', clinical: 'HIV progression indicator; low CD4 = AIDS; most important prognostic marker' },
+            { cd: 'CD8', cellType: 'Cytotoxic T cells', function: 'Recognizes MHC Class I; kills infected/tumor cells', typical: 'CD3+CD8+', clinical: 'Viral infection response, cancer monitoring, immune surveillance' },
+            { cd: 'CD19', cellType: 'B lymphocytes', function: 'B cell pan-marker; present on all B cell developmental stages', typical: 'CD19+', clinical: 'B-cell malignancy diagnosis, immunodeficiency assessment, vaccine response' },
+            { cd: 'CD20', cellType: 'Mature B cells', function: 'Mature B cell surface antigen; target for anti-CD20 monoclonal antibodies', typical: 'CD19+CD20+', clinical: 'B-cell lymphoma treatment (rituximab), rheumatoid arthritis therapy' },
+            { cd: 'CD27', cellType: 'Memory cells (T & B)', function: 'TNF receptor family; marks memory cell phenotype', typical: 'CD27+ for memory', clinical: 'Assessment of prior antigen exposure, vaccine response evaluation' },
+            { cd: 'CD45RA', cellType: 'Naive lymphocytes', function: 'Isoform of CD45; identifies naive T cells without prior antigen exposure', typical: 'CD45RA+CD45RO−', clinical: 'Immune maturation tracking, age-related immune decline' },
+            { cd: 'CD45RO', cellType: 'Memory lymphocytes', function: 'Isoform of CD45; identifies memory T cells with prior antigen exposure', typical: 'CD45RO+CD45RA−', clinical: 'Immune memory assessment, infection history, vaccine effectiveness' },
+            { cd: 'CD14', cellType: 'Monocytes/Macrophages', function: 'LPS receptor co-factor; primary monocyte identification marker', typical: 'CD14+CD15±', clinical: 'Sepsis monitoring, infection staging, macrophage differentiation tracking' },
+            { cd: 'CD16', cellType: 'Monocyte subsets', function: 'Fc receptor; distinguishes monocyte subpopulations and NK cells', typical: 'CD14+CD16+/−', clinical: 'Monocyte subset profiling, inflammatory status assessment' },
+            { cd: 'CD15', cellType: 'Granulocytes', function: 'Lewis X antigen; myeloid differentiation and maturation marker', typical: 'CD15+', clinical: 'WBC differential analysis, myeloid leukemia classification' },
+            { cd: 'CD13', cellType: 'Myeloid cells', function: 'Aminopeptidase N; early myeloid and monocyte marker', typical: 'CD13+', clinical: 'Acute myeloid leukemia (AML) diagnosis and classification' },
+            { cd: 'CD33', cellType: 'Myeloid progenitors', function: 'Sialic acid receptor; marks immature myeloid cells', typical: 'CD34+CD33+', clinical: 'AML diagnosis; target for gemtuzumab ozogamicin therapy' },
+            { cd: 'CD34', cellType: 'Hematopoietic stem cells', function: 'HSC/HSPC marker; identifies primitive progenitor cells', typical: 'CD34+', clinical: 'Stem cell enumeration, transplant monitoring, leukemia diagnosis' },
+            { cd: 'CD56', cellType: 'Natural Killer (NK) cells', function: 'NK cell marker and NCAM; NK cell identification and function', typical: 'CD3−CD56+', clinical: 'NK cell count assessment, NK lymphoma diagnosis, NK deficiency evaluation' },
+            { cd: 'CD123', cellType: 'Plasmacytoid dendritic cells; Basophils', function: 'IL-3 receptor; dendritic cell and basophil marker', typical: 'CD123+', clinical: 'Basophil enumeration, plasmacytoid DC assessment' },
+            { cd: 'HLA-DR', cellType: 'Antigen-presenting cells', function: 'MHC Class II; essential for antigen presentation to CD4+ T cells', typical: 'HLA-DR+ on APCs', clinical: 'APC activation status, sepsis immune monitoring' },
+            { cd: 'CD25', cellType: 'Activated lymphocytes; Tregs', function: 'IL-2 receptor α chain; T cell activation and Treg identification marker', typical: 'CD25+; CD4+CD25+FoxP3+ (Treg)', clinical: 'T cell activation assessment, regulatory T cell isolation and monitoring' },
+            { cd: 'CD38', cellType: 'Activated T/B cells; plasma cells', function: 'NAD+ metabolism enzyme; activation and differentiation marker', typical: 'CD38+', clinical: 'Chronic lymphocytic leukemia (CLL) prognosis, plasma cell identification' },
+            { cd: 'CD10', cellType: 'B cell precursors; GC B cells', function: 'Neutral endopeptidase; B-cell precursor marker', typical: 'CD10+ in pre-B cells', clinical: 'B-cell acute lymphoblastic leukemia (B-ALL) diagnosis, follicular lymphoma' },
+            { cd: 'CD11c', cellType: 'Myeloid dendritic cells', function: 'Integrin αX; myeloid dendritic cell marker', typical: 'CD11c+HLA-DR+', clinical: 'Dendritic cell subset identification, myeloid leukemia classification' },
+            { cd: 'CD7', cellType: 'T cells; NK cells', function: 'T cell co-stimulatory receptor; early T-cell differentiation marker', typical: 'CD7+ on T/NK', clinical: 'T-cell acute lymphoblastic leukemia (T-ALL) diagnosis, NK cell assessment' },
+        ];
+
+        // Immune Cell Hierarchy Data
+        const immuneCellHierarchy = {
+            name: 'Leukocytes (CD45+)',
+            level: 0,
+            cd: 'Common leukocyte antigen',
+            children: [
+                {
+                    name: 'Lymphocytes',
+                    level: 1,
+                    cd: 'CD45+ FSC-low SSC-low',
+                    children: [
+                        {
+                            name: 'T cells (CD3+)',
+                            level: 2,
+                            cd: 'CD3+ CD4/CD8',
+                            children: [
+                                { name: 'Helper T (Th)', level: 3, cd: 'CD3+CD4+CD8−', markers: '📌 CD45RA+ (naive), CD45RO+ (memory), CD25+/HLA-DR+ (activated)' },
+                                { name: 'Cytotoxic T (Tc)', level: 3, cd: 'CD3+CD8+CD4−', markers: '📌 Perforin+, Granzyme B+ (cytotoxic function)' },
+                                { name: 'Regulatory T (Treg)', level: 3, cd: 'CD4+CD25+FoxP3+', markers: '📌 CD127− (IL-7R low); immune suppression' },
+                            ]
+                        },
+                        {
+                            name: 'B cells (CD19+ or CD20+)',
+                            level: 2,
+                            cd: 'CD3−CD19+',
+                            children: [
+                                { name: 'Naive B', level: 3, cd: 'CD19+CD27−CD38−', markers: '📌 CD45RA+; no prior antigen exposure' },
+                                { name: 'Memory B', level: 3, cd: 'CD19+CD27+CD38−', markers: '📌 IgG+; class-switched; rapid response' },
+                                { name: 'Plasma cell', level: 3, cd: 'CD19+/−CD27++CD38++', markers: '📌 CD20−; antibody secretion' },
+                                { name: 'Pre-B (bone marrow)', level: 3, cd: 'CD19+CD10+', markers: '📌 CD34+/−; TdT+ (immature)' },
+                            ]
+                        },
+                        {
+                            name: 'NK cells (CD56+)',
+                            level: 2,
+                            cd: 'CD3−CD56+',
+                            children: [
+                                { name: 'NK1 Bright', level: 3, cd: 'CD56++CD16−', markers: '📌 Cytokine producers; IFN-γ secretion' },
+                                { name: 'NK2 Dim', level: 3, cd: 'CD56+CD16++', markers: '📌 Cytotoxic; Perforin+, Granzyme B+' },
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: 'Myeloid Cells',
+                    level: 1,
+                    cd: 'CD45+ FSC-high/mid SSC-high',
+                    children: [
+                        {
+                            name: 'Monocytes',
+                            level: 2,
+                            cd: 'CD14+CD15+',
+                            children: [
+                                { name: 'Classical', level: 3, cd: 'CD14++CD16−', markers: '📌 ~80% of monocytes; pro-inflammatory' },
+                                { name: 'Intermediate', level: 3, cd: 'CD14++CD16+', markers: '📌 IL-6, TNF producers; activation' },
+                                { name: 'Non-classical', level: 3, cd: 'CD14+CD16++', markers: '📌 Patrolling; LFA-1+; adhesion molecules' },
+                            ]
+                        },
+                        {
+                            name: 'Granulocytes',
+                            level: 2,
+                            cd: 'CD15+',
+                            children: [
+                                { name: 'Neutrophils', level: 3, cd: 'CD15+CD33+CD13+', markers: '📌 Most abundant WBC; CD11b+ (activation)' },
+                                { name: 'Eosinophils', level: 3, cd: 'CD15+CD16−', markers: '📌 CCR3+; parasitic/allergic responses' },
+                                { name: 'Basophils', level: 3, cd: 'CD123+HLA-DR−', markers: '📌 IgE binding; histamine release' },
+                            ]
+                        },
+                        {
+                            name: 'Dendritic Cells',
+                            level: 2,
+                            cd: 'HLA-DR+ CD11c/CD123',
+                            children: [
+                                { name: 'Myeloid DC', level: 3, cd: 'CD11c+HLA-DR+', markers: '📌 CD1c+; antigen presentation' },
+                                { name: 'Plasmacytoid DC', level: 3, cd: 'CD123+HLA-DR+', markers: '📌 CD4+; IFN-α producer' },
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: 'Stem/Progenitor Cells',
+                    level: 1,
+                    cd: 'CD34+',
+                    children: [
+                        { name: 'HSC/HSPC', level: 2, cd: 'CD34+CD38−', markers: '📌 Self-renewing; CD45RA− (LT-HSC)' },
+                        { name: 'Lymphoid progenitor', level: 2, cd: 'CD34+CD10+', markers: '📌 Pre-B/T cell development' },
+                        { name: 'Myeloid progenitor', level: 2, cd: 'CD34+CD33+', markers: '📌 AML risk indicator in dysplasia' },
+                    ]
+                }
+            ]
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTabs();
+            populateMarkerTable();
+            populateTreeView();
+        });
+
+        // Tab functionality
+        function initializeTabs() {
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    
+                    // Remove active from all buttons and contents
+                    document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Add active to clicked button and corresponding content
+                    this.classList.add('active');
+                    document.getElementById(tabName).classList.add('active');
+                });
+            });
+        }
+
+        // Populate marker table
+        function populateMarkerTable() {
+            const tableBody = document.getElementById('markerTable');
+            tableBody.innerHTML = '';
+
+            cdMarkerData.forEach((item, idx) => {
+                // Main row
+                const mainRow = document.createElement('tr');
+                mainRow.innerHTML = `
+                    <td class="cd-marker">${item.cd}</td>
+                    <td class="cell-type">${item.cellType}</td>
+                    <td class="function-text">${item.function.substring(0, 55)}...</td>
+                    <td class="function-text">${item.typical}</td>
+                    <td style="text-align: center;">
+                        <button class="expand-btn" onclick="toggleExpanded(${idx})">
+                            <span class="expand-icon">▼</span>
+                        </button>
+                    </td>
+                `;
+                mainRow.id = `row-${idx}`;
+                tableBody.appendChild(mainRow);
+
+                // Expanded row
+                const expandedRow = document.createElement('tr');
+                expandedRow.className = 'expanded-row';
+                expandedRow.id = `expanded-${idx}`;
+                expandedRow.innerHTML = `
+                    <td colspan="5">
+                        <div class="expanded-content">
+                            <div class="expanded-section">
+                                <div class="expanded-label">📋 Full Function</div>
+                                <div class="expanded-text">${item.function}</div>
+                            </div>
+                            <div class="expanded-section">
+                                <div class="expanded-label">🔬 Clinical Application</div>
+                                <div class="expanded-text">${item.clinical}</div>
+                            </div>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(expandedRow);
+            });
+
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('keyup', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                cdMarkerData.forEach((item, idx) => {
+                    const match = item.cd.toLowerCase().includes(searchTerm) ||
+                                item.cellType.toLowerCase().includes(searchTerm) ||
+                                item.function.toLowerCase().includes(searchTerm) ||
+                                item.clinical.toLowerCase().includes(searchTerm);
+                    
+                    const row = document.getElementById(`row-${idx}`);
+                    const expandedRow = document.getElementById(`expanded-${idx}`);
+                    
+                    if (match) {
+                        row.style.display = '';
+                        if (expandedRow.classList.contains('show')) {
+                            expandedRow.style.display = '';
+                        }
+                    } else {
+                        row.style.display = 'none';
+                        expandedRow.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Toggle expanded row
+        function toggleExpanded(idx) {
+            const expandedRow = document.getElementById(`expanded-${idx}`);
+            const mainRow = document.getElementById(`row-${idx}`);
+            const icon = mainRow.querySelector('.expand-icon');
+            
+            expandedRow.classList.toggle('show');
+            mainRow.classList.toggle('expanded');
+            
+            if (expandedRow.classList.contains('show')) {
+                expandedRow.style.display = '';
+                icon.textContent = '▲';
+            } else {
+                expandedRow.style.display = 'none';
+                icon.textContent = '▼';
+            }
+        }
+
+        // Populate tree view
+        function populateTreeView() {
+            const container = document.getElementById('treeContainer');
+            container.innerHTML = renderTreeNode(immuneCellHierarchy, 0);
+        }
+
+        function renderTreeNode(node, level) {
+            const colorClasses = ['color-level-1', 'color-level-2', 'color-level-3', 'color-level-4', 'color-level-5'];
+            const bgClasses = ['bg-color-1', 'bg-color-2', 'bg-color-3', 'bg-color-4', 'bg-color-5'];
+            const colorClass = colorClasses[level % colorClasses.length];
+            const bgClass = bgClasses[level % bgClasses.length];
+            const hasChildren = node.children && node.children.length > 0;
+
+            let html = `
+                <div class="tree-node" style="margin-left: ${level * 20}px;">
+                    <div class="tree-header ${hasChildren ? 'collapsed' : ''} ${bgClass}" onclick="toggleTreeNode(this)">
+            `;
+
+            if (hasChildren) {
+                html += `<span class="arrow">▶</span>`;
+            } else {
+                html += `<span class="tree-no-arrow"></span>`;
+            }
+
+            html += `
+                        <span class="tree-title">
+                            <span class="${colorClass}" style="font-weight: 600;">${node.name}</span>
+                        </span>
+                        <span class="tree-cd">${node.cd}</span>
+                    </div>
+            `;
+
+            if (node.markers) {
+                html += `<div class="tree-markers">${node.markers}</div>`;
+            }
+
+            if (hasChildren) {
+                html += `<div class="tree-children">`;
+                node.children.forEach(child => {
+                    html += renderTreeNode(child, level + 1);
+                });
+                html += `</div>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        function toggleTreeNode(header) {
+            if (header.classList.contains('collapsed')) {
+                header.classList.remove('collapsed');
+                header.classList.add('expanded');
+                const children = header.nextElementSibling?.nextElementSibling;
+                if (children && children.classList.contains('tree-children')) {
+                    children.classList.add('show');
+                }
+            } else {
+                header.classList.remove('expanded');
+                header.classList.add('collapsed');
+                const children = header.nextElementSibling?.nextElementSibling;
+                if (children && children.classList.contains('tree-children')) {
+                    children.classList.remove('show');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
