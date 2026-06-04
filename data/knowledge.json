@@ -397,10 +397,8 @@
     "id": "flow_cytometry_cardfile",
     "term": "Flow Cytometry Card File",
     "category": "FLOW - CD Classify",
-    "definition": "Interactive HTML card file for learning blood gas parameters, acid-base mechanisms, and case interpretation.",
-    "explanation": "Comprehensive interactive learning tool covering all blood gas parameters (pH, pCO2, pO2, HCO3-, BE, SaO2), acid-base balance physiology, the four primary acid-base disorders (respiratory acidosis/alkalosis, metabolic acidosis/alkalosis), compensation mechanisms, and practical case studies for clinical interpretation.",
-    "clinicalSignificance": "Essential learning resource for laboratory technicians and students. Provides structured approach to blood gas interpretation with interactive examples.",
-    "relatedTerms": ["Acid-base balance", "pH", "pCO2", "pO2", "HCO3-", "Respiratory acidosis", "Metabolic acidosis"],
+    "definition": "Interactive HTML card file for Flow Cytometry CD classification",
+    "relatedTerms": ["Flow Cytometry", "CD classify"],
     "attachments": [
         {
             "name": "📚 Open Flow - CD Classify Card File",
