@@ -11,12 +11,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .header{padding-bottom:12px;border-bottom:2.5px solid #1B5FA3;margin-bottom:0}
 .header-title{font-size:21px;font-weight:700;color:#1B5FA3;letter-spacing:-.3px}
 .header-sub{font-size:12px;color:#6B7080;margin-top:3px}
-/* Tabs */
 .tab-bar{display:flex;border-bottom:1.5px solid #DDE1EE;margin-bottom:22px}
 .tab-btn{padding:9px 22px;border:none;background:none;cursor:pointer;font-size:13px;font-weight:500;color:#888;border-bottom:2.5px solid transparent;margin-bottom:-1.5px;font-family:inherit;transition:color .12s}
 .tab-btn.active{color:#1B5FA3;border-bottom-color:#1B5FA3}
 .tab-btn:hover:not(.active){color:#333}
-/* Scenario bar */
 .sc-group{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:22px;padding:11px 13px;background:#F5F7FB;border-radius:10px;border:1.5px solid #E0E4F0}
 .sc-label{font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.6px}
 .sc-sep{width:1px;height:20px;background:#D0D4E4;margin:0 5px}
@@ -24,7 +22,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .scbtn:hover:not(.act){background:#EEF2FF;border-color:#B0BADD;color:#333}
 .ptbtn.act{background:#1B5FA3;color:#fff;border-color:#1B5FA3}
 .apbtn.act{background:#0D7A5C;color:#fff;border-color:#0D7A5C}
-/* Charts */
 .chart-section{margin-bottom:2px}
 .chart-label-row{display:flex;align-items:center;gap:8px;padding:7px 0 4px}
 .chart-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
@@ -37,13 +34,11 @@ canvas{display:block;flex:1;min-width:0}
 .tax-wrap{margin-left:38px;position:relative;height:22px;margin-bottom:2px}
 .tl{position:absolute;font-size:10px;color:#999;transform:translateX(-50%)}
 .tu{position:absolute;right:0;font-size:10px;color:#bbb;font-style:italic}
-/* Legend */
 .legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;padding:9px 13px;background:#FAFBFD;border-radius:8px;border:1px solid #E8EAF2}
 .lg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:#555}
 .lg-line{width:18px;height:3px;border-radius:2px}
 .lg-dash{width:18px;border-top:2px dashed}
 .lg-band{width:13px;height:10px;border-radius:2px;background:rgba(13,122,92,.12);border:1px solid rgba(13,122,92,.35)}
-/* Result */
 .result{margin-top:15px;background:#F5F7FB;border:1.5px solid #DDE1EE;border-radius:10px;padding:15px 17px}
 .result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:13px}
 .m-label{font-size:11px;color:#888;margin-bottom:2px}
@@ -55,7 +50,6 @@ canvas{display:block;flex:1;min-width:0}
 .b-e{background:#FEE8E8;color:#B02020}.b-a{background:#FEE8E8;color:#B02020}
 .r-interp{font-size:13px;font-weight:600;color:#1C1C2E;margin-bottom:5px}
 .r-action{font-size:12px;color:#4A4A6A;line-height:1.6}
-/* Ref table */
 .ref-table{margin-top:20px;border:1.5px solid #DDE1EE;border-radius:10px;overflow:hidden}
 .ref-table-hdr{background:#1B5FA3;color:#fff;font-size:13px;font-weight:700;padding:9px 15px}
 .ref-table table{width:100%;border-collapse:collapse;font-size:12px}
@@ -66,14 +60,10 @@ canvas{display:block;flex:1;min-width:0}
 .tag{display:inline-block;font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:3px}
 .tn{background:#E6F7F0;color:#0A6E50}.ta{background:#FEE8E8;color:#B02020}
 .tw{background:#FFF3E0;color:#B06000}.te{background:#FEE8E8;color:#B02020}
-/* Note box */
 .note-box{margin-top:18px;padding:12px 15px;background:#EEF6FF;border-left:3.5px solid #1B5FA3;border-radius:0 8px 8px 0}
 .note-box strong{font-size:12px;color:#1B5FA3;display:block;margin-bottom:4px}
 .note-box p{font-size:12px;color:#2A3A5A;line-height:1.6}
-/* Footer */
 .footer{margin-top:26px;padding-top:11px;border-top:1px solid #E8EAF2;font-size:11px;color:#AAA;text-align:center}
-
-/* ── INDEX TAB ── */
 .idx-section{margin-bottom:30px}
 .idx-sec-hdr{margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #E8EAF2}
 .idx-sec-num{font-size:10px;font-weight:700;color:#1B5FA3;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
@@ -90,20 +80,14 @@ canvas{display:block;flex:1;min-width:0}
 .idx-note{font-size:11px;color:#3A3A5A;background:#F5F7FB;border-radius:6px;padding:7px 10px;margin-top:8px;line-height:1.6;border-left:3px solid #D0D4E4}
 .idx-note b{color:#1C1C2E;font-weight:600}
 .idx-note .ok{color:#0A6E50}.idx-note .warn{color:#B06000}.idx-note .bad{color:#B02020}
-.idx-sign-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
-.idx-sign{font-size:11px;padding:2px 9px;border-radius:4px;font-weight:600}
-.idx-sign-n{background:#E6F7F0;color:#0A6E50}
-.idx-sign-w{background:#FFF3E0;color:#B06000}
-.idx-sign-e{background:#FEE8E8;color:#B02020}
 @media(max-width:620px){.idx-3col,.idx-2col{grid-template-columns:1fr}}
 @media print{.tab-bar{display:none}#panel-reader,#panel-index{display:block!important}.idx-card{break-inside:avoid}}
 </style>
 </head>
 <body>
 <div class="container">
-
 <div class="header">
-  <div class="header-title">PT / APPT Reaction Curve Reader</div>
+  <div class="header-title">PT / APTT Reaction Curve Reader</div>
   <div class="header-sub">Optical clot detection &nbsp;&middot;&nbsp; Mindray CX-6000 Series &nbsp;&middot;&nbsp; Fixed-frequency constant-speed platform</div>
 </div>
 
@@ -218,11 +202,213 @@ canvas{display:block;flex:1;min-width:0}
 <div class="footer">PT / APPT Reaction Curve Reader &middot; Mindray CX-6000 Series &middot; Optical detection &middot; Simulated curves for training only</div>
 </div>
 
+<div id="panel-index" class="tab-panel" style="display:none">
+<div class="idx-section">
+  <div class="idx-sec-hdr">
+    <div class="idx-sec-num">Section 1</div>
+    <div class="idx-sec-title">The Three Optical Signals</div>
+    <div class="idx-sec-desc">The analyzer records the raw photodetector signal and computes two derived curves in real time. All three are plotted together and used jointly to determine and cross-validate the clot time.</div>
+  </div>
+  <div class="idx-3col">
+    <div class="idx-card">
+      <div class="idx-card-accent" style="background:#2176AE"></div>
+      <div class="idx-card-body">
+        <div class="idx-card-title">Original reaction curve &mdash; Luminous Flux</div>
+        <div class='idx-card-formula'>Luminous flux through sample &mdash; photodiode detector (405 / 545 / 660&thinsp;nm tri-color LED)</div>
+        <p class="idx-def">The raw luminous flux detected by the photodiode as light passes through the plasma sample. Per the IFU (Section&nbsp;4.5), the analyzer uses a tri-color LED and automatically selects the most suitable wavelength based on assay type and sample interference level. Flux is high when plasma is clear and decreases as fibrin clot forms and turbidity increases.</p>
+        <div class="idx-note"><b>IFU Y-axis label:</b> Luminous Flux (raw photodiode units) &nbsp;&middot;&nbsp; <b>Direction:</b> Decreasing &nbsp;&middot;&nbsp; <b>IFU terms:</b> Start Point (beginning) → Clot Point → End Point (end)</div>
+      </div>
+    </div>
+    <div class="idx-card">
+      <div class="idx-card-accent" style="background:#C47D17"></div>
+      <div class="idx-card-body">
+        <div class="idx-card-title">1. Deriv. &mdash; First derivative reaction curve</div>
+        <div class='idx-card-formula'>Rate of change of luminous flux at each instant</div>
+        <p class="idx-def">The instantaneous rate of change of luminous flux. Values are negative throughout clotting because flux is falling. The most negative point &mdash; the peak &mdash; marks the moment of fastest fibrin polymerization. The CX-6010 calls this the <b>Clot Point</b>, which is the reported clot time in seconds.</p>
+        <div class="idx-note"><b>IFU name:</b> &ldquo;1. Deriv.&rdquo; &nbsp;&middot;&nbsp; <b>Peak:</b> most negative value = Clot Point &nbsp;&middot;&nbsp; <b>Depth:</b> reflects clotting speed and fibrinogen level</div>
+      </div>
+    </div>
+    <div class="idx-card">
+      <div class="idx-card-accent" style="background:#0D9E6E"></div>
+      <div class="idx-card-body">
+        <div class="idx-card-title">2. Deriv. &mdash; Second derivative reaction curve</div>
+        <div class='idx-card-formula'>Rate of change of the first derivative</div>
+        <p class="idx-def">The acceleration or deceleration of clot formation. Negative before the Clot Point (clotting is speeding up), zero at the Clot Point, positive after (clotting is slowing down). The zero crossing independently confirms the Clot Point detected by 1. Deriv.</p>
+        <div class="idx-note"><b>IFU name:</b> &ldquo;2. Deriv.&rdquo; &nbsp;&middot;&nbsp; <b>Zero crossing</b> = Clot Point confirmation &nbsp;&middot;&nbsp; <b>Before Clot Point:</b> negative (accelerating) &nbsp;&middot;&nbsp; <b>After:</b> positive (decelerating)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="idx-section">
+  <div class="idx-sec-hdr">
+    <div class="idx-sec-num">Section 2</div>
+    <div class="idx-sec-title">Curve Anatomy</div>
+    <div class="idx-sec-desc">The original reaction curve is divided into distinct zones. Each corresponds to a stage of coagulation. Understanding each zone helps identify where and why a reaction is abnormal.</div>
+  </div>
+  <div class="idx-2col">
+    <div class="idx-card">
+      <div class="idx-card-accent" style="background:#2176AE"></div>
+      <div class="idx-card-body">
+        <div class="idx-card-title">Start Point <span style="font-size:11px;font-weight:400;color:#888">(Baseline)</span></div>
+        <p class="idx-def">Stable flat region at the start of the reaction (IFU term: <b>Start Point</b>). Luminous flux is high and constant because the plasma is clear. The analyzer uses this zone to set the signal reference level and detect sample quality problems. An unstable or low flux at this stage is the first indicator of interference.</p>
+        <div class="idx-note"><b>IFU term:</b> Start Point &nbsp;&middot;&nbsp; <b class="ok">Normal:</b> Flux stable and high &nbsp;&middot;&nbsp; <b class="warn">Low flux baseline:</b> lipemia, hemolysis &nbsp;&middot;&nbsp; <b class="warn">Unstable:</b> micro-bubbles, temperature drift</div>
+      </div>
+    </div>
+    <div class="idx-card">
+      <div class="idx-card-accent" style="background:#8E44AD"></div>
+      <div class="idx-card-body">
+        <div class="idx-card-title">Lag phase</div>
+        <p class="idx-def">Brief period after reagent activation where the coagulation cascade is propagating but fibrin polymerization has not yet begun. T starts to fall very slightly. PT has a shorter lag; APPT has a longer lag.</p>
+        <div class="idx-note"><b>PT lag:</b> ~2&ndash;4&thinsp;s &nbsp;&middot;&nbsp; <b>APPT lag:</b> ~5&ndash;10&thinsp;s &nbsp;&middot;&nbsp; Extended lag may indicate reduced contact activation</div>
+      </div>
+    </div>
+    <div class="idx-card">
+      <div class="idx-card-accent" style="background:#C47D17"></div>
+      <div class="idx-card-body">
+        <div class="idx-card-title">Clotting phase &mdash; sigmoid drop</div>
+        <p class="idx-def">The rapid sigmoid descent where fibrinogen is actively polymerizing into fibrin. This phase produces the largest rate of luminous flux change. A steep rapid drop indicates robust coagulation; a gradual slope suggests factor deficiency, inhibitor, or low fibrinogen.</p>
+        <div class="idx-note"><b class="ok">Steep slope:</b> strong clotting activity &nbsp;&middot;&nbsp; <b class="warn">Slow or gradual slope:</b> factor deficiency, inhibitor, or low fibrinogen</div>
+      </div>
+    </div>
+    <div class="idx-card">
+      <div class="idx-card-accent" style="background:#D63031"></div>
+      <div class="idx-card-body">
+        <div class="idx-card-title">Clot Point <span style="font-size:11px;font-weight:400;color:#888">(Inflection point)</span></div>
+        <p class="idx-def">The midpoint of the sigmoid where the rate of flux change is at its absolute maximum (IFU term: <b>Clot Point</b>). This is simultaneously: (1) the peak of 1.&nbsp;Deriv., (2) the zero crossing of 2.&nbsp;Deriv., and (3) the reported clot time in seconds.</p>
+        <div class="idx-note"><b>IFU term: Clot Point</b> &nbsp;&middot;&nbsp; Identified by: peak of |1.Deriv.| = zero crossing of 2.Deriv. = reported clot time (seconds)</div>
+      </div>
+    </div>
+    <div class="idx-card">
+      <div class="idx-card-accent" style="background:#0D7A5C"></div>
+      <div class="idx-card-body">
+        <div class="idx-card-title">End Point <span style="font-size:11px;font-weight:400;color:#888">(Plateau)</span></div>
+        <p class="idx-def">Stable flat region at the end of the reaction when fibrin clot formation is complete (IFU term: <b>End Point</b>). Luminous flux is low and constant and both derivatives return to approximately zero. The End Point level determines the amplitude. A high End Point indicates a weak or incomplete clot despite a detectable Clot Point.</p>
+        <div class="idx-note"><b>IFU term:</b> End Point &nbsp;&middot;&nbsp; <b class="ok">Normal:</b> Flux low and stable &nbsp;&middot;&nbsp; <b class="warn">High End Point:</b> incomplete clot &nbsp;&middot;&nbsp; Both 1.Deriv. and 2.Deriv. &asymp; 0</div>
+      </div>
+    </div>
+    <div class="idx-card">
+      <div class="idx-card-accent" style="background:#555"></div>
+      <div class="idx-card-body">
+        <div class="idx-card-title">Amplitude &mdash; &Delta;T</div>
+        <div class='idx-card-formula'>&Delta;Flux = Flux(Start Point) &minus; Flux(End Point)</div>
+        <p class="idx-def">The difference in luminous flux from Start Point to End Point. Reflects the quality and completeness of fibrin clot formation. A result with a normal Clot Point but low amplitude means the fibrin clot formed is structurally weak.</p>
+        <div class="idx-note"><b class="ok">Normal:</b> &gt;70% &nbsp;&middot;&nbsp; <b class="warn">Warning flag:</b> &lt;40% &nbsp;&middot;&nbsp; <b class="bad">Critical:</b> &lt;20% &rarr; fibrinogen likely critically low</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="idx-section">
+  <div class="idx-sec-hdr">
+    <div class="idx-sec-num">Section 3</div>
+    <div class="idx-sec-title">Reported Values</div>
+    <div class="idx-sec-desc">Numerical values derived from the reaction curve and reported to the clinician. Understanding how each is calculated helps interpret unusual results correctly.</div>
+  </div>
+  <div class="idx-2col">
+    <div class="idx-card">
+      <div class="idx-card-accent" style="background:#D63031"></div>
+      <div class="idx-card-body">
+        <div class="idx-card-title">Clot time (seconds)</div>
+        <div class='idx-card-formula'>Time from Start Point to Clot Point (IFU: &ldquo;coagulation end time&rdquo;)</div>
+        <p class="idx-def">Time elapsed from reaction start (Start Point) to the Clot Point, identified by the peak of the 1.&nbsp;Deriv. curve. The IFU (Section&nbsp;4.2) describes this as detecting the &ldquo;coagulation end time.&rdquo; Reported in seconds and compared against a laboratory reference interval.</p>
+        <div class="idx-note"><b>PT reference:</b> ~10&ndash;14&thinsp;s (reagent-dependent) &nbsp;&middot;&nbsp; <b>APPT reference:</b> ~25&ndash;35&thinsp;s (reagent-sensitive) &nbsp;&middot;&nbsp; Reference intervals must be validated locally for each reagent lot</div>
+      </div>
+    </div>
+    <div class="idx-card">
+      <div class="idx-card-accent" style="background:#1B5FA3"></div>
+      <div class="idx-card-body">
+        <div class="idx-card-title">INR &mdash; International Normalized Ratio</div>
+        <div class='idx-card-formula'>INR = (Patient PT &divide; Mean Normal PT)<sup>ISI</sup></div>
+        <p class="idx-def">Standardizes PT across different reagent–analyzer combinations worldwide. The ISI (International Sensitivity Index) is unique to each thromboplastin reagent lot and corrects for sensitivity differences. INR makes warfarin monitoring consistent between laboratories and countries.</p>
+        <div class="idx-note"><b class="ok">Therapeutic:</b> 2.0&ndash;3.0 most indications &nbsp;&middot;&nbsp; 2.5&ndash;3.5 mechanical heart valves &nbsp;&middot;&nbsp; <b class="bad">Not valid</b> for liver disease, acute coagulopathy, or non-warfarin patients</div>
+      </div>
+    </div>
+    <div class="idx-card">
+      <div class="idx-card-accent" style="background:#0D7A5C"></div>
+      <div class="idx-card-body">
+        <div class="idx-card-title">APPT Ratio</div>
+        <div class='idx-card-formula'>Ratio = Patient APPT &divide; Mean Normal APPT</div>
+        <p class="idx-def">Expresses the patient APPT relative to the local mean normal value. Used for monitoring unfractionated heparin (UFH) therapy. Unlike INR, the APPT ratio is not internationally standardized &mdash; each laboratory must derive its own therapeutic range.</p>
+        <div class="idx-note"><b class="ok">UFH therapeutic:</b> ratio ~1.5&ndash;2.5 (must be locally validated) &nbsp;&middot;&nbsp; <b class="bad">Not for LMWH</b> &mdash; use anti-Xa assay instead &nbsp;&middot;&nbsp; Elevated ratio without heparin &rarr; inhibitor or severe deficiency</div>
+      </div>
+    </div>
+    <div class="idx-card">
+      <div class="idx-card-accent" style="background:#555"></div>
+      <div class="idx-card-body">
+        <div class="idx-card-title">Amplitude (%)</div>
+        <div class='idx-card-formula'>&Delta;Flux % = Flux(Start Point) &minus; Flux(End Point), relative to total range</div>
+        <p class="idx-def">The relative change in luminous flux from Start Point to End Point, expressed as a percentage of the full detection range. Represents the structural quality of the fibrin clot &mdash; how completely fibrinogen was converted to fibrin. A normal Clot Point with low amplitude means the clot formed is weak and the result may be unreliable. Always correlate with Clauss fibrinogen.</p>
+        <div class="idx-note"><b class="ok">Normal:</b> &gt;70% &nbsp;&middot;&nbsp; <b class="warn">Warning flag:</b> &lt;40% &nbsp;&middot;&nbsp; <b class="bad">Critical:</b> &lt;20% &rarr; run Clauss fibrinogen urgently</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="idx-section">
+  <div class="idx-sec-hdr">
+    <div class="idx-sec-num">Section 4</div>
+    <div class="idx-sec-title">Signal Quality and Interference</div>
+    <div class="idx-sec-desc">Conditions that distort the reaction curve and compromise the reliability of results. Always review the curve shape alongside the reported number. A number without a curve is incomplete information.</div>
+  </div>
+  <div class="idx-2col">
+    <div class="idx-card">
+      <div class="idx-card-accent" style="background:#0D7A5C"></div>
+      <div class="idx-card-body">
+        <div class="idx-card-title">Noise and fluctuation</div>
+        <p class="idx-def">Random optical spikes superimposed on the true signal. Sources include photon shot noise, temperature micro-fluctuations, cuvette surface scatter, and micro-bubbles. The analyzer applies a smoothing algorithm before computing derivatives to prevent noise from creating false peaks. Heavy noise makes the first derivative unreliable.</p>
+        <div class="idx-note"><b>Causes:</b> lipemia, air bubble injection, dirty optics, temperature instability &nbsp;&middot;&nbsp; <b class="bad">Heavy noise:</b> derivatives invalid &rarr; flag or reject result</div>
+      </div>
+    </div>
+    <div class="idx-card">
+      <div class="idx-card-accent" style="background:#444"></div>
+      <div class="idx-card-body">
+        <div class="idx-card-title">HIL interference (Hemolysis &middot; Icterus &middot; Lipemia)</div>
+        <p class="idx-def">H, I, and L all shift the optical baseline by absorbing or scattering light independently of fibrin formation. This distorts both the starting flux level and the amplitude, producing unreliable clot times. The CX-6010 uses its tri-color LED to automatically detect interference levels and selects the most suitable wavelength or flags affected results.</p>
+        <div class="idx-note"><b>H</b> hemolysis: raises absorbance, lowers T &nbsp;&middot;&nbsp; <b>I</b> icterus: bilirubin absorbs specific wavelengths &nbsp;&middot;&nbsp; <b>L</b> lipemia: fat particles scatter light severely (most disruptive)</div>
+      </div>
+    </div>
+    <div class="idx-card">
+      <div class="idx-card-accent" style="background:#C47D17"></div>
+      <div class="idx-card-body">
+        <div class="idx-card-title">Low amplitude pattern</div>
+        <p class="idx-def">A shallow flux drop indicating insufficient fibrin formation. The Clot Point time may appear normal, but the fibrin clot is structurally weak. The 1.&nbsp;Deriv. peak will be low in magnitude and the End Point will be high relative to the Start Point flux.</p>
+        <div class="idx-note"><b>Flag threshold:</b> &Delta;T &lt;40% &nbsp;&middot;&nbsp; <b>Action:</b> run Clauss fibrinogen &nbsp;&middot;&nbsp; <b>Causes:</b> fibrinogen &lt;100&thinsp;mg/dL, dysfibrinogenemia, DIC, elevated FDP/D-dimer, uremia</div>
+      </div>
+    </div>
+    <div class="idx-card">
+      <div class="idx-card-accent" style="background:#D63031"></div>
+      <div class="idx-card-body">
+        <div class="idx-card-title">No reaction &mdash; ERROR pattern</div>
+        <p class="idx-def">Luminous flux stays flat and high after reagent addition &mdash; no clot forms. Both 1.&nbsp;Deriv. and 2.&nbsp;Deriv. remain near zero with no Clot Point detected. The analyzer reports an ERROR. Most commonly caused by a pre-clotted tube, but also by severely depleted clotting factors or incorrect sample type.</p>
+        <div class="idx-note"><b>Causes:</b> pre-clotted tube &nbsp;&middot;&nbsp; factors consumed in DIC &nbsp;&middot;&nbsp; wrong tube type &nbsp;&middot;&nbsp; <b class="bad">Action:</b> REJECT &mdash; recollect in fresh 3.2% citrate, verify 1:9 fill ratio</div>
+      </div>
+    </div>
+    <div class="idx-card">
+      <div class="idx-card-accent" style="background:#8E44AD"></div>
+      <div class="idx-card-body">
+        <div class="idx-card-title">Biphasic first derivative</div>
+        <p class="idx-def">Two distinct peaks in the 1.&nbsp;Deriv. curve, indicating clot formation occurred in two stages. Most commonly caused by high-dose or residual heparin, where partial anticoagulation allows an initial weak fibrin network followed by a secondary stronger event. Also seen with dysfibrinogenemia.</p>
+        <div class="idx-note"><b>Causes:</b> heparin contamination, residual thrombin inhibitor, dysfibrinogenemia &nbsp;&middot;&nbsp; <b>Action:</b> check heparin status; consider heparinase-treated repeat if available</div>
+      </div>
+    </div>
+    <div class="idx-card">
+      <div class="idx-card-accent" style="background:#1B5FA3"></div>
+      <div class="idx-card-body">
+        <div class="idx-card-title">Smoothing algorithm</div>
+        <p class="idx-def">Before computing derivatives, the analyzer applies a digital smoothing filter to the raw luminous flux signal. This removes high-frequency noise without distorting the underlying sigmoid shape. Without smoothing, noise spikes create multiple false peaks in 1.&nbsp;Deriv., making true Clot Point detection impossible.</p>
+        <div class="idx-note"><b>Why it matters:</b> without smoothing, noise spikes produce false peaks in 1.&nbsp;Deriv. &mdash; Clot Point cannot be reliably detected &nbsp;&middot;&nbsp; Smoothing preserves peak <em>position</em> while removing false peaks &nbsp;&middot;&nbsp; Applied internally by the CX-6010 before reporting</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">PT / APPT Reaction Curve Reader &middot; Mindray CX-6000 Series &middot; Optical detection &middot; Simulated curves for training only</div>
 </div>
 
 </div>
+
 <script>
-// Tab switching
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -232,7 +418,6 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   });
 });
 
-// Scenarios
 const SC = {
   normalPT:     {ts:'PT',  mt:60,  h:95,l:12,t0:12,k:.45,ns:1.5,rMn:10,rMx:14,ct:12.1,INR:1.0, rt:null,st:'normal',  ip:'Normal PT — extrinsic and common pathways intact',                                   ac:'No action required. Report result with reference interval.'},
   prolongedPT:  {ts:'PT',  mt:60,  h:95,l:12,t0:26,k:.38,ns:1.5,rMn:10,rMx:14,ct:26.3,INR:2.3, rt:null,st:'abnormal', ip:'Prolonged PT (26.3 s, INR 2.3) — extrinsic / common pathway defect',                  ac:'Check: warfarin use · Factor VII level · Vitamin K status. If APPT also prolonged → common pathway (Factors X, V, II, fibrinogen).'},
