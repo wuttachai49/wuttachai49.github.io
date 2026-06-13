@@ -65,35 +65,5 @@
             "url": "database/bricyte-e6.html"
              }
     ]
-},
-  {
-    "id": "pt_aptt_curve_reader",
-    "term": "PT / APTT Reaction Curve Reader",
-    "category": "Hematology - Coagulation",
-    "definition": "Interactive tool for reading and interpreting PT and APTT optical reaction curves on the Mindray CX-6000 / CX-6010 coagulation analyzer. Covers Original curve (Luminous Flux), 1. Deriv., and 2. Deriv. across 7 clinical scenarios.",
-    "explanation": "Turbidimetry-based clot detection: the analyzer uses a tri-color LED (405 nm, 545 nm, 660 nm) to measure luminous flux through the plasma sample. As fibrin polymerizes, flux decreases in a sigmoid pattern. The tool displays and explains all three IFU-defined curves: Original reaction curve (Y-axis = Luminous Flux), 1. Deriv. (rate of change; peak = Clot Point), and 2. Deriv. (acceleration; zero crossing confirms Clot Point). An Index tab defines all curve landmarks: Start Point, Clot Point, End Point, and Amplitude — using official terminology from the CX-6000/CX-6010 Operator Manual (IFU).",
-    "clinicalSignificance": "Essential for lab staff to recognize normal vs. abnormal curve patterns: prolonged PT (factor VII / warfarin), prolonged APTT (heparin / inhibitor), low amplitude (fibrinogen deficiency), pre-clotted sample (no reaction / ERROR), and biphasic 1. Deriv. (heparin effect). Supports correct action: mixing study, Clauss fibrinogen, sample rejection, INR / APTT ratio interpretation.",
-    "relatedTerms": [
-      "Prothrombin time (PT)",
-      "APTT",
-      "Turbidimetry method",
-      "Luminous flux",
-      "Clot Point",
-      "Start Point",
-      "End Point",
-      "1. Deriv.",
-      "2. Deriv.",
-      "INR",
-      "Mixing study",
-      "Fibrinogen",
-      "Mindray CX-6010"
-    ],
-    "attachments": [
-      {
-        "name": "📊 Open PT / APTT Curve Reader",
-        "type": "Interactive HTML",
-        "url": "database/PT_APTT_Curve_Reader.html"
-      }
-    ]
-  }
+}
 ]
