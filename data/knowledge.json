@@ -54,64 +54,63 @@
         "relatedTerms": ["Autoverification", "Quality control", "LIS", "Result verification"]
     },
     {
-    "id": "blood_gas_cardfile",
-    "term": "Blood Gas Analysis - Interactive Card File",
-    "category": "Blood Gas Analysis - Learning Tools",
-    "definition": "Interactive HTML card file for learning blood gas parameters, acid-base mechanisms, and case interpretation.",
-    "explanation": "Comprehensive interactive learning tool covering all blood gas parameters (pH, pCO2, pO2, HCO3-, BE, SaO2), acid-base balance physiology, the four primary acid-base disorders (respiratory acidosis/alkalosis, metabolic acidosis/alkalosis), compensation mechanisms, and practical case studies for clinical interpretation.",
-    "clinicalSignificance": "Essential learning resource for laboratory technicians and students. Provides structured approach to blood gas interpretation with interactive examples.",
-    "relatedTerms": ["Acid-base balance", "pH", "pCO2", "pO2", "HCO3-", "Respiratory acidosis", "Metabolic acidosis"],
-    "attachments": [
-        {
-            "name": "📚 Open Blood Gas Card File",
-            "type": "Interactive HTML",
-            "url": "database/blood_gas_cardfile.html"
-        }
-    ]
-        },
-        {
-    "id": "flow_cytometry_cardfile",
-    "term": "Flow Cytometry Card File",
-    "category": "FLOW - CD Classify",
-    "definition": "Interactive HTML card file for Flow Cytometry CD classification",
-    "relatedTerms": ["Flow Cytometry", "CD classify"],
-    "attachments": [
-        {
-            "name": "📚 Open Flow - CD Classify Card File",
-            "type": "Interactive HTML",
-            "url": "database/flow_cytometry_guide.html"
-        }
-    ]
-}
+        "id": "blood_gas_cardfile",
+        "term": "Blood Gas Analysis - Interactive Card File",
+        "category": "Blood Gas Analysis - Learning Tools",
+        "definition": "Interactive HTML card file for learning blood gas parameters, acid-base mechanisms, and case interpretation.",
+        "explanation": "Comprehensive interactive learning tool covering all blood gas parameters (pH, pCO2, pO2, HCO3-, BE, SaO2), acid-base balance physiology, the four primary acid-base disorders (respiratory acidosis/alkalosis, metabolic acidosis/alkalosis), compensation mechanisms, and practical case studies for clinical interpretation.",
+        "clinicalSignificance": "Essential learning resource for laboratory technicians and students. Provides structured approach to blood gas interpretation with interactive examples.",
+        "relatedTerms": ["Acid-base balance", "pH", "pCO2", "pO2", "HCO3-", "Respiratory acidosis", "Metabolic acidosis"],
+        "attachments": [
+            {
+                "name": "📚 Open Blood Gas Card File",
+                "type": "Interactive HTML",
+                "url": "database/blood_gas_cardfile.html"
+            }
+        ]
+    },
+    {
+        "id": "flow_cytometry_cardfile",
+        "term": "Flow Cytometry Card File",
+        "category": "FLOW - CD Classify",
+        "definition": "Interactive HTML card file for Flow Cytometry CD classification",
+        "relatedTerms": ["Flow Cytometry", "CD classify"],
+        "attachments": [
+            {
+                "name": "📚 Open Flow - CD Classify Card File",
+                "type": "Interactive HTML",
+                "url": "database/flow_cytometry_guide.html"
+            }
+        ]
+    },
+    {
+        "id": "pt_aptt_curve_reader",
+        "term": "PT / APTT Reaction Curve Reader",
+        "category": "Hematology - Coagulation",
+        "definition": "Interactive tool for reading and interpreting PT and APPT optical reaction curves on the Mindray CX-6000 / CX-6010 coagulation analyzer. Covers Original curve (Luminous Flux), 1. Deriv., and 2. Deriv. across 7 clinical scenarios.",
+        "explanation": "Turbidimetry-based clot detection: the analyzer uses a tri-color LED (405 nm, 545 nm, 660 nm) to measure luminous flux through the plasma sample. As fibrin polymerizes, flux decreases in a sigmoid pattern. The tool displays and explains all three IFU-defined curves: Original reaction curve (Y-axis = Luminous Flux), 1. Deriv. (rate of change; peak = Clot Point), and 2. Deriv. (acceleration; zero crossing confirms Clot Point). An Index tab defines all curve landmarks: Start Point, Clot Point, End Point, and Amplitude — using official terminology from the CX-6000/CX-6010 Operator Manual (IFU).",
+        "clinicalSignificance": "Essential for lab staff to recognize normal vs. abnormal curve patterns: prolonged PT (factor VII / warfarin), prolonged APPT (heparin / inhibitor), low amplitude (fibrinogen deficiency), pre-clotted sample (no reaction / ERROR), and biphasic 1. Deriv. (heparin effect). Supports correct action: mixing study, Clauss fibrinogen, sample rejection, INR / APPT ratio interpretation.",
+        "relatedTerms": [
+            "Prothrombin time (PT)",
+            "APPT",
+            "Turbidimetry method",
+            "Luminous flux",
+            "Clot Point",
+            "Start Point",
+            "End Point",
+            "1. Deriv.",
+            "2. Deriv.",
+            "INR",
+            "Mixing study",
+            "Fibrinogen",
+            "Mindray CX-6010"
+        ],
+        "attachments": [
+            {
+                "name": "📊 Open PT / APPT Curve Reader",
+                "type": "Interactive HTML",
+                "url": "database/PT_APPT_Curve_Reader.html"
+            }
+        ]
+    }
 ]
-,
-  {
-    "id": "pt_aptt_curve_reader",
-    "term": "PT / APTT Reaction Curve Reader",
-    "category": "Hematology - Coagulation",
-    "definition": "Interactive tool for reading and interpreting PT and APTT optical reaction curves on the Mindray CX-6000 / CX-6010 coagulation analyzer. Covers Original curve (Luminous Flux), 1. Deriv., and 2. Deriv. across 7 clinical scenarios.",
-    "explanation": "Turbidimetry-based clot detection: the analyzer uses a tri-color LED (405 nm, 545 nm, 660 nm) to measure luminous flux through the plasma sample. As fibrin polymerizes, flux decreases in a sigmoid pattern. The tool displays and explains all three IFU-defined curves: Original reaction curve (Y-axis = Luminous Flux), 1. Deriv. (rate of change; peak = Clot Point), and 2. Deriv. (acceleration; zero crossing confirms Clot Point). An Index tab defines all curve landmarks: Start Point, Clot Point, End Point, and Amplitude — using official terminology from the CX-6000/CX-6010 Operator Manual (IFU).",
-    "clinicalSignificance": "Essential for lab staff to recognize normal vs. abnormal curve patterns: prolonged PT (factor VII / warfarin), prolonged APTT (heparin / inhibitor), low amplitude (fibrinogen deficiency), pre-clotted sample (no reaction / ERROR), and biphasic 1. Deriv. (heparin effect). Supports correct action: mixing study, Clauss fibrinogen, sample rejection, INR / APTT ratio interpretation.",
-    "relatedTerms": [
-      "Prothrombin time (PT)",
-      "APTT",
-      "Turbidimetry method",
-      "Luminous flux",
-      "Clot Point",
-      "Start Point",
-      "End Point",
-      "1. Deriv.",
-      "2. Deriv.",
-      "INR",
-      "Mixing study",
-      "Fibrinogen",
-      "Mindray CX-6010"
-    ],
-    "attachments": [
-      {
-        "name": "📊 Open PT / APTT Curve Reader",
-        "type": "Interactive HTML",
-        "url": "database/PT_APTT_Curve_Reader.html"
-      }
-    ]
-  }
