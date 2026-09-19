@@ -112,5 +112,30 @@
                 "url": "database/PT_APPT_Curve_Reader.html"
             }
         ]
+    },
+    {
+        "id": "hl7_communication_protocol",
+        "term": "HL7 v2 Communication Protocol",
+        "category": "Integration - LIS Interface",
+        "definition": "Interactive guide to understanding HL7 v2 messages: how analyzer results become plain-text messages that the LIS reads and processes.",
+        "explanation": "HL7 v2 is plain text. Every lab result from analyzers to LIS is structured as segments (lines) separated by special characters: pipe (|) splits fields, caret (^) splits components, tilde (~) repeats fields. The message starts with MSH (message header), includes PID (patient), OBR (order), OBX (one result per line), and ends with MSA (acknowledgment). This guide covers the anatomy of messages, each segment's purpose, how to parse them in Python, common pitfalls (line endings, MSH field counting, empty fields, escape sequences), and the three-system workflow: HIS → LIS, LIS ↔ Analyzer.",
+        "clinicalSignificance": "Understanding HL7 v2 is essential for lab staff managing analyzer interfaces, debugging connection problems, verifying test mappings, and ensuring results reach patients correctly. Knowledge prevents costly interface errors and ensures data integrity in the LIS.",
+        "relatedTerms": [
+            "HL7 v2",
+            "LIS Interface",
+            "Message parsing",
+            "OBX mapping",
+            "Test codes",
+            "Order codes",
+            "MLLP framing",
+            "ACK acknowledgment"
+        ],
+        "attachments": [
+            {
+                "name": "📚 Open HL7 v2 Communication Protocol",
+                "type": "Interactive HTML",
+                "url": "communication-protocol.html"
+            }
+        ]
     }
 ]

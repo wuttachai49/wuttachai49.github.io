@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HL7 v2 explained for lab people</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F5F7; --surface:#FFFFFF; --ink:#12202B; --muted:#56687A; --line:#D6DEE5;
+  --msh:#4F6172; --msh-bg:#E3E9EE;
+  --pid:#9A6408; --pid-bg:#FAEFD3;
+  --obr:#1A66AB; --obr-bg:#DCEAF6;
+  --obx:#6A3CB0; --obx-bg:#EBE2F7;
+  --msa:#1F7A55; --msa-bg:#DAF0E5;
+  --orc:#A8336A; --orc-bg:#F8E0EB;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F171D; --surface:#172129; --ink:#E6EDF2; --muted:#93A4B1; --line:#2B3A45;
+    --msh:#A9BBCB; --msh-bg:#243039;
+    --pid:#F0BF62; --pid-bg:#3A2E14;
+    --obr:#7DB6EA; --obr-bg:#17324A;
+    --obx:#BFA0EE; --obx-bg:#2E2247;
+    --msa:#71D0A2; --msa-bg:#15382B;
+    --orc:#F09AC0; --orc-bg:#3E1F2E;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F171D; --surface:#172129; --ink:#E6EDF2; --muted:#93A4B1; --line:#2B3A45;
+  --msh:#A9BBCB; --msh-bg:#243039;
+  --pid:#F0BF62; --pid-bg:#3A2E14;
+  --obr:#7DB6EA; --obr-bg:#17324A;
+  --obx:#BFA0EE; --obx-bg:#2E2247;
+  --msa:#71D0A2; --msa-bg:#15382B;
+  --orc:#F09AC0; --orc-bg:#3E1F2E;
+}
+.s-MSH{--fg:var(--msh);--tint:var(--msh-bg)}
+.s-PID{--fg:var(--pid);--tint:var(--pid-bg)}
+.s-OBR{--fg:var(--obr);--tint:var(--obr-bg)}
+.s-OBX{--fg:var(--obx);--tint:var(--obx-bg)}
+.s-MSA{--fg:var(--msa);--tint:var(--msa-bg)}
+.s-ORC{--fg:var(--orc);--tint:var(--orc-bg)}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.65}
+main{max-width:960px;margin:0 auto;padding:40px 20px 80px}
+h1{font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:600;margin:0 0 16px;letter-spacing:-0.01em;max-width:18em}
+h2{font-size:26px;line-height:1.25;font-weight:600;margin:0 0 8px}
+h3{font-size:17px;font-weight:600;margin:0 0 4px}
+p{margin:0 0 12px;max-width:68ch}
+code,.mono{font-family:var(--mono);font-size:0.9em}
+.lead{font-size:18px;color:var(--muted);max-width:60ch}
+nav.jump{display:flex;flex-wrap:wrap;gap:6px 20px;margin:20px 0 32px;font-size:15px}
+nav.jump a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px}
+nav.jump a:hover{text-decoration-color:var(--ink)}
+section{margin-top:72px}
+.sub{color:var(--muted);max-width:64ch;margin-bottom:20px}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+.paper{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:6px 0;overflow-x:auto}
+.line{width:max-content;min-width:100%;white-space:pre;font-family:var(--mono);font-size:14px;line-height:1.5;padding:7px 16px 7px 12px;border-left:5px solid var(--fg)}
+.sep{color:var(--muted);opacity:.6}
+.fld{font:inherit;color:var(--ink);background:none;border:0;padding:1px 3px;margin:0;border-radius:3px;cursor:pointer;white-space:pre}
+.fld:hover{background:var(--tint)}
+.fld.segid{color:var(--fg);font-weight:500}
+.fld.sepbtn{color:var(--muted)}
+.fld.empty{min-width:9px}
+.fld.sel{background:var(--fg);color:var(--surface)}
+.hint{font-size:14px;color:var(--muted);margin:10px 0 0}
+
+.detail{margin-top:16px;border:1px solid var(--line);border-left:5px solid var(--fg);border-radius:6px;background:var(--surface);padding:16px 20px;display:grid;grid-template-columns:minmax(120px,200px) 1fr;gap:8px 28px}
+.detail .val{font-family:var(--mono);font-size:22px;line-height:1.3;word-break:break-all;margin:0}
+.badge{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:500;color:var(--fg);background:var(--tint);padding:2px 8px;border-radius:4px;margin-bottom:6px}
+.detail .meaning{font-weight:500;margin-bottom:6px}
+.detail dl{margin:6px 0 0;display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:14px}
+.detail dt{color:var(--muted)}
+.detail dd{margin:0;font-family:var(--mono)}
+.py{font-size:14px;color:var(--muted);margin:8px 0 0}
+@media (max-width:640px){.detail{grid-template-columns:1fr}}
+
+.steps{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.stepbtn{font:inherit;font-size:14px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer}
+.stepbtn b{font-family:var(--mono);font-weight:500;margin-right:6px}
+.stepbtn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.diagram{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px}
+.diagram svg{display:block;width:100%;height:auto}
+.node rect{fill:var(--bg);stroke:var(--line);stroke-width:1.5}
+.node.on rect{stroke:var(--ink);stroke-width:2.5}
+.node text.t{fill:var(--ink);font:600 15px var(--sans)}
+.node text.s{fill:var(--muted);font:400 12px var(--sans)}
+.arrow{stroke:var(--muted);stroke-width:1.5;fill:none;opacity:.45}
+.arrow.on{stroke:var(--ink);stroke-width:3;opacity:1}
+.alabel{fill:var(--muted);font:400 11px var(--sans)}
+.stepdetail{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.stepdetail h3{font-size:19px}
+.chip{display:inline-block;font-family:var(--mono);font-size:13px;border:1px solid var(--line);background:var(--surface);border-radius:4px;padding:1px 8px;margin-bottom:8px}
+.fail{border-left:3px solid var(--ink);padding-left:14px}
+.fail b{font-weight:600}
+@media (max-width:720px){.stepdetail{grid-template-columns:1fr}}
+
+.ladder{list-style:none;margin:0;padding:0;display:grid;gap:0;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.ladder li{display:grid;grid-template-columns:72px 1fr;gap:16px;padding:16px 20px;border-top:1px solid var(--line)}
+.ladder li:first-child{border-top:0}
+.delim{font-family:var(--mono);font-size:28px;font-weight:500;line-height:1;background:var(--bg);border:1px solid var(--line);border-radius:6px;display:flex;align-items:center;justify-content:center;height:56px}
+.delim.sm{font-size:16px}
+.ex{display:block;font-family:var(--mono);font-size:13.5px;background:var(--bg);border-radius:4px;padding:8px 12px;margin-top:8px;overflow-x:auto;white-space:pre}
+.ex mark{background:var(--obx-bg);color:var(--obx);padding:0 2px;border-radius:2px}
+.ladder p{margin-bottom:0}
+@media (max-width:560px){.ladder li{grid-template-columns:1fr}.delim{width:72px}}
+
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.tab{font:inherit;font-family:var(--mono);font-size:14px;font-weight:500;color:var(--fg);background:var(--tint);border:2px solid transparent;border-radius:6px;padding:6px 16px;cursor:pointer}
+.tab[aria-selected="true"]{border-color:var(--fg)}
+.tabpanel .purpose{max-width:64ch}
+.tbl{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);font-size:15px}
+.tbl th,.tbl td{text-align:left;padding:9px 12px;border-top:1px solid var(--line);vertical-align:top}
+.tbl thead th{border-top:0;background:var(--tint);color:var(--fg);font-weight:600;font-size:14px}
+.tbl td.lbl{font-family:var(--mono);font-weight:500;color:var(--fg);white-space:nowrap}
+.tbl td.exv{font-family:var(--mono);font-size:13.5px;word-break:break-all;min-width:90px}
+.tbl.plain thead th{background:var(--bg);color:var(--ink)}
+.tbl.plain td:first-child{font-weight:500;white-space:nowrap}
+.scroll{overflow-x:auto}
+.scroll .tbl{min-width:600px}
+
+.pit{display:grid;gap:0;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.pit div{padding:14px 20px;border-top:1px solid var(--line)}
+.pit div:first-child{border-top:0}
+.pit p{margin:0}
+
+textarea{width:100%;min-height:150px;font-family:var(--mono);font-size:13.5px;line-height:1.5;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px;resize:vertical;white-space:pre;overflow-x:auto}
+.out{margin-top:16px}
+.tbl.compact td,.tbl.compact th{padding:6px 12px;font-size:14px}
+pre.code{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;overflow-x:auto;font-family:var(--mono);font-size:13.5px;line-height:1.55;margin:16px 0 8px}
+footer{margin-top:72px;color:var(--muted);font-size:14px;max-width:68ch}
+@media (prefers-reduced-motion: no-preference){html{scroll-behavior:smooth}}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <h1>How an analyzer's result becomes an HL7 message</h1>
+  <p class="lead">HL7 v2 is plain text. Every lab result your analyzers send to a LIS is a few lines of it. Once you can read those lines, you can debug an interface, check a mapping, and start writing your own parser.</p>
+  <nav class="jump" aria-label="Sections">
+    <a href="#explore">Read a message</a>
+    <a href="#journey">The journey</a>
+    <a href="#anatomy">Anatomy</a>
+    <a href="#segments">Each segment</a>
+    <a href="#orders">Receive orders</a>
+    <a href="#ack">The reply</a>
+    <a href="#pitfalls">Pitfalls</a>
+    <a href="#try">Try it</a>
+  </nav>
+</header>
+
+<section id="explore" style="margin-top:0">
+  <h2>Start with the message itself</h2>
+  <p class="sub">This is a CBC result from an analyzer. Each colored bar is one segment. Click any piece of any line to see what it is.</p>
+  <div class="paper" id="paper1" role="group" aria-label="Sample HL7 result message"></div>
+  <p class="hint">Click a segment name (MSH, PID, OBR, OBX) to see what the whole line is for.</p>
+  <div class="detail" id="panel1" aria-live="polite"></div>
+</section>
+
+<section id="journey">
+  <h2>Where the message comes from</h2>
+  <p class="sub">A result message is the middle of a longer conversation between three systems. Pick a step to see which way the data flows and what to check if it breaks.</p>
+  <div class="steps" id="steps" role="group" aria-label="Workflow steps"></div>
+  <div class="diagram">
+    <svg viewBox="0 0 720 230" role="img" aria-label="HIS, LIS and analyzer connected by arrows showing the direction of each message">
+      <defs>
+        <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+      <g class="node" id="n-HIS"><rect x="10" y="50" width="170" height="110" rx="10"/><text class="t" x="95" y="98" text-anchor="middle">HIS</text><text class="s" x="95" y="120" text-anchor="middle">Orders and records</text></g>
+      <g class="node" id="n-LIS"><rect x="275" y="50" width="170" height="110" rx="10"/><text class="t" x="360" y="98" text-anchor="middle">LIS</text><text class="s" x="360" y="120" text-anchor="middle">Samples and validation</text></g>
+      <g class="node" id="n-Analyzer"><rect x="540" y="50" width="170" height="110" rx="10"/><text class="t" x="625" y="98" text-anchor="middle">Analyzer</text><text class="s" x="625" y="120" text-anchor="middle">Runs the tests</text></g>
+      <line class="arrow" id="a1r" x1="188" y1="90" x2="267" y2="90" marker-end="url(#ah)"/>
+      <line class="arrow" id="a1l" x1="267" y1="122" x2="188" y2="122" marker-end="url(#ah)"/>
+      <line class="arrow" id="a2r" x1="453" y1="90" x2="532" y2="90" marker-end="url(#ah)"/>
+      <line class="arrow" id="a2l" x1="532" y1="122" x2="453" y2="122" marker-end="url(#ah)"/>
+      <text class="alabel" x="227" y="80" text-anchor="middle">orders</text>
+      <text class="alabel" x="227" y="142" text-anchor="middle">results</text>
+      <text class="alabel" x="493" y="80" text-anchor="middle">orders, ACK</text>
+      <text class="alabel" x="493" y="142" text-anchor="middle">queries, results</text>
+      <text class="alabel" x="493" y="196" text-anchor="middle">TCP/IP socket, MLLP framing</text>
+    </svg>
+  </div>
+  <div class="stepdetail" id="stepdetail" aria-live="polite"></div>
+  <p class="hint">Message types in steps 2 and 3 differ between analyzer models and HL7 versions. The analyzer's HL7 interface manual is the source of truth.</p>
+</section>
+
+<section id="anatomy">
+  <h2>Anatomy of a message</h2>
+  <p class="sub">HL7 v2 is a set of boxes inside boxes. Each level is cut apart by one special character. Learn five characters and you can split any message.</p>
+  <ol class="ladder">
+    <li>
+      <div class="delim sm" aria-hidden="true">CR</div>
+      <div>
+        <h3>Message to segments</h3>
+        <p>Each segment is one line. The line ends with a carriage return (CR, byte 0x0D), not the usual newline.</p>
+        <code class="ex">PID|1||HN12345||Jaidee^Somchai||19800115|M
+OBR|1|ORD001|SID001|CBC^Complete Blood Count|||20260919093000</code>
+      </div>
+    </li>
+    <li>
+      <div class="delim" aria-hidden="true">|</div>
+      <div>
+        <h3>Segment to fields</h3>
+        <p>The pipe splits a segment into fields. A field's meaning comes from its position, so an empty field still keeps its place: <code>||</code> is not a typo.</p>
+        <code class="ex">OBX|2|NM|<mark>HGB^Hemoglobin</mark>||9.1|g/dL|13.0-17.0|L|||F</code>
+      </div>
+    </li>
+    <li>
+      <div class="delim" aria-hidden="true">^</div>
+      <div>
+        <h3>Field to components</h3>
+        <p>A field can hold several related parts. Here the test code comes first and the readable name second.</p>
+        <code class="ex"><mark>HGB</mark>^<mark>Hemoglobin</mark></code>
+      </div>
+    </li>
+    <li>
+      <div class="delim" aria-hidden="true">&amp;</div>
+      <div>
+        <h3>Component to sub-components</h3>
+        <p>One more level down. Rare in lab results, but it is in the standard.</p>
+      </div>
+    </li>
+    <li>
+      <div class="delim" aria-hidden="true">~</div>
+      <div>
+        <h3>Repeating a field</h3>
+        <p>The tilde repeats the same field, such as two phone numbers for one patient.</p>
+        <code class="ex">0812345678~0298765432</code>
+      </div>
+    </li>
+    <li>
+      <div class="delim" aria-hidden="true">\</div>
+      <div>
+        <h3>Escape</h3>
+        <p>When data itself contains a special character, the sender writes it as a code between backslashes. <code>\S\</code> means ^, <code>\F\</code> means |, <code>\T\</code> means &amp;, <code>\R\</code> means ~, <code>\E\</code> means \.</p>
+        <code class="ex">10\S\3/uL   is read as   10^3/uL</code>
+      </div>
+    </li>
+  </ol>
+  <p class="hint">The five characters are declared in MSH-1 and MSH-2 at the top of every message: <code>|</code> and <code>^~\&amp;</code>.</p>
+</section>
+
+<section id="segments">
+  <h2>Segment by segment</h2>
+  <p class="sub">The fields below are the ones you meet most in analyzer-to-LIS results. The examples come from the sample messages on this page.</p>
+  <div class="tabs" role="tablist" aria-label="Segments" id="tabs"></div>
+  <div class="tabpanel" id="tabpanel" role="tabpanel" aria-live="polite"></div>
+</section>
+
+<section id="orders">
+  <h2>Receiving an order</h2>
+  <p class="sub">An order message uses the same building blocks as a result. The difference is intent: it asks for work instead of reporting it. This one goes from the HIS to the LIS. Click through it the same way.</p>
+  <div class="paper" id="paper3" role="group" aria-label="Sample HL7 order message"></div>
+  <p class="hint">The receiver answers an order with an ACK too (ACK^O01 for this message).</p>
+  <div class="detail" id="panel3" aria-live="polite"></div>
+
+  <h3 style="margin-top:32px">What changes compared with a result</h3>
+  <div class="scroll">
+  <table class="tbl plain">
+    <thead><tr><th>Aspect</th><th>Order (ORM^O01)</th><th>Result (ORU^R01)</th></tr></thead>
+    <tbody>
+      <tr><td>Typical direction</td><td>HIS to LIS</td><td>Analyzer to LIS, then LIS to HIS</td></tr>
+      <tr><td>Segments</td><td>MSH, PID, ORC, OBR</td><td>MSH, PID, OBR, OBX (sometimes ORC)</td></tr>
+      <tr><td>OBR-2 placer order number</td><td>Set by the HIS</td><td>Copied back, so the HIS can match the result to its order</td></tr>
+      <tr><td>OBR-3 filler order number</td><td>Empty: the lab assigns it later</td><td>Filled with the lab's own order or sample ID</td></tr>
+      <tr><td>OBR-4 universal service ID</td><td>The test being asked for</td><td>The test that was run</td></tr>
+      <tr><td>OBX lines</td><td>None, nothing is measured yet</td><td>One per result</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="margin-top:32px">ORC-1: what to do with the order</h3>
+  <p class="sub" style="margin-bottom:12px">The ORC segment sits before OBR and tells the receiver what to do with the order. This is how a cancel or a change reaches the lab.</p>
+  <div class="scroll">
+  <table class="tbl plain">
+    <thead><tr><th>ORC-1</th><th>Meaning</th><th>What the LIS does</th></tr></thead>
+    <tbody>
+      <tr><td>NW</td><td>New order</td><td>Creates the order and waits for the sample</td></tr>
+      <tr><td>CA</td><td>Cancel order request</td><td>Cancels the order if it has not been run yet</td></tr>
+      <tr><td>DC</td><td>Discontinue order</td><td>Stops an order already in progress</td></tr>
+      <tr><td>XO</td><td>Change order request</td><td>Replaces details, such as the tests requested</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="margin-top:32px">How the analyzer gets the order</h3>
+  <p>The order also has to travel one more hop, from the LIS down to the analyzer. This happens only when the analyzer is set to bidirectional (host query) mode.</p>
+  <ol>
+    <li>The operator loads the tube and the analyzer reads its barcode.</li>
+    <li>The analyzer sends a host query to the LIS containing the sample ID.</li>
+    <li>The LIS looks up that sample ID and replies with the patient details and the tests ordered.</li>
+    <li>The analyzer runs only those tests. If it gets no order back, it cannot match the tube and shows an error.</li>
+  </ol>
+  <p>The exact fields of the query and reply differ between analyzer models, so I show no fixed layout here. Expect three things in the reply: the sample ID, who the patient is, and which test codes to run. The test codes must be mapped between LIS and analyzer, and a missing or wrong mapping is the most common reason for wrong or missing tests.</p>
+</section>
+
+<section id="ack">
+  <h2>The reply: ACK</h2>
+  <p class="sub">Every message expects an answer. The receiver sends back an ACK, a short message of two segments. Click through it the same way.</p>
+  <div class="paper" id="paper2" role="group" aria-label="Sample ACK message"></div>
+  <div class="detail" id="panel2" aria-live="polite"></div>
+</section>
+
+<section id="pitfalls">
+  <h2>Where interfaces go wrong</h2>
+  <p class="sub">Most HL7 problems on site come from a short list.</p>
+  <div class="pit">
+    <div><h3>Line endings</h3><p>Segments end with CR, but many editors and logs expect LF. A raw message can look like one long line in Notepad. In code, split on both.</p></div>
+    <div><h3>MSH counts differently</h3><p>MSH-1 is the pipe itself, so after you split MSH on <code>|</code>, list index 1 is MSH-2. For MSH the list index is the field number minus 1. For every other segment they are equal.</p></div>
+    <div><h3>Empty fields hold their place</h3><p>Never drop empty fields when parsing. If you do, every field after it shifts by one and the results land in the wrong place.</p></div>
+    <div><h3>Special characters in units</h3><p>The unit 10^3/uL contains the component separator. Senders either write 10*3/uL or escape it as 10\S\3/uL. If your LIS shows odd units, check this first.</p></div>
+    <div><h3>Thai text and character sets</h3><p>MSH-18 says which character set the message uses, for example UNICODE UTF-8. If sender and receiver disagree, Thai patient names arrive garbled.</p></div>
+    <div><h3>One stream, many messages</h3><p>TCP is a stream of bytes with no message boundaries. MLLP framing marks them: each message starts with byte 0x0B and ends with 0x1C then 0x0D. Without the frame the receiver cannot tell where one message stops.</p></div>
+    <div><h3>Version and vendor differences</h3><p>Field layouts and message types vary between HL7 versions and between analyzer models. Check the analyzer's HL7 interface manual and the LIS interface specification before assuming a field.</p></div>
+  </div>
+</section>
+
+<section id="try">
+  <h2>Try it: paste a message and see it split</h2>
+  <p class="sub">Edit the text or paste one from an analyzer log. Empty fields are hidden here, but they still count for position.</p>
+  <div class="steps" id="samples" role="group" aria-label="Sample messages"><button class="stepbtn" data-k="result" aria-pressed="true">Result message</button><button class="stepbtn" data-k="order" aria-pressed="false">Order message</button></div>
+  <textarea id="raw" spellcheck="false" aria-label="HL7 message to parse"></textarea>
+  <div class="out scroll" id="parsed"></div>
+
+  <h3 style="margin-top:32px">The same idea in Python</h3>
+  <p>This is the whole parser. Notice there is no library: an HL7 message is text, and text can be split.</p>
+<pre class="code"><code>raw = r"""MSH|^~\&amp;|MINDRAY|LAB|LIS|HOSP|20260919101500||ORU^R01|MSG00001|P|2.3.1
+PID|1||HN12345||Jaidee^Somchai||19800115|M
+OBR|1|ORD001|SID001|CBC^Complete Blood Count|||20260919093000
+OBX|1|NM|WBC^White Blood Cell||7.2|10*3/uL|4.0-10.0|N|||F
+OBX|2|NM|HGB^Hemoglobin||9.1|g/dL|13.0-17.0|L|||F"""
+
+segments = raw.replace("\r", "\n").split("\n")   # CR in real messages
+
+for line in segments:
+    f = line.split("|")              # f[0] is the segment name
+    if f[0] == "PID":
+        family, given = f[5].split("^")
+        print("Patient:", given, family, "HN:", f[3])
+    elif f[0] == "OBX":
+        code, name = f[3].split("^")
+        print(f"{name}: {f[5]} {f[6]}  ref {f[7]}  flag {f[8]}")</code></pre>
+  <p>Three things to notice. <code>r"""..."""</code> is a raw string, so Python leaves the backslash in <code>^~\&amp;</code> alone. <code>f[5]</code> works because for PID the list index equals the field number. <code>.split("^")</code> then cuts the field into components. Next steps: skip lines that are not the ones you need, handle a missing component without crashing, and read from a file instead of a string.</p>
+</section>
+
+<footer>Sample data is invented for teaching. Field positions follow HL7 v2.3.1 and later; always confirm against your analyzer's interface manual.</footer>
+
+</main>
+
+<script>
+const MESSAGE = [
+  'MSH|^~\\&|MINDRAY|LAB|LIS|HOSP|20260919101500||ORU^R01|MSG00001|P|2.3.1',
+  'PID|1||HN12345||Jaidee^Somchai||19800115|M',
+  'OBR|1|ORD001|SID001|CBC^Complete Blood Count|||20260919093000',
+  'OBX|1|NM|WBC^White Blood Cell||7.2|10*3/uL|4.0-10.0|N|||F',
+  'OBX|2|NM|HGB^Hemoglobin||9.1|g/dL|13.0-17.0|L|||F'
+];
+const ACK = [
+  'MSH|^~\\&|LIS|HOSP|MINDRAY|LAB|20260919101502||ACK^R01|ACK00001|P|2.3.1',
+  'MSA|AA|MSG00001'
+];
+
+const ORDER = [
+  'MSH|^~\\&|HIS|HOSP|LIS|LAB|20260919090000||ORM^O01|ORD00001|P|2.3.1',
+  'PID|1||HN12345||Jaidee^Somchai||19800115|M',
+  'ORC|NW|ORD001',
+  'OBR|1|ORD001||CBC^Complete Blood Count|||20260919083000'
+];
+
+const SEGS = {
+  MSH:{name:'Message header', purpose:'First line of every message. It says who is talking, what kind of message this is, and which HL7 version to expect. The receiver reads it before anything else.', fields:{
+    1:['Field separator','The | character itself. It defines how the line is split, which is why MSH counts differently in code.'],
+    2:['Encoding characters','The other four delimiters: ^ component, ~ repeat, \\ escape, & sub-component.'],
+    3:['Sending application','Who built this message: the analyzer in a result, the HIS in an order.'],
+    4:['Sending facility','Which lab or site sent it.'],
+    5:['Receiving application','Who should process it, such as the LIS.'],
+    6:['Receiving facility','Which hospital or site receives it.'],
+    7:['Message date/time','When the message was created. Format YYYYMMDDHHMMSS.'],
+    8:['Security','Almost always empty.'],
+    9:['Message type','Two components: the message code and the trigger event. The receiver reads this to decide what to do with the rest.'],
+    10:['Message control ID','A unique ID for this message. The ACK sends it back so the sender knows which message was received.'],
+    11:['Processing ID','P is production, T is test. Interfaces may check it, so a test flag on a live connection is worth checking.'],
+    12:['Version ID','The HL7 version the sender follows. Field layouts differ slightly between versions.']
+  }},
+  PID:{name:'Patient identification', purpose:'Identifies the patient. The LIS uses it to attach results to the right person.', fields:{
+    1:['Set ID','Counter for repeated PID segments. Almost always 1.'],
+    2:['Patient ID','An external ID. Often empty.'],
+    3:['Patient identifier list','The ID your hospital uses, such as HN. The LIS matches the patient on this.'],
+    4:['Alternate patient ID','Rarely used. Empty here.'],
+    5:['Patient name','Family name, then given name, split by ^.'],
+    7:['Date of birth','Format YYYYMMDD.'],
+    8:['Sex','M, F, O or U.']
+  }},
+  ORC:{name:'Common order', purpose:'Order control. It says what to do with the order (new, cancel, change) and carries the order numbers. In an order message it comes before OBR.', fields:{
+    1:['Order control','What to do with this order: NW new, CA cancel, DC discontinue, XO change.'],
+    2:['Placer order number','The order ID given by the requesting system, such as the HIS. It should match OBR-2.'],
+    3:['Filler order number','The lab\'s own order ID. Empty until the lab has assigned one.']
+  }},
+  OBR:{name:'Observation request (the order)', purpose:'Describes the order: which test or panel, which sample, and when it was collected. One OBR can be followed by many OBX lines.', fields:{
+    1:['Set ID','Counts OBR segments in the message.'],
+    2:['Placer order number','Order ID from the system that requested the test, such as the HIS.'],
+    3:['Filler order number','The lab\'s own ID for the order. Often matches the sample ID or barcode. Empty in a new order, because the lab assigns it later.'],
+    4:['Universal service ID','The test or panel ordered: code, then name.'],
+    7:['Observation date/time','Usually the specimen collection time.']
+  }},
+  OBX:{name:'Observation result (one result per line)', purpose:'One result per line. A CBC that reports 20 parameters sends 20 OBX lines. This is where the numbers live.', fields:{
+    1:['Set ID','Numbers each result line: 1, 2, 3 and so on.'],
+    2:['Value type','How to read OBX-5. NM is a number, ST a short string, TX free text, ED embedded data such as an image.'],
+    3:['Observation identifier','Which parameter this line reports: code, then name. Mapping these codes is a core LIS setup task.'],
+    4:['Observation sub-ID','Groups related lines together. Often empty.'],
+    5:['Observation value','The result itself.'],
+    6:['Units','Unit of measure for OBX-5.'],
+    7:['Reference range','The normal range the analyzer used to set the flag.'],
+    8:['Abnormal flags','Whether the value is normal, low, high or critical.'],
+    11:['Result status','F final, P preliminary, C corrected.']
+  }},
+  MSA:{name:'Message acknowledgment', purpose:'The reply. It says whether the receiver accepted the message and echoes back the control ID of the message it is answering.', fields:{
+    1:['Acknowledgment code','AA accepted, AE error, AR rejected.'],
+    2:['Message control ID','A copy of MSH-10 from the message being acknowledged.'],
+    3:['Text message','Optional human-readable reason, mainly used for errors.']
+  }}
+};
+const COMPS = {'MSH-9':['Message code','Trigger event'],'PID-5':['Family name','Given name'],'OBR-4':['Code','Test name'],'OBX-3':['Code','Test name']};
+const VALS = {
+  'MSH-9':{'ORU^R01':'Unsolicited observation result: someone is sending results.','ORM^O01':'General order: someone is requesting a test.','ACK^R01':'Acknowledgment of an ORU^R01 result message.'},
+  'ORC-1':{NW:'New order',CA:'Cancel order request',DC:'Discontinue order',XO:'Change order request',OK:'Order accepted'},
+  'MSH-11':{P:'Production',T:'Test',D:'Debug'},
+  'PID-8':{M:'Male',F:'Female',O:'Other',U:'Unknown'},
+  'OBX-2':{NM:'Numeric',ST:'String',TX:'Text',CE:'Coded entry',ED:'Embedded data (for example an image)'},
+  'OBX-8':{N:'Normal',L:'Low, below the reference range',H:'High, above the reference range',A:'Abnormal',LL:'Critical low',HH:'Critical high'},
+  'OBX-11':{F:'Final',P:'Preliminary',C:'Corrected'},
+  'MSA-1':{AA:'Accepted',AE:'Application error',AR:'Rejected'}
+};
+const DATES = new Set(['MSH-7','PID-7','OBR-7']);
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function fmtDate(v){
+  const m = /^(\d{4})(\d{2})(\d{2})(\d{2})?(\d{2})?(\d{2})?$/.exec(v);
+  if(!m) return null;
+  let s = (+m[3]) + ' ' + MON[+m[2]-1] + ' ' + m[1];
+  if(m[4]) s += ', ' + m[4] + ':' + (m[5]||'00') + (m[6] ? ':' + m[6] : '');
+  return s;
+}
+
+function fieldsOf(line){
+  const p = line.split('|');
+  const seg = p[0];
+  const out = [];
+  if(seg === 'MSH'){
+    out.push({n:1, v:'|'});
+    for(let i=1;i<p.length;i++) out.push({n:i+1, v:p[i]});
+  } else {
+    for(let i=1;i<p.length;i++) out.push({n:i, v:p[i]});
+  }
+  return {seg, out};
+}
+
+function fieldBtn(li, f){
+  return '<button class="fld' + (f.v === '' ? ' empty' : '') + '" data-l="' + li + '" data-n="' + f.n + '">' + (f.v === '' ? '&nbsp;' : esc(f.v)) + '</button>';
+}
+
+function renderPaper(el, lines){
+  el.innerHTML = lines.map((line, li) => {
+    const {seg, out} = fieldsOf(line);
+    let h = '<div class="line s-' + seg + '"><button class="fld segid" data-l="' + li + '" data-n="0">' + seg + '</button>';
+    if(seg === 'MSH'){
+      h += '<button class="fld sepbtn" data-l="' + li + '" data-n="1">|</button>';
+      out.slice(1).forEach((f, i) => {
+        if(i > 0) h += '<span class="sep">|</span>';
+        h += fieldBtn(li, f);
+      });
+    } else {
+      out.forEach(f => { h += '<span class="sep">|</span>' + fieldBtn(li, f); });
+    }
+    return h + '</div>';
+  }).join('');
+}
+
+function showDetail(paper, panel, lines, li, n){
+  paper.querySelectorAll('.fld.sel').forEach(b => b.classList.remove('sel'));
+  const btn = paper.querySelector('.fld[data-l="' + li + '"][data-n="' + n + '"]');
+  if(btn) btn.classList.add('sel');
+  const {seg, out} = fieldsOf(lines[li]);
+  panel.className = 'detail s-' + seg;
+  const S = SEGS[seg];
+  if(n === 0){
+    panel.innerHTML = '<div><span class="badge">' + seg + '</span><p class="val" style="font-size:18px">' + esc(S.name) + '</p></div><div><p>' + esc(S.purpose) + '</p></div>';
+    return;
+  }
+  const f = out.find(x => x.n === n);
+  const key = seg + '-' + n;
+  const def = S.fields[n];
+  const name = def ? def[0] : 'Not covered on this page';
+  const note = def ? def[1] : 'This field exists in the standard but is not needed for this walkthrough.';
+  const empty = f.v === '';
+  const meaning = VALS[key] && VALS[key][f.v];
+  const date = DATES.has(key) && fmtDate(f.v);
+  let h = '<div><span class="badge">' + key + '</span><p class="val">' + (empty ? '(empty)' : esc(f.v)) + '</p></div><div><h3>' + esc(name) + '</h3>';
+  if(meaning) h += '<p class="meaning">' + esc(meaning) + '</p>';
+  if(date) h += '<p class="meaning">' + esc(date) + '</p>';
+  h += '<p>' + esc(note) + '</p>';
+  if(empty) h += '<p>Empty fields still take a position. The pipes on either side are what keep later fields in the right place.</p>';
+  if(!empty && f.v.indexOf('^') > -1 && key !== 'MSH-2'){
+    const parts = f.v.split('^');
+    const labels = COMPS[key] || [];
+    h += '<dl>' + parts.map((c, i) => '<dt>Component ' + (i+1) + (labels[i] ? ' (' + esc(labels[i]) + ')' : '') + '</dt><dd>' + esc(c) + '</dd>').join('') + '</dl>';
+  }
+  const idx = seg === 'MSH' ? n - 1 : n;
+  h += '<p class="py">In Python after <code>f = line.split("|")</code>: <code>f[' + idx + ']</code></p></div>';
+  panel.innerHTML = h;
+}
+
+function makeExplorer(paperId, panelId, lines, li, n){
+  const paper = document.getElementById(paperId);
+  const panel = document.getElementById(panelId);
+  renderPaper(paper, lines);
+  paper.addEventListener('click', e => {
+    const b = e.target.closest('.fld');
+    if(!b) return;
+    showDetail(paper, panel, lines, +b.dataset.l, +b.dataset.n);
+  });
+  showDetail(paper, panel, lines, li, n);
+}
+
+makeExplorer('paper1', 'panel1', MESSAGE, 0, 9);
+makeExplorer('paper2', 'panel2', ACK, 1, 1);
+makeExplorer('paper3', 'panel3', ORDER, 2, 1);
+
+const STEPS = [
+  {title:'Order placed', from:'HIS', to:'LIS', arrow:'a1r', msg:'ORM^O01', text:'The doctor orders a CBC. The HIS sends an order message. The LIS registers the patient, creates the order, and prints a barcode label for the tube.', fail:'Order never appears in the LIS: check the HIS-to-LIS connection and the patient ID in PID-3.'},
+  {title:'Barcode scanned, host query', from:'Analyzer', to:'LIS', arrow:'a2l', msg:'Query message', text:'The tube goes on the analyzer. It reads the barcode and asks the LIS which tests are ordered for that sample ID. This step only exists when the analyzer is set to bidirectional (host query) mode. Otherwise the operator enters the order by hand.', fail:'Analyzer says "no order found": barcode mismatch, LIS not listening on the port, or query mode switched off.'},
+  {title:'Order sent to analyzer', from:'LIS', to:'Analyzer', arrow:'a2r', msg:'Order response', text:'The LIS answers with the patient and the ordered tests, so nobody types anything. The analyzer runs only those tests.', fail:'Wrong tests run or none run: check the test code mapping between LIS and analyzer, which is carried in OBR-4.'},
+  {title:'Result sent', from:'Analyzer', to:'LIS', arrow:'a2l', msg:'ORU^R01', text:'After measuring, the analyzer builds a result message: MSH, PID, OBR, then one OBX per parameter. This is the message at the top of this page.', fail:'Result missing or wrong: check the OBX-3 code mapping, the units in OBX-6, and that the analyzer sends to the correct IP address and port.'},
+  {title:'Acknowledgment', from:'LIS', to:'Analyzer', arrow:'a2r', msg:'ACK', text:'The LIS replies with an ACK to say it received the message. MSA-2 repeats the control ID of the message being answered. With no ACK, the analyzer may resend or raise a communication error.', fail:'Duplicate results or communication errors: ACK not returned in time, or MSA-2 does not match the MSH-10 that was sent.'},
+  {title:'Validated and forwarded', from:'LIS', to:'HIS', arrow:'a1l', msg:'ORU^R01', text:'A technologist reviews and validates the result in the LIS. The LIS then sends the final result to the HIS, and the doctor can see it. OBX-11 is usually F at this point.', fail:'Doctor cannot see a validated result: check the LIS-to-HIS connection and whether the HIS sent back an ACK.'}
+];
+const stepsEl = document.getElementById('steps');
+const detEl = document.getElementById('stepdetail');
+stepsEl.innerHTML = STEPS.map((s, i) => '<button class="stepbtn" data-i="' + i + '" aria-pressed="false"><b>' + (i+1) + '</b>' + esc(s.title) + '</button>').join('');
+function selectStep(i){
+  const s = STEPS[i];
+  stepsEl.querySelectorAll('.stepbtn').forEach((b, j) => b.setAttribute('aria-pressed', j === i ? 'true' : 'false'));
+  ['a1r','a1l','a2r','a2l'].forEach(id => document.getElementById(id).classList.toggle('on', id === s.arrow));
+  ['HIS','LIS','Analyzer'].forEach(id => document.getElementById('n-' + id).classList.toggle('on', id === s.from || id === s.to));
+  detEl.innerHTML = '<div><span class="chip">' + esc(s.msg) + '</span><h3>Step ' + (i+1) + ': ' + esc(s.title) + '</h3><p>' + esc(s.from) + ' sends to ' + esc(s.to) + '.</p><p>' + esc(s.text) + '</p></div><div class="fail"><p><b>If it fails here</b></p><p>' + esc(s.fail) + '</p></div>';
+}
+stepsEl.addEventListener('click', e => { const b = e.target.closest('.stepbtn'); if(b) selectStep(+b.dataset.i); });
+selectStep(0);
+
+const tabsEl = document.getElementById('tabs');
+const tabPanel = document.getElementById('tabpanel');
+const TABLIST = ['MSH','PID','ORC','OBR','OBX','MSA'];
+tabsEl.innerHTML = TABLIST.map((s, i) => '<button class="tab s-' + s + '" role="tab" data-s="' + s + '" aria-selected="' + (i === 0) + '">' + s + '</button>').join('');
+function selectTab(seg){
+  tabsEl.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', b.dataset.s === seg ? 'true' : 'false'));
+  const S = SEGS[seg];
+  const src = seg === 'MSA' ? ACK : seg === 'ORC' ? ORDER : MESSAGE;
+  const line = src.find(l => l.split('|')[0] === seg);
+  const {out} = fieldsOf(line);
+  const rows = Object.keys(S.fields).map(Number).sort((a, b) => a - b).map(n => {
+    const f = out.find(x => x.n === n);
+    const v = f && f.v !== '' ? f.v : '';
+    return '<tr><td class="lbl">' + seg + '-' + n + '</td><td>' + esc(S.fields[n][0]) + '</td><td class="exv">' + (v ? esc(v) : '<span style="color:var(--muted)">empty</span>') + '</td><td>' + esc(S.fields[n][1]) + '</td></tr>';
+  }).join('');
+  tabPanel.className = 'tabpanel s-' + seg;
+  tabPanel.innerHTML = '<h3>' + seg + ': ' + esc(S.name) + '</h3><p class="purpose">' + esc(S.purpose) + '</p><div class="scroll"><table class="tbl"><thead><tr><th>Field</th><th>Name</th><th>Example</th><th>What it means</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+}
+tabsEl.addEventListener('click', e => { const b = e.target.closest('.tab'); if(b) selectTab(b.dataset.s); });
+selectTab('MSH');
+
+const rawEl = document.getElementById('raw');
+const parsedEl = document.getElementById('parsed');
+rawEl.value = MESSAGE.join('\n');
+function parseNow(){
+  const lines = rawEl.value.split(/\r\n|\r|\n/).map(l => l.trim()).filter(Boolean);
+  if(!lines.length){ parsedEl.innerHTML = '<p class="hint">Paste a message above.</p>'; return; }
+  let rows = '';
+  lines.forEach(line => {
+    const {seg, out} = fieldsOf(line);
+    const S = SEGS[seg];
+    out.forEach(f => {
+      if(f.v === '') return;
+      const nm = S && S.fields[f.n] ? S.fields[f.n][0] : '';
+      const comps = f.v.indexOf('^') > -1 && !(seg === 'MSH' && f.n === 2) ? f.v.split('^').map(esc).join(' <span class="sep">^</span> ') : esc(f.v);
+      rows += '<tr class="s-' + esc(seg) + '"><td class="lbl">' + esc(seg) + '-' + f.n + '</td><td>' + esc(nm) + '</td><td class="exv">' + comps + '</td></tr>';
+    });
+  });
+  parsedEl.innerHTML = '<table class="tbl compact"><thead><tr><th>Field</th><th>Name</th><th>Value</th></tr></thead><tbody>' + rows + '</tbody></table>';
+}
+const SAMPLES = {result: MESSAGE, order: ORDER};
+function setSample(k){ document.querySelectorAll('#samples .stepbtn').forEach(x => x.setAttribute('aria-pressed', x.dataset.k === k ? 'true' : 'false')); }
+document.getElementById('samples').addEventListener('click', e => {
+  const b = e.target.closest('.stepbtn');
+  if(!b) return;
+  rawEl.value = SAMPLES[b.dataset.k].join('\n');
+  setSample(b.dataset.k);
+  parseNow();
+});
+rawEl.addEventListener('input', () => { setSample(null); parseNow(); });
+parseNow();
+</script>
+</body>
+</html>
