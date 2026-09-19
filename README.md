@@ -134,6 +134,7 @@ wuttachai49.github.io/
 | **Projects** | [projects.html](https://wuttachai49.github.io/projects.html) |
 | **Technical News** | [technical-news.html](https://wuttachai49.github.io/technical-news.html) |
 | **CAL6000 Guide** | [cal6000-field-guide.html](https://wuttachai49.github.io/cal6000-field-guide.html) |
+| **EU Series Re-exam Rules** | [re-exam-rule-eu-series.html](https://wuttachai49.github.io/re-exam-rule-eu-series.html) |
 
 ---
 
@@ -184,6 +185,7 @@ This knowledge base is created for educational and professional use in the medic
 September 2026
 
 **Latest additions:**
+- **Re-exam Rule update for EU series** - Urine re-exam rule table
 - **CAL6000 with MC** - Multi-channel hematology analyzer
 - FA-N Hemoculture System analyzer
 - Mindray Chemistry Analyzers system

@@ -313,5 +313,34 @@
                 "url": "cal6000-field-guide.html"
             }
         ]
+    },
+    {
+        "id": "eu_series",
+        "name": "Re-exam Rule update for EU series",
+        "type": "Urinalysis Analyzer",
+        "manufacturer": "EU Series (Urine Analyzer)",
+        "description": "Urine re-exam rule set for the EU series (EU8600 rule file, 2026-09-19): 40 rules grouped by purpose, with RBC/WBC and other sediment conditions shown in real counts (cells/HPF or LPF) and dipstick results as grades.",
+        "parameters": [
+            "Strip vs sediment mismatch - BLD/RBC and LEU/WBC deviation rules",
+            "RBC morphology / interference - dysmorphic, acanthocyte, humped RBC, Vitamin C",
+            "Protein vs casts - hyaline and pathological casts with negative protein, Precise PRO",
+            "Appearance / SG / ketone - turbidity, low SG, ketone",
+            "Positive / above-reference flags - LEU, BLD, RBC, WBC, HYAC, CRYS",
+            "Particle detected - non-squamous epithelial, macrophage, cast types"
+        ],
+        "troubleshooting": [
+            "Too many re-exam flags: review the broad rules 24-30 (positive / above-reference)",
+            "Rule never fires: check the level numbers against the analyzer level tables",
+            "Redundant rules (covered by another): 3 by 2, 5 by 8, 6 by 7, 13 by 12, 16 by 17",
+            "Precise PRO (rule 31): protein 2+ or higher triggers re-exam with precise mode (SEDIMP)"
+        ],
+        "notes": "All conditions in a rule are combined with AND; a fired rule flags the sample for re-exam and shows its message. Rules apply to all samples (no include/exclude filters). Turbidity level names are not confirmed.",
+        "attachments": [
+            {
+                "name": "⭐ Re-exam Rule update for EU series | Rule Table",
+                "type": "Interactive HTML",
+                "url": "re-exam-rule-eu-series.html"
+            }
+        ]
     }
 ]
