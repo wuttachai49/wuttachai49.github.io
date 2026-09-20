@@ -137,5 +137,31 @@
                 "url": "communication-protocol.html"
             }
         ]
+    },
+    {
+        "id": "mindray_ivd_technical_news",
+        "term": "Mindray IVD Technical News Digest",
+        "category": "Technical News - Product Updates",
+        "definition": "Weekly application digest of Mindray IVD technical bulletins, advisory notices, and product changes affecting analyzer reagents, software, and workflow.",
+        "explanation": "This digest organizes and summarizes Mindray's weekly technical announcements for application specialists supporting multi-site laboratory networks. Current issue (260911) covers six bulletins: CEA reagent reformulation (targeting Roche correlation), new Angiotensin I/II cardiovascular assays with critical pre-analytical workflow, immunoassay reagent bottle cosmetic updates, pancreatic amylase launch for acute pancreatitis specificity, and MT-8000 total laboratory automation software optimization (15 changes including next-gen analyzer integration and QC enhancements). Each bulletin includes regulatory references, method-comparison data, precision/correlation charts, detailed workflows, and operator action items.",
+        "clinicalSignificance": "Timely awareness of reagent changes, new assay launches, and software updates is essential for maintaining quality control compliance, preventing test-mapping errors, and ensuring smooth analyzer-to-LIS communication across the network. Bulletins cover CLIA/IVDR regulatory changes and require implementation at each site before the effective date.",
+        "relatedTerms": [
+            "Mindray analyzer",
+            "Reagent changes",
+            "Software updates",
+            "CEA immunoassay",
+            "Angiotensin",
+            "P-AMY",
+            "MT-8000",
+            "Total laboratory automation",
+            "Product roadmap"
+        ],
+        "attachments": [
+            {
+                "name": "📰 Read Technical News Digest (Issue 260911)",
+                "type": "Interactive HTML",
+                "url": "technical-news.html"
+            }
+        ]
     }
 ]
