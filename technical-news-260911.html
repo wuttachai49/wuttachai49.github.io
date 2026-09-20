@@ -1,0 +1,1035 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<div style="max-width:980px;margin:0 auto;padding:14px 20px;font:14px system-ui,sans-serif"><a href="technical-news.html">&larr; Back to Technical News</a> &nbsp;|&nbsp; <a href="index.html">Home</a></div>
+
+<title>IVD Application Digest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    color-scheme: light;
+    --page:#f6f7f5;
+    --surface:#ffffff;
+    --surface-2:#eef1ee;
+    --ink:#10151a;
+    --ink-2:#454f56;
+    --muted:#7c8790;
+    --line:#dfe4e1;
+    --line-strong:#c3c9c5;
+
+    --immuno:#2a78d6;
+    --immuno-soft:#e8f0fb;
+    --advisory:#b6720a;
+    --advisory-soft:#faf1de;
+    --mt8000:#128a63;
+    --mt8000-soft:#e4f4ee;
+
+    --pos:#e34948;
+    --neg:#2a78d6;
+    --good:#0ca30c;
+    --good-soft:#e7f6e4;
+    --warn:#fab219;
+    --warn-soft:#fef4e0;
+
+    --shadow: 0 1px 2px rgba(16,21,26,.04), 0 6px 20px rgba(16,21,26,.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      color-scheme: dark;
+      --page:#0d0e0d;
+      --surface:#17191a;
+      --surface-2:#1f2222;
+      --ink:#f4f5f3;
+      --ink-2:#c3c9c3;
+      --muted:#8b9591;
+      --line:#2b2f2d;
+      --line-strong:#3a3f3c;
+
+      --immuno:#5c9bec;
+      --immuno-soft:#182636;
+      --advisory:#e0a53e;
+      --advisory-soft:#332711;
+      --mt8000:#3fc79a;
+      --mt8000-soft:#0f2b23;
+
+      --pos:#e66767;
+      --neg:#5c9bec;
+      --good:#3fc06b;
+      --good-soft:#12291a;
+      --warn:#f5c344;
+      --warn-soft:#332a10;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 24px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --page:#0d0e0d;
+    --surface:#17191a;
+    --surface-2:#1f2222;
+    --ink:#f4f5f3;
+    --ink-2:#c3c9c3;
+    --muted:#8b9591;
+    --line:#2b2f2d;
+    --line-strong:#3a3f3c;
+
+    --immuno:#5c9bec;
+    --immuno-soft:#182636;
+    --advisory:#e0a53e;
+    --advisory-soft:#332711;
+    --mt8000:#3fc79a;
+    --mt8000-soft:#0f2b23;
+
+    --pos:#e66767;
+    --neg:#5c9bec;
+    --good:#3fc06b;
+    --good-soft:#12291a;
+    --warn:#f5c344;
+    --warn-soft:#332a10;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 24px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--page);
+    color:var(--ink);
+    font-family:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{ font-family:"IBM Plex Mono","SFMono-Regular",Consolas,monospace; font-variant-numeric: tabular-nums; }
+  h1,h2,h3,h4{ font-family:"Source Serif 4", Georgia, serif; text-wrap:balance; color:var(--ink); margin:0; }
+  p{ margin:0; }
+
+  /* ===== Masthead ===== */
+  .masthead{
+    border-bottom:1px solid var(--line);
+    background:var(--surface);
+  }
+  .masthead-inner{
+    max-width:980px; margin:0 auto; padding:28px 20px 20px;
+    display:flex; flex-wrap:wrap; gap:16px; justify-content:space-between; align-items:flex-end;
+  }
+  .masthead-eyebrow{
+    font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:8px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+  }
+  .masthead-eyebrow .dot{ width:5px;height:5px;border-radius:50%; background:var(--muted); display:inline-block; }
+  .masthead h1{ font-size:clamp(26px,4vw,34px); font-weight:700; }
+  .masthead-sub{ color:var(--ink-2); font-size:14.5px; max-width:56ch; margin-top:6px; }
+  .masthead-meta{
+    font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--muted); text-align:right;
+    display:flex; flex-direction:column; gap:4px; white-space:nowrap;
+  }
+
+  /* ===== Tabs ===== */
+  .tabbar-wrap{ position:sticky; top:0; z-index:20; background:var(--page); border-bottom:1px solid var(--line); }
+  .tabbar{
+    max-width:980px; margin:0 auto; padding:12px 20px; display:flex; gap:8px; overflow-x:auto;
+  }
+  .tab-btn{
+    font-family:"IBM Plex Sans",sans-serif; font-weight:600; font-size:14px;
+    border:1px solid var(--line); background:var(--surface); color:var(--ink-2);
+    padding:9px 16px; border-radius:999px; cursor:pointer; white-space:nowrap;
+    display:flex; align-items:center; gap:8px; transition:background .15s,color .15s,border-color .15s;
+  }
+  .tab-btn .swatch{ width:8px;height:8px;border-radius:50%; background:var(--muted); }
+  .tab-btn[aria-selected="true"]{ background:var(--ink); color:var(--surface); border-color:var(--ink); }
+  .tab-btn[aria-selected="true"] .swatch{ background:currentColor; }
+  .tab-btn:not([aria-selected="true"]):hover{ border-color:var(--line-strong); }
+  .tab-count{
+    font-family:"IBM Plex Mono",monospace; font-size:11px; opacity:.75;
+  }
+
+  main{ max-width:980px; margin:0 auto; padding:28px 20px 80px; }
+  .panel[hidden]{ display:none !important; }
+
+  .tab-intro{ margin-bottom:24px; max-width:66ch; }
+  .tab-intro h2{ font-size:22px; margin-bottom:6px; }
+  .tab-intro p{ color:var(--ink-2); font-size:14.5px; }
+
+  /* ===== Bulletin card ===== */
+  .bulletin{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    box-shadow:var(--shadow); overflow:hidden; margin-bottom:26px;
+  }
+  .bulletin-head{
+    padding:18px 22px 16px; border-bottom:1px solid var(--line);
+    display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; align-items:flex-start;
+    border-left:5px solid var(--accent);
+  }
+  .bulletin[data-tone="immuno"]{ --accent:var(--immuno); }
+  .bulletin[data-tone="advisory"]{ --accent:var(--advisory); }
+  .bulletin[data-tone="mt8000"]{ --accent:var(--mt8000); }
+
+  .bulletin-title-wrap{ max-width:60ch; }
+  .kicker{
+    font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.07em; text-transform:uppercase;
+    color:var(--accent); font-weight:600; margin-bottom:6px;
+  }
+  .bulletin-head h3{ font-size:20px; line-height:1.25; }
+  .ref-chip{
+    font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--muted);
+    background:var(--surface-2); border:1px solid var(--line); border-radius:8px;
+    padding:8px 12px; text-align:left; min-width:200px; line-height:1.6;
+  }
+  .ref-chip b{ color:var(--ink-2); font-weight:600; }
+
+  .bulletin-body{ padding:20px 22px 24px; display:flex; flex-direction:column; gap:20px; }
+  .prose{ max-width:70ch; color:var(--ink-2); font-size:14.5px; }
+  .prose + .prose{ margin-top:-8px; }
+  .prose strong{ color:var(--ink); }
+
+  h4.section-label{
+    font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--muted); font-weight:600; margin-bottom:2px;
+  }
+
+  /* callouts */
+  .callout{
+    border-radius:10px; padding:13px 16px; font-size:13.8px; display:flex; gap:10px; align-items:flex-start;
+    border:1px solid var(--line);
+  }
+  .callout b{ display:block; margin-bottom:2px; }
+  .callout.action{ background:var(--warn-soft); border-color:color-mix(in srgb, var(--warn) 40%, var(--line)); }
+  .callout.good{ background:var(--good-soft); border-color:color-mix(in srgb, var(--good) 35%, var(--line)); }
+  .callout .icon{ font-size:16px; line-height:1.3; }
+
+  /* tables */
+  .tbl-wrap{ overflow-x:auto; border:1px solid var(--line); border-radius:10px; }
+  table{ border-collapse:collapse; width:100%; font-size:13.3px; min-width:460px; }
+  thead th{
+    text-align:left; font-family:"IBM Plex Mono",monospace; font-size:10.8px; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--muted); font-weight:600; background:var(--surface-2); padding:9px 12px; white-space:nowrap;
+    border-bottom:1px solid var(--line);
+  }
+  tbody td{ padding:8px 12px; border-bottom:1px solid var(--line); color:var(--ink-2); }
+  tbody tr:last-child td{ border-bottom:none; }
+  td.num, th.num{ font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; text-align:right; color:var(--ink); }
+  td.strong{ color:var(--ink); font-weight:600; }
+
+  /* figures */
+  .fig{
+    border:1px solid var(--line); border-radius:12px; background:var(--surface-2); padding:14px;
+  }
+  .fig img{ display:block; width:100%; height:auto; border-radius:6px; background:#fff; }
+  .fig-cap{ font-size:12.5px; color:var(--muted); margin-top:10px; line-height:1.5; }
+  .fig-cap b{ color:var(--ink-2); }
+  .fig-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .fig-grid.cols-3{ grid-template-columns:repeat(3,1fr); }
+  @media (max-width:640px){ .fig-grid, .fig-grid.cols-3{ grid-template-columns:1fr; } }
+
+  /* photo strip */
+  .photo-strip{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  @media (max-width:640px){ .photo-strip{ grid-template-columns:repeat(2,1fr); } }
+  .photo-card{ border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--surface-2); }
+  .photo-card img{ display:block; width:100%; aspect-ratio:4/3; object-fit:cover; }
+  .photo-card .cap{ font-size:11.5px; padding:7px 9px; color:var(--ink-2); font-weight:600; }
+
+  /* stat tiles */
+  .stat-row{ display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; }
+  .stat-tile{ border:1px solid var(--line); border-radius:10px; padding:12px 14px; background:var(--surface-2); }
+  .stat-tile .v{ font-family:"IBM Plex Mono",monospace; font-size:20px; font-weight:600; color:var(--accent); }
+  .stat-tile .l{ font-size:11.5px; color:var(--muted); margin-top:2px; }
+
+  /* badges */
+  .badge{
+    display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:600;
+    padding:3px 9px; border-radius:999px; font-family:"IBM Plex Sans",sans-serif;
+  }
+  .badge.added{ background:var(--good-soft); color:var(--good); }
+  .badge.optimized{ background:var(--immuno-soft); color:var(--immuno); }
+
+  /* workflow */
+  .flow{ display:flex; flex-direction:column; gap:0; }
+  .flow-step{ display:flex; gap:14px; }
+  .flow-step .num{
+    width:26px;height:26px; border-radius:50%; background:var(--accent); color:#fff; flex:none;
+    display:flex; align-items:center; justify-content:center; font-family:"IBM Plex Mono",monospace; font-size:12px; font-weight:600;
+  }
+  .flow-step .rail{ display:flex; flex-direction:column; align-items:center; }
+  .flow-step .line{ width:2px; flex:1; background:var(--line-strong); }
+  .flow-step .content{ padding-bottom:18px; padding-top:2px; font-size:13.6px; color:var(--ink-2); }
+  .flow-step .content b{ color:var(--ink); }
+  .flow-step:last-child .line{ display:none; }
+  .flow-branch{
+    display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:8px 0;
+  }
+  @media (max-width:560px){ .flow-branch{ grid-template-columns:1fr; } }
+  .branch-card{
+    border:1px dashed var(--line-strong); border-radius:10px; padding:10px 12px; font-size:13px; background:var(--surface-2);
+  }
+  .branch-card .t{ font-weight:600; color:var(--ink); font-family:"IBM Plex Mono",monospace; font-size:12px; margin-bottom:3px; }
+
+  /* accordion */
+  details.dd{ border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--surface-2); }
+  details.dd + details.dd{ margin-top:10px; }
+  details.dd summary{
+    cursor:pointer; padding:11px 15px; font-size:13.6px; font-weight:600; color:var(--ink);
+    list-style:none; display:flex; justify-content:space-between; align-items:center; gap:10px;
+  }
+  details.dd summary::-webkit-details-marker{ display:none; }
+  details.dd summary .chev{ color:var(--muted); transition:transform .15s; font-size:11px; }
+  details.dd[open] summary .chev{ transform:rotate(90deg); }
+  details.dd .dd-body{ padding:2px 15px 15px; font-size:13.3px; color:var(--ink-2); }
+
+  /* MT8000 change cards */
+  .change-grid{ display:flex; flex-direction:column; gap:10px; }
+  .change-card{
+    border:1px solid var(--line); border-radius:10px; padding:12px 14px; display:flex; gap:12px; background:var(--surface-2);
+  }
+  .change-card .idx{ font-family:"IBM Plex Mono",monospace; color:var(--mt8000); font-weight:600; font-size:13px; flex:none; width:34px; }
+  .change-card .body{ flex:1; }
+  .change-card .body .t{ font-weight:600; font-size:13.8px; color:var(--ink); margin-bottom:2px; }
+  .change-card .body .d{ font-size:13.2px; color:var(--ink-2); }
+  .cat-heading{
+    display:flex; align-items:center; gap:10px; margin:22px 0 4px;
+    font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.07em; text-transform:uppercase; color:var(--mt8000);
+  }
+  .cat-heading .n{ background:var(--mt8000-soft); color:var(--mt8000); border-radius:6px; padding:2px 8px; font-weight:600; }
+  .cat-heading::after{ content:""; flex:1; height:1px; background:var(--line); }
+
+  /* footer / source */
+  .src{
+    font-size:12px; color:var(--muted); border-top:1px solid var(--line); margin-top:4px; padding-top:12px;
+    font-family:"IBM Plex Mono",monospace;
+  }
+  footer{ max-width:980px; margin:0 auto; padding:10px 20px 50px; color:var(--muted); font-size:12.5px; }
+  a{ color:var(--accent, var(--immuno)); }
+
+  /* chart chrome */
+  .chart-wrap{ border:1px solid var(--line); border-radius:12px; padding:16px 16px 10px; background:var(--surface-2); }
+  .chart-title{ font-size:13.5px; font-weight:600; color:var(--ink); margin-bottom:2px; }
+  .chart-sub{ font-size:12px; color:var(--muted); margin-bottom:10px; }
+  .legend{ display:flex; gap:16px; flex-wrap:wrap; font-size:12px; color:var(--ink-2); margin-top:6px; }
+  .legend .item{ display:flex; align-items:center; gap:6px; }
+  .legend .sw{ width:11px;height:11px;border-radius:3px; }
+  svg text{ font-family:"IBM Plex Mono",monospace; }
+  .axis-label{ fill:var(--muted); font-size:10.5px; }
+  .grid-line{ stroke:var(--line); stroke-width:1; }
+  .zero-line{ stroke:var(--line-strong); stroke-width:1.5; }
+
+  @media (max-width:600px){
+    .masthead-inner{ flex-direction:column; align-items:flex-start; }
+    .masthead-meta{ text-align:left; }
+    .bulletin-head{ flex-direction:column; }
+    .ref-chip{ width:100%; }
+  }
+</style>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div>
+      <div class="masthead-eyebrow">
+        <span>Application News Digest</span><span class="dot"></span><span>Issue 260911</span><span class="dot"></span><span>Mindray IVD</span>
+      </div>
+      <h1>What changed this week — and what to do about it</h1>
+      <p class="masthead-sub">Six Mindray technical/advisory bulletins, read and organized for the application specialist supporting hospital labs across a multi‑site network.</p>
+    </div>
+    <div class="masthead-meta">
+      <span>Compiled 11 Sep 2026</span>
+      <span>Source: Technical News / 260911</span>
+      <span>6 bulletins · 3 platforms</span>
+    </div>
+  </div>
+</div>
+
+<div class="tabbar-wrap">
+  <div class="tabbar" role="tablist" aria-label="Bulletin sections">
+    <button class="tab-btn" role="tab" aria-selected="true" aria-controls="panel-immuno" id="tab-immuno" style="--accent:var(--immuno)">
+      <span class="swatch" style="background:var(--immuno)"></span> Immunology <span class="tab-count">· 3</span>
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-advisory" id="tab-advisory">
+      <span class="swatch" style="background:var(--advisory)"></span> Advisory <span class="tab-count">· 1</span>
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-mt8000" id="tab-mt8000">
+      <span class="swatch" style="background:var(--mt8000)"></span> MT‑8000 <span class="tab-count">· 1</span>
+    </button>
+  </div>
+</div>
+
+<main>
+
+<!-- ================= IMMUNOLOGY ================= -->
+<section class="panel" id="panel-immuno" role="tabpanel" aria-labelledby="tab-immuno">
+  <div class="tab-intro">
+    <h2>Immunology (CLIA) reagents</h2>
+    <p>Three chemiluminescence-immunoassay bulletins: a reagent reformulation on an existing tumour marker, a brand-new cardiovascular assay pair, and a cosmetic packaging change across the immune reagent bottle line.</p>
+  </div>
+
+  <!-- ---- CEA ---- -->
+  <article class="bulletin" data-tone="immuno">
+    <div class="bulletin-head">
+      <div class="bulletin-title-wrap">
+        <div class="kicker">Reagent change · to customer</div>
+        <h3>CEA (CLIA) reagent — new version, Lot 20260501</h3>
+      </div>
+      <div class="ref-chip">
+        <div><b>Ref</b> A-ACLIA-26022-CEA(V1.0)-01</div>
+        <div><b>Issued</b> 3 Aug 2026 · Haibin Shi</div>
+        <div><b>Product</b> CEA (CLIA)‑IVDR only</div>
+      </div>
+    </div>
+    <div class="bulletin-body">
+      <p class="prose">The Carcinoembryonic Antigen assay kit (CLIA) moves from version 1.6 to 2.0, starting Lot <span class="mono">20260501</span>. The reformulation's whole purpose is <strong>tighter correlation with the Roche reference system</strong> — current-version CEA has been running a step away from Roche, and the new lot closes that gap.</p>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>SKU</th><th>Package</th><th>P/N</th></tr></thead>
+          <tbody>
+            <tr><td class="strong">CEA (CLIA)‑IVDR</td><td>2×50 T/Kit</td><td class="mono">105-004213-A0</td></tr>
+            <tr><td class="strong">CEA (CLIA)‑IVDR</td><td>2×100 T/Kit</td><td class="mono">105-004240-A0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="prose" style="font-size:12.5px;">CEA (CLIA)‑<strong>IVDD</strong> is not part of this upgrade.</p>
+
+      <div>
+        <h4 class="section-label">Method comparison (n = 1,317 clinical sera)</h4>
+        <div class="stat-row" style="margin-top:8px;">
+          <div class="stat-tile"><div class="v">1.083x + 0.065</div><div class="l">New vs Current · R² 0.985</div></div>
+          <div class="stat-tile"><div class="v">0.993x + 0.019</div><div class="l">New vs Roche · R² 0.988</div></div>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="section-label">Passing–Bablok &amp; Bland–Altman</h4>
+        <div class="fig-grid" style="margin-top:8px;">
+          <div class="fig"><img src="images/cea_fig1a.png" alt="Passing-Bablok regression, new vs current version CEA reagent"><div class="fig-cap"><b>Fig. 1a</b> — New vs current-version reagent, regression.</div></div>
+          <div class="fig"><img src="images/cea_fig1b.png" alt="Bland-Altman plot, new vs current version CEA reagent"><div class="fig-cap"><b>Fig. 1b</b> — same pair, Bland–Altman (mean bias +16.8%).</div></div>
+          <div class="fig"><img src="images/cea_fig2a.png" alt="Passing-Bablok regression, new version vs reference system"><div class="fig-cap"><b>Fig. 2a</b> — New version vs Roche reference, regression.</div></div>
+          <div class="fig"><img src="images/cea_fig2b.png" alt="Bland-Altman plot, new version vs reference system"><div class="fig-cap"><b>Fig. 2b</b> — same pair, Bland–Altman (mean bias −3.3%).</div></div>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="section-label">QC deviation, new vs current version</h4>
+        <p class="prose" style="margin-bottom:8px;">Every commercial control brand shifts under the new formulation — <strong>not an error, an expected consequence of re-targeting to Roche</strong>. Direction differs by brand, which is exactly why the target-value sheet matters more than usual this cycle.</p>
+        <div class="chart-wrap">
+          <div class="chart-title">Relative deviation by QC brand</div>
+          <div class="chart-sub">Each dot = one control lot/level · New-version result vs current-version result</div>
+          <svg id="chart-cea-qc" viewBox="0 0 640 210" width="100%" role="img" aria-label="QC deviation dot plot by brand"></svg>
+          <div class="legend">
+            <div class="item"><span class="sw" style="background:var(--neg)"></span> Reads lower (new &lt; current)</div>
+            <div class="item"><span class="sw" style="background:var(--pos)"></span> Reads higher (new &gt; current)</div>
+          </div>
+        </div>
+      </div>
+
+      <details class="dd">
+        <summary>EQAS &amp; RIQAS deviation detail <span class="chev">▸</span></summary>
+        <div class="dd-body">
+          <p style="margin-bottom:8px;">RIQAS results can be grouped by reagent lot number, so assessment-failure risk is low. <strong>EQAS results cannot be grouped by lot</strong> — some risk of an unsuccessful assessment while both reagent versions are in circulation. Mindray is monitoring EQAS performance for both versions and can supply reference data on request.</p>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Scheme</th><th>Sample</th><th class="num">Current (ng/mL)</th><th class="num">New (ng/mL)</th><th class="num">Δ%</th></tr></thead>
+              <tbody>
+                <tr><td>EQAS</td><td class="mono">232201</td><td class="num">27.14</td><td class="num">25.32</td><td class="num">−7%</td></tr>
+                <tr><td>EQAS</td><td class="mono">232202</td><td class="num">21.81</td><td class="num">19.72</td><td class="num">−10%</td></tr>
+                <tr><td>EQAS</td><td class="mono">232204</td><td class="num">9.70</td><td class="num">8.94</td><td class="num">−8%</td></tr>
+                <tr><td>EQAS</td><td class="mono">232205</td><td class="num">22.14</td><td class="num">19.64</td><td class="num">−11%</td></tr>
+                <tr><td>RIQAS</td><td class="mono">202602</td><td class="num">18.05</td><td class="num">22.34</td><td class="num">+24%</td></tr>
+                <tr><td>RIQAS</td><td class="mono">202604</td><td class="num">29.15</td><td class="num">34.70</td><td class="num">+19%</td></tr>
+                <tr><td>RIQAS</td><td class="mono">202605</td><td class="num">11.14</td><td class="num">13.46</td><td class="num">+21%</td></tr>
+                <tr><td>RIQAS</td><td class="mono">202606</td><td class="num">21.90</td><td class="num">26.64</td><td class="num">+22%</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </details>
+
+      <div class="callout action">
+        <span class="icon">☑</span>
+        <div>
+          <b>Do this at each site</b>
+          Run down existing Lot 20260301 stock before switching (don't alternate lots). Re-import CEA parameters via the reagent QR code. Apply the <em>new-version</em> target-value sheet for the Mindray Tumor Marker Multi Control (enclosed in the new kit) — and for Bio-Rad/Randox QC, request the offline new-version targets from Mindray, since the manufacturers' own websites still only carry the current-version sheet.
+        </div>
+      </div>
+      <div class="src">Source: A-ACLIA-26022-CEA(V1.0)-01 “Advisory Notice–Technical News (To Customer)”, 3 Aug 2026, pp. 7–10 · original figures reproduced from the same file.</div>
+    </div>
+  </article>
+
+  <!-- ---- A I / A II ---- -->
+  <article class="bulletin" data-tone="immuno">
+    <div class="bulletin-head">
+      <div class="bulletin-title-wrap">
+        <div class="kicker">New assay launch</div>
+        <h3>Angiotensin I &amp; II (CLIA) — new cardiovascular panel</h3>
+      </div>
+      <div class="ref-chip">
+        <div><b>Ref</b> A-ACLIA-26026-A I&amp;A II(V1.0)</div>
+        <div><b>Issued</b> 29 Jul 2026 · Jinyu Li</div>
+        <div><b>Model</b> A I &amp; A II</div>
+      </div>
+    </div>
+    <div class="bulletin-body">
+      <p class="prose">Mindray adds Angiotensin I and Angiotensin II to the CLIA menu — adjunctive markers of cardiovascular / renin-angiotensin-system function, most relevant to labs supporting hypertension work-up and Plasma Renin Activity (PRA) testing. Both are <strong>competitive immunoassays</strong> needing careful pre-analytical handling; that handling is the real story for the bench.</p>
+
+      <div class="photo-strip">
+        <div class="photo-card"><img src="images/ai_reagent.jpg" alt="Angiotensin I CLIA reagent kit"><div class="cap">A I Reagent</div></div>
+        <div class="photo-card"><img src="images/ai_cal.jpg" alt="Angiotensin I calibrators C0 C1 C2"><div class="cap">A I Calibrators</div></div>
+        <div class="photo-card"><img src="images/ai_buffer.jpg" alt="A I Buffer Solution vial and box"><div class="cap">A I Buffer Solution</div></div>
+        <div class="photo-card"><img src="images/aii_reagent.jpg" alt="Angiotensin II CLIA reagent kit"><div class="cap">A II Reagent</div></div>
+        <div class="photo-card"><img src="images/aii_cal.jpg" alt="Angiotensin II calibrators C0 C1 C2"><div class="cap">A II Calibrators</div></div>
+        <div class="photo-card"><img src="images/sample_storage.jpg" alt="Sample Storage Solution PT1 and PT2 vials"><div class="cap">Sample Storage Solution (PT1/PT2)</div></div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Parameter</th><th>Angiotensin I</th><th>Angiotensin II</th></tr></thead>
+          <tbody>
+            <tr><td class="strong">Linearity</td><td class="num">0.1–24 ng/mL</td><td class="num">20–1000 pg/mL</td></tr>
+            <tr><td class="strong">Reaction time</td><td class="num">≈32 min</td><td class="num">≈30 min</td></tr>
+            <tr><td class="strong">Sensitivity</td><td class="num">LoD 0.10 ng/mL</td><td class="num">LoB 4 · LoD 15 · LoQ 20 pg/mL</td></tr>
+            <tr><td class="strong">Reference range (supine)</td><td class="num">0.14–2.24 ng/mL/hr</td><td class="num">24.35–60.63 pg/mL</td></tr>
+            <tr><td class="strong">Reference range (upright)</td><td class="num">0.22–6.45 ng/mL/hr</td><td class="num">49.04–121.28 pg/mL</td></tr>
+            <tr><td class="strong">Within-run / within-lab precision</td><td class="num">≤8% / ≤10%</td><td class="num">≤6.25% / ≤8.33%</td></tr>
+            <tr><td class="strong">Opened-reagent stability</td><td class="num">28 days @2–8°C</td><td class="num">4 wks (CL-900i family) / 12 wks (CL-2600i–8200i)</td></tr>
+            <tr><td class="strong">First lot</td><td class="num mono">20260501</td><td class="num mono">20251101</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="prose" style="font-size:12.5px;">Common to both: 100 µL plasma (K₂-/K₃-/Na₂-EDTA), competitive method, unopened stability 18 months @2–8°C. Control: Hypertension Multi Control from Lot 20250601. <strong>A I Buffer Solution and Sample Storage Solution are sold separately</strong> — not in the reagent kit box.</p>
+
+      <div>
+        <h4 class="section-label">Why the workflow needs attention</h4>
+        <p class="prose" style="margin:6px 0 12px;">A I and A II degrade or falsely shift with ordinary handling — room-temperature centrifugation alone can raise measured A I and lower measured A II. PRA testing additionally needs a matched <strong>4 °C vs 37 °C</strong> incubation pair, timed to the minute. This is the sequence as written in the bulletin:</p>
+        <div class="flow">
+          <div class="flow-step"><div class="rail"><div class="num">1</div><div class="line"></div></div><div class="content"><b>Dedicate a tube.</b> Draw a separate EDTA tube for A I/A II only — don't share it with ALD, Renin, etc.</div></div>
+          <div class="flow-step"><div class="rail"><div class="num">2</div><div class="line"></div></div><div class="content"><b>Pre-load the enzyme inhibitor</b> before the draw: 50 µL Sample Storage Solution PT1 + 25 µL PT2 per 5 mL EDTA tube (ratio sample:PT1:PT2 = 1000:10:5). Invert 5–10×, centrifuge at 4 °C.</div></div>
+          <div class="flow-step"><div class="rail"><div class="num">3</div><div class="line"></div></div><div class="content"><b>Keep it cold.</b> If processing is delayed, hold at 2–8 °C and add PT1/PT2 within 1 hour; store sealed below −15 °C if not run immediately. Max 3 freeze–thaw cycles.</div></div>
+          <div class="flow-step"><div class="rail"><div class="num">4</div><div class="line"></div></div>
+            <div class="content">
+              <b>For PRA:</b> add A I Buffer Solution to the supernatant (plasma:buffer = 10:1), then split into two aliquots and incubate both for exactly <strong>1 hour</strong>:
+              <div class="flow-branch">
+                <div class="branch-card"><div class="t">ALIQUOT A · 4 °C</div>ice-water bath</div>
+                <div class="branch-card"><div class="t">ALIQUOT B · 37 °C</div>incubator</div>
+              </div>
+            </div>
+          </div>
+          <div class="flow-step"><div class="rail"><div class="num">5</div><div class="line"></div></div><div class="content"><b>Load together</b> and select <span class="mono">A I</span> for the 4 °C aliquot, <span class="mono">A I‑37</span> for the 37 °C aliquot — track which is which.</div></div>
+          <div class="flow-step"><div class="rail"><div class="num">6</div></div><div class="content"><b>Calculate:</b> <span class="mono">PRA = (A I at 37°C − A I at 4°C) ÷ incubation time.</span> A sample cannot be reused for retest once incubated — re-add buffer to a fresh aliquot instead.</div></div>
+        </div>
+      </div>
+
+      <details class="dd">
+        <summary>Minimum software version by analyzer <span class="chev">▸</span></summary>
+        <div class="dd-body">
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Model</th><th>Minimum version</th></tr></thead>
+              <tbody>
+                <tr><td>CL-900i series</td><td class="mono">≥ V08.00.17</td></tr>
+                <tr><td>CL-1000i</td><td class="mono">≥ V00.02.28</td></tr>
+                <tr><td>CL-1200i</td><td class="mono">≥ V01.02.28</td></tr>
+                <tr><td>CL-2000i series</td><td class="mono">≥ V00.01.37</td></tr>
+                <tr><td>CL-2600i series</td><td class="mono">supported upon launch</td></tr>
+                <tr><td>CL-6000i series</td><td class="mono">≥ V10.00.30</td></tr>
+                <tr><td>CL-8000i series</td><td class="mono">≥ V01.00.13</td></tr>
+                <tr><td>CL-9000i series</td><td class="mono">≥ V01.00.07</td></tr>
+                <tr><td>M680 / M980</td><td class="mono">supported upon launch</td></tr>
+                <tr><td>M1000</td><td class="mono">≥ V01.00.09</td></tr>
+                <tr><td>SAL 6000 / 8000 / 9000</td><td class="mono">≥ V04.01.32 / V04.00.23 / V10.00.30</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="margin-top:10px;">Non-CL-9000i/9200i systems only, for now: CL-900i, 920i, 960i, 980i, 1000i, 1200i, 2000i, 2200i, 6000i, 6200i, 2600i, 2800i, 8000i, 8200i.</p>
+        </div>
+      </details>
+
+      <div class="callout action">
+        <span class="icon">☑</span>
+        <div>
+          <b>Do this at each site</b>
+          Confirm software meets the minimum version before ordering reagent. Import A I/A II parameters by QR code (item-file import only on CL-9000i). Order A I Buffer Solution and Sample Storage Solution separately — they are not in the assay kit. Apply the enclosed Hypertension Multi Control target-value sheet (Lot 250601+).
+        </div>
+      </div>
+      <div class="src">Source: A-ACLIA-26026-A I&amp;A II(V1.0), 29 Jul 2026, pp. 1–9 · product photographs and workflow reproduced from the same file.</div>
+    </div>
+  </article>
+
+  <!-- ---- Bottle appearance ---- -->
+  <article class="bulletin" data-tone="immuno">
+    <div class="bulletin-head">
+      <div class="bulletin-title-wrap">
+        <div class="kicker">Appearance change · to customer</div>
+        <h3>Immunoassay reagent bottle — mould &amp; seal update</h3>
+      </div>
+      <div class="ref-chip">
+        <div><b>Ref</b> A-ACLIA-26029(V1.0)-01</div>
+        <div><b>Applies to</b> non-CL-9000i/9200i bottles</div>
+      </div>
+    </div>
+    <div class="bulletin-body">
+      <p class="prose">Two cosmetic changes to the immune reagent bottle, made so front-line staff don't mistake either for a defect. First, the four separate bottle-cavity moulds (123-, 23-, 02-, 12-cavity) are consolidated into a single 123-cavity mould — the <strong>empty</strong> cavities on 23-/02-/12-cavity bottles now show a raised rim and an unslit piercing membrane, instead of a flat surface. Second, the easy-tear film changes colour from grayish-white to <strong>pure white</strong>, alongside a structural fix for tearing/residue/seal complaints.</p>
+
+      <div class="fig">
+        <img src="images/bottle_fig12.jpg" alt="Comparison of reagent bottle top views and side views before and after the mould change">
+        <div class="fig-cap"><b>Fig. 1–2</b> — Top view (before/after) and side view of the 23-/12-/02-cavity bottle types. Red circles mark the new raised, unslit cavity mouths that appear only where a position is left empty.</div>
+      </div>
+      <div class="fig">
+        <img src="images/bottle_fig3.jpg" alt="Comparison of easy-tear film colour before and after the change, gray-white versus pure white">
+        <div class="fig-cap"><b>Fig. 3</b> — Easy-tear film: gray-white (before) vs pure white (after), shown on a 02-cavity transparent bottle.</div>
+      </div>
+
+      <div class="callout good">
+        <span class="icon">✓</span>
+        <div><b>No action needed on results</b> Bottle material is unchanged; reagent performance and normal use on all corresponding instruments are unaffected. Brief bench staff so the new bottle mouth and white film aren't flagged as a suspected quality issue.</div>
+      </div>
+      <div class="src">Source: A-ACLIA-26029-Immunoassay reagent bottle(V1.0)-01, pp. 1–3 · figures reproduced from the same file.</div>
+    </div>
+  </article>
+</section>
+
+<!-- ================= ADVISORY ================= -->
+<section class="panel" id="panel-advisory" role="tabpanel" aria-labelledby="tab-advisory" hidden>
+  <div class="tab-intro">
+    <h2>Advisory — biochemistry</h2>
+    <p>One bulletin this cycle: a new pancreas-specific amylase reagent for the BS chemistry line, aimed at labs that want better acute-pancreatitis specificity than total amylase gives.</p>
+  </div>
+
+  <article class="bulletin" data-tone="advisory">
+    <div class="bulletin-head">
+      <div class="bulletin-title-wrap">
+        <div class="kicker">New reagent launch · to customer</div>
+        <h3>P-AMY (Pancreatic Amylase) — commercial launch 30 Aug 2026</h3>
+      </div>
+      <div class="ref-chip">
+        <div><b>Ref</b> A-ASH-26006-008M(V1.0)-01</div>
+        <div><b>Platform</b> Mindray BS chemistry series</div>
+      </div>
+    </div>
+    <div class="bulletin-body">
+      <p class="prose">Total amylase rises with any salivary or pancreatic source; <strong>P-AMY isolates the pancreatic isoenzyme</strong>, giving materially better specificity for acute pancreatitis (&gt;90%) and better late-window sensitivity — P-AMY stays elevated in 80% of uncomplicated pancreatitis a full week after onset, when total amylase has often normalised. It also has a role in chronic pancreatitis assessment, post-pancreatic-surgery morbidity prediction, and reading biliary-tract disease (e.g. cholecystitis can raise P-AMY up to 4-fold via secondary pancreatic involvement).</p>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Kit</th><th>Format</th><th>P/N</th><th>Applicable analyzers</th></tr></thead>
+          <tbody>
+            <tr><td class="strong">P-AMY (BS5000)</td><td>1×300 tests</td><td class="mono">105-058525-A0</td><td>BS-5000/5200/5400/5600, BS-4000/4200</td></tr>
+            <tr><td class="strong">P-AMY (BS800)</td><td>R1 23.5 mL + R2 8 mL</td><td class="mono">105-054857-A0</td><td>BS-2600M/2800M, BS-1000M/1100M, BS-620M</td></tr>
+            <tr><td class="strong">P-AMY (BS120)</td><td>R1 23.5 mL + R2 8 mL</td><td class="mono">105-054855-A0</td><td>BS-600M, BS-430/450/460/410/470</td></tr>
+            <tr><td class="strong">P-AMY Calibrator</td><td>1×1 mL</td><td class="mono">105-053163-A0</td><td>all of the above</td></tr>
+            <tr><td class="strong">P-AMY Control</td><td>L 3×1 mL + H 3×1 mL</td><td class="mono">105-054862-A0</td><td>all of the above</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <h4 class="section-label">Precision on BS-2800M (CLSI EP05-A3, 20 days)</h4>
+        <p class="prose" style="margin:6px 0 10px;">Acceptance criterion is within-lab CV ≤ 6.5%; every level tested lands far inside that limit, serum and urine alike.</p>
+        <div class="chart-wrap">
+          <div class="chart-title">Within-run vs. within-lab CV%</div>
+          <div class="chart-sub">8 specimen levels · dashed line = 6.5% acceptance limit</div>
+          <svg id="chart-pamy-precision" viewBox="0 0 640 260" width="100%" role="img" aria-label="P-AMY precision bar chart"></svg>
+          <div class="legend">
+            <div class="item"><span class="sw" style="background:var(--immuno)"></span> Within-run CV%</div>
+            <div class="item"><span class="sw" style="background:var(--advisory)"></span> Within-lab CV%</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="section-label">Method comparison vs. Roche cobas c701 (CLSI EP09-A3)</h4>
+        <div class="chart-wrap">
+          <div class="chart-title">Regression fit vs. identity line</div>
+          <div class="chart-sub">Serum n=172, range 6–1968 U/L · Urine n=137, range 7–1980 U/L</div>
+          <svg id="chart-pamy-corr" viewBox="0 0 640 230" width="100%" role="img" aria-label="P-AMY correlation chart"></svg>
+          <div class="legend">
+            <div class="item"><span class="sw" style="background:var(--immuno)"></span> Serum: y = 1.0000x − 1.0000, r = 0.9998</div>
+            <div class="item"><span class="sw" style="background:var(--advisory)"></span> Urine: y = 1.0650x − 2.7870, r = 0.9978</div>
+            <div class="item"><span class="sw" style="background:var(--muted)"></span> Identity (y = x)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-tile"><div class="v">2 / 5 / 5</div><div class="l">LoB / LoD / LoQ, U/L</div></div>
+        <div class="stat-tile"><div class="v">13–53</div><div class="l">Serum/plasma ref. range, U/L</div></div>
+        <div class="stat-tile"><div class="v">&lt;353 / &lt;318</div><div class="l">Urine ref. range M/F, U/L</div></div>
+        <div class="stat-tile"><div class="v">×0.0167</div><div class="l">U/L → µkat/L</div></div>
+      </div>
+
+      <details class="dd">
+        <summary>Calibration, QC &amp; parameter files <span class="chev">▸</span></summary>
+        <div class="dd-body">
+          <p><strong>Calibration:</strong> two-point, using the Mindray P-AMY Calibrator (105-053163-00) plus 9 g/L NaCl. Traceable via ISO 17511 to the manufacturer's selected procedure (Roche reagent + Roche system).</p>
+          <p style="margin-top:8px;"><strong>QC:</strong> run the Mindray P-AMY Control (105-054862-00), two levels per batch — with every new calibration, new reagent lot, and after maintenance/troubleshooting.</p>
+          <p style="margin-top:8px;"><strong>Dilution:</strong> results above 2000 U/L → dilute 1:10 with 9 g/L NaCl, rerun, multiply result ×11.</p>
+          <div class="tbl-wrap" style="margin-top:10px;">
+            <table>
+              <thead><tr><th>Analyzer</th><th>Parameter file</th><th>Where</th></tr></thead>
+              <tbody>
+                <tr><td>BS-2800M series</td><td class="mono">BS2800_Chemistry_Small(14.0)</td><td rowspan="3">Mindray Portal → Chemistry Reagents – Controls and Calibrators – Mindray</td></tr>
+                <tr><td>BS-430 series</td><td class="mono">BS430_Small_English_branch2(5.0)</td></tr>
+                <tr><td>BS-1000M series</td><td class="mono">BA1K_Chemistry_Small(7.0)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="margin-top:8px; font-size:12.5px;">BS-600M / BS-620M parameter files are not online yet — expected 30 Sep 2026.</p>
+        </div>
+      </details>
+
+      <div class="callout action">
+        <span class="icon">☑</span>
+        <div><b>Do this at each site</b> Where acute-pancreatitis work-up currently relies on total amylase alone, flag P-AMY as the higher-specificity option. Confirm the analyzer's parameter file is loaded before go-live, and hold off on BS-600M/620M until the 30 Sep parameter release.</div>
+      </div>
+      <div class="src">Source: A-ASH-26006-008M(V1.0)-01 “Advisory Notice–Technical News (To Customer)”, pp. 1–4.</div>
+    </div>
+  </article>
+</section>
+
+<!-- ================= MT-8000 ================= -->
+<section class="panel" id="panel-mt8000" role="tabpanel" aria-labelledby="tab-mt8000" hidden>
+  <div class="tab-intro">
+    <h2>MT-8000 total laboratory automation</h2>
+    <p>One release note, fifteen changes: software EBJ770 brings next-generation analyzer integration, sample-handling refinements, tighter QC control, and workflow polish to the MT-8000 track.</p>
+  </div>
+
+  <article class="bulletin" data-tone="mt8000">
+    <div class="bulletin-head">
+      <div class="bulletin-title-wrap">
+        <div class="kicker">Software / manual upgrade</div>
+        <h3>MT 8000 TLA — software optimization (EBJ770)</h3>
+      </div>
+      <div class="ref-chip">
+        <div><b>Ref</b> A-ATLA-26002-MT 8000(V2.0)</div>
+        <div><b>Issued</b> 2 Sep 2026 · Fan Hanwen</div>
+        <div><b>V1.0</b> 14 May 2026</div>
+      </div>
+    </div>
+    <div class="bulletin-body">
+
+      <div class="fig">
+        <img src="images/mt_tla.jpg" alt="MT8000 total laboratory automation track with connected analyzers">
+        <div class="fig-cap"><b>The MT-8000 line</b> — pre-analytical, analytic and post-analytic modules on one track. EBJ770 mainly widens what can sit on that track and tightens the software running it.</div>
+      </div>
+
+      <div>
+        <h4 class="section-label">Where the 15 changes land</h4>
+        <div class="chart-wrap">
+          <div class="chart-title">EBJ770 changes by focus area</div>
+          <div class="chart-sub">15 total · 2 added, 13 optimized</div>
+          <svg id="chart-mt-cats" viewBox="0 0 640 160" width="100%" role="img" aria-label="MT8000 changes by category bar chart"></svg>
+        </div>
+      </div>
+
+      <div class="cat-heading"><span class="n">2.1–2.2</span> Next-generation connectivity</div>
+      <div class="change-grid">
+        <div class="change-card">
+          <div class="idx">2.1</div>
+          <div class="body"><div class="t">BS-5000 &amp; CL-9000i integration <span class="badge added">Added</span></div>
+          <div class="d">MT-8000 now takes next-generation biochemistry/immunoassay analyzers onto both branch and main track. Not yet in the international market — check with International Marketing before quoting. TLA type must be selected at standalone install; on the ISE module's left side, only SDM or an empty position is allowed next to BS-5000, or track will alarm and disable.</div></div>
+        </div>
+        <div class="change-card">
+          <div class="idx">2.2</div>
+          <div class="body"><div class="t">CX-9600 coagulation integration <span class="badge added">Added</span></div>
+          <div class="d">Full integration — item sync, testing, result management, post-processing, reagent/consumable management. CX-9600 is also not yet available internationally.</div></div>
+        </div>
+      </div>
+
+      <div class="cat-heading"><span class="n">2.3, 2.4, 2.6, 2.7</span> Sample &amp; carrier handling</div>
+      <div class="change-grid">
+        <div class="change-card">
+          <div class="idx">2.3</div>
+          <div class="body"><div class="t">SARSTEDT S-Monovette® height recognition fixed <span class="badge optimized">Optimized</span></div>
+          <div class="d">The tube's white bottom previously confused height detection; recognition is now correct. Only this specific tube is validated — decapping needs a hardware upgrade (centrifugation compatibility still unconfirmed), and any other brand needs HQ evaluation first.</div></div>
+        </div>
+        <div class="change-card">
+          <div class="idx">2.4</div>
+          <div class="body"><div class="t">Single-tube loading for soft/glass tubes <span class="badge added">Added</span></div>
+          <div class="d">Manually place a centrifuged, decapped tube straight into a single-tube carrier — no gripper handling. BS-5000/CL-9000i configurations only; not available on BS-2800/CL-8000i. Enable in DM: Setup → System → Configure rack pos. view → [Enable single tube] → restart.</div></div>
+        </div>
+        <div class="change-card">
+          <div class="idx">2.6</div>
+          <div class="body"><div class="t">More empty-carrier capacity <span class="badge optimized">Optimized</span></div>
+          <div class="d">Each extra immunoassay track adds 16 empty carriers, each biochemistry track +12, each ISE track +5. Load empty carriers from the middle of the front-end track.</div></div>
+        </div>
+        <div class="change-card">
+          <div class="idx">2.7</div>
+          <div class="body"><div class="t">Smarter node sample-capacity limits <span class="badge optimized">Optimized</span></div>
+          <div class="d">Routine (non-STAT) samples are now capped per node so a large biochemistry batch can't block immunoassay samples from entering. Biochemistry +32, immunoassay +25, ISE +11 capacity per analyzer added; overflow queues on the main track. Extra-Urgent samples are exempt from the type restriction — capacity-limited only.</div></div>
+        </div>
+      </div>
+      <div class="fig" style="margin-top:4px;">
+        <div class="fig-grid">
+          <div><img src="images/mt_tube.jpg" alt="SARSTEDT S-Monovette syringe tubes on the analyzer track" style="border-radius:6px;width:100%;"></div>
+          <div><img src="images/mt_singletube.jpg" alt="Single-tube loading input and output rack on the SDM platform" style="border-radius:6px;width:100%;"></div>
+        </div>
+        <div class="fig-cap"><b>Left</b> — the S-Monovette tube type validated for 2.3. <b>Right</b> — the single-tube loading rack (input/output) used for 2.4.</div>
+      </div>
+
+      <div class="cat-heading"><span class="n">2.5, 2.8–2.11</span> Quality control &amp; maintenance</div>
+      <div class="change-grid">
+        <div class="change-card">
+          <div class="idx">2.5</div>
+          <div class="body"><div class="t">Next-gen ISE maintenance functions <span class="badge optimized">Optimized</span></div>
+          <div class="d">System → Maintenance → [Semi-Automatic] adds Clean ISE Electrodes, Electrolyte Tube Auto Maintenance and Electrode Auto Activation. These now only accept the fixed barcodes <span class="mono">ISE-D-0001</span> / <span class="mono">ISE-A-0001</span> — custom maintenance barcodes aren't supported.</div></div>
+        </div>
+        <div class="change-card">
+          <div class="idx">2.8</div>
+          <div class="body"><div class="t">[ERR] samples route straight to the abnormal area <span class="badge optimized">Optimized</span></div>
+          <div class="d">Samples flagged [ERR] (not <span class="mono">xxx.ERR</span>) from a connected BS-2800M/CL-8000i used to auto-rerun and keep cycling the track. They now go directly to the IOM's Sample Abnormal Area.</div></div>
+        </div>
+        <div class="change-card">
+          <div class="idx">2.9</div>
+          <div class="body"><div class="t">QC Plot now sorts by target value <span class="badge optimized">Optimized</span></div>
+          <div class="d">Controls on the QC Plot interface display left-to-right from lowest to highest target value, consistently.</div></div>
+        </div>
+        <div class="change-card">
+          <div class="idx">2.10</div>
+          <div class="body"><div class="t">Toggleable age-from-birth-date calculation <span class="badge optimized">Optimized</span></div>
+          <div class="d">New [Calculate Age per Birth Date] switch in LIS Upload &amp; Download setup. On: the system computes age from the LIS date of birth. Off: it keeps whatever DOB/age the LIS sent. Prevents mismatches feeding age-dependent reference ranges/rules.</div></div>
+        </div>
+        <div class="change-card">
+          <div class="idx">2.11</div>
+          <div class="body"><div class="t">Absolute-threshold QC with AOC alarm <span class="badge optimized">Optimized</span></div>
+          <div class="d">Each control can now use [Relative Threshold] (mean + SD, as before) or [Absolute Threshold] (target + upper/lower limit). Absolute Threshold unlocks a [RangeCheck] QC rule — selecting it auto-disables the relative-threshold rules. A result outside the absolute limits raises an <span class="mono">AOC</span> flag in Sample Results, the Overview panel, a Tip alert, and a highlight in QC Plot.</div></div>
+        </div>
+      </div>
+      <div class="fig" style="margin-top:4px;">
+        <img src="images/mt_aoc.jpg" alt="AOC alarm tip showing out-of-control control result on immunoassay node 2" style="width:280px;max-width:100%;border-radius:6px;">
+        <div class="fig-cap">An AOC alarm as it appears in the Tip panel — control out of its absolute range, with the remedy line built in.</div>
+      </div>
+
+      <div class="cat-heading"><span class="n">2.12–2.15</span> Result &amp; workflow operations</div>
+      <div class="change-grid">
+        <div class="change-card">
+          <div class="idx">2.12</div>
+          <div class="body"><div class="t">Hematology channel numbers can be freed up <span class="badge optimized">Optimized</span></div>
+          <div class="d">The Hematology [Activate] toggle was previously locked. It can now be disabled per item, releasing a shared channel number (e.g. <span class="mono">PCT</span>) for the immunoassay parameter of the same name. Setup → Tests → Test Setup → [Hematology] tab → deactivate the duplicate item.</div></div>
+        </div>
+        <div class="change-card">
+          <div class="idx">2.13</div>
+          <div class="body"><div class="t">Manual rerun gains a repeat-count field <span class="badge optimized">Optimized</span></div>
+          <div class="d">[Rerun F2] adds a [Replicates] field per parameter. LIS transmission follows [Send Actual Results and Rerun Results]: on sends the original plus every rerun, off sends only the last rerun.</div></div>
+        </div>
+        <div class="change-card">
+          <div class="idx">2.14</div>
+          <div class="body"><div class="t">Auto Rerun rules split by analyzer model <span class="badge optimized">Optimized</span></div>
+          <div class="d">With BS-2800 and BS-5000 both connected, Result-alarm-check and Sample-characteristic-check rules configure separately per analyzer — switch models at the top of the screen. Dilution-factor dropdowns show a model suffix only where a factor is analyzer-specific.</div></div>
+        </div>
+        <div class="change-card">
+          <div class="idx">2.15</div>
+          <div class="body"><div class="t">Serum image gains Forward/Reverse &amp; Rotate <span class="badge optimized">Optimized</span></div>
+          <div class="d">Sample Vision's enlarged view adds [Forward/Reverse Display] and [Rotate 90°] buttons, so an upside-down or mirrored serum image can be corrected on screen.</div></div>
+        </div>
+      </div>
+      <div class="fig-grid" style="margin-top:4px;">
+        <div class="fig"><img src="images/mt_rerun.jpg" alt="Rerun dialog with new Replicates field for manual rerun"><div class="fig-cap"><b>2.13</b> — the new Replicates column in the Rerun dialog.</div></div>
+        <div class="fig"><img src="images/mt_serumvision.jpg" alt="Sample Vision viewer with Forward/Reverse Display and Rotate 90 degree buttons"><div class="fig-cap"><b>2.15</b> — Sample Vision's new orientation controls.</div></div>
+      </div>
+
+      <details class="dd">
+        <summary>Minimum / current software versions by module <span class="chev">▸</span></summary>
+        <div class="dd-body">
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Module</th><th>Middleware / analyzer</th><th>Data acquisition</th></tr></thead>
+              <tbody>
+                <tr><td class="strong">MT8000 line</td><td class="mono">Middleware 0.100.00.17801 · SRP 02.09.00.1905</td><td class="mono">01.39.00.16701</td></tr>
+                <tr><td class="strong">Current biochem &amp; immunoassay</td><td class="mono">BS-2800 03.01.27.27863 · CL-8000i 01.01.30.25830</td><td class="mono">01.39.00.16701</td></tr>
+                <tr><td class="strong">Coagulation</td><td class="mono">CX-9000/9600 01.00.00.13101</td><td class="mono">01.39.00.16701</td></tr>
+                <tr><td class="strong">Hematology (TM1000)</td><td class="mono">01.61.00.22447</td><td class="mono">01.28.00.7246</td></tr>
+                <tr><td class="strong">Next-gen biochem &amp; immunoassay</td><td class="mono">BS-5000 01.00.02.11665 · CL-9000i 01.00.02.10973 · SDM Plus 02.09.00.1905</td><td>planned June 2026</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </details>
+
+      <div class="callout action">
+        <span class="icon">☑</span>
+        <div><b>Do this at each site running MT-8000</b> Confirm current middleware/analyzer versions against the table above before enabling any EBJ770 feature. If the site plans single-tube loading (2.4) or the SARSTEDT tube workflow (2.3), check the analyzer configuration is BS-5000/CL-9000i — BS-2800/CL-8000i sites can't use either. Walk QC leads through the new Absolute Threshold / AOC flag (2.11) before it's switched on, so an AOC alarm isn't mistaken for an instrument fault.</div>
+      </div>
+      <div class="src">Source: A-ATLA-26002-MT 8000(V2.0), 2 Sep 2026, pp. 1–15 · photographs and screenshots reproduced from the same file.</div>
+    </div>
+  </article>
+</section>
+
+</main>
+
+<footer>
+  Compiled for internal application-support use from the six bulletins listed above, all issued by Mindray Global Service Department / In Vitro Diagnostics Global Technical Support. Figures, product photographs and UI screenshots are reproduced from the original PDFs; charts under “Method comparison”, “Precision” and “changes by focus area” are redrawn from the tabulated data in those same documents.
+</footer>
+
+<script>
+(function(){
+  // ---------- tabs ----------
+  var tabs = document.querySelectorAll('.tab-btn');
+  var accentMap = { 'tab-immuno':'var(--immuno)', 'tab-advisory':'var(--advisory)', 'tab-mt8000':'var(--mt8000)' };
+  tabs.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      tabs.forEach(function(b){ b.setAttribute('aria-selected','false'); b.style.removeProperty('--accent'); });
+      btn.setAttribute('aria-selected','true');
+      document.querySelectorAll('.panel').forEach(function(p){ p.hidden = true; });
+      document.getElementById(btn.getAttribute('aria-controls')).hidden = false;
+      window.scrollTo({top:0, behavior:'instant'});
+    });
+  });
+
+  // ---------- svg helpers ----------
+  var NS = 'http://www.w3.org/2000/svg';
+  function el(tag, attrs){
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  function cssVar(name){
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+  function title(node, text){ var t = el('title',{}); t.textContent = text; node.appendChild(t); }
+
+  // ================= Chart 1: CEA QC deviation dot strip =================
+  (function(){
+    var svg = document.getElementById('chart-cea-qc');
+    if(!svg) return;
+    var data = {
+      'Mindray (n=6)': [22,4,19,-6,13,-5],
+      'Bio-Rad (n=12)': [-7,-11,-14,-4,-9,-13,-11,-13,-13,-8,-11,-15],
+      'Randox (n=2)': [15,19]
+    };
+    var W=640,H=210, padL=110, padR=24, padT=10, padB=28;
+    var domainMin=-20, domainMax=25;
+    function x(v){ return padL + (v-domainMin)/(domainMax-domainMin) * (W-padL-padR); }
+    var rows = Object.keys(data);
+    var rowH = (H-padT-padB)/rows.length;
+
+    // gridlines every 10, plus zero
+    for (var g=-20; g<=25; g+=5){
+      var isZero = g===0;
+      var line = el('line',{x1:x(g),x2:x(g),y1:padT,y2:H-padB, class: isZero?'zero-line':'grid-line'});
+      svg.appendChild(line);
+      var lbl = el('text',{x:x(g), y:H-padB+16, 'text-anchor':'middle', class:'axis-label'});
+      lbl.textContent = g+'%';
+      svg.appendChild(lbl);
+    }
+
+    rows.forEach(function(name, i){
+      var cy = padT + rowH*i + rowH/2;
+      var lbl = el('text',{x:padL-12, y:cy+4, 'text-anchor':'end', fill:cssVar('--ink-2'), 'font-size':'12'});
+      lbl.textContent = name;
+      svg.appendChild(lbl);
+
+      var vals = data[name];
+      var mean = vals.reduce(function(a,b){return a+b;},0)/vals.length;
+
+      vals.forEach(function(v, j){
+        var jitter = (vals.length>1) ? (j - (vals.length-1)/2) * 3.2 : 0;
+        var c = el('circle',{
+          cx:x(v), cy: cy+jitter, r:4.2,
+          fill: v>=0 ? cssVar('--pos') : cssVar('--neg'),
+          'fill-opacity':'0.85', stroke: cssVar('--surface'), 'stroke-width':'1'
+        });
+        title(c, name.split(' (')[0]+': '+ (v>0?'+':'') + v + '% vs current version');
+        svg.appendChild(c);
+      });
+
+      // mean tick
+      var meanX = x(mean);
+      var tick = el('rect',{x:meanX-1, y:cy-rowH*0.34, width:2, height:rowH*0.68, fill:cssVar('--ink'), opacity:'0.55'});
+      svg.appendChild(tick);
+    });
+  })();
+
+  // ================= Chart 2: P-AMY precision grouped bars =================
+  (function(){
+    var svg = document.getElementById('chart-pamy-precision');
+    if(!svg) return;
+    var cats = ['Control 1','Control 2','Serum 1','Serum 2','Serum 3','Urine 1','Urine 2','Urine 3'];
+    var within_run = [1.55,0.52,0.76,0.36,0.39,0.55,0.41,0.38];
+    var within_lab = [2.29,0.92,1.26,0.79,1.15,1.07,1.52,1.22];
+    var W=640,H=260, padL=40,padR=16,padT=14,padB=54;
+    var maxV = 6.5;
+    var plotH = H-padT-padB, plotW = W-padL-padR;
+    function y(v){ return padT + plotH - (v/maxV)*plotH; }
+    // gridlines
+    [0,2,4,6].forEach(function(v){
+      svg.appendChild(el('line',{x1:padL,x2:W-padR,y1:y(v),y2:y(v),class:'grid-line'}));
+      var t = el('text',{x:padL-8,y:y(v)+4,'text-anchor':'end',class:'axis-label'}); t.textContent=v+'%'; svg.appendChild(t);
+    });
+    // acceptance line at 6.5
+    var al = el('line',{x1:padL,x2:W-padR,y1:y(6.5),y2:y(6.5), stroke:cssVar('--warn'), 'stroke-width':'1.5','stroke-dasharray':'4,3'});
+    svg.appendChild(al);
+    var alLbl = el('text',{x:W-padR, y:y(6.5)-5, 'text-anchor':'end', class:'axis-label', fill:cssVar('--warn')});
+    alLbl.textContent = 'acceptance limit 6.5%';
+    svg.appendChild(alLbl);
+
+    var groupW = plotW/cats.length;
+    var barW = groupW*0.30;
+    cats.forEach(function(cat,i){
+      var gx = padL + groupW*i + groupW/2;
+      var b1 = el('rect',{x:gx-barW-2, y:y(within_run[i]), width:barW, height: (H-padB)-y(within_run[i]), rx:2, fill:cssVar('--immuno')});
+      title(b1, cat+' within-run CV: '+within_run[i]+'%');
+      svg.appendChild(b1);
+      var b2 = el('rect',{x:gx+2, y:y(within_lab[i]), width:barW, height:(H-padB)-y(within_lab[i]), rx:2, fill:cssVar('--advisory')});
+      title(b2, cat+' within-lab CV: '+within_lab[i]+'%');
+      svg.appendChild(b2);
+      var lbl = el('text',{x:gx, y:H-padB+16, 'text-anchor':'middle', class:'axis-label'});
+      var parts = cat.split(' ');
+      lbl.textContent = parts[0].slice(0,4)+' '+parts[1];
+      svg.appendChild(lbl);
+    });
+    svg.appendChild(el('line',{x1:padL,x2:W-padR,y1:H-padB,y2:H-padB, class:'zero-line'}));
+  })();
+
+  // ================= Chart 3: P-AMY correlation (fit lines vs identity) =================
+  (function(){
+    var svg = document.getElementById('chart-pamy-corr');
+    if(!svg) return;
+    var W=640,H=230, padL=46,padR=20,padT=14,padB=34;
+    var maxV = 2000;
+    var plotW=W-padL-padR, plotH=H-padT-padB;
+    function x(v){ return padL + (v/maxV)*plotW; }
+    function y(v){ return padT + plotH - (v/maxV)*plotH; }
+    [0,500,1000,1500,2000].forEach(function(v){
+      svg.appendChild(el('line',{x1:x(v),x2:x(v),y1:padT,y2:H-padB,class:'grid-line'}));
+      svg.appendChild(el('line',{x1:padL,x2:W-padR,y1:y(v),y2:y(v),class:'grid-line'}));
+      var tx = el('text',{x:x(v),y:H-padB+16,'text-anchor':'middle',class:'axis-label'}); tx.textContent=v; svg.appendChild(tx);
+    });
+    var tyl = el('text',{x:padL-10,y:padT+4,'text-anchor':'end',class:'axis-label'}); tyl.textContent='2000'; svg.appendChild(tyl);
+    var tyl0 = el('text',{x:padL-10,y:H-padB+4,'text-anchor':'end',class:'axis-label'}); tyl0.textContent='0'; svg.appendChild(tyl0);
+
+    // identity
+    svg.appendChild(el('line',{x1:x(0),y1:y(0),x2:x(maxV),y2:y(maxV), stroke:cssVar('--muted'),'stroke-width':'1.5','stroke-dasharray':'5,4'}));
+    // serum fit y=1.0000x-1.0000 over 6-1968
+    var sx1=6, sx2=1968;
+    svg.appendChild(el('line',{x1:x(sx1),y1:y(1.0*sx1-1.0),x2:x(sx2),y2:y(1.0*sx2-1.0), stroke:cssVar('--immuno'),'stroke-width':'2.5', 'stroke-linecap':'round'}));
+    // urine fit y=1.065x-2.787 over 7-1980
+    var ux1=7, ux2=1980;
+    svg.appendChild(el('line',{x1:x(ux1),y1:y(1.065*ux1-2.787),x2:x(ux2),y2:y(1.065*ux2-2.787), stroke:cssVar('--advisory'),'stroke-width':'2.5','stroke-linecap':'round'}));
+
+    var axl = el('text',{x:W/2,y:H-4,'text-anchor':'middle',class:'axis-label'}); axl.textContent='Roche cobas c701 result (U/L)'; svg.appendChild(axl);
+  })();
+
+  // ================= Chart 4: MT8000 changes by category =================
+  (function(){
+    var svg = document.getElementById('chart-mt-cats');
+    if(!svg) return;
+    var cats = [
+      {name:'Connectivity', n:2, color:'var(--immuno)'},
+      {name:'Sample handling', n:4, color:'var(--mt8000)'},
+      {name:'QC & maintenance', n:5, color:'var(--advisory)'},
+      {name:'Workflow ops', n:4, color:'var(--ink-2)'}
+    ];
+    var W=640,H=160, padL=150,padR=40,padT=8,padB=10;
+    var plotW = W-padL-padR;
+    var maxN = 5;
+    var rowH = (H-padT-padB)/cats.length;
+    function w(n){ return (n/maxN)*plotW; }
+    cats.forEach(function(c,i){
+      var cy = padT + rowH*i + rowH/2;
+      var lbl = el('text',{x:padL-12,y:cy+4,'text-anchor':'end', 'font-size':'12.5', fill:cssVar('--ink-2')});
+      lbl.textContent = c.name; svg.appendChild(lbl);
+      var track = el('rect',{x:padL,y:cy-9,width:plotW,height:18,rx:9, fill:cssVar('--line')});
+      svg.appendChild(track);
+      var bar = el('rect',{x:padL,y:cy-9,width:w(c.n),height:18,rx:9, fill:cssVar(c.color.replace('var(','').replace(')',''))});
+      title(bar, c.name+': '+c.n+' of 15 changes');
+      svg.appendChild(bar);
+      var val = el('text',{x:padL+w(c.n)+10,y:cy+4,'font-size':'12.5','font-weight':'600', fill:cssVar('--ink')});
+      val.textContent = c.n;
+      svg.appendChild(val);
+    });
+  })();
+})();
+</script>
+
+</body></html>
