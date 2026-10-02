@@ -63,52 +63,52 @@
         ]
     },
     {
-    "id": "bricyte_e6",
-    "name": "Bricyte E6",
-    "type": "Hematology Analyzer",
-    "manufacturer": "Shenzhen Mindray Bio-Medical Electronics",
-    "description": "Automated hematology analyzer with Flow Cytometry. Suitable for clinical laboratories and hospital settings.",
-    "parameters": [
-        "WBC - Total White Blood Cell Count",
-        "RBC - Red Blood Cell Count",
-        "HGB - Hemoglobin",
-        "HCT - Hematocrit",
-        "MCV - Mean Corpuscular Volume",
-        "MCH - Mean Corpuscular Hemoglobin",
-        "MCHC - Mean Corpuscular Hemoglobin Concentration",
-        "PLT - Platelet Count",
-        "NEUT - Neutrophils (%)",
-        "LYMPH - Lymphocytes (%)",
-        "MONO - Monocytes (%)",
-        "EOS - Eosinophils (%)",
-        "BASO - Basophils (%)",
-        "RDW - Red Cell Distribution Width",
-        "PDW - Platelet Distribution Width",
-        "MPV - Mean Platelet Volume"
-    ],
-    "troubleshooting": [
-        "Cold sample: Warm to room temperature (18-25°C) before analysis",
-        "Clotted sample: Discard, recollect in proper anticoagulant (EDTA K2)",
-        "Low platelet count: Verify no clumping, review blood smear",
-        "Instrument error E001: Check reagent bottles and perform purge cycle",
-        "Abnormal WBC differential: Review with microscope for morphology assessment",
-        "High NTU (turbidity): Check for hemolysis or lipemia, recollect if necessary",
-        "No aspiration: Verify sample level in tube, check sampling needle is clear"
-    ],
-    "notes": "Flow Cytometry Analyzer of Mindray. Compatible with EDTA / Heparin anticoagulated whole blood specimens. Results include complete CBC with differential and RBC/platelet indices. Regular maintenance and calibration required for optimal performance.",
-    "attachments": [
-        {
-            "name": "📖 Bricyte E6 Reference Guide",
-            "type": "Interactive HTML",
-            "url": "database/bricyte-e6.html"
-        },
-        {
-            "name": "📚 Bricyte E6 Complete Guide",
-            "type": "Interactive HTML",
-            "url": "Bricyte_guide.html"
-        }
-    ]
-},
+        "id": "bricyte_e6",
+        "name": "Bricyte E6",
+        "type": "Hematology Analyzer",
+        "manufacturer": "Shenzhen Mindray Bio-Medical Electronics",
+        "description": "Automated hematology analyzer with Flow Cytometry. Suitable for clinical laboratories and hospital settings.",
+        "parameters": [
+            "WBC - Total White Blood Cell Count",
+            "RBC - Red Blood Cell Count",
+            "HGB - Hemoglobin",
+            "HCT - Hematocrit",
+            "MCV - Mean Corpuscular Volume",
+            "MCH - Mean Corpuscular Hemoglobin",
+            "MCHC - Mean Corpuscular Hemoglobin Concentration",
+            "PLT - Platelet Count",
+            "NEUT - Neutrophils (%)",
+            "LYMPH - Lymphocytes (%)",
+            "MONO - Monocytes (%)",
+            "EOS - Eosinophils (%)",
+            "BASO - Basophils (%)",
+            "RDW - Red Cell Distribution Width",
+            "PDW - Platelet Distribution Width",
+            "MPV - Mean Platelet Volume"
+        ],
+        "troubleshooting": [
+            "Cold sample: Warm to room temperature (18-25°C) before analysis",
+            "Clotted sample: Discard, recollect in proper anticoagulant (EDTA K2)",
+            "Low platelet count: Verify no clumping, review blood smear",
+            "Instrument error E001: Check reagent bottles and perform purge cycle",
+            "Abnormal WBC differential: Review with microscope for morphology assessment",
+            "High NTU (turbidity): Check for hemolysis or lipemia, recollect if necessary",
+            "No aspiration: Verify sample level in tube, check sampling needle is clear"
+        ],
+        "notes": "Flow Cytometry Analyzer of Mindray. Compatible with EDTA / Heparin anticoagulated whole blood specimens. Results include complete CBC with differential and RBC/platelet indices. Regular maintenance and calibration required for optimal performance.",
+        "attachments": [
+            {
+                "name": "📖 Bricyte E6 Reference Guide",
+                "type": "Interactive HTML",
+                "url": "database/bricyte-e6.html"
+            },
+            {
+                "name": "📚 Bricyte E6 Complete Guide",
+                "type": "Interactive HTML",
+                "url": "Bricyte_guide.html"
+            }
+        ]
+    },
     {
         "id": "cx_series",
         "name": "Mindray CX Series",
@@ -340,6 +340,34 @@
                 "name": "⭐ Re-exam Rule update for EU series | Rule Table",
                 "type": "Interactive HTML",
                 "url": "re-exam-rule-eu-series.html"
+            }
+        ]
+    },
+    {
+        "id": "bc6000_second",
+        "name": "BC-6000 Second Analyzer Guide",
+        "type": "Hematology Analyzer",
+        "manufacturer": "Mindray",
+        "description": "Bilingual (EN/TH) bench-side guide for adding a second BC-6000 next to an existing one: site prep, installation, first setup, labXpert + LIS connection, QC and between-analyzer comparison, daily care, troubleshooting and a quiz.",
+        "parameters": [
+            "Site readiness - room, power, network and supplies checklist",
+            "First setup - startup, self-test, background and fluidics",
+            "labXpert + LIS - up to 4 workstations sharing one LIS link",
+            "QC + compare - daily QC and proving both analyzers agree",
+            "Daily care - maintenance checklists",
+            "Troubleshooting - searchable error/fix cards"
+        ],
+        "troubleshooting": [
+            "Installation: Mindray-authorized personnel only",
+            "QC failure: run QC with controls made for this analyzer before any sample",
+            "Analyzers disagree: use the built-in comparison calculator"
+        ],
+        "notes": "Sources: BC-6000 Operation Manual, Service Manual V2.0, labXpert operator's manual V9 and training decks. Checklist ticks are saved on the viewer's device only.",
+        "attachments": [
+            {
+                "name": "⭐ BC-6000 Second Analyzer | Field Guide",
+                "type": "Interactive HTML",
+                "url": "bc6000-second-analyzer-guide.html"
             }
         ]
     }
