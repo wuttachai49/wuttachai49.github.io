@@ -6,7 +6,13 @@
         "definition": "International standard specifying requirements for medical laboratories regarding quality management systems and competence.",
         "explanation": "ISO 15189 is the main accreditation standard for clinical laboratories globally. Covers all aspects: organization, personnel competence, equipment, pre-analytical, analytical, post-analytical phases, quality control, proficiency testing, and continuous improvement. Requires documented procedures, audits, and management review.",
         "clinicalSignificance": "Essential for laboratory accreditation and credibility. Compliance ensures consistent, reliable, and clinically valid results. Required by many healthcare systems, insurance companies, and quality bodies. Demonstrates commitment to excellence.",
-        "relatedTerms": ["CAP", "CLIA", "Quality Control", "Accreditation", "Management review"]
+        "relatedTerms": [
+            "CAP",
+            "CLIA",
+            "Quality Control",
+            "Accreditation",
+            "Management review"
+        ]
     },
     {
         "id": "measurement_uncertainty",
@@ -15,7 +21,14 @@
         "definition": "The range of values around a measured result within which the true value is expected to lie with a stated level of confidence (typically 95%).",
         "explanation": "MU quantifies doubt about any measurement. Includes both systematic (bias) and random (precision) errors. Expressed as expanded uncertainty (U) with coverage factor (k=2 for 95% CI). Calculation methods: GUM (bottom-up), top-down (s_wr), or validation data approach. Critical for result interpretation.",
         "clinicalSignificance": "Understanding MU ensures appropriate interpretation of results and prevents over-interpretation of small differences. Result ±U is the complete answer. Critical for comparing results over time, between methods, or between labs. Required by ISO 15189.",
-        "relatedTerms": ["Precision", "Accuracy", "Bias", "Standard deviation", "GUM", "EURACHEM"]
+        "relatedTerms": [
+            "Precision",
+            "Accuracy",
+            "Bias",
+            "Standard deviation",
+            "GUM",
+            "EURACHEM"
+        ]
     },
     {
         "id": "clsi",
@@ -24,7 +37,12 @@
         "definition": "Non-profit organization developing consensus standards for laboratory testing, including urinalysis interpretation guidelines.",
         "explanation": "CLSI publishes standards for specimen collection, analysis, and reporting (e.g., M20 for urinalysis, GP16 for autoverification). These standards are widely adopted by laboratories worldwide and accepted by accreditation bodies. Updated regularly as science evolves.",
         "clinicalSignificance": "CLSI standards ensure consistency and quality of laboratory testing. Following CLSI guidelines supports accreditation and regulatory compliance. Essential reference for establishing laboratory policies and procedures.",
-        "relatedTerms": ["ISO 15189", "CAP", "Accreditation", "Standards"]
+        "relatedTerms": [
+            "ISO 15189",
+            "CAP",
+            "Accreditation",
+            "Standards"
+        ]
     },
     {
         "id": "eflm",
@@ -33,7 +51,12 @@
         "definition": "European professional organization providing evidence-based guidelines for laboratory medicine, quality, and patient outcomes.",
         "explanation": "EFLM develops recommendations for pre-analytical variables, quality specifications, analytical performance, and harmonization of laboratory results across Europe. Works alongside CLSI on international standards.",
         "clinicalSignificance": "EFLM guidance supports laboratory quality and harmonization. Particularly important for European laboratories and those seeking international accreditation. Complements ISO 15189 and CLSI standards.",
-        "relatedTerms": ["ISO 15189", "CLSI", "Quality specifications", "Pre-analytical variables"]
+        "relatedTerms": [
+            "ISO 15189",
+            "CLSI",
+            "Quality specifications",
+            "Pre-analytical variables"
+        ]
     },
     {
         "id": "iqa_eqa",
@@ -42,7 +65,12 @@
         "definition": "IQA: In-lab QC with control materials daily. EQA: External proficiency testing by 3rd party monthly/quarterly to verify lab performance against peers.",
         "explanation": "IQA (Internal QC): Detects within-run and between-run imprecision, maintains analyzer function. EQA (Proficiency Testing): Compares lab results with peer groups, detects systematic errors and calibration drift. Both essential for accreditation.",
         "clinicalSignificance": "IQA ensures day-to-day reliability. EQA detects significant errors before patient harm. Failure in either requires investigation and corrective action. Critical components of continuous quality improvement.",
-        "relatedTerms": ["Quality control", "Proficiency testing", "Westgard rules", "Levy-Jennings"]
+        "relatedTerms": [
+            "Quality control",
+            "Proficiency testing",
+            "Westgard rules",
+            "Levy-Jennings"
+        ]
     },
     {
         "id": "delta_check",
@@ -51,7 +79,12 @@
         "definition": "Comparison of current patient result with previous result to detect analytical errors or sample mix-up based on acceptable change magnitude.",
         "explanation": "Delta limits set based on biology and analytical variation. Example: Hemoglobin change >2 g/dL, creatinine change >0.5 mg/dL in 24 hours warrants review. Can be absolute or percentage-based. Important in LIS autoverification systems.",
         "clinicalSignificance": "Detects transcription errors, sample mix-up, and analytical problems before results are reported. Prevents harm from incorrect patient results. Critical quality control measure in modern laboratories.",
-        "relatedTerms": ["Autoverification", "Quality control", "LIS", "Result verification"]
+        "relatedTerms": [
+            "Autoverification",
+            "Quality control",
+            "LIS",
+            "Result verification"
+        ]
     },
     {
         "id": "blood_gas_cardfile",
@@ -60,7 +93,15 @@
         "definition": "Interactive HTML card file for learning blood gas parameters, acid-base mechanisms, and case interpretation.",
         "explanation": "Comprehensive interactive learning tool covering all blood gas parameters (pH, pCO2, pO2, HCO3-, BE, SaO2), acid-base balance physiology, the four primary acid-base disorders (respiratory acidosis/alkalosis, metabolic acidosis/alkalosis), compensation mechanisms, and practical case studies for clinical interpretation.",
         "clinicalSignificance": "Essential learning resource for laboratory technicians and students. Provides structured approach to blood gas interpretation with interactive examples.",
-        "relatedTerms": ["Acid-base balance", "pH", "pCO2", "pO2", "HCO3-", "Respiratory acidosis", "Metabolic acidosis"],
+        "relatedTerms": [
+            "Acid-base balance",
+            "pH",
+            "pCO2",
+            "pO2",
+            "HCO3-",
+            "Respiratory acidosis",
+            "Metabolic acidosis"
+        ],
         "attachments": [
             {
                 "name": "📚 Open Blood Gas Card File",
@@ -74,7 +115,10 @@
         "term": "Flow Cytometry Card File",
         "category": "FLOW - CD Classify",
         "definition": "Interactive HTML card file for Flow Cytometry CD classification",
-        "relatedTerms": ["Flow Cytometry", "CD classify"],
+        "relatedTerms": [
+            "Flow Cytometry",
+            "CD classify"
+        ],
         "attachments": [
             {
                 "name": "📚 Open Flow - CD Classify Card File",
@@ -135,6 +179,29 @@
                 "name": "📚 Open HL7 v2 Communication Protocol",
                 "type": "Interactive HTML",
                 "url": "communication-protocol.html"
+            }
+        ]
+    },
+    {
+        "id": "hs_tni_algorithm_explain",
+        "term": "hs-TnI Algorithm Explain (Mindray CL-Series 0h/2h)",
+        "category": "Immunoassay - Cardiac Markers",
+        "definition": "Bilingual (Thai/English) guide to the Mindray CL-Series hs-cTnI assay: 0h/2h rule-out/rule-in algorithm, sex-specific 99th percentile URL, critical-value proposal, and lab requirements.",
+        "explanation": "Covers the sandwich CLIA principle, the 0h/2h algorithm flow chart (rule-out, observe, rule-in with NPV/PPV), 99th URL by sex (female 15.3, male 31.3 ng/L), baseline in CKD/hypertension/diabetes, cTnI vs cTnT, sample handling, calibration and QC, interferences, LIS settings, and points to verify before use. Includes an abbreviation glossary.",
+        "clinicalSignificance": "Supports early rule-out/rule-in of NSTE-ACS in the ED. The study group was mostly non-Asian (Asian 3.7%), so cut-offs should be verified on local patients before routine use.",
+        "relatedTerms": [
+            "hs-cTnI",
+            "0h/2h algorithm",
+            "99th percentile URL",
+            "NSTE-ACS",
+            "CLIA",
+            "Mindray CL-Series"
+        ],
+        "attachments": [
+            {
+                "name": "📚 Open hs-TnI Algorithm Explain",
+                "type": "Interactive HTML",
+                "url": "hs-tni-algorithm-explain.html"
             }
         ]
     }

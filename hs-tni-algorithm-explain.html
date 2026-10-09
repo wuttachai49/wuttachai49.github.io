@@ -1,0 +1,603 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>hs-cTnI Mindray Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: single scrolling guide, sticky nav with language tabs, colour = clinical meaning
+   green = rule-out / safe, amber = observe / caution, red = rule-in / critical, blue = reference info */
+:root{
+  --bg:#f5f7fa; --surface:#ffffff; --ink:#14202b; --ink2:#4a5866; --line:#d8e0e8;
+  --ok:#17744a; --ok-bg:#e1f3e9; --warn:#9a5700; --warn-bg:#fff0d0;
+  --crit:#b9232a; --crit-bg:#fde6e7; --info:#0b6585; --info-bg:#e0f0f6;
+  --font:"IBM Plex Sans Thai","Noto Sans Thai",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e151b; --surface:#16202a; --ink:#e8eef3; --ink2:#a0b1c0; --line:#283642;
+  --ok:#52d38d; --ok-bg:#12331f; --warn:#f2b64d; --warn-bg:#3a2b0b;
+  --crit:#ff8085; --crit-bg:#3d1519; --info:#5cc4e6; --info-bg:#0e2d39; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e151b; --surface:#16202a; --ink:#e8eef3; --ink2:#a0b1c0; --line:#283642;
+  --ok:#52d38d; --ok-bg:#12331f; --warn:#f2b64d; --warn-bg:#3a2b0b;
+  --crit:#ff8085; --crit-bg:#3d1519; --info:#5cc4e6; --info-bg:#0e2d39; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.65 var(--font);padding-inline:16px}
+/* language switch: Thai shown by default, English when body[data-lang=en] */
+.e{display:none}
+body[data-lang="en"] .t{display:none}
+body[data-lang="en"] .e{display:inline}
+.wrap{max-width:980px;margin-inline:auto;display:flex;flex-direction:column;gap:40px;padding-block:20px 56px}
+h1,h2,h3{text-wrap:balance;margin:0;line-height:1.3}
+h1{font-size:clamp(26px,5vw,38px);font-weight:600}
+h2{font-size:22px;font-weight:600}
+h3{font-size:16px;font-weight:600}
+p{margin:0}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--info)}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;border-bottom:1px solid var(--line)}
+nav a{white-space:nowrap;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--surface);padding:5px 14px;border-radius:99px;font-size:13px}
+nav a:focus-visible,nav a:hover{border-color:var(--info);color:var(--info);outline:none}
+.tabs{margin-left:auto;display:flex;flex:none;border:1px solid var(--info);border-radius:99px;overflow:hidden}
+.tabs button{font:500 13px var(--font);padding:5px 14px;border:0;background:var(--surface);color:var(--info);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--info);color:var(--surface)}
+.tabs button:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+section{display:flex;flex-direction:column;gap:16px;scroll-margin-top:60px;min-width:0}
+.lede{color:var(--ink2);max-width:68ch}
+.legend{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:3px 12px;border-radius:99px;font-size:13px;font-weight:500;border:1px solid}
+.ok{background:var(--ok-bg);color:var(--ok);border-color:var(--ok)}
+.warn{background:var(--warn-bg);color:var(--warn);border-color:var(--warn)}
+.crit{background:var(--crit-bg);color:var(--crit);border-color:var(--crit)}
+.info{background:var(--info-bg);color:var(--info);border-color:var(--info)}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0;display:flex;flex-direction:column;gap:6px}
+.tile b{font:500 28px/1.1 var(--mono);display:block}
+.tile span{font-size:13px;color:var(--ink2)}
+.tile.ok b{color:var(--ok)}.tile.info b{color:var(--info)}.tile.warn b{color:var(--warn)}
+.tile.ok,.tile.info,.tile.warn,.tile.crit{border-color:var(--line);background:var(--surface)}
+.callout{border-left:4px solid;border-radius:6px;padding:12px 16px;display:flex;flex-direction:column;gap:4px;color:var(--ink)}
+.callout.ok{background:var(--ok-bg);border-color:var(--ok)}
+.callout.warn{background:var(--warn-bg);border-color:var(--warn)}
+.callout.crit{background:var(--crit-bg);border-color:var(--crit)}
+.callout.info{background:var(--info-bg);border-color:var(--info)}
+.callout strong{font-weight:600}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+figure{margin:0;display:flex;flex-direction:column;gap:8px}
+figcaption{font-size:13px;color:var(--ink2)}
+svg{display:block;width:100%;height:auto;font-family:var(--font)}
+.diagram{min-width:560px}
+.hint{font-size:12px;color:var(--ink2)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;font-size:13px;color:var(--ink2);background:var(--bg);white-space:nowrap}
+td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+th.n{font-family:var(--font)}
+td.m{font-family:var(--mono);font-variant-numeric:tabular-nums}
+td.ab{font-family:var(--mono);font-weight:500;white-space:nowrap;color:var(--info)}
+tr:last-child td{border-bottom:0}
+tr.hl td{background:var(--info-bg)}
+tr.r-ok td:first-child{box-shadow:inset 4px 0 var(--ok)}
+tr.r-warn td:first-child{box-shadow:inset 4px 0 var(--warn)}
+tr.r-crit td:first-child{box-shadow:inset 4px 0 var(--crit)}
+.split{display:flex;height:44px;border-radius:8px;overflow:hidden;font:500 13px var(--mono);border:1px solid var(--line)}
+.split div{display:flex;align-items:center;justify-content:center;color:var(--ink);white-space:nowrap;overflow:hidden}
+.bars{display:flex;flex-direction:column;gap:8px}
+.bar{display:grid;grid-template-columns:minmax(110px,170px) 1fr 64px;gap:10px;align-items:center;font-size:14px}
+.bar i{display:block;height:16px;border-radius:3px;background:var(--info)}
+.bar.w i{background:var(--warn)}
+.track{background:var(--bg);border-radius:3px;border:1px solid var(--line)}
+ul.tight{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+ol.tight{margin:0;padding:0;display:flex;flex-direction:column;gap:10px;list-style:none}
+.steps{display:flex;flex-wrap:wrap;gap:0;align-items:stretch}
+.step{flex:1 1 150px;padding:10px 14px;border:1px solid;font-size:13px;line-height:1.45;min-width:0}
+.step b{display:block;font-size:14px}
+.sources{font-size:13px;color:var(--ink2)}
+@media (max-width:520px){.bar{grid-template-columns:90px 1fr 56px}}
+@media (prefers-reduced-motion:no-preference){nav a{transition:border-color .15s}}
+</style>
+
+<div class="wrap">
+<header style="display:flex;flex-direction:column;gap:12px">
+  <span class="eyebrow">Mindray CL-Series · CLIA · ng/L</span>
+  <h1><span class="t">hs-cTnI: สรุปสำหรับแล็บและแพทย์</span><span class="e">hs-cTnI: Summary for Laboratory and Clinicians</span></h1>
+  <p class="lede"><span class="t">รวมจาก SOP, เอกสาร 0h/2h algorithm, เอกสารเวียนเปลี่ยนน้ำยา และ PPT ของ Mindray แยกสีตามความหมายทางคลินิก คำย่อทั้งหมดอธิบายไว้ในหัวข้อ "คำย่อ" ท้ายหน้า</span><span class="e">Compiled from the SOP, the 0h/2h algorithm papers, the reagent-change circular and Mindray's slide decks, colour-coded by clinical meaning. All abbreviations are explained in the "Abbreviations" section at the end.</span></p>
+  <div class="legend" aria-label="คำอธิบายสี" data-th="คำอธิบายสี" data-en="Colour legend">
+    <span class="chip ok"><span class="t">เขียว = Rule-out / ปลอดภัย</span><span class="e">Green = Rule-out / safe</span></span>
+    <span class="chip warn"><span class="t">เหลือง = Observe / ระวัง</span><span class="e">Amber = Observe / caution</span></span>
+    <span class="chip crit"><span class="t">แดง = Rule-in / ค่าวิกฤต</span><span class="e">Red = Rule-in / critical</span></span>
+    <span class="chip info"><span class="t">ฟ้า = ข้อมูลอ้างอิง</span><span class="e">Blue = reference information</span></span>
+  </div>
+</header>
+
+<nav aria-label="สารบัญและภาษา" data-th="สารบัญและภาษา" data-en="Contents and language">
+  <a href="#summary"><span class="t">ภาพรวม</span><span class="e">Overview</span></a><a href="#critical"><span class="t">ค่าวิกฤต</span><span class="e">Critical value</span></a><a href="#algo">0h/2h</a><a href="#clinician"><span class="t">แพทย์</span><span class="e">Clinicians</span></a><a href="#lab"><span class="t">ห้องแล็บ</span><span class="e">Laboratory</span></a><a href="#check"><span class="t">ต้องตรวจสอบ</span><span class="e">To verify</span></a><a href="#gloss"><span class="t">คำย่อ</span><span class="e">Abbreviations</span></a>
+  <div class="tabs" role="tablist" aria-label="เลือกภาษา" data-th="เลือกภาษา" data-en="Choose language">
+    <button role="tab" data-set="th" aria-selected="true">ไทย</button><button role="tab" data-set="en" aria-selected="false">English</button>
+  </div>
+</nav>
+
+<section id="summary">
+  <h2><span class="t">ภาพรวมของน้ำยา</span><span class="e">Assay overview</span></h2>
+  <div class="grid">
+    <div class="card tile info"><b>2.4–25,000</b><span><span class="t">ช่วงรายงานผล (ng/L) เจือจาง 1:10 ได้เมื่อสูงกว่า</span><span class="e">Reportable range (ng/L); dilute 1:10 above it</span></span></div>
+    <div class="card tile ok"><b>&lt; 5%</b><span><span class="t">CV ที่ระดับ 99th percentile (เกณฑ์ IFCC ≤ 10%)</span><span class="e">CV at the 99th percentile (IFCC criterion ≤ 10%)</span></span></div>
+    <div class="card tile info"><b>93%</b><span><span class="t">ตรวจพบในคนปกติ (ชาย 99%, หญิง 87%) เกณฑ์ hs ต้องมี ≥ 50%</span><span class="e">Detected in healthy people (men 99%, women 87%); the hs criterion is ≥ 50%</span></span></div>
+    <div class="card tile warn"><b>&lt; 0.01%</b><span><span class="t">โอกาสถูกรบกวน (ข้อมูลผู้ผลิต, ตารางคำนวณได้ 0.015%)</span><span class="e">Interference probability (manufacturer data; its own table calculates 0.015%)</span></span></div>
+  </div>
+
+  <figure>
+    <div class="scroll"><div class="diagram" style="min-width:640px">
+    <svg viewBox="0 0 760 210" role="img" aria-label="หลักการ sandwich CLIA: microparticle จับ cTnI complex แล้วจับ conjugate ที่ติด ALP เมื่อเติม substrate เกิดแสง วัดเป็น RLU" data-th="หลักการ sandwich CLIA: microparticle จับ cTnI complex แล้วจับ conjugate ที่ติด ALP เมื่อเติม substrate เกิดแสง วัดเป็น RLU" data-en="Sandwich CLIA principle: the microparticle captures the cTnI complex, which binds an ALP-labelled conjugate; adding substrate produces light measured as RLU">
+      <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--ink2)"/></marker></defs>
+      <text x="20" y="24" font-size="12" font-weight="600" fill="var(--info)"><tspan class="t">ขั้นที่ 1 · ในหลอดปฏิกิริยา (cuvette)</tspan><tspan class="e">Step 1 · in the reaction cuvette</tspan></text>
+      <text x="470" y="24" font-size="12" font-weight="600" fill="var(--warn)"><tspan class="t">ขั้นที่ 2 · เติม substrate</tspan><tspan class="e">Step 2 · add substrate</tspan></text>
+      <circle cx="70" cy="100" r="42" fill="var(--info-bg)" stroke="var(--info)" stroke-width="2"/>
+      <text x="70" y="96" text-anchor="middle" font-size="12" fill="var(--ink)">Micro-</text><text x="70" y="112" text-anchor="middle" font-size="12" fill="var(--ink)">particle</text>
+      <text x="70" y="164" text-anchor="middle" font-size="11" fill="var(--ink2)"><tspan class="t">เคลือบ anti-cTnI</tspan><tspan class="e">coated with anti-cTnI</tspan></text>
+      <text x="70" y="178" text-anchor="middle" font-size="11" fill="var(--ink2)"><tspan class="t">ดูดด้วยแม่เหล็ก แล้วล้าง</tspan><tspan class="e">magnet-captured, then washed</tspan></text>
+      <line x1="112" y1="100" x2="170" y2="100" stroke="var(--ink2)" stroke-width="2"/>
+      <rect x="170" y="78" width="150" height="44" rx="22" fill="var(--crit-bg)" stroke="var(--crit)" stroke-width="2"/>
+      <text x="245" y="104" text-anchor="middle" font-size="12" fill="var(--ink)">cTnI-TnC complex</text>
+      <text x="245" y="150" text-anchor="middle" font-size="11" fill="var(--ink2)"><tspan class="t">สารที่ต้องการวัด (จากผู้ป่วย)</tspan><tspan class="e">analyte (from the patient)</tspan></text>
+      <line x1="320" y1="100" x2="378" y2="100" stroke="var(--ink2)" stroke-width="2"/>
+      <circle cx="410" cy="100" r="32" fill="var(--warn-bg)" stroke="var(--warn)" stroke-width="2"/>
+      <text x="410" y="105" text-anchor="middle" font-size="14" font-weight="600" fill="var(--ink)">ALP</text>
+      <text x="410" y="150" text-anchor="middle" font-size="11" fill="var(--ink2)">anti-cTn-complex Ab + ALP</text>
+      <line x1="446" y1="100" x2="560" y2="100" stroke="var(--ink2)" stroke-width="2" marker-end="url(#ar)"/>
+      <text x="503" y="90" text-anchor="middle" font-size="11" fill="var(--ink2)">+ substrate</text>
+      <path d="M600 100l14-6 6-18 8 16 18-4-12 14 12 14-18-4-8 16-6-18z" fill="var(--warn-bg)" stroke="var(--warn)" stroke-width="2" stroke-linejoin="round"/>
+      <text x="635" y="160" text-anchor="middle" font-size="12" fill="var(--ink)"><tspan class="t">แสง = RLU</tspan><tspan class="e">light = RLU</tspan></text>
+      <text x="635" y="176" text-anchor="middle" font-size="11" fill="var(--ink2)"><tspan class="t">สัดส่วนตรงกับ cTnI</tspan><tspan class="e">proportional to cTnI</tspan></text>
+      <line x1="676" y1="100" x2="722" y2="100" stroke="var(--ink2)" stroke-width="2" marker-end="url(#ar)"/>
+      <text x="726" y="96" font-size="11" fill="var(--ink)">4PL</text><text x="726" y="110" font-size="11" fill="var(--ink)">curve</text>
+    </svg></div></div>
+    <figcaption><span class="t">แอนติบอดี 2 ตัวจับคนละตำแหน่งของ cTnI-TnC complex (มากกว่า 90% ของ cTnI ในเลือดอยู่ในรูป complex) แสงที่วัดได้ถูกแปลงเป็นความเข้มข้นด้วย calibration curve แบบ 4-Parameter Logistic (4PL)</span><span class="e">Two antibodies bind different sites on the cTnI-TnC complex (over 90% of circulating cTnI is complexed). The measured light is converted to concentration with a 4-Parameter Logistic (4PL) calibration curve.</span></figcaption>
+    <span class="hint"><span class="t">เลื่อนซ้าย-ขวาได้บนมือถือ</span><span class="e">Scroll sideways on a phone</span></span>
+  </figure>
+</section>
+
+<section id="critical">
+  <span class="eyebrow"><span class="t">คำตอบเรื่องค่าวิกฤต</span><span class="e">The critical-value question</span></span>
+  <h2><span class="t">ควรใช้ค่าวิกฤตเท่าไร</span><span class="e">Which critical value should be used</span></h2>
+  <div class="callout warn">
+    <strong><span class="t">จากข้อมูลเอกสาร ไม่ได้กำหนด panic value ของ hs-cTnI</span><span class="e">According to the documents, no panic value is defined for hs-cTnI</span></strong>
+    <span><span class="t">SOP และเอกสารเวียนมีเฉพาะค่าอ้างอิง (99th URL) คำว่า "critical value" ใน PPT คือ cut-off ทางวินิจฉัยจาก ROC (Receiver Operating Characteristic) ข้อเสนอด้านล่างอิงตัวเลขจากเอกสาร แต่เป็นข้อเสนอของผู้สรุป ต้องตกลงกับแพทย์ก่อนใช้จริง</span><span class="e">The SOP and the circular give only reference values (99th URL). The "critical value" in the slides means a diagnostic cut-off derived from an ROC (Receiver Operating Characteristic) curve. The proposal below is built from numbers in the documents but is the summariser's own suggestion; agree it with the clinicians before use.</span></span>
+  </div>
+
+  <figure>
+    <div class="scroll"><div class="diagram" style="min-width:720px">
+    <svg viewBox="0 0 900 232" role="img" aria-label="แกนลอการิทึมของ hs-cTnI 1 ถึง 1000 ng/L แบ่งโซน rule-out ต่ำกว่า 2, ช่วงปกติ, 99th URL หญิง 15.3 ชาย 31.3, สูงกว่า URL, และ 400 ขึ้นไปคือ rule-in และโทรแจ้ง" data-th="แกนลอการิทึมของ hs-cTnI 1 ถึง 1000 ng/L แบ่งโซน rule-out ต่ำกว่า 2, ช่วงปกติ, 99th URL หญิง 15.3 ชาย 31.3, สูงกว่า URL, และ 400 ขึ้นไปคือ rule-in และโทรแจ้ง" data-en="Log axis of hs-cTnI from 1 to 1000 ng/L with zones: rule-out below 2, normal range, 99th URL female 15.3 and male 31.3, above URL, and 400 or more as rule-in and phone call">
+      <g font-size="11" fill="var(--ink2)" text-anchor="middle">
+        <text x="40" y="76">1</text><text x="313" y="76">10</text><text x="587" y="76">100</text><text x="860" y="76">1000 ng/L</text>
+      </g>
+      <g stroke="var(--line)"><line x1="40" y1="82" x2="40" y2="88"/><line x1="313" y1="82" x2="313" y2="88"/><line x1="587" y1="82" x2="587" y2="88"/><line x1="860" y1="82" x2="860" y2="88"/></g>
+      <rect x="40" y="88" width="82" height="36" fill="var(--ok-bg)" stroke="var(--ok)"/>
+      <rect x="122" y="88" width="240" height="36" fill="var(--info-bg)" stroke="var(--info)"/>
+      <rect x="362" y="88" width="87" height="36" fill="var(--warn-bg)" stroke="var(--warn)"/>
+      <rect x="449" y="88" width="302" height="36" fill="var(--warn-bg)" stroke="var(--warn)" stroke-dasharray="5 3"/>
+      <rect x="751" y="88" width="109" height="36" fill="var(--crit-bg)" stroke="var(--crit)"/>
+      <g font-size="12" text-anchor="middle" fill="var(--ink)">
+        <text x="81" y="111" font-weight="600">&lt; 2</text>
+        <text x="242" y="111">2 – 15</text>
+        <text x="405" y="111">15–31</text>
+        <text x="600" y="111"><tspan class="t">สูงกว่า URL → ดู Δ / Observe</tspan><tspan class="e">Above URL → check Δ / Observe</tspan></text>
+        <text x="805" y="111" font-weight="600">≥ 400</text>
+      </g>
+      <text x="81" y="40" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ok)">Rule-out</text>
+      <text x="81" y="54" text-anchor="middle" font-size="11" fill="var(--ink2)"><tspan class="t">ตัวอย่างเดียว</tspan><tspan class="e">single sample</tspan></text>
+      <text x="805" y="40" text-anchor="middle" font-size="12" font-weight="600" fill="var(--crit)">Rule-in</text>
+      <text x="805" y="54" text-anchor="middle" font-size="11" fill="var(--ink2)"><tspan class="t">โทรแจ้งแพทย์</tspan><tspan class="e">call physician</tspan></text>
+      <g stroke="var(--ink2)" stroke-width="1.5">
+        <line x1="144" y1="124" x2="144" y2="140"/><line x1="363" y1="124" x2="363" y2="140"/><line x1="418" y1="124" x2="418" y2="176"/>
+        <line x1="449" y1="124" x2="449" y2="140"/><line x1="587" y1="124" x2="587" y2="140"/><line x1="751" y1="124" x2="751" y2="140"/>
+      </g>
+      <g font-size="12" text-anchor="middle" fill="var(--ink)">
+        <text x="144" y="156">LoQ 2.4</text><text x="144" y="171" font-size="11" fill="var(--warn)"><tspan class="t">สูงกว่า 2!</tspan><tspan class="e">above 2!</tspan></text>
+        <text x="350" y="156"><tspan class="t">15 / หญิง 15.3</tspan><tspan class="e">15 / female 15.3</tspan></text><text x="350" y="171" font-size="11" fill="var(--ink2)"><tspan class="t">0h &lt; 15 = rule-out</tspan><tspan class="e">0h &lt; 15 = rule-out</tspan></text>
+        <text x="418" y="192"><tspan class="t">รวม 24.2</tspan><tspan class="e">overall 24.2</tspan></text>
+        <text x="476" y="156"><tspan class="t">ชาย 31.3</tspan><tspan class="e">male 31.3</tspan></text>
+        <text x="587" y="156" font-weight="600">≈ 100</text><text x="587" y="171" font-size="11" fill="var(--ink2)"><tspan class="t">cut-off จาก ROC</tspan><tspan class="e">ROC cut-off</tspan></text>
+        <text x="751" y="156" font-weight="600" fill="var(--crit)">400</text><text x="751" y="171" font-size="11" fill="var(--ink2)"><tspan class="t">0h หรือ Δ2h</tspan><tspan class="e">0h or Δ2h</tspan></text>
+      </g>
+      <text x="40" y="222" font-size="11" fill="var(--ink2)"><tspan class="t">สเกลลอการิทึม (ระยะห่างแต่ละช่วง 10 เท่าเท่ากัน)</tspan><tspan class="e">Logarithmic scale (each tick is 10 times the previous)</tspan></text>
+    </svg></div></div>
+    <figcaption><span class="t">ตำแหน่งของค่าสำคัญบนแกนเดียวกัน จุด &lt;2 อยู่ต่ำกว่า LoQ (2.4) ซึ่งเป็นเรื่องที่ต้องตรวจสอบการรายงานผลของเครื่อง/LIS</span><span class="e">Key values on one axis. The &lt; 2 threshold sits below the LoQ (2.4), so how the analyzer/LIS reports low results must be checked.</span></figcaption>
+    <span class="hint"><span class="t">เลื่อนซ้าย-ขวาได้บนมือถือ</span><span class="e">Scroll sideways on a phone</span></span>
+  </figure>
+
+  <div class="scroll"><table>
+    <thead><tr><th><span class="t">ระดับ</span><span class="e">Level</span></th><th><span class="t">ค่า (ng/L)</span><span class="e">Value (ng/L)</span></th><th><span class="t">การดำเนินการที่เสนอ</span><span class="e">Proposed action</span></th><th><span class="t">ที่มา</span><span class="e">Source</span></th></tr></thead>
+    <tbody>
+      <tr class="r-ok"><td><span class="chip ok">Rule-out</span></td><td class="m">&lt; 2 <span class="t">หรือ</span><span class="e">or</span> &lt; 15 + Δ2h &lt; 10</td><td><span class="t">รายงานตามปกติ แพทย์ใช้ใน algorithm</span><span class="e">Report as usual; clinicians apply the algorithm</span></td><td><span class="t">เอกสาร 0h/2h</span><span class="e">0h/2h paper</span></td></tr>
+      <tr class="r-warn"><td><span class="chip warn"><span class="t">ผิดปกติ (H)</span><span class="e">Abnormal (H)</span></span></td><td class="m"><span class="t">ชาย</span><span class="e">M</span> &gt; 31.3<br><span class="t">หญิง</span><span class="e">F</span> &gt; 15.3</td><td><span class="t">ติด flag H ยังไม่ใช่ค่าวิกฤต แสดงว่ามี myocardial injury</span><span class="e">Flag H. Not yet critical; indicates myocardial injury</span></td><td>IFU 99th URL</td></tr>
+      <tr class="r-warn"><td><span class="chip warn"><span class="t">เฝ้าระวังสูง (เลือกใช้)</span><span class="e">High alert (optional)</span></span></td><td class="m">≈ 100</td><td><span class="t">ใช้เป็นเกณฑ์เสริมหากแพทย์ต้องการ Sens 92.56%, Spec 98.41%</span><span class="e">Optional extra threshold if clinicians want it: Sens 92.56%, Spec 98.41%</span></td><td><span class="t">ROC, 1 รพ. (n=935)</span><span class="e">ROC, 1 hospital (n=935)</span></td></tr>
+      <tr class="r-crit"><td><span class="chip crit"><span class="t">ค่าวิกฤต</span><span class="e">Critical value</span></span></td><td class="m"><span class="t">≥ 400 ที่ 0h<br>หรือเพิ่ม ≥ 400 ใน 2h</span><span class="e">≥ 400 at 0h<br>or a rise ≥ 400 within 2h</span></td><td><span class="t">โทรแจ้งแพทย์ทันที ยังต้องประเมินทางคลินิก ไม่วินิจฉัยจากตัวเลขอย่างเดียว</span><span class="e">Phone the physician immediately; clinical assessment is still required, do not diagnose from the number alone</span></td><td><span class="t">เกณฑ์ Rule-in</span><span class="e">Rule-in criterion</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="callout crit">
+    <strong><span class="t">ข้อควรระวังของเกณฑ์ ≥ 400</span><span class="e">Caution about the ≥ 400 threshold</span></strong>
+    <span><span class="t">PPV (Positive Predictive Value) ที่ 0h ≥ 400 คือ 65.6% และรวมทั้งสองเกณฑ์ 69.1% (ช่วงความเชื่อมั่น 52.6–87.0) ต่ำกว่าเป้า ≥ 70% ที่เอกสารตั้งไว้เอง จึงใช้เป็นสัญญาณเตือนด่วนได้ แต่ไม่ใช่การวินิจฉัย AMI</span><span class="e">PPV (Positive Predictive Value) is 65.6% at 0h ≥ 400 and 69.1% for both criteria combined (confidence interval 52.6–87.0), below the ≥ 70% target the paper itself set. It works as an urgent warning but is not a diagnosis of AMI.</span></span>
+  </div>
+
+  <h3><span class="t">cut-off ที่ต่างกัน แลกกันอย่างไร</span><span class="e">How different cut-offs trade off</span></h3>
+  <div class="scroll"><table>
+    <thead><tr><th class="n">Cut-off</th><th class="n">Sensitivity</th><th class="n">Specificity</th><th class="n">Concordance</th></tr></thead>
+    <tbody>
+      <tr><td class="n">60</td><td class="n">95.87%</td><td class="n">95.36%</td><td class="n">95.49%</td></tr>
+      <tr><td class="n">70</td><td class="n">94.63%</td><td class="n">96.52%</td><td class="n">96.03%</td></tr>
+      <tr><td class="n">80</td><td class="n">94.21%</td><td class="n">97.25%</td><td class="n">96.46%</td></tr>
+      <tr><td class="n">90</td><td class="n">92.98%</td><td class="n">97.83%</td><td class="n">96.57%</td></tr>
+      <tr class="hl"><td class="n"><b>100</b></td><td class="n">92.56%</td><td class="n">98.41%</td><td class="n"><b>96.89%</b></td></tr>
+      <tr><td class="n">110</td><td class="n">91.74%</td><td class="n">98.41%</td><td class="n">96.68%</td></tr>
+      <tr><td class="n">120</td><td class="n">90.91%</td><td class="n">98.41%</td><td class="n">96.46%</td></tr>
+    </tbody>
+  </table></div>
+  <p class="hint"><span class="t">ข้อมูล: Wuhan Asia Heart Hospital, ผู้ป่วยเจ็บหน้าอก สงสัย ACS, AUC (Area Under the Curve, พื้นที่ใต้กราฟ ROC) 0.9885 ข้อมูลที่ผู้ผลิตนำเสนอ ยิ่ง cut-off สูง Specificity ยิ่งดี แต่ Sensitivity ลดลง</span><span class="e">Data: Wuhan Asia Heart Hospital, patients with chest pain and suspected ACS, AUC (Area Under the Curve of the ROC) 0.9885, presented by the manufacturer. The higher the cut-off, the better the Specificity but the lower the Sensitivity.</span></p>
+</section>
+
+<section id="algo">
+  <span class="eyebrow"><span class="t">เฉพาะผู้ป่วย stable สงสัย NSTE-ACS ที่ ER</span><span class="e">Only for stable patients with suspected NSTE-ACS in the ED</span></span>
+  <h2>0h/2h Algorithm</h2>
+  <p class="lede"><span class="t">เจาะ hs-cTnI ที่แรกรับ (0h) และอีก 2 ชั่วโมงถัดไป (2h) แล้วแบ่งผู้ป่วยเป็น 3 กลุ่ม Δ2h คือค่าที่ 2h ลบด้วยค่าที่ 0h ไม่ใช้กับ STEMI หรือผู้ป่วยที่ไม่ stable</span><span class="e">Draw hs-cTnI on arrival (0h) and again 2 hours later (2h), then sort patients into 3 groups. Δ2h is the 2h value minus the 0h value. Not for STEMI or unstable patients.</span></p>
+
+  <figure>
+    <div class="scroll"><div class="diagram">
+    <svg viewBox="0 0 600 944" role="img" aria-label="flow chart 0h/2h: เจาะ 0h ถ้าน้อยกว่า 2 และเจ็บหน้าอกเกิน 3 ชั่วโมงคือ rule-out ถ้า 0h ตั้งแต่ 400 คือ rule-in ไม่เช่นนั้นเจาะ 2h ถ้า 0h น้อยกว่า 15 และ Δ2h น้อยกว่า 10 คือ rule-out ถ้า Δ2h ตั้งแต่ 400 คือ rule-in ที่เหลือคือ observe เจาะ 3h และทำ echo" data-th="flow chart 0h/2h: เจาะ 0h ถ้าน้อยกว่า 2 และเจ็บหน้าอกเกิน 3 ชั่วโมงคือ rule-out ถ้า 0h ตั้งแต่ 400 คือ rule-in ไม่เช่นนั้นเจาะ 2h ถ้า 0h น้อยกว่า 15 และ Δ2h น้อยกว่า 10 คือ rule-out ถ้า Δ2h ตั้งแต่ 400 คือ rule-in ที่เหลือคือ observe เจาะ 3h และทำ echo" data-en="0h/2h flow chart: draw at 0h; below 2 with chest pain over 3 hours is rule-out; 0h of 400 or more is rule-in; otherwise draw at 2h; 0h below 15 and Δ2h below 10 is rule-out; Δ2h of 400 or more is rule-in; the rest is observe, with a 3h draw and echo">
+      <defs><marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--ink2)"/></marker></defs>
+      <g stroke="var(--ink2)" stroke-width="1.6" fill="none" marker-end="url(#a2)">
+        <path d="M200 68V96"/><path d="M200 136V160"/>
+        <path d="M330 210H380"/><path d="M200 260V310"/>
+        <path d="M330 360H380"/><path d="M200 410V440"/><path d="M200 480V510"/>
+        <path d="M330 560H380"/><path d="M200 610V660"/>
+        <path d="M330 710H380"/><path d="M200 760V790"/><path d="M200 850V880"/>
+      </g>
+      <g font-size="12" fill="var(--ink)">
+        <rect x="60" y="8" width="280" height="60" rx="8" fill="var(--info-bg)" stroke="var(--info)" stroke-width="2"/>
+        <text x="200" y="32" text-anchor="middle" font-weight="600"><tspan class="t">ผู้ป่วยมา ER เจ็บหน้าอก</tspan><tspan class="e">Chest pain patient arrives in the ED</tspan></text>
+        <text x="200" y="50" text-anchor="middle" font-size="11" fill="var(--ink2)"><tspan class="t">stable · สงสัย NSTE-ACS (ไม่ใช่ STEMI)</tspan><tspan class="e">stable · suspected NSTE-ACS (not STEMI)</tspan></text>
+        <rect x="80" y="96" width="240" height="40" rx="8" fill="var(--info-bg)" stroke="var(--info)" stroke-width="2"/>
+        <text x="200" y="121" text-anchor="middle"><tspan class="t">เจาะ hs-cTnI ที่แรกรับ</tspan><tspan class="e">Draw hs-cTnI on arrival</tspan></text>
+
+        <polygon points="70,210 200,160 330,210 200,260" fill="var(--surface)" stroke="var(--ink2)" stroke-width="2"/>
+        <text x="200" y="208" text-anchor="middle" font-weight="600">0h &lt; 2 ng/L ?</text>
+        <text x="200" y="226" text-anchor="middle" font-size="11" fill="var(--ink2)"><tspan class="t">และเจ็บหน้าอก &gt; 3 ชม.</tspan><tspan class="e">and chest pain &gt; 3 h</tspan></text>
+        <polygon points="70,360 200,310 330,360 200,410" fill="var(--surface)" stroke="var(--ink2)" stroke-width="2"/>
+        <text x="200" y="365" text-anchor="middle" font-weight="600">0h ≥ 400 ng/L ?</text>
+
+        <rect x="100" y="440" width="200" height="40" rx="8" fill="var(--info-bg)" stroke="var(--info)" stroke-width="2"/>
+        <text x="200" y="465" text-anchor="middle"><tspan class="t">เจาะซ้ำที่ 2h</tspan><tspan class="e">Repeat draw at 2h</tspan></text>
+
+        <polygon points="70,560 200,510 330,560 200,610" fill="var(--surface)" stroke="var(--ink2)" stroke-width="2"/>
+        <text x="200" y="556" text-anchor="middle" font-weight="600">0h &lt; 15 ng/L</text>
+        <text x="200" y="574" text-anchor="middle" font-weight="600"><tspan class="t">และ Δ2h &lt; 10 ?</tspan><tspan class="e">and Δ2h &lt; 10 ?</tspan></text>
+        <polygon points="70,710 200,660 330,710 200,760" fill="var(--surface)" stroke="var(--ink2)" stroke-width="2"/>
+        <text x="200" y="715" text-anchor="middle" font-weight="600">Δ2h ≥ 400 ng/L ?</text>
+
+        <rect x="70" y="790" width="260" height="60" rx="8" fill="var(--warn-bg)" stroke="var(--warn)" stroke-width="2.5"/>
+        <text x="200" y="815" text-anchor="middle" font-weight="600" fill="var(--warn)">OBSERVE · 37.8%</text>
+        <text x="200" y="834" text-anchor="middle" font-size="11" fill="var(--ink2)"><tspan class="t">ไม่เข้าเกณฑ์ rule-out หรือ rule-in</tspan><tspan class="e">meets neither rule-out nor rule-in</tspan></text>
+        <rect x="70" y="880" width="260" height="50" rx="8" fill="var(--warn-bg)" stroke="var(--warn)" stroke-width="2"/>
+        <text x="200" y="902" text-anchor="middle"><tspan class="t">เจาะครั้งที่ 3 ที่ 3h</tspan><tspan class="e">Third draw at 3h</tspan></text>
+        <text x="200" y="919" text-anchor="middle" font-size="11" fill="var(--ink2)"><tspan class="t">+ echocardiography</tspan><tspan class="e">+ echocardiography</tspan></text>
+      </g>
+      <g font-size="12" font-weight="600" text-anchor="middle">
+        <rect x="380" y="180" width="210" height="60" rx="8" fill="var(--ok-bg)" stroke="var(--ok)" stroke-width="2.5"/>
+        <text x="485" y="206" fill="var(--ok)">RULE-OUT</text><text x="485" y="224" font-size="11" font-weight="400" fill="var(--ink)" class="mono">NPV 99.5% · 13.8% (n=214)</text>
+        <rect x="380" y="330" width="210" height="60" rx="8" fill="var(--crit-bg)" stroke="var(--crit)" stroke-width="2.5"/>
+        <text x="485" y="356" fill="var(--crit)">RULE-IN</text><text x="485" y="374" font-size="11" font-weight="400" fill="var(--ink)" class="mono">PPV 65.6% · 2.1% (n=33)</text>
+        <rect x="380" y="530" width="210" height="60" rx="8" fill="var(--ok-bg)" stroke="var(--ok)" stroke-width="2.5"/>
+        <text x="485" y="556" fill="var(--ok)">RULE-OUT</text><text x="485" y="574" font-size="11" font-weight="400" fill="var(--ink)" class="mono">NPV 99.3% · 44.8% (n=697)</text>
+        <rect x="380" y="680" width="210" height="60" rx="8" fill="var(--crit-bg)" stroke="var(--crit)" stroke-width="2.5"/>
+        <text x="485" y="706" fill="var(--crit)">RULE-IN</text><text x="485" y="724" font-size="11" font-weight="400" fill="var(--ink)" class="mono">PPV 73.9% · 1.5% (n=24)</text>
+      </g>
+      <g font-size="11" fill="var(--ink2)">
+        <text x="345" y="202"><tspan class="t">ใช่</tspan><tspan class="e">yes</tspan></text><text x="206" y="290"><tspan class="t">ไม่ใช่</tspan><tspan class="e">no</tspan></text>
+        <text x="345" y="352"><tspan class="t">ใช่</tspan><tspan class="e">yes</tspan></text><text x="206" y="428"><tspan class="t">ไม่ใช่</tspan><tspan class="e">no</tspan></text>
+        <text x="345" y="552"><tspan class="t">ใช่</tspan><tspan class="e">yes</tspan></text><text x="206" y="636"><tspan class="t">ไม่ใช่</tspan><tspan class="e">no</tspan></text>
+        <text x="345" y="702"><tspan class="t">ใช่</tspan><tspan class="e">yes</tspan></text><text x="206" y="780"><tspan class="t">ไม่ใช่</tspan><tspan class="e">no</tspan></text>
+      </g>
+      <g font-size="12" class="mono" fill="var(--info)" font-weight="500">
+        <text x="8" y="121">0h</text><text x="8" y="465">2h</text><text x="8" y="909">3h</text>
+      </g>
+    </svg></div></div>
+    <figcaption><span class="t">เส้นทางของผู้ป่วยหนึ่งราย ตัวเลขในกล่องผลลัพธ์คือ NPV/PPV และสัดส่วนผู้ป่วยจากกลุ่มศึกษา 1,556 ราย ผังนี้วาดจากเกณฑ์ในเอกสาร ลำดับการตรวจเกณฑ์เป็นการจัดเรียงเพื่อให้อ่านง่าย</span><span class="e">The path of one patient. The figures in the outcome boxes are NPV/PPV and the share of the 1,556-patient study group. The chart is drawn from the criteria in the documents; the order of checks is arranged for readability.</span></figcaption>
+    <span class="hint"><span class="t">เลื่อนซ้าย-ขวาได้บนมือถือ</span><span class="e">Scroll sideways on a phone</span></span>
+  </figure>
+
+  <h3><span class="t">จากข้อมูลเอกสาร ผู้ป่วยแต่ละกลุ่มมีสัดส่วนดังนี้</span><span class="e">According to the documents, the patient groups are distributed as follows</span></h3>
+  <div class="split" role="img" aria-label="Rule-out 58.6%, Observe 37.8%, Rule-in 3.6%" data-th="Rule-out 58.6%, Observe 37.8%, Rule-in 3.6%" data-en="Rule-out 58.6%, Observe 37.8%, Rule-in 3.6%">
+    <div style="flex:58.6;background:var(--ok-bg);border-right:1px solid var(--ok)">Rule-out 58.6% (911)</div>
+    <div style="flex:37.8;background:var(--warn-bg);border-right:1px solid var(--warn)">Observe 37.8%</div>
+    <div style="flex:3.6;min-width:46px;background:var(--crit-bg)">3.6%</div>
+  </div>
+  <p class="hint"><span class="t">Rule-out 911 ราย = 214 (ตัวอย่างเดียว) + 697 (serial) · Rule-in 55 ราย</span><span class="e">Rule-out 911 patients = 214 (single sample) + 697 (serial) · Rule-in 55 patients</span></p>
+
+  <div class="scroll"><table>
+    <thead><tr><th><span class="t">เกณฑ์</span><span class="e">Criterion</span></th><th class="n"><span class="t">จำนวน</span><span class="e">Count</span></th><th class="n"><span class="t">สัดส่วน</span><span class="e">Share</span></th><th class="n">Sens / Spec</th><th class="n">NPV / PPV</th></tr></thead>
+    <tbody>
+      <tr class="r-ok"><td><span class="t">Rule-out: 0h &lt; 2 (อาการ &gt; 3 ชม.)</span><span class="e">Rule-out: 0h &lt; 2 (symptoms &gt; 3 h)</span></td><td class="n">214</td><td class="n">13.8%</td><td class="n">Sens 99.0%</td><td class="n">NPV 99.5%</td></tr>
+      <tr class="r-ok"><td><span class="t">Rule-out: 0h &lt; 15 และ Δ2h &lt; 10</span><span class="e">Rule-out: 0h &lt; 15 and Δ2h &lt; 10</span></td><td class="n">697</td><td class="n">44.8%</td><td class="n">Sens 94.9%</td><td class="n">NPV 99.3%</td></tr>
+      <tr class="r-ok"><td><span class="t">Rule-out รวม</span><span class="e">Rule-out combined</span></td><td class="n">911</td><td class="n">58.6%</td><td class="n">Sens 93.9%</td><td class="n">NPV 99.4%</td></tr>
+      <tr class="r-crit"><td>Rule-in: 0h ≥ 400</td><td class="n">33</td><td class="n">2.1%</td><td class="n">Spec 99.3%</td><td class="n">PPV 65.6%</td></tr>
+      <tr class="r-crit"><td>Rule-in: Δ2h ≥ 400</td><td class="n">24</td><td class="n">1.5%</td><td class="n">Spec 99.6%</td><td class="n">PPV 73.9%</td></tr>
+      <tr class="r-crit"><td><span class="t">Rule-in รวม</span><span class="e">Rule-in combined</span></td><td class="n">55</td><td class="n">3.6%</td><td class="n">Spec 98.8%</td><td class="n">PPV 69.1%</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout warn">
+    <strong><span class="t">ตัวเลขที่ยังไม่ถึงเป้าของเอกสารเอง</span><span class="e">Figures that miss the paper's own targets</span></strong>
+    <span><span class="t">เป้า Rule-out คือ NPV ≥ 99.5% แต่ serial ได้ 99.3% (พลาด 5 จาก 99 ราย) และรวมได้ 99.4% · เป้า Rule-in คือ PPV ≥ 70% แต่รวมได้ 69.1%</span><span class="e">The rule-out target is NPV ≥ 99.5%, but the serial pathway reaches 99.3% (5 of 99 missed) and the combined result is 99.4%. The rule-in target is PPV ≥ 70%, but the combined result is 69.1%.</span></span>
+  </div>
+
+  <h3><span class="t">กลุ่ม Observe: ทำอะไรต่อ</span><span class="e">Observe group: what happens next</span></h3>
+  <div class="grid">
+    <div class="card" style="border-top:4px solid var(--crit)">
+      <span class="chip crit" style="align-self:flex-start"><span class="t">ความเสี่ยงสูง</span><span class="e">High risk</span></span>
+      <p><span class="t">hs-cTnI เพิ่มขึ้นชัดเจนที่ 3h: 0h ≤ 99th URL และเปลี่ยน &gt; 50% ที่ 3h หรือเปลี่ยน &gt; 20% เมื่อ 0h &gt; 99th URL</span><span class="e">Clear hs-cTnI rise at 3h: 0h ≤ 99th URL with a change &gt; 50% at 3h, or a change &gt; 20% when 0h &gt; 99th URL</span></p>
+      <b><span class="t">→ Invasive coronary angiography</span><span class="e">→ Invasive coronary angiography</span></b>
+    </div>
+    <div class="card" style="border-top:4px solid var(--warn)">
+      <span class="chip warn" style="align-self:flex-start"><span class="t">ต่ำ–ปานกลาง</span><span class="e">Low to intermediate</span></span>
+      <p><span class="t">ตามการประเมินทางคลินิก</span><span class="e">According to clinical judgement</span></p>
+      <b><span class="t">→ CT coronary angiography หรือ stress test หลังย้ายออกจาก ER</span><span class="e">→ CT coronary angiography or stress test after transfer out of the ED</span></b>
+    </div>
+    <div class="card" style="border-top:4px solid var(--info)">
+      <span class="chip info" style="align-self:flex-start"><span class="t">มีสาเหตุอื่นอธิบายได้</span><span class="e">Another explanation found</span></span>
+      <p><span class="t">เช่น AF ที่ ventricular rate เร็ว, โลหิตจางรุนแรง, hypertensive emergency</span><span class="e">e.g. AF with rapid ventricular rate, marked anaemia, hypertensive emergency</span></p>
+      <b><span class="t">→ อาจไม่ต้องตรวจเพิ่ม</span><span class="e">→ further testing may not be needed</span></b>
+    </div>
+  </div>
+  <p class="hint"><span class="t">เกณฑ์กลุ่มสูงตรงตามต้นฉบับภาษาอังกฤษ (Apple, 2024) เอกสารสรุปภาษาไทยพิมพ์เครื่องหมายของ 0h เป็น ≥ ซึ่งคลาดเคลื่อน</span><span class="e">The high-risk criterion follows the English original (Apple, 2024). The Thai summary prints the 0h sign as ≥, which is incorrect.</span></p>
+
+  <h3><span class="t">กลุ่มศึกษาเป็นใคร</span><span class="e">Who was in the study group</span></h3>
+  <div class="callout warn">
+    <strong><span class="t">กลุ่มศึกษาส่วนใหญ่ไม่ใช่ประชากรเอเชีย</span><span class="e">Most of the study group was not Asian</span></strong>
+    <span><span class="t">ต้นฉบับ: Fred S. Apple, ส่ง 18 เม.ย. 2024, ฐานข้อมูลปิดแล้ว n = 1,556 ราย คนผิวขาว 43.3% และแอฟริกัน-อเมริกัน 45.8% ส่วนเอเชียมีเพียง 58 ราย (3.7%) ตัวเลข cut-off จึงควรทวนสอบกับผู้ป่วยไทยในโรงพยาบาลของท่านก่อนนำไปใช้เป็นแนวทางประจำ</span><span class="e">Original: Fred S. Apple, submitted 18 Apr 2024, locked database, n = 1,556. White 43.3% and African American 45.8%; only 58 Asian patients (3.7%). Verify the cut-offs on Thai patients in your own hospital before using them as routine guidance.</span></span>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="t">เชื้อชาติ (% ของ 1,556)</span><span class="e">Race (% of 1,556)</span></h3>
+      <div class="bars">
+        <div class="bar"><span><span class="t">แอฟริกัน-อเมริกัน</span><span class="e">African American</span></span><span class="track"><i style="width:45.8%"></i></span><span class="mono">45.8</span></div>
+        <div class="bar"><span><span class="t">ผิวขาว</span><span class="e">White</span></span><span class="track"><i style="width:43.3%"></i></span><span class="mono">43.3</span></div>
+        <div class="bar"><span>Native American</span><span class="track"><i style="width:4.3%"></i></span><span class="mono">4.3</span></div>
+        <div class="bar w"><span><span class="t">เอเชีย</span><span class="e">Asian</span></span><span class="track"><i style="width:3.7%"></i></span><span class="mono">3.7</span></div>
+        <div class="bar"><span><span class="t">อื่นๆ</span><span class="e">Other</span></span><span class="track"><i style="width:2.8%"></i></span><span class="mono">2.8</span></div>
+      </div>
+      <p class="hint"><span class="t">Pacific Islander 2 ราย (0.1%) · Hispanic 11.6% · ชาย 60.7%</span><span class="e">Pacific Islander 2 patients (0.1%) · Hispanic 11.6% · male 60.7%</span></p>
+    </div>
+    <div class="card">
+      <h3><span class="t">โรคร่วม (% ของ 1,556)</span><span class="e">Comorbidities (% of 1,556)</span></h3>
+      <div class="bars">
+        <div class="bar"><span><span class="t">ความดันสูง</span><span class="e">Hypertension</span></span><span class="track"><i style="width:63.3%"></i></span><span class="mono">63.3</span></div>
+        <div class="bar"><span><span class="t">สูบบุหรี่</span><span class="e">Tobacco use</span></span><span class="track"><i style="width:55.3%"></i></span><span class="mono">55.3</span></div>
+        <div class="bar"><span><span class="t">ไขมันสูง</span><span class="e">Hyperlipidaemia</span></span><span class="track"><i style="width:45.8%"></i></span><span class="mono">45.8</span></div>
+        <div class="bar"><span><span class="t">เบาหวาน</span><span class="e">Diabetes</span></span><span class="track"><i style="width:30.7%"></i></span><span class="mono">30.7</span></div>
+        <div class="bar"><span><span class="t">ไตผิดปกติ</span><span class="e">Renal dysfunction</span></span><span class="track"><i style="width:19.4%"></i></span><span class="mono">19.4</span></div>
+        <div class="bar"><span><span class="t">หัวใจล้มเหลว</span><span class="e">Heart failure</span></span><span class="track"><i style="width:18.2%"></i></span><span class="mono">18.2</span></div>
+        <div class="bar"><span>CAD</span><span class="track"><i style="width:17.9%"></i></span><span class="mono">17.9</span></div>
+        <div class="bar"><span>AF</span><span class="track"><i style="width:11.2%"></i></span><span class="mono">11.2</span></div>
+      </div>
+      <p class="hint"><span class="t">ไตผิดปกติ 302 ราย ในนี้ล้างไต 74 ราย (24.5%) · เคย MI 9.8%</span><span class="e">Renal dysfunction 302 patients, of whom 74 on dialysis (24.5%) · previous MI 9.8%</span></p>
+    </div>
+  </div>
+  <p class="hint"><span class="t">อายุ: &lt; 50 ปี 26.9%, 50–59 22.0%, 60–69 24.0%, 70–79 16.9%, 80–89 7.7%, &gt; 89 2.4% · ตัวหารของ "พลาด" คือ 99 ราย (เช่น 1/99, 5/99)</span><span class="e">Age: &lt; 50 y 26.9%, 50–59 22.0%, 60–69 24.0%, 70–79 16.9%, 80–89 7.7%, &gt; 89 2.4% · the denominator of "missed" is 99 patients (e.g. 1/99, 5/99)</span></p>
+</section>
+
+<section id="clinician">
+  <span class="eyebrow"><span class="t">สำหรับแพทย์</span><span class="e">For clinicians</span></span>
+  <h2><span class="t">สิ่งที่แพทย์ต้องรู้</span><span class="e">What clinicians need to know</span></h2>
+
+  <h3><span class="t">99th URL แยกตามเพศ</span><span class="e">99th URL by sex</span></h3>
+  <figure>
+    <div class="scroll"><div class="diagram" style="min-width:520px">
+    <svg viewBox="0 0 640 190" role="img" aria-label="99th URL พร้อมช่วงความเชื่อมั่น 95%: หญิง 15.3 (8.6 ถึง 29.2), ชาย 31.3 (17.8 ถึง 47.3), รวม 24.2 (16.6 ถึง 43.5) ng/L" data-th="99th URL พร้อมช่วงความเชื่อมั่น 95%: หญิง 15.3 (8.6 ถึง 29.2), ชาย 31.3 (17.8 ถึง 47.3), รวม 24.2 (16.6 ถึง 43.5) ng/L" data-en="99th URL with 95% confidence interval: female 15.3 (8.6 to 29.2), male 31.3 (17.8 to 47.3), overall 24.2 (16.6 to 43.5) ng/L">
+      <g stroke="var(--line)"><line x1="120" y1="20" x2="120" y2="150"/><line x1="240" y1="20" x2="240" y2="150"/><line x1="360" y1="20" x2="360" y2="150"/><line x1="480" y1="20" x2="480" y2="150"/><line x1="600" y1="20" x2="600" y2="150"/></g>
+      <g font-size="11" fill="var(--ink2)" text-anchor="middle" class="mono"><text x="120" y="170">0</text><text x="240" y="170">10</text><text x="360" y="170">20</text><text x="480" y="170">30</text><text x="600" y="170">40</text></g>
+      <text x="632" y="170" font-size="11" fill="var(--ink2)" text-anchor="end">ng/L</text>
+      <g font-size="13" fill="var(--ink)">
+        <text x="8" y="49"><tspan class="t">หญิง</tspan><tspan class="e">Female</tspan></text><text x="8" y="94"><tspan class="t">ชาย</tspan><tspan class="e">Male</tspan></text><text x="8" y="139"><tspan class="t">รวม</tspan><tspan class="e">Overall</tspan></text>
+      </g>
+      <rect x="120" y="35" width="183.6" height="20" fill="var(--crit)" opacity=".9"/>
+      <rect x="120" y="80" width="375.6" height="20" fill="var(--info)"/>
+      <rect x="120" y="125" width="290.4" height="20" fill="var(--warn)"/>
+      <g stroke-width="2.5" stroke="var(--ink)"><line x1="223.2" y1="45" x2="470.4" y2="45"/><line x1="333.6" y1="90" x2="620" y2="90"/><line x1="319.2" y1="135" x2="620" y2="135"/>
+        <line x1="223.2" y1="39" x2="223.2" y2="51"/><line x1="470.4" y1="39" x2="470.4" y2="51"/><line x1="333.6" y1="84" x2="333.6" y2="96"/><line x1="319.2" y1="129" x2="319.2" y2="141"/></g>
+      <text x="124" y="30" font-size="12" class="mono" fill="var(--ink)">15.3 (8.6–29.2)</text>
+      <text x="124" y="75" font-size="12" class="mono" fill="var(--ink)">31.3 (17.8–47.3)</text>
+      <text x="124" y="120" font-size="12" class="mono" fill="var(--ink)">24.2 (16.6–43.5)</text>
+    </svg></div></div>
+    <figcaption><span class="t">แถบคือ 99th URL เส้นคือช่วงความเชื่อมั่น 95% (เส้นของชายและค่ารวมถูกตัดที่ขอบแกน) ช่วงกว้างแสดงว่าค่า URL มีความไม่แน่นอนสูง ผู้หญิงใช้เกณฑ์ต่ำกว่าผู้ชายประมาณครึ่งหนึ่ง</span><span class="e">Bars show the 99th URL; lines show the 95% confidence interval (male and overall lines are cut at the axis edge). The wide intervals show how uncertain the URL is. The female limit is about half the male limit.</span></figcaption>
+  </figure>
+
+  <div class="grid">
+    <div class="callout warn"><strong><span class="t">ใช้ค่ารวม 24.2 เป็นเกณฑ์เดียว</span><span class="e">Using the overall 24.2 as the only limit</span></strong><span><span class="t">อาจพลาดผู้หญิงที่มีค่า 15–24 ng/L รายงานแยกตามเพศ และต้องกรอกเพศใน LIS ให้ครบ</span><span class="e">can miss women with 15–24 ng/L. Report by sex and make sure sex is always entered in the LIS.</span></span></div>
+    <div class="callout crit"><strong><span class="t">ค่าสูง ไม่เท่ากับ AMI</span><span class="e">A high value is not the same as AMI</span></strong><span><span class="t">ต้องมีการเพิ่มขึ้นหรือลดลงของค่า ร่วมกับอาการ ECG หรือภาพถ่ายทางรังสี ค่า Rule-in ต้องประเมินทางคลินิกเพิ่มเสมอ</span><span class="e">A rise or fall of the value is needed, together with symptoms, ECG or imaging. A rule-in result always needs further clinical assessment.</span></span></div>
+    <div class="callout info"><strong><span class="t">เปลี่ยนจาก TnI เดิม</span><span class="e">Switching from the old TnI</span></strong><span><span class="t">ค่าอ้างอิงเดิม 20–60 กับค่าใหม่เทียบกันตรงๆ ไม่ได้ ควรเจาะ baseline ใหม่ในผู้ป่วยที่ติดตามอยู่</span><span class="e">The old reference interval 20–60 cannot be compared directly with the new values. Draw a new baseline in patients already being followed.</span></span></div>
+  </div>
+
+  <h3><span class="t">กลุ่มที่ค่าพื้นฐานสูงกว่าคนปกติ</span><span class="e">Groups with a higher baseline than healthy people</span></h3>
+  <div class="bars">
+    <div class="bar"><span><span class="t">คนปกติ (รวม)</span><span class="e">Healthy (overall)</span></span><span class="track"><i style="width:24.2%"></i></span><span class="mono">24.2</span></div>
+    <div class="bar"><span><span class="t">ความดันสูง</span><span class="e">Hypertension</span></span><span class="track"><i style="width:23.7%"></i></span><span class="mono">23.7</span></div>
+    <div class="bar w"><span><span class="t">เบาหวาน</span><span class="e">Diabetes</span></span><span class="track"><i style="width:26.8%"></i></span><span class="mono">26.8</span></div>
+    <div class="bar"><span>CKD</span><span class="track"><i style="width:96.8%;background:var(--crit)"></i></span><span class="mono">96.8</span></div>
+  </div>
+  <p class="hint"><span class="t">99th URL รวม (ng/L) จากงานวิจัยในจีน ไม่ใช่ค่าตัดสินใจใน IFU ในผู้ป่วยไตเสื่อมควรดู Δ มากกว่าค่าเดียว ชายความดันสูง 46.7, ชาย CKD 84.7</span><span class="e">Overall 99th URL (ng/L) from research in China, not a decision limit in the IFU. In kidney disease, look at Δ rather than a single value. Men with hypertension 46.7, men with CKD 84.7.</span></p>
+
+  <h3><span class="t">ผู้ป่วยเด็ก (งานวิจัยในจีน)</span><span class="e">Paediatric patients (research in China)</span></h3>
+  <div class="scroll"><table>
+    <thead><tr><th><span class="t">อายุ (ปี)</span><span class="e">Age (years)</span></th><th class="n"><span class="t">99th URL (ng/L)</span><span class="e">99th URL (ng/L)</span></th><th class="n"><span class="t">ช่วงความเชื่อมั่น 95%</span><span class="e">95% confidence interval</span></th></tr></thead>
+    <tbody>
+      <tr><td>1–6</td><td class="n">16.49</td><td class="n">5.47–24.27</td></tr>
+      <tr><td>7–12</td><td class="n">23.12</td><td class="n">7.70–25.16</td></tr>
+      <tr><td>13–18</td><td class="n">28.18</td><td class="n">12.18–35.87</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3><span class="t">cTnI และ cTnT ใช้แทนกันไม่ได้</span><span class="e">cTnI and cTnT are not interchangeable</span></h3>
+  <div class="scroll"><table>
+    <thead><tr><th style="width:34%"><span class="t">หัวข้อ</span><span class="e">Item</span></th><th style="width:33%">cTnI</th><th style="width:33%">cTnT</th></tr></thead>
+    <tbody>
+      <tr><td><span class="t">น้ำหนักโมเลกุล (g/mol)</span><span class="e">Molecular mass (g/mol)</span></td><td class="m">23,500</td><td class="m">37,000</td></tr>
+      <tr><td><span class="t">ค้างในเลือด</span><span class="e">Stays elevated</span></td><td><span class="t">4–7 วัน</span><span class="e">4–7 days</span></td><td><span class="t">10–14 วัน</span><span class="e">10–14 days</span></td></tr>
+      <tr><td>Twin peaks</td><td><span class="t">มี</span><span class="e">Yes</span></td><td><span class="t">ไม่มี</span><span class="e">No</span></td></tr>
+      <tr><td><span class="t">ไตเสื่อมเรื้อรัง</span><span class="e">Chronic renal insufficiency</span></td><td><span class="t">ค่าสูงคงที่</span><span class="e">Stable elevation</span></td><td><span class="t">ค่าสูงคงที่ โดยเฉพาะ cTnT</span><span class="e">Stable elevation, especially cTnT</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="hint"><span class="t">วินิจฉัยโรคใกล้เคียงกัน แต่ผลสองตัวไม่สัมพันธ์กันและเทียบกันไม่ได้ ความตรงกับยี่ห้ออื่น: Abbott 98.5%, Beckman 92.6%, ET Healthcare 91.1%, Roche hs-cTnT 88.8%</span><span class="e">They diagnose similarly, but the two results do not correlate and cannot be compared. Agreement with other brands: Abbott 98.5%, Beckman 92.6%, ET Healthcare 91.1%, Roche hs-cTnT 88.8%.</span></p>
+</section>
+
+<section id="lab">
+  <span class="eyebrow"><span class="t">สำหรับห้องปฏิบัติการ</span><span class="e">For the laboratory</span></span>
+  <h2><span class="t">ตั้งแต่เจาะเลือดจนถึงรายงานผล</span><span class="e">From blood draw to reported result</span></h2>
+
+  <h3><span class="t">อายุของสิ่งส่งตรวจหลังปั่นแยก</span><span class="e">Sample age after centrifugation</span></h3>
+  <div class="steps">
+    <div class="step ok" style="background:var(--ok-bg)"><b><span class="t">ภายใน 8 ชม.</span><span class="e">Within 8 h</span></b><span class="t">ตรวจที่อุณหภูมิห้อง</span><span class="e">test at room temperature</span></div>
+    <div class="step warn" style="background:var(--warn-bg)"><b><span class="t">ถึง 72 ชม.</span><span class="e">Up to 72 h</span></b><span class="t">เก็บที่ 2–8 °C</span><span class="e">store at 2–8 °C</span></div>
+    <div class="step info" style="background:var(--info-bg)"><b><span class="t">ถึง 30 วัน</span><span class="e">Up to 30 days</span></b><span class="t">เก็บที่ −20 °C หรือต่ำกว่า</span><span class="e">store at −20 °C or lower</span></div>
+    <div class="step crit" style="background:var(--crit-bg)"><b><span class="t">หลีกเลี่ยง</span><span class="e">Avoid</span></b><span class="t">แช่แข็ง-ละลายซ้ำ</span><span class="e">repeated freeze-thaw</span></div>
+  </div>
+  <ul class="tight">
+    <li><span class="t">Serum หรือ plasma ที่ใช้ sodium/lithium heparin ใช้ 80 µL (เอกสารไม่ได้ระบุ EDTA)</span><span class="e">Serum, or plasma with sodium/lithium heparin; 80 µL per test (EDTA is not listed in the documents)</span></li>
+    <li><span class="t">ติดตามผู้ป่วยรายเดียวกัน ห้ามเปลี่ยนชนิดตัวอย่างระหว่างการวัด</span><span class="e">When following the same patient, do not change the sample type between measurements</span></li>
+    <li><span class="t">Dead volume: primary tube 1 cm, micro cup 2 mL 350 µL, micro cup 0.5 mL 200 µL</span><span class="e">Dead volume: primary tube 1 cm, 2 mL micro cup 350 µL, 0.5 mL micro cup 200 µL</span></li>
+  </ul>
+
+  <h3><span class="t">น้ำยา, Calibration, QC</span><span class="e">Reagent, calibration, QC</span></h3>
+  <div class="scroll"><table>
+    <thead><tr><th><span class="t">หัวข้อ</span><span class="e">Item</span></th><th><span class="t">ข้อกำหนด</span><span class="e">Requirement</span></th></tr></thead>
+    <tbody>
+      <tr><td>Substrate</td><td><span class="t">วางที่ 18–25 °C อย่างน้อย 6 ชม. ก่อน onboard</span><span class="e">Equilibrate at 18–25 °C for at least 6 h before loading</span></td></tr>
+      <tr><td>Reagent kit</td><td><span class="t">กลับขวด (invert) ประมาณ 30 ครั้งและหมุนเกียร์ให้ microparticle เข้ากันก่อนใช้ onboard ได้ไม่เกิน 28 วัน ห้ามผสมคนละ lot</span><span class="e">Invert about 30 times and turn the gear so the microparticles mix before use. On-board for no more than 28 days. Never mix lots.</span></td></tr>
+      <tr><td>Calibration</td><td><span class="t">3 ระดับ (C0, C1, C2) สแกน master curve ทุก lot ใหม่ curve เสถียร 28 วัน replicate ไม่เกิน 10%</span><span class="e">3 levels (C0, C1, C2). Scan the master curve for every new lot. Curve stable for 28 days. Replicates within 10%.</span></td></tr>
+      <tr><td><span class="t">Calibrate ใหม่เมื่อ</span><span class="e">Recalibrate when</span></td><td><span class="t">เปลี่ยน lot · QC เกินเกณฑ์ · หลังช่างซ่อมบำรุง (ปรับอุณหภูมิ, กลไกการดูด sample, wash probe)</span><span class="e">the lot changes · QC is out of limits · after service work (temperature adjustment, sample aspiration mechanism, wash probe)</span></td></tr>
+      <tr><td>QC</td><td><span class="t">3 ระดับ อย่างน้อยวันละ 1 ครั้ง</span><span class="e">3 levels, at least once a day</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="grid">
+    <div class="card" style="border-top:4px solid var(--ok)"><b><span class="t">QC ระดับ 1</span><span class="e">QC level 1</span></b><span><span class="t">ระหว่าง LoD กับ 99th URL ที่ต่ำสุด (เพศหญิง) ส่วนที่ไวที่สุดของ hs-cTn</span><span class="e">Between the LoD and the lowest 99th URL (female), the most informative range for hs-cTn</span></span></div>
+    <div class="card" style="border-top:4px solid var(--warn)"><b><span class="t">QC ระดับ 2</span><span class="e">QC level 2</span></b><span><span class="t">สูงกว่า 99th URL ของเพศชายเล็กน้อย ไม่เกิน 20% CV ≤ 10%</span><span class="e">Slightly above the male 99th URL, by no more than 20%. CV ≤ 10%</span></span></div>
+    <div class="card" style="border-top:4px solid var(--crit)"><b><span class="t">QC ระดับ 3</span><span class="e">QC level 3</span></b><span><span class="t">ความเข้มข้นสูงสุดที่รายงานได้ (หลายเท่าของ URL) CV ≤ 10%</span><span class="e">Highest reportable concentration (several times the URL). CV ≤ 10%</span></span></div>
+  </div>
+
+  <h3><span class="t">ความไวของวิธี (ng/L)</span><span class="e">Analytical sensitivity (ng/L)</span></h3>
+  <div class="scroll"><table>
+    <thead><tr><th><span class="t">พารามิเตอร์</span><span class="e">Parameter</span></th><th class="n"><span class="t">ช่วง</span><span class="e">Range</span></th><th class="n"><span class="t">สูงสุด</span><span class="e">Maximum</span></th><th><span class="t">ความหมาย</span><span class="e">Meaning</span></th></tr></thead>
+    <tbody>
+      <tr><td>LoB</td><td class="n">0.1–0.5</td><td class="n">0.5</td><td><span class="t">Limit of Blank: สัญญาณสูงสุดของตัวอย่างที่ไม่มี analyte</span><span class="e">Limit of Blank: the highest signal from a sample with no analyte</span></td></tr>
+      <tr><td>LoD</td><td class="n">0.5–0.7</td><td class="n">0.7</td><td><span class="t">Limit of Detection: ความเข้มข้นต่ำสุดที่แยกจาก blank ได้</span><span class="e">Limit of Detection: the lowest concentration distinguishable from blank</span></td></tr>
+      <tr><td>LoQ</td><td class="n">1.1–2.4</td><td class="n">2.4</td><td><span class="t">Limit of Quantitation: ต่ำสุดที่วัดได้แม่นพอ จึงเป็นขอบล่างของช่วงรายงานผล</span><span class="e">Limit of Quantitation: the lowest concentration measured precisely enough; it is the lower edge of the reportable range</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3><span class="t">ข้อจำกัดและสารรบกวน</span><span class="e">Limitations and interferences</span></h3>
+  <div class="grid">
+    <div class="card" style="border-top:4px solid var(--ok)"><h3><span class="t">ไม่รบกวนที่ระดับ</span><span class="e">No interference up to</span></h3>
+      <span class="mono" style="font-size:13px;line-height:1.8">Triglyceride &lt; 3,000 mg/dL<br>Cholesterol &lt; 500 mg/dL<br>Bilirubin &lt; 40 mg/dL<br>Hemoglobin &lt; 608 mg/dL<br>Fibrinogen &lt; 490 mg/dL<br>Total protein &lt; 14.5 g/dL<br>RF &lt; 1,200 IU/mL<br>Biotin 3,500 ng/mL</span></div>
+    <div class="card" style="border-top:4px solid var(--warn)"><h3><span class="t">ระวัง</span><span class="e">Watch out</span></h3>
+      <ul class="tight">
+        <li><span class="t"><b>HAMA</b> ในผู้ป่วยที่เคยได้รับ mouse monoclonal antibody อาจให้ผลสูงหรือต่ำเทียม</span><span class="e"><b>HAMA</b> in patients who have received mouse monoclonal antibodies can cause falsely high or low results</span></li>
+        <li><span class="t"><b>Hook effect</b> เกิดเมื่อ &gt; 1,000,000 ng/L ไม่ใช่ปัญหาในช่วง 2.4–25,000</span><span class="e"><b>Hook effect</b> occurs only above 1,000,000 ng/L; not a problem within 2.4–25,000</span></li>
+        <li><span class="t">ผู้ป่วยที่ได้รับยาบางชนิดอาจให้ผลคลาดเคลื่อน</span><span class="e">Some medications may distort results</span></li>
+        <li><span class="t">ผลสูงเกิน 25,000 ให้เจือจางด้วย sample diluent (แนะนำ 1:10)</span><span class="e">Above 25,000, dilute with sample diluent (1:10 recommended)</span></li>
+      </ul></div>
+    <div class="card" style="border-top:4px solid var(--info)"><h3>Cross-reactivity</h3>
+      <p class="hint"><span class="t">ตาม SOP ที่ความเข้มข้น 1,000 ng/mL</span><span class="e">Per the SOP at 1,000 ng/mL</span></p>
+      <span class="mono" style="font-size:13px;line-height:1.8">Skeletal TnI 0.04%<br>CK-MB 0.02%<br>Actin 0.02%<br>Tropomyosin 0.04%<br>cTnC 0.01% · Myoglobin 0.01%<br>cTnT 0.00%</span></div>
+  </div>
+
+  <h3><span class="t">LIS: จุดที่ต้องตั้งค่า</span><span class="e">LIS: what to configure</span></h3>
+  <ul class="tight">
+    <li><span class="t">หน่วย <b>ng/L</b> ในเครื่อง, LIS และใบรายงาน</span><span class="e">Unit <b>ng/L</b> in the analyzer, LIS and report</span></li>
+    <li><span class="t">ช่วงรายงาน 2.4–25,000 และการแสดงผลต่ำกว่าขอบล่าง</span><span class="e">Reportable range 2.4–25,000 and how results below the lower limit are shown</span></li>
+    <li><span class="t">ค่าอ้างอิงตามเพศ (หญิง &lt; 15.3, ชาย &lt; 31.3) พร้อม flag H</span><span class="e">Sex-specific reference limits (female &lt; 15.3, male &lt; 31.3) with flag H</span></li>
+    <li><span class="t">การแจ้งค่าวิกฤตตามที่ตกลงกับแพทย์ และการเก็บลำดับผลต่อเนื่องเพื่อคำนวณ Δ</span><span class="e">Critical-value notification as agreed with clinicians, and keeping serial results so Δ can be calculated</span></li>
+  </ul>
+</section>
+
+<section id="check">
+  <span class="eyebrow"><span class="t">ก่อนนำเอกสารไปใช้</span><span class="e">Before using the documents</span></span>
+  <h2><span class="t">จุดที่ควรตรวจสอบ</span><span class="e">Points to verify</span></h2>
+  <ol class="tight">
+    <li class="callout crit"><strong><span class="t">หน่วยใน SOP ข้อ 10 เป็น ng/mL</span><span class="e">SOP section 10 states the unit ng/mL</span></strong><span><span class="t">ขัดกับช่วงรายงาน ng/L ถ้าตั้งหน่วยผิดในเครื่องหรือ LIS ผลจะคลาดเคลื่อน 1,000 เท่า</span><span class="e">This conflicts with the ng/L reportable range. A wrong unit in the analyzer or LIS would shift results 1,000-fold.</span></span></li>
+    <li class="callout warn"><strong><span class="t">Rule-out &lt; 2 ng/L ต่ำกว่า LoQ (2.4)</span><span class="e">Rule-out &lt; 2 ng/L is below the LoQ (2.4)</span></strong><span><span class="t">ถ้าเครื่องรายงาน "&lt; 2.4" จะใช้เกณฑ์ตัวอย่างเดียวนี้ไม่ได้ ต้องเช็กการตั้งค่า</span><span class="e">If the analyzer reports "&lt; 2.4", this single-sample criterion cannot be applied. Check the settings.</span></span></li>
+    <li class="callout warn"><strong><span class="t">ตารางค่าอ้างอิงในเอกสารเวียนสับสน</span><span class="e">The reference table in the circular is confusing</span></strong><span><span class="t">มีคอลัมน์ซ้ำ และระบุทั้งค่ารวม &lt; 24.2 กับค่าตามเพศ ควรแก้ให้ชัดว่ารายงานตามเพศ</span><span class="e">It has a duplicated column and lists both the overall &lt; 24.2 and the sex-specific values. State clearly that results are reported by sex.</span></span></li>
+    <li class="callout warn"><strong><span class="t">เครื่องที่ใช้หาค่า 99th URL ต่างจากที่ระบุในเอกสารเวียน</span><span class="e">The analyzer used to establish the 99th URL differs from the one in the circular</span></strong><span><span class="t">PPT ระบุ CL-6000i แต่เอกสารเวียนระบุ CL-900i ควร verify บนเครื่องที่ใช้จริง</span><span class="e">The slides state CL-6000i but the circular states CL-900i. Verify on the analyzer actually in use.</span></span></li>
+    <li class="callout warn"><strong><span class="t">กลุ่มศึกษาเป็นชาวอเมริกันเป็นหลัก</span><span class="e">The study group was mainly American</span></strong><span><span class="t">เอเชียมี 58 ราย (3.7%) และ PPV รวม 69.1% มีช่วงความเชื่อมั่น 52.6–87.0 ควรทวนสอบ cut-off กับผู้ป่วยไทยก่อนใช้เป็นแนวทางประจำ</span><span class="e">Only 58 patients (3.7%) were Asian, and the combined PPV of 69.1% has a confidence interval of 52.6–87.0. Verify the cut-offs on Thai patients before routine use.</span></span></li>
+    <li class="callout info"><strong><span class="t">เกณฑ์ Observe กลุ่มสูง: แก้ตามต้นฉบับแล้ว</span><span class="e">Observe high-risk criterion: corrected to the original</span></strong><span><span class="t">ต้นฉบับ (Apple, 2024) ใช้ "0h ≤ 99th URL และเปลี่ยน &gt; 50%" หรือ "&gt; 20% เมื่อ 0h &gt; URL" เอกสารสรุปภาษาไทยพิมพ์เป็น ≥ ควรแก้ในเอกสารไทย</span><span class="e">The original (Apple, 2024) uses "0h ≤ 99th URL and a change &gt; 50%" or "&gt; 20% when 0h &gt; URL". The Thai summary prints ≥; correct it in the Thai document.</span></span></li>
+    <li class="callout info"><strong><span class="t">ตัวเลขใน PPT เป็นข้อมูลของผู้ผลิต</span><span class="e">Figures in the slides are manufacturer data</span></strong><span><span class="t">การเปรียบเทียบคู่แข่งและตัวเลข interference ใช้เป็นข้อมูลประกอบ ส่วนการตัดสินใจใช้ตามเอกสารกำกับน้ำยา (IFU) และการ verify ของห้องแล็บเอง (Rule-in รวม 57 ราย ในตาราง แต่รายงานรวม 55 ราย อาจมีผู้ป่วยซ้ำ 2 ราย)</span><span class="e">Competitor comparisons and interference figures are supporting information only; decide from the IFU and your own laboratory verification. (The two rule-in criteria add up to 57 patients, but 55 are reported in total, so 2 patients may meet both.)</span></span></li>
+  </ol>
+</section>
+
+<section id="gloss">
+  <span class="eyebrow"><span class="t">คำย่อ</span><span class="e">Abbreviations</span></span>
+  <h2><span class="t">คำย่อและความหมาย</span><span class="e">Abbreviations and meanings</span></h2>
+  <div class="scroll"><table>
+    <thead><tr><th><span class="t">คำย่อ</span><span class="e">Term</span></th><th><span class="t">คำเต็ม</span><span class="e">Full name</span></th><th><span class="t">ความหมายโดยย่อ</span><span class="e">Short meaning</span></th></tr></thead>
+    <tbody>
+      <tr><td class="ab">hs-cTnI</td><td>High-sensitivity cardiac Troponin I</td><td><span class="t">โทรโปนิน I ของหัวใจชนิดไวสูง ตรวจพบการบาดเจ็บของกล้ามเนื้อหัวใจแม้เล็กน้อย</span><span class="e">Cardiac troponin I measured with high sensitivity; detects even small myocardial injury</span></td></tr>
+      <tr><td class="ab">cTnT / cTnC</td><td>cardiac Troponin T / C</td><td><span class="t">โทรโปนินชนิดอื่นในกล้ามเนื้อหัวใจ (cTnC พบในกล้ามเนื้อลายด้วย)</span><span class="e">Other troponins of heart muscle (cTnC is also found in skeletal muscle)</span></td></tr>
+      <tr><td class="ab">URL</td><td>Upper Reference Limit</td><td><span class="t">ค่าอ้างอิงสูงสุด ในเอกสารนี้คือ 99th percentile ของคนปกติ</span><span class="e">Upper reference limit; here the 99th percentile of healthy people</span></td></tr>
+      <tr><td class="ab">99th percentile</td><td>—</td><td><span class="t">ค่าที่ 99% ของคนปกติมีค่าต่ำกว่า</span><span class="e">The value below which 99% of healthy people fall</span></td></tr>
+      <tr><td class="ab">ROC</td><td>Receiver Operating Characteristic</td><td><span class="t">กราฟเทียบ Sensitivity กับ 1 − Specificity ที่ทุก cut-off ใช้เลือกจุดตัดที่สมดุล</span><span class="e">A plot of Sensitivity against 1 − Specificity at every cut-off, used to pick a balanced threshold</span></td></tr>
+      <tr><td class="ab">AUC</td><td>Area Under the Curve</td><td><span class="t">พื้นที่ใต้กราฟ ROC 1.0 = แยกได้สมบูรณ์ 0.5 = เท่ากับเดา</span><span class="e">Area under the ROC curve; 1.0 = perfect separation, 0.5 = chance</span></td></tr>
+      <tr><td class="ab">Sens</td><td>Sensitivity</td><td><span class="t">สัดส่วนผู้ป่วยจริงที่ตรวจพบ</span><span class="e">Proportion of true patients detected</span></td></tr>
+      <tr><td class="ab">Spec</td><td>Specificity</td><td><span class="t">สัดส่วนผู้ไม่ป่วยที่ผลเป็นลบ</span><span class="e">Proportion of non-diseased people who test negative</span></td></tr>
+      <tr><td class="ab">NPV</td><td>Negative Predictive Value</td><td><span class="t">เมื่อผลเป็นลบ มีโอกาสไม่เป็นโรคจริงกี่ %</span><span class="e">When the result is negative, the chance the person truly does not have the disease</span></td></tr>
+      <tr><td class="ab">PPV</td><td>Positive Predictive Value</td><td><span class="t">เมื่อผลเป็นบวก มีโอกาสเป็นโรคจริงกี่ %</span><span class="e">When the result is positive, the chance the person truly has the disease</span></td></tr>
+      <tr><td class="ab">CI</td><td>Confidence Interval</td><td><span class="t">ช่วงที่ค่าจริงน่าจะอยู่ (ที่นี่ 95%)</span><span class="e">Range in which the true value probably lies (here 95%)</span></td></tr>
+      <tr><td class="ab">Δ (delta)</td><td>—</td><td><span class="t">การเปลี่ยนแปลงของค่าระหว่างสองครั้งที่เจาะ เช่น Δ2h = ค่า 2h − ค่า 0h</span><span class="e">Change in value between two draws, e.g. Δ2h = 2h value − 0h value</span></td></tr>
+      <tr><td class="ab">n</td><td>number</td><td><span class="t">จำนวนผู้ป่วยหรือตัวอย่าง</span><span class="e">Number of patients or samples</span></td></tr>
+      <tr><td class="ab">ng/L</td><td>nanogram per litre</td><td><span class="t">หน่วยรายงาน hs-cTnI (1 ng/mL = 1,000 ng/L)</span><span class="e">Reporting unit of hs-cTnI (1 ng/mL = 1,000 ng/L)</span></td></tr>
+      <tr><td class="ab">AMI / MI</td><td>Acute Myocardial Infarction / Myocardial Infarction</td><td><span class="t">กล้ามเนื้อหัวใจตายเฉียบพลัน / กล้ามเนื้อหัวใจตาย</span><span class="e">Heart attack</span></td></tr>
+      <tr><td class="ab">ACS</td><td>Acute Coronary Syndrome</td><td><span class="t">กลุ่มอาการหลอดเลือดหัวใจเฉียบพลัน</span><span class="e">Acute coronary syndromes</span></td></tr>
+      <tr><td class="ab">NSTE-ACS</td><td>Non-ST-segment Elevation ACS</td><td><span class="t">ACS ที่ ECG ไม่มี ST ยก</span><span class="e">ACS without ST elevation on the ECG</span></td></tr>
+      <tr><td class="ab">STEMI</td><td>ST-segment Elevation Myocardial Infarction</td><td><span class="t">MI ที่ ECG มี ST ยก ไม่ใช้ algorithm นี้</span><span class="e">MI with ST elevation; this algorithm is not used</span></td></tr>
+      <tr><td class="ab">ECG</td><td>Electrocardiogram</td><td><span class="t">คลื่นไฟฟ้าหัวใจ</span><span class="e">Heart tracing</span></td></tr>
+      <tr><td class="ab">ER / ED</td><td>Emergency Room / Emergency Department</td><td><span class="t">ห้องฉุกเฉิน</span><span class="e">Emergency room</span></td></tr>
+      <tr><td class="ab">CKD</td><td>Chronic Kidney Disease</td><td><span class="t">โรคไตเรื้อรัง</span><span class="e">Chronic kidney disease</span></td></tr>
+      <tr><td class="ab">CAD</td><td>Coronary Artery Disease</td><td><span class="t">โรคหลอดเลือดหัวใจ</span><span class="e">Coronary artery disease</span></td></tr>
+      <tr><td class="ab">AF</td><td>Atrial Fibrillation</td><td><span class="t">หัวใจห้องบนเต้นระริก</span><span class="e">Irregular atrial rhythm</span></td></tr>
+      <tr><td class="ab">CLIA</td><td>Chemiluminescent Immunoassay</td><td><span class="t">วิธีตรวจภูมิคุ้มกันที่วัดแสงจากปฏิกิริยาเคมี</span><span class="e">Immunoassay that measures light from a chemical reaction</span></td></tr>
+      <tr><td class="ab">ALP</td><td>Alkaline Phosphatase</td><td><span class="t">เอนไซม์ที่ติดฉลากแอนติบอดีเพื่อให้เกิดแสง</span><span class="e">Enzyme label on the antibody that generates the light</span></td></tr>
+      <tr><td class="ab">RLU</td><td>Relative Light Unit</td><td><span class="t">หน่วยความเข้มแสงที่เครื่องวัด</span><span class="e">Unit of light intensity read by the analyzer</span></td></tr>
+      <tr><td class="ab">4PL</td><td>4-Parameter Logistic</td><td><span class="t">สมการเส้นโค้ง calibration แบบ S</span><span class="e">S-shaped calibration curve equation</span></td></tr>
+      <tr><td class="ab">LoB / LoD / LoQ</td><td>Limit of Blank / Detection / Quantitation</td><td><span class="t">ขีดจำกัดของวิธี ดูตารางความไวของวิธี</span><span class="e">Detection limits of the method; see the analytical sensitivity table</span></td></tr>
+      <tr><td class="ab">CV</td><td>Coefficient of Variation</td><td><span class="t">ความแปรปรวนสัมพันธ์ (SD ÷ ค่าเฉลี่ย) ยิ่งต่ำยิ่งแม่น</span><span class="e">Relative variability (SD ÷ mean); lower means more precise</span></td></tr>
+      <tr><td class="ab">QC</td><td>Quality Control</td><td><span class="t">การควบคุมคุณภาพ</span><span class="e">Quality control</span></td></tr>
+      <tr><td class="ab">IFU</td><td>Instructions For Use</td><td><span class="t">เอกสารกำกับน้ำยา (package insert)</span><span class="e">Package insert supplied with the reagent</span></td></tr>
+      <tr><td class="ab">SOP</td><td>Standard Operating Procedure</td><td><span class="t">มาตรฐานดำเนินการปฏิบัติงาน</span><span class="e">Written laboratory procedure</span></td></tr>
+      <tr><td class="ab">LIS</td><td>Laboratory Information System</td><td><span class="t">ระบบสารสนเทศห้องปฏิบัติการ</span><span class="e">Laboratory information system</span></td></tr>
+      <tr><td class="ab">HAMA</td><td>Human Anti-Mouse Antibodies</td><td><span class="t">แอนติบอดีของคนต่อ mouse antibody อาจรบกวนผล</span><span class="e">Human antibodies against mouse antibodies; can interfere</span></td></tr>
+      <tr><td class="ab">RF</td><td>Rheumatoid Factor</td><td><span class="t">ปัจจัยรูมาตอยด์ สารที่อาจรบกวนการตรวจ</span><span class="e">Rheumatoid factor, a possible interferent</span></td></tr>
+      <tr><td class="ab">IFCC</td><td>International Federation of Clinical Chemistry and Laboratory Medicine</td><td><span class="t">องค์กรสากลที่วางเกณฑ์ของ hs-cTn</span><span class="e">International body that sets the hs-cTn criteria</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<footer class="sources">
+  <p><span class="t">แหล่งข้อมูล: SOP hs-TnI CL-Series (PDF) · Apple FS. 0h/2h rule-out and rule-in algorithm using hs-cTnI (Mindray, Thailand 2.0, ส่ง 18 เม.ย. 2024) · สรุป 0h/2h Algorithm hs-cTnI Mindray · เอกสารเวียนเปลี่ยนน้ำยา conventional cTnI → hs-cTnI · Brief Introduction of Mindray New Immunoassay Cardiac hs-TnI (PPTX) · hs-cTnI customer-facing PPT (PPTX) · ข้อเสนอระดับค่าวิกฤตและ flow chart เป็นการจัดเรียงของผู้สรุป ไม่ใช่ข้อความจากผู้ผลิต</span><span class="e">Sources: SOP hs-TnI CL-Series (PDF) · Apple FS. 0h/2h rule-out and rule-in algorithm using hs-cTnI (Mindray, Thailand 2.0, submitted 18 Apr 2024) · Thai summary of the Mindray 0h/2h algorithm · reagent-change circular, conventional cTnI → hs-cTnI · Brief Introduction of Mindray New Immunoassay Cardiac hs-TnI (PPTX) · hs-cTnI customer-facing PPT (PPTX) · The critical-value levels and the flow chart are the summariser's arrangement, not statements by the manufacturer.</span></p>
+</footer>
+</div>
+
+<script>
+(function(){
+  var b=document.body;
+  function setLang(l){
+    b.setAttribute('data-lang',l);
+    document.documentElement.setAttribute('lang',l);
+    var t=document.querySelectorAll('[data-set]');
+    for(var i=0;i<t.length;i++){t[i].setAttribute('aria-selected',t[i].getAttribute('data-set')===l?'true':'false')}
+    var a=document.querySelectorAll('[data-th][data-en]');
+    for(var j=0;j<a.length;j++){a[j].setAttribute('aria-label',a[j].getAttribute('data-'+l))}
+    try{localStorage.setItem('hscTnI-lang',l)}catch(e){}
+  }
+  var cur='th';
+  try{cur=localStorage.getItem('hscTnI-lang')==='en'?'en':'th'}catch(e){}
+  setLang(cur);
+  var btn=document.querySelectorAll('[data-set]');
+  for(var k=0;k<btn.length;k++){btn[k].addEventListener('click',function(){setLang(this.getAttribute('data-set'))})}
+})();
+</script>
+
+</body></html>
