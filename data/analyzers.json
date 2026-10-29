@@ -370,5 +370,33 @@
                 "url": "bc6000-second-analyzer-guide.html"
             }
         ]
+    },
+    {
+        "id": "mt8000_tla",
+        "name": "MT8000 TLA guide",
+        "type": "Total Laboratory Automation",
+        "manufacturer": "Mindray",
+        "description": "Training guide for the Mindray MT 8000 TLA line: modules, sample flow, dispatch middleware, smart functions, auto validation and LIS (HL7), daily operation, troubleshooting, site survey, project/service and a quiz.",
+        "parameters": [
+            "Modules - bulk loader, I/O, standalone, centrifuge, decapper, track, recap and refrigerated storage",
+            "Sample flow - drawer types, priority ladder and the five abnormal areas",
+            "Middleware - settings map, area layout, sample vision",
+            "Smart functions - routine vs advanced, with setup paths",
+            "Auto validation + LIS - AV/UV flags and HL7 messages",
+            "Site survey - 20-item pre-installation form and readiness checklist"
+        ],
+        "troubleshooting": [
+            "Start with the module lamp (blue normal, yellow warning, red fault), then the alarm number",
+            "Never power off the I/O module or track while loading; press Pause on the bulk loader first",
+            "Escalate if the whole system stops or on-site handling exceeds 30 minutes"
+        ],
+        "notes": "Built from the MT8000 training files and Operator's Manual (July 2024). Figures differ slightly between documents; use the Operator's Manual when a figure is needed in writing.",
+        "attachments": [
+            {
+                "name": "⭐ MT8000 TLA guide",
+                "type": "Interactive HTML",
+                "url": "mt8000-tla-guide/index.html"
+            }
+        ]
     }
 ]

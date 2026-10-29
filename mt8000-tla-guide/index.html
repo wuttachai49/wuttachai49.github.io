@@ -1,0 +1,680 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>MT 8000 Training Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Thai:wght@400;600&display=swap">
+<style>
+/* Layout: sticky tab bar over a single reading column; module cards in a 2-col grid that stacks on phones. */
+:root{
+  --bg:#f4f6f7; --surface:#ffffff; --ink:#14232b; --muted:#566872; --line:#d5dde1;
+  --accent:#0b6e7f; --accent-soft:#dff0f3; --ok:#1f7a45; --warn:#9a6200; --warn-soft:#fbf0d9; --crit:#b3261e; --crit-soft:#fbe4e2;
+  --code:#e9eef0;
+  --f-body:"IBM Plex Sans","Noto Sans Thai",system-ui,sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e1a20; --surface:#15262e; --ink:#e4edf0; --muted:#9bb0b8; --line:#2a404a;
+  --accent:#4fc1d3; --accent-soft:#17383f; --ok:#58c487; --warn:#e8b04a; --warn-soft:#352a12; --crit:#f08a82; --crit-soft:#3a1c1a; --code:#1d3139; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1a20; --surface:#15262e; --ink:#e4edf0; --muted:#9bb0b8; --line:#2a404a;
+  --accent:#4fc1d3; --accent-soft:#17383f; --ok:#58c487; --warn:#e8b04a; --warn-soft:#352a12; --crit:#f08a82; --crit-soft:#3a1c1a; --code:#1d3139; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.6 var(--f-body);margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding-block:20px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{padding-block:8px 16px}
+.kicker{font:500 12px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:6px 0 8px;font-weight:600;text-wrap:balance}
+h2{font-size:22px;margin:0 0 6px;font-weight:600;text-wrap:balance}
+h3{font-size:16px;margin:0 0 4px;font-weight:600}
+p{margin:0 0 10px;max-width:70ch}
+.lead{color:var(--muted);font-size:16px;max-width:68ch}
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:4px;overflow-x:auto;padding-block:8px;margin-bottom:20px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+nav.tabs a{flex:none;padding:7px 12px;border-radius:6px;color:var(--muted);text-decoration:none;font-weight:500;font-size:14px;border:1px solid transparent}
+nav.tabs a:hover{color:var(--ink)}
+nav.tabs a[aria-current="page"]{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
+nav.tabs a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section.view{display:none}
+section.view.on{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;min-width:0}
+.sp{height:18px}
+.spec{display:grid;grid-template-columns:auto 1fr;gap:2px 14px;font-size:14px;margin:8px 0}
+.spec dt{color:var(--muted)} .spec dd{margin:0;font-family:var(--f-mono);font-size:13px;overflow-wrap:anywhere}
+.tag{display:inline-block;font:500 11px var(--f-mono);letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:4px;background:var(--accent-soft);color:var(--accent);margin-right:6px}
+.tag.adv{background:var(--warn-soft);color:var(--warn)}
+.tag.crit{background:var(--crit-soft);color:var(--crit)}
+.th{font-family:var(--f-body);color:var(--muted);font-weight:400;font-size:.8em;margin-left:6px}
+ul{margin:4px 0 10px;padding-left:20px} li{margin:2px 0;max-width:72ch}
+code,.mono{font-family:var(--f-mono);font-size:.88em;background:var(--code);padding:1px 5px;border-radius:4px;overflow-wrap:anywhere}
+.note{border-left:3px solid var(--warn);background:var(--warn-soft);padding:10px 14px;border-radius:0 6px 6px 0;margin:12px 0;max-width:75ch}
+.tip{border-left:3px solid var(--accent);background:var(--accent-soft);padding:10px 14px;border-radius:0 6px 6px 0;margin:12px 0;max-width:75ch}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:10px 0}
+.flow span.n{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-weight:500;font-size:14px}
+.flow span.a{color:var(--muted)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 12px var(--f-mono);text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:var(--code)}
+tr:last-child td{border-bottom:0}
+details{border:1px solid var(--line);border-radius:8px;background:var(--surface);margin:8px 0}
+summary{cursor:pointer;padding:11px 14px;font-weight:600;list-style:none;display:flex;gap:10px;align-items:center;justify-content:space-between}
+summary::after{content:"+";color:var(--accent);font:500 18px var(--f-mono)}
+details[open] summary::after{content:"–"}
+details>div{padding:0 14px 12px}
+.search{width:100%;max-width:460px;padding:9px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);font:inherit;margin-bottom:12px}
+.btn{font:inherit;font-weight:500;padding:8px 14px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:var(--bg);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.opt{display:block;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:9px 12px;margin:6px 0;cursor:pointer}
+.opt:hover{border-color:var(--accent)}
+.opt.right{border-color:var(--ok);background:var(--accent-soft)}
+.opt.wrong{border-color:var(--crit);background:var(--crit-soft)}
+.fb{font-size:14px;color:var(--muted);margin-top:6px}
+footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+.chip-row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.chip{padding:3px 10px;border-radius:99px;border:1px solid var(--line);font-size:13px;background:var(--surface)}
+:root{--ts:62%;--tl:94%;--ss:60%;--sl:30%;--bs:45%;--bl:72%}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ts:30%;--tl:17%;--ss:75%;--sl:76%;--bs:35%;--bl:34%}}
+:root[data-theme="dark"]{--ts:30%;--tl:17%;--ss:75%;--sl:76%;--bs:35%;--bl:34%}
+.hue{background:hsl(var(--h) var(--ts) var(--tl));border:1px solid hsl(var(--h) var(--bs) var(--bl));border-radius:8px}
+.hue.sec{padding:14px 16px;margin:16px 0}
+.hue.sec>h3{color:hsl(var(--h) var(--ss) var(--sl));font-size:17px;margin-bottom:6px}
+.hue.sec .card{background:var(--surface)}
+.cchip{display:inline-block;font:500 11px var(--f-mono);letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:99px;background:hsl(var(--h) var(--ts) var(--tl));color:hsl(var(--h) var(--ss) var(--sl));border:1px solid hsl(var(--h) var(--bs) var(--bl));white-space:nowrap}
+tr.rh td{background:hsl(var(--h) var(--ts) var(--tl))}
+tr.rh td:first-child{font-family:var(--f-mono);font-weight:500;color:hsl(var(--h) var(--ss) var(--sl))}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 10px}
+.fig{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;min-width:0}
+.fig img{display:block;width:100%;height:auto;cursor:zoom-in;background:#fff}
+.fig figcaption{padding:8px 12px;font-size:13px;color:var(--muted)}
+.fig figcaption b{color:var(--ink);font-weight:600}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:12px;margin:12px 0}
+#lb{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
+#lb.on{display:flex} #lb img{max-width:100%;max-height:100%;background:#fff}
+.dg{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px;margin:12px 0;overflow-x:auto}
+.dg h3{margin-bottom:8px}
+.dg svg{display:block;min-width:620px;width:100%;height:auto}
+svg .box{fill:var(--surface);stroke:var(--line);stroke-width:1.5}
+svg .pre{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5}
+svg .post{fill:var(--warn-soft);stroke:var(--warn);stroke-width:1.5}
+svg .trk{fill:var(--code);stroke:var(--muted);stroke-width:1.5}
+svg .ln{stroke:var(--muted);stroke-width:1.5;fill:none}
+svg text{fill:var(--ink);font:500 13px var(--f-body)}
+svg text.s{fill:var(--muted);font-size:11.5px;font-weight:400}
+.ladder{display:grid;gap:6px;margin:8px 0}
+.ladder div{padding:9px 12px;border-radius:6px;font-size:14px}
+.l3{background:var(--crit-soft);border:1px solid var(--crit);width:100%}
+.l2{background:var(--warn-soft);border:1px solid var(--warn);width:84%}
+.l1{background:var(--accent-soft);border:1px solid var(--accent);width:68%}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:10px;margin:10px 0;counter-reset:s}
+.steps>div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:14px;counter-increment:s;position:relative;min-width:0}
+.steps>div::before{content:counter(s);display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--bg);font:500 12px var(--f-mono);margin-bottom:6px}
+.steps b{display:block;font-weight:600}
+.steps.loop>div.alt{border-color:var(--warn);background:var(--warn-soft)}
+@media (prefers-reduced-motion:no-preference){section.view.on{animation:f .18s ease-out}@keyframes f{from{opacity:.4}to{opacity:1}}}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <div class="kicker">Mindray TLA · MT 8000</div>
+  <h1>MT 8000 Training Guide <span class="th">คู่มือฝึกอบรมระบบ TLA</span></h1>
+  <p class="lead">What each part is, the principle behind it, how it behaves in daily use and what to do when it fails. Built for application specialists who train users. Every statement comes from the files in your MT8000 folder; the sources are listed at the bottom.</p>
+</header>
+
+<nav class="tabs" id="tabs" aria-label="Sections">
+  <a href="#overview">Overview</a><a href="#modules">Modules</a><a href="#flow">Sample flow</a><a href="#software">Software</a><a href="#functions">Smart functions</a><a href="#autoval">Auto validation &amp; LIS</a><a href="#daily">Daily ops</a><a href="#trouble">Troubleshooting</a><a href="#survey">Site survey</a><a href="#delivery">Project &amp; service</a><a href="#quiz">Quiz</a>
+</nav>
+
+<!-- OVERVIEW -->
+<section class="view" id="v-overview">
+  <h2>System overview <span class="th">ภาพรวมระบบ</span></h2>
+  <p>MT 8000 is Mindray's total laboratory automation (TLA) line. It moves a tube from the moment it is loaded to the moment it is archived, with no hands in between: it checks the tube by camera, centrifuges, removes the cap, delivers the tube to the analyzers, takes it back, recaps it and stores it at 2–8 °C. A middleware (the "dispatch software") decides where each tube goes.</p>
+  <div class="dg"><h3>System layout map <span class="th">แผนผังระบบ (ภาพประกอบ ไม่ใช่ผังจริงของแต่ละไซต์)</span></h3>
+  <svg viewBox="0 0 936 290" role="img" aria-label="Layout of MT 8000 modules around the main track">
+    <g>
+      <rect class="pre" x="10" y="14" width="118" height="54" rx="6"/><text x="69" y="36" text-anchor="middle">Bulk loader</text><text class="s" x="69" y="54" text-anchor="middle">dump &amp; rack</text>
+      <rect class="pre" x="140" y="14" width="118" height="54" rx="6"/><text x="199" y="36" text-anchor="middle">I/O module</text><text class="s" x="199" y="54" text-anchor="middle">7 drawers, cameras</text>
+      <rect class="pre" x="270" y="14" width="118" height="54" rx="6"/><text x="329" y="36" text-anchor="middle">Standalone</text><text class="s" x="329" y="54" text-anchor="middle">QC, calib., STAT</text>
+      <rect class="pre" x="400" y="14" width="118" height="54" rx="6"/><text x="459" y="36" text-anchor="middle">Centrifuge</text><text class="s" x="459" y="54" text-anchor="middle">80 tubes, balance</text>
+      <rect class="pre" x="530" y="14" width="118" height="54" rx="6"/><text x="589" y="36" text-anchor="middle">Decapper</text><text class="s" x="589" y="54" text-anchor="middle">850 tubes/h</text>
+      <rect class="post" x="660" y="14" width="118" height="54" rx="6"/><text x="719" y="36" text-anchor="middle">Decap / recap</text><text class="s" x="719" y="54" text-anchor="middle">buffer 376, QC mix</text>
+      <rect class="post" x="790" y="14" width="136" height="54" rx="6"/><text x="858" y="36" text-anchor="middle">Refrigerated store</text><text class="s" x="858" y="54" text-anchor="middle">2–8 °C, 10,152 tubes</text>
+    </g>
+    <g class="ln"><path d="M69 68V118M199 68V118M329 68V118M459 68V118M589 68V118M719 68V118M858 68V118"/></g>
+    <rect class="trk" x="10" y="118" width="916" height="38" rx="6"/>
+    <text x="468" y="141" text-anchor="middle">Main track · 4 tracks · RFID single-tube carriers · 150 mm/s</text>
+    <g class="ln"><path d="M92 156V208M270 156V208M448 156V208M626 156V208M804 156V208"/></g>
+    <g>
+      <rect class="box" x="10" y="208" width="164" height="50" rx="6"/><text x="92" y="230" text-anchor="middle">Biochemistry</text><text class="s" x="92" y="247" text-anchor="middle">M3 line</text>
+      <rect class="box" x="188" y="208" width="164" height="50" rx="6"/><text x="270" y="230" text-anchor="middle">Immunoassay</text><text class="s" x="270" y="247" text-anchor="middle">M3 line</text>
+      <rect class="box" x="366" y="208" width="164" height="50" rx="6"/><text x="448" y="230" text-anchor="middle">Coagulation</text><text class="s" x="448" y="247" text-anchor="middle">cascade</text>
+      <rect class="box" x="544" y="208" width="164" height="50" rx="6"/><text x="626" y="230" text-anchor="middle">Hematology</text><text class="s" x="626" y="247" text-anchor="middle">processing line</text>
+      <rect class="box" x="722" y="208" width="164" height="50" rx="6"/><text x="804" y="230" text-anchor="middle">Urinalysis</text><text class="s" x="804" y="247" text-anchor="middle">processing line</text>
+    </g>
+    <text class="s" x="10" y="282">Blue: pre-analytical · Amber: post-analytical · Analyzers connect through front track modules. Module list and lines follow the module intro slide; actual configuration varies per site.</text>
+  </svg></div>
+  <figure class="fig" style="margin-bottom:14px"><img data-f="m_line" alt="MT 8000 line overview slide" loading="lazy"><figcaption></figcaption></figure>
+  <div class="grid">
+    <div class="card"><h3>Pre-analytical</h3><p>Bulk loader, I/O module, standalone sampling module, centrifuge, decapper. These receive, identify, spin and uncap.</p></div>
+    <div class="card"><h3>Transport</h3><p>Narrow 4-track main track with RFID single-tube carriers, plus front track modules that connect directly to each analyzer.</p></div>
+    <div class="card"><h3>Analytical</h3><p>Biochemistry and immunoassay (M3 cascades), coagulation, hematology and urinalysis lines connect to the track.</p></div>
+    <div class="card"><h3>Post-analytical</h3><p>Decapping &amp; recapping integrated module and refrigerated storage module (0–2 of each) for recapping, QC handling and storage.</p></div>
+  </div>
+  <div class="sp"></div>
+  <h3>Headline numbers</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Item</th><th>Value</th><th>Where it comes from</th></tr>
+    <tr><td>Main track speed / throughput</td><td>150 mm/s · 3600 tubes/h per piece · 30 cm wide</td><td>Module intro</td></tr>
+    <tr><td>Whole-line throughput</td><td>Over 10,000 tubes/h with four tracks</td><td>Vision linkage deck</td></tr>
+    <tr><td>Storage capacity</td><td>10,152 tubes per refrigerated module</td><td>Module intro</td></tr>
+    <tr><td>Auto validation pass-rate guidance</td><td>Biochemistry ≈ 60 %, immunoassay target ≈ 80 %</td><td>Auto validation SOP v2.0</td></tr>
+  </table></div>
+  <div class="note"><strong>Different documents give slightly different figures.</strong> The module intro lists the track as 30 cm and the brochure as 32 cm; the bulk loader is 850 tubes/h in the spec table and 1000 tubes/h for the dumping flux. Use the Operator's Manual (July 2024) when a customer needs a figure in writing.</div>
+  <h3>How to teach this system in one sentence</h3>
+  <p>"Load anything, anywhere in the right drawer; the cameras decide what the tube is, the middleware decides where it goes, and the cell you fix is always the one whose lamp is yellow or red."</p>
+</section>
+
+<!-- MODULES -->
+<section class="view" id="v-modules">
+  <h2>The modules, part by part <span class="th">แต่ละโมดูล</span></h2>
+  <p>Open a module for its role, specifications, how it works, operating rules and typical faults.</p>
+  <div id="modlist"></div>
+  <h3 style="margin-top:20px">Sample racks and adapters</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Rack</th><th>Use</th></tr>
+    <tr><td>50-hole red rack</td><td>Extra-urgent samples, 13 mm tubes. The RFID on the rack gives the tubes top priority.</td></tr>
+    <tr><td>50-hole white rack</td><td>Routine and STAT samples, 13 mm tubes.</td></tr>
+    <tr><td>21-position rack (3×7)</td><td>Calibrators, QC, micro samples, 13–16 mm tubes. Needs an adapter for microtubes. If a 21-position rack goes in an inlet drawer, a 21-position rack must also sit in the outlet drawer.</td></tr>
+    <tr><td>94-position rack</td><td>Refrigerator only. Hole 1 is marked with a background colour. RFID on both short sides, magnet pads and a connecting rod for the manipulator.</td></tr>
+  </table></div>
+  <div class="tip">Adapter rule: the lower half alone takes a 2 mL Hitachi cup or a Mindray disposable vial. Both halves together take third-party controls, 0.5 mL or 2 mL Beckman cups and EP tubes. Height limit on the I/O module is 100 mm, so an EP tube goes into a 13×75 tube, never a 13×100.</div>
+</section>
+
+<!-- FLOW -->
+<section class="view" id="v-flow">
+  <h2>How a sample travels <span class="th">เส้นทางของสิ่งส่งตรวจ</span></h2>
+  <p>The loading drawer you choose tells the system what the tube needs. The path is chosen from the drawer type, then adjusted by the camera.</p>
+  <div class="grid">
+    <div class="card"><h3>Centrifuged, no cap</h3><div class="flow"><span class="n">I/O</span><span class="a">→</span><span class="n">Analyzer</span></div></div>
+    <div class="card"><h3>Centrifuged, with cap</h3><div class="flow"><span class="n">I/O</span><span class="a">→</span><span class="n">Decapper</span><span class="a">→</span><span class="n">Analyzer</span></div></div>
+    <div class="card"><h3>Not centrifuged</h3><div class="flow"><span class="n">I/O</span><span class="a">→</span><span class="n">Centrifuge</span><span class="a">→</span><span class="n">Decapper</span><span class="a">→</span><span class="n">Analyzer</span></div></div>
+    <div class="card"><h3>Direct archiving</h3><div class="flow"><span class="n">I/O</span><span class="a">→</span><span class="n">Vision</span><span class="a">→</span><span class="n">Output area or refrigerator</span></div><p>Used for offline tests and QC. Only barcode and position are read.</p></div>
+  </div>
+  <div class="note">Wrong drawer: an uncapped centrifuged tube placed in the non-centrifuged area goes to the abnormal area. A non-centrifuged tube placed in the centrifuged area is recognised as whole blood and is centrifuged automatically.</div>
+
+  <div class="figs"><figure class="fig"><img data-f="m_paths" alt="I/O loading area setup slide" loading="lazy"><figcaption></figcaption></figure><figure class="fig"><img data-f="m_abn" alt="I/O abnormal sample areas slide" loading="lazy"><figcaption></figcaption></figure></div>
+  <div class="dg"><h3>Where does my tube go? A quick decision path</h3>
+  <div class="steps">
+    <div><b>Is it centrifuged?</b>No: use the non-centrifuged drawer. The tube goes through the centrifuge.</div>
+    <div><b>Does it have a cap?</b>Yes: it passes the decapper. No: it goes straight to the analyzer.</div>
+    <div><b>Is it QC, a calibrator or a micro sample?</b>Use the standalone module with a 21-position rack and adapter.</div>
+    <div><b>Does it only need archiving?</b>Use archive-direct (or archive after centrifugation).</div>
+    <div><b>Did the camera or LIS reject it?</b>It lands in one of the five abnormal areas. Fix, then reload.</div>
+  </div></div>
+  <div class="dg"><h3>Priority ladder <span class="th">ลำดับความสำคัญ</span></h3>
+  <div class="ladder"><div class="l3"><b>3 · Extra urgent</b> — red 50-hole rack, manual priority, auto priority (TAT timeout)</div><div class="l2"><b>2 · Urgent</b> — outpatient, emergency, rerun</div><div class="l1"><b>1 · Routine</b> — inpatient, physical examination</div></div>
+  <p class="fb">Same level: decided by TAT status. At the gripper: STAT rack → priority basket → routine rack → routine basket. At the analyzer: standalone → I/O → bulk loader.</p></div>
+  <h3>Priority: who goes first</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Level</th><th>Samples</th></tr>
+    <tr><td><span class="tag crit">3 · Extra urgent</span></td><td>Red 50-hole rack, manually prioritised, auto-prioritised (for example TAT timeout)</td></tr>
+    <tr><td><span class="tag adv">2 · Urgent</span></td><td>Outpatient, emergency, rerun samples</td></tr>
+    <tr><td><span class="tag">1 · Routine</span></td><td>Inpatient, physical examination</td></tr>
+  </table></div>
+  <ul>
+    <li>Equal priority: handled by TAT status.</li>
+    <li>Aspiration priority at the analyzer: standalone module, then I/O module, then bulk loader.</li>
+    <li>Into the I/O gripper: STAT rack, then priority basket, then routine rack, then routine basket (or FIFO basket).</li>
+    <li>Lab-specific rules: middleware Settings → Settings Overview → System Settings → Scheduling Rule Settings → Scheduling Priority Rules. Rules can match test items, item type, patient type, department and sample category.</li>
+    <li>If one test of an order is unavailable, the system runs the other tests, then parks the tube on the I/O module until the rest can run (temporary storage area). If a named module is down, it sends the tube to another suitable module.</li>
+  </ul>
+
+  <h3>The five abnormal areas on the I/O outlet</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Area</th><th>Why a tube lands here</th><th>What the operator does</th></tr>
+    <tr><td>Test abnormal</td><td>Reagent short or analyzer fault, results incomplete</td><td>Fix the analyzer or add reagent. The gripper puts the tube back for testing automatically.</td></tr>
+    <tr><td>Download failed</td><td>Order not received from the LIS</td><td>Take out by hand, correct, reload from the inlet.</td></tr>
+    <tr><td>Scanning abnormal</td><td>Blurred, broken or duplicate barcode</td><td>Take out by hand, relabel, reload.</td></tr>
+    <tr><td>Sample abnormal</td><td>Clot, insufficient serum, severe serum index</td><td>Inspect. Recollect is recommended; or test by hand on the standalone module after checking.</td></tr>
+    <tr><td>Manual retrieval</td><td>User chose "Manual Take Out" in the middleware</td><td>Collect the tube; reload if needed.</td></tr>
+  </table></div>
+  <p style="margin-top:10px">The temporary storage area is different from these: during peaks, or when an instrument or test is unavailable, tubes wait there and return to the track on their own.</p>
+</section>
+
+<!-- SOFTWARE -->
+<section class="view" id="v-software">
+  <h2>Middleware software <span class="th">ซอฟต์แวร์ควบคุม (Innolab)</span></h2>
+  <p>The dispatch software is a web application, opened in a browser on the line PC. Ask Mindray service for the address and for login accounts; this guide does not list credentials. It groups work into four areas: MT 8000 management, dynamic management, sample management and system configuration.</p>
+  <div class="grid">
+    <div class="card"><h3>Sample management</h3><ul><li>Program samples, batch program (barcode prefix up to 6 digits)</li><li>Rerun request, manual confirmation (V = reviewed, U = failed review)</li><li>Result flags: R = rerun result, E = out of linearity</li><li>Reprint barcode, get LIS orders, rack status, offline archiving</li><li>Sample vision, sample log, sample path, advanced query</li></ul></div>
+    <div class="card"><h3>Reagent management</h3><ul><li>Reagent overview and prediction</li><li>Demand setup: shows what to add today or tomorrow, in small amounts</li><li>Masking: stop running samples on a test, but still allow controls and calibrators</li><li>Statistics by month, advanced query</li></ul></div>
+    <div class="card"><h3>QC management</h3><ul><li>Overview, plot, data, setup</li><li>Mindray controls: scan the QC card barcode</li><li>Third-party controls: add by hand</li><li>Fixed QC sample ID can be sent to the LIS</li></ul></div>
+    <div class="card"><h3>Statistics</h3><ul><li>TAT statistics and trends</li><li>Rerun rate summary</li><li>Auto validation statistics</li><li>Device summary, abnormal sample statistics</li></ul></div>
+    <div class="card"><h3>Critical values</h3><p>Set the critical range first in Setup → Chemistries → Reference Range Setup. On the smart screen, click the sample by name or barcode, enter the call details, confirm; the alert disappears.</p></div>
+    <div class="card"><h3>System and setup</h3><ul><li>Device management, alarm logs, operation log</li><li>Chemistry setup, panels, special calculations</li><li>Instrument setup, SRP setup, area type and area rule setup</li><li>Dictionary: sample type, patient type, department, unit</li></ul></div>
+  </div>
+  <h3 style="margin-top:18px">Settings map <span class="th">ที่อยู่ของการตั้งค่า</span></h3>
+  <p>Where to click for the settings trainees ask about most. Paths are quoted from the slides; menu names can change with software version.</p>
+  <div class="tablewrap"><table>
+    <tr><th>I want to set…</th><th>Path in the software</th></tr>
+    <tr><td>Scheduling priority rules</td><td><code>Settings</code> → <code>Settings Overview</code> → <code>System Settings</code> → <code>Scheduling Rule Settings</code> → <code>Scheduling Priority Rules</code></td></tr>
+    <tr><td>TAT warning and auto urgent</td><td><code>System</code> → <code>TAT setup</code></td></tr>
+    <tr><td>Auto rerun rules</td><td><code>Setup</code> → <code>Chemistries</code> → <code>Auto Rerun</code></td></tr>
+    <tr><td>Auto QC</td><td><code>QC</code> → <code>Auto QC setting</code></td></tr>
+    <tr><td>Smart dilution</td><td><code>Setup</code> → <code>Tests</code> → <code>Smart Dilution Setup</code></td></tr>
+    <tr><td>Smart sorting rules and output areas</td><td><code>Setup</code> → <code>Setup Overview</code> → <code>Section Rule Setup</code>; assign in <code>Area Type Setup</code></td></tr>
+    <tr><td>Offline tests (for sorting)</td><td><code>Setup</code> → <code>Tests</code> → <code>New</code> (needs a channel code)</td></tr>
+    <tr><td>Visual recognition (volume, HIL)</td><td><code>Settings</code> → <code>Settings Overview</code> → <code>Visual Recognition Settings</code></td></tr>
+    <tr><td>HIL qualitative cut-offs</td><td><code>Setup</code> → <code>Tests</code> → <code>Test Setup</code> → <code>Qualitative</code></td></tr>
+    <tr><td>Overhead shoot vision</td><td><code>More</code> → <code>Setup</code> → <code>Overhead shoot vision setup</code>, then restart</td></tr>
+    <tr><td>Centrifuge parameters</td><td>Module screen: <code>Setup</code> → <code>Others</code> → <code>Centrifuge Parameters Setup</code> (after Pause)</td></tr>
+    <tr><td>Waste-cap thresholds</td><td>Module screen: <code>Setup</code> → <code>Others</code> → <code>Tank Threshold Setup</code></td></tr>
+    <tr><td>Low-temperature storage period</td><td>Middleware <code>Setup</code> → <code>System Setup</code> → low temperature storage period setup</td></tr>
+    <tr><td>Auto validation history run</td><td><code>Statistics</code> → <code>Auto-Validation</code> → import history data</td></tr>
+    <tr><td>Smart screen</td><td>Dynamic management → <code>Screen Config</code> → <code>Create</code></td></tr>
+    <tr><td>Dictionary lists (department, sample type, unit)</td><td><code>Setting</code> → <code>Overview</code> → <code>Dictionary</code></td></tr>
+  </table></div>
+  <div class="figs"><figure class="fig"><img data-f="i_screen" alt="Smart screen setup slide" loading="lazy"><figcaption></figcaption></figure><figure class="fig"><img data-f="i_path" alt="Sample pathway visualisation slide" loading="lazy"><figcaption></figcaption></figure></div>
+  <h3 style="margin-top:18px">Changing the I/O area layout safely</h3>
+  <div class="steps"><div><b>Set in middleware</b>Choose area types: drawer type and up to 3 output areas.</div><div><b>Pause and clear</b>Press Pause on the I/O screen saver and remove all samples inside.</div><div><b>Apply</b>Click Apply, pick the combination, Apply again. "Application succeeded" confirms.</div></div>
+  <ol>
+    <li>Set the area types in the middleware (loading drawer types: centrifuged, not centrifuged, archive directly, archive after centrifugation; an output drawer can be split into up to 3 areas; 21-position racks cannot be split).</li>
+    <li>Clear all samples from the I/O module and press Pause on its screen.</li>
+    <li>Click Apply in the middleware, choose the combination and apply again.</li>
+  </ol>
+  <div id="swextra"></div>
+  <h3>Sample vision window</h3>
+  <p>The camera reports barcode, tube type, height, diameter, cap, centrifugation state, sample and serum volume, and hemolysis, icterus and lipemia (HIL) levels (N, +, ++, +++). The serum index from the image is for reference only; if an analyzer measured the index, the analyzer's result is the one to trust.</p>
+  <h3>Shutting down the main track from the software</h3>
+  <p>Select Main Track, click Shutdown, wait 15 seconds until the belt stops, then press and hold the Power key of the I/O module.</p>
+</section>
+
+<!-- FUNCTIONS -->
+<section class="view" id="v-functions">
+  <h2>Smart functions <span class="th">ฟังก์ชันอัจฉริยะ</span></h2>
+  <p><span class="tag">Routine</span> works inside the Mindray middleware alone. <span class="tag adv">Advanced</span> needs LIS cooperation or extra configuration, and takes real project time. Open a function for the principle, the setup path and the watch-outs.</p>
+  <div id="fnlist"></div>
+</section>
+
+<!-- AUTOVAL + LIS -->
+<section class="view" id="v-autoval">
+  <h2>Auto validation and the LIS link <span class="th">การทวนสอบอัตโนมัติ และการเชื่อมต่อ LIS</span></h2>
+  <h3>Principle</h3>
+  <p>The middleware checks each test against the lab's rules. For every test it sends a flag with the result: <code>AV</code> if every rule passed, <code>UV</code> with a failure description if any rule failed. The LIS releases a sample automatically only when all its tests carry AV and no test is missing. Two layers work together: middleware rules plus LIS logic.</p>
+  <div class="grid">
+    <div class="card"><h3>Rule categories</h3><ul><li><strong>Result range:</strong> the most effective and lowest-pass-rate rule</li><li><strong>Logic check:</strong> related tests must agree (TP above ALB; Tbil not below Dbil)</li><li><strong>Delta / history:</strong> compare with the same patient's earlier results</li><li><strong>Flags:</strong> specific result flags mark normal or abnormal</li><li><strong>Sample information:</strong> gender, age and others must not be blank</li><li><strong>Sample status:</strong> collection time, fibrin, bubbles</li><li><strong>IQC:</strong> QC must be in control. Most customers do not use it, to avoid mass failures after one bad QC.</li></ul></div>
+    <div class="card"><h3>Four ways to set a range</h3><ul><li><strong>Reference range ± permissible error.</strong> Lowest risk and lowest pass rate. Example: Na 137–147 with 4 %: 131–153.</li><li><strong>Expected pass rate.</strong> Use the 5th and 95th percentile of ≥3 months of LIS data (Na 130–155 in the source example).</li><li><strong>Medical decision level.</strong> Needs close work with clinicians.</li><li><strong>Range by population or disease.</strong> Heavy work; fits research more than routine.</li></ul></div>
+  </div>
+  <div id="avextra"></div>
+  <div class="dg"><h3>Auto validation workflow <span class="th">ขั้นตอนการนำไปใช้</span></h3>
+  <div class="steps loop">
+    <div><b>Request and evaluate</b>Department head asks; risks (LIS, effort, Mindray-only tests) are closed first.</div>
+    <div><b>Initial rules</b>Import the standard set, add the lab's own rules. Run on history until each test passes ~80–90 %.</div>
+    <div><b>Compare daily</b>Doctors validate by hand, compare with the auto result. 3 months or 50,000 samples. Log mismatches.</div>
+    <div class="alt"><b>Mismatch?</b>Adjust the rule and keep comparing. Never accept a false negative.</div>
+    <div><b>Verify</b>10 working days or 5,000 samples. Need 0 false negatives and 100 % agreement.</div>
+    <div><b>Go live</b>Results leave the middleware with AV or UV flags; the LIS releases only all-AV samples.</div>
+    <div><b>Re-verify</b>Every 6 months, and after any instrument, LIS or rule change.</div>
+  </div></div>
+  <h3 style="margin-top:18px">Implementation steps</h3>
+  <div class="flow"><span class="n">Request</span><span class="a">→</span><span class="n">Evaluate risks</span><span class="a">→</span><span class="n">Talk to customer</span><span class="a">→</span><span class="n">Initial rules</span><span class="a">→</span><span class="n">Compare &amp; adjust</span><span class="a">→</span><span class="n">Verify</span><span class="a">→</span><span class="n">Go live</span><span class="a">→</span><span class="n">Re-verify every 6 months</span></div>
+  <ul>
+    <li><strong>Initial rules:</strong> import the standard set or build rule by rule, then run them over history (Statistics → Auto-Validation → import history). Tune until each test passes about 80–90 % on history.</li>
+    <li><strong>Compare:</strong> doctors validate by hand and compare with the auto result every day, for at least 3 months or 50,000 samples. Record every mismatch (barcode, test, rule, suggestion). The distributor sends records to Mindray at least weekly.</li>
+    <li><strong>Verify before going live:</strong> 10 working days or 5,000 samples. Pass criteria: no false negatives and 100 % agreement between manual and automatic validation.</li>
+    <li><strong>Repeat</strong> every 6 months, and after any instrument or LIS update or rule change.</li>
+  </ul>
+  <div class="note"><strong>Teach this principle:</strong> a higher pass rate is not the goal, because it carries more risk. The goal is zero false negatives. A sample that fails validation is not necessarily wrong; it is only unproven.</div>
+  <h3>Risks to explain to the customer</h3>
+  <ul>
+    <li>Works only for Mindray instruments through the middleware. A sample with non-Mindray tests cannot be fully auto validated.</li>
+    <li>LIS vendors differ. Some cannot display the failure reason; some charge to develop the function.</li>
+    <li>The pass rate cannot be promised. Guidance in the SOP: biochemistry ≈ 60 %, immunoassay target ≈ 80 %.</li>
+    <li>Rules are encrypted inside the middleware and are not given to the LIS without R&amp;D authorisation.</li>
+    <li>The period lasts over 6 months, with clinical application visits at least twice a month.</li>
+    <li>In version EBJ 735, auto validation requires results to be sent by sample, so biochemistry results wait for immunoassay results of the same sample.</li>
+  </ul>
+
+  <h3 style="margin-top:20px">LIS protocol (HL7)</h3>
+  <div class="grid">
+    <div class="card"><h3>Transport</h3><p>HL7 v2.3.1 over TCP. Messages are framed with MLLP: start byte <code>0x0B</code>, data (UTF-8), end bytes <code>0x1C</code> then <code>0x0D</code>.</p></div>
+    <div class="card"><h3>Messages</h3><ul><li><code>ORU^R01</code> results and QC data (segments MSH, PID, PV1, OBR, OBX, NTE)</li><li><code>ACK^R01</code> acknowledgement</li><li><code>ORM^O01</code> order or worklist query</li><li><code>ORR^O02</code> answer carrying the full order</li></ul></div>
+    <div class="card"><h3>Auto validation fields</h3><ul><li>OBR-23: sample status (AV passed, UV not passed, else blank)</li><li>OBX-25: test status (AV, UV, blank)</li><li>OBX-26: name of the failed rule</li></ul></div>
+    <div class="card"><h3>Other things the protocol carries</h3><ul><li>Sample volume and hematocrit (OBR 33–35, protocol 2.0)</li><li>Serum image and sample position data</li><li>Two-way query with the LIS for orders</li><li>The LIS need not answer ACK for the sample on-board, sign-off and position-update messages</li></ul></div>
+  </div>
+  <p style="margin-top:10px">When a customer asks for LIS work, the sequence is: technical talk with the LIS engineer, send the protocol document, LIS develops and verifies, then customer acceptance. Mindray IT supports online.</p>
+</section>
+
+<!-- DAILY -->
+<section class="view" id="v-daily">
+  <h2>Daily operation <span class="th">การใช้งานประจำวัน</span></h2>
+  <div class="grid">
+    <div class="card"><h3>Before start</h3><ul><li>Fluidic tubes and cables correctly connected</li><li>Nothing placed on top of the system</li><li>Waste container and waste-cap container have room for the day</li><li>No alarm showing</li><li>Analyzers checked per their own manuals</li><li>No tubes left in outlet drawers</li></ul></div>
+    <div class="card"><h3>Start up</h3><ol><li>All power switches on.</li><li>Press [standby] on the I/O module; all module status lamps come on.</li><li>Start the analyzer input/output module ([standby] on its left side) and run its PC software.</li><li>Log in to the dispatch software.</li><li>Calibration and QC as the analyzers require, then run samples.</li></ol></div>
+    <div class="card"><h3>Shut down</h3><ol><li>[standby] on the I/O module.</li><li>[standby] on the analyzer input/output module.</li><li>Optionally close the dispatch software.</li><li>Wait at least 10 seconds before starting again.</li></ol><p>Follow the order strictly; the manual warns that wrong shutdown can pollute fluidic tubes and cause wrong results.</p></div>
+  </div>
+  <div class="note"><strong>Never power off while loading.</strong> If the I/O module or track must stop, press Pause on the bulk loader first and power off only after loading has stopped. Otherwise tubes can be carried to a position the system cannot clear by itself.</div>
+  <div class="figs"><figure class="fig"><img data-f="m_lamps" alt="I/O alarm lamp colours slide" loading="lazy"><figcaption></figcaption></figure><figure class="fig"><img data-f="m_racks" alt="I/O racks slide" loading="lazy"><figcaption></figcaption></figure></div>
+  <h3>Daily checks that prevent most calls</h3>
+  <ul>
+    <li>Empty the waste tube box and press Clear. Discard time for the integrated module is best set between 03:00 and 05:00.</li>
+    <li>Keep the cap hopper filled. An empty hopper raises "Feeder abnormal error".</li>
+    <li>Check the waste bag size: decapper 70×80 cm, integrated module cap bin 80×90, tube bin 50×65.</li>
+    <li>Keep RFID areas of racks dry and remove the transparent rack cover before sliding a rack into a drawer.</li>
+    <li>Label tubes so the barcode is not on the cap and a window is left for the camera.</li>
+    <li>Maintenance in the Operator's Manual is "as needed": wipe covers with water, clean racks with cotton swabs and water or ethanol.</li>
+    <li>Use only validated vacuum tubes (Φ12 or Φ13 × 75 or 100 mm; Φ16×100 listed for BD). Glass tubes are not supported. Push each tube vertically to the rack bottom.</li>
+  </ul>
+  <div class="tip">When you train a new user, have them spend ten minutes on the screen colours: blue lamp normal, yellow warning (can keep running, handle soon), red fault (handle now). A yellow drawer lamp means full; flashing yellow means full with samples still waiting to enter the drawer.</div>
+</section>
+
+<!-- TROUBLE -->
+<section class="view" id="v-trouble">
+  <h2>Troubleshooting <span class="th">การแก้ปัญหา</span></h2>
+  <p>Start with the lamp and the screen, then the alarm number. Use "Remove Error" first only when the manual tells you to. If it persists, collect the log and call.</p>
+  <h3>Method</h3>
+  <div class="flow"><span class="n">Which module's lamp?</span><span class="a">→</span><span class="n">Error list / alarm log</span><span class="a">→</span><span class="n">Read the remedy</span><span class="a">→</span><span class="n">Remove Error</span><span class="a">→</span><span class="n">Still there? Escalate with logs</span></div>
+  <p>Other modules keep working when one fails. View errors in the status bar error list, or System → Logs → Alarm Report Log.</p>
+  <h3 style="margin-top:16px">Find a symptom or alarm number</h3>
+  <input class="search" id="q" type="search" placeholder="Type: circling, barcode, 700130202, centrifuge, QC…" aria-label="Search troubleshooting">
+  <div class="tablewrap"><table><thead><tr><th>Symptom / alarm</th><th>Likely cause</th><th>Action</th></tr></thead><tbody id="tbody"></tbody></table></div>
+  <div class="note" style="margin-top:14px"><strong>When to escalate.</strong> Call the support person at once if the whole system stops, if the problem is unusual with no on-site solution, or if on-site handling exceeds 30 minutes. Record every problem daily on the form and send it to the TLA support contact. The issue path is: on-site engineer → regional technical support → Mindray headquarters TLA support → R&amp;D.</div>
+</section>
+
+<!-- SURVEY -->
+<section class="view" id="v-survey">
+  <h2>Site survey before installation <span class="th">แบบสำรวจก่อนติดตั้ง TLA</span></h2>
+  <p>This tab follows your "Survey site form application" and adds what the training files say about each answer. The survey is the input for every setting in this guide: the answers decide which smart functions, rules and drawers you configure. Fill it with the head of the lab, the LIS vendor and the person who runs the instrument.</p>
+  <div class="hue sec" style="--h:235"><h3>1. Header and configuration</h3>
+  <ul>
+    <li><strong>Hospital and survey date.</strong> Write the proposal version used (the form shows "MT8000 proposal version 1.742" as an example).</li>
+    <li><strong>System configuration.</strong> Count the modules: bulk loader, I/O, decapper, centrifuge, BS-2800 chemistry analyzers, CL-8000i immunoassay analyzers, refrigerator. The post-processing module (0–2 per system) is required for Auto QC.</li>
+    <li><strong>Old system in the lab and current workflow.</strong> Standalone, integrated, automation with or without a refrigerator, or automation being replaced. This sets how much training and rule migration is needed.</li>
+    <li><strong>Test items.</strong> Routine chemistry plus special items on the form: A1c, hs-CRP, vancomycin (Thermo). Immunoassay items: thyroid, tumor markers, HIV, hepatitis B, cardiac hs-TnI, BNP. Any item that is not Mindray becomes an offline or third-party item and affects sorting and auto validation.</li>
+    <li><strong>HIS and LIS names.</strong> The form notes the middleware connection options: check-in, real-time stamp, and whether pictures are sent (yes or no). Ask the LIS vendor now; some LIS vendors cannot show the reason an auto validation failed, and some charge for development.</li>
+  </ul></div>
+  <h3>2. The twenty survey items</h3>
+  <p>For each item: what to ask, and where the answer is used. Rows are coloured by topic.</p>
+  <div class="legend" id="svlegend"></div>
+  <div class="tablewrap"><table><thead><tr><th>#</th><th>Ask</th><th>Where the answer goes</th></tr></thead><tbody id="svbody"></tbody></table></div>
+  <div class="hue sec" style="--h:95"><h3>3. Add these questions on site</h3>
+  <p>The form does not list them, but the training files show they cause delays when missed.</p>
+  <ul>
+    <li><strong>Barcode and label.</strong> Is the barcode ever pasted on the cap? Does the label leave a window for the camera? Thick labels or very tight tubes in the 50-hole rack should be handled on the standalone module.</li>
+    <li><strong>Tubes the line cannot take.</strong> Glass tubes are not supported. Capped Greiner tubes in the I/O module give a slip error. Check any 16 mm or special tubes; 16 mm tubes cannot go into the refrigerator.</li>
+    <li><strong>Racks.</strong> How many racks are needed for the daily load if the lab wants original-rack archiving, and how many red racks for extra-urgent samples?</li>
+    <li><strong>Result sending.</strong> For auto validation in version 735, results are sent by sample. Will the lab accept biochemistry results waiting for immunoassay results of the same sample?</li>
+    <li><strong>Non-Mindray tests.</strong> Samples with non-Mindray tests cannot be fully auto validated.</li>
+    <li><strong>Network.</strong> Is remote control or a smart screen wanted? A private network needs the hospital IT department.</li>
+    <li><strong>Waste and discard.</strong> Waste bag sizes (decapper 70×80 cm, cap bin 80×90, tube bin 50×65), discard time (best between 03:00 and 05:00) and who empties bins daily.</li>
+    <li><strong>Refrigerator capacity.</strong> More than 10,000 tubes in a week needs Capacity Optimization (for example send weekend samples to the output area).</li>
+    <li><strong>People.</strong> Who is the main operator, who reviews results, who calls Mindray, and what are the shift times? Auto QC and auto validation both depend on a named owner.</li>
+  </ul></div>
+  <div class="hue sec" style="--h:188"><h3>4. Site readiness checklist</h3>
+  <p>From the service process deck: confirm before the engineers arrive.</p>
+  <div class="grid">
+    <div class="card"><h3>Place</h3><ul><li>Layout confirmed by the customer</li><li>Water and electricity plan; UPS and water unit prepared</li><li>Transport corridor checked for the modules</li><li>Site reconstruction done, 6S material ready</li></ul></div>
+    <div class="card"><h3>Information</h3><ul><li>LIS interface ready and tested</li><li>Tubes and barcodes confirmed (13×100, 13×75 mm)</li><li>Users notified of the installation dates</li></ul></div>
+    <div class="card"><h3>People and supplies</h3><ul><li>Operators and a lab lead named</li><li>Reagents, consumables, printer and paper in place</li><li>Performance verification material ready</li></ul></div>
+  </div></div>
+  <div class="hue sec" style="--h:340"><h3>5. Close the form</h3>
+  <ul>
+    <li>Record the agreed centrifuge setting: speed (rpm), time and awaiting time (seconds). The unit allows up to 4500 r/min (4300 g), up to 20 minutes, 5–25 °C.</li>
+    <li>Name the main lab staff who look after the machine, the surveyor, and the person who approves the survey (application project leader).</li>
+    <li>Write limits and special workflows the system may not support yet; raise them with Mindray before the order, not at installation.</li>
+  </ul></div>
+</section>
+
+<!-- DELIVERY -->
+<section class="view" id="v-delivery">
+  <h2>Project and service <span class="th">การติดตั้งและการบริการ</span></h2>
+  <h3>Ten steps of a TLA project</h3>
+  <div class="flow">
+    <span class="n">Preparation</span><span class="a">→</span><span class="n">Initiation</span><span class="a">→</span><span class="n">Installation preparation</span><span class="a">→</span><span class="n">Hardware installation</span><span class="a">→</span><span class="n">Joint debugging (LIS)</span><span class="a">→</span><span class="n">Training</span><span class="a">→</span><span class="n">Trial run</span><span class="a">→</span><span class="n">Project delivery</span><span class="a">→</span><span class="n">Handover</span><span class="a">→</span><span class="n">Summary</span>
+  </div>
+  <div class="grid">
+    <div class="card"><h3>Roles</h3><ul><li><strong>PM:</strong> targets, plan, risk, acceptance</li><li><strong>Workflow:</strong> layout, workflow analysis, simulation</li><li><strong>IT:</strong> LIS connection, advanced functions</li><li><strong>CSE:</strong> installs and delivers service</li><li><strong>CSA (application):</strong> clinical training, performance verification, advanced function rules with IT</li><li><strong>On-site staff (agent):</strong> daily support with the customer's hours, daily line inspection and maintenance</li></ul></div>
+    <div class="card"><h3>Handover standard</h3><ul><li>Qualified engineer, application specialist and on-site specialist</li><li>No downtime fault for 5 consecutive days</li><li>No high or medium project risk open</li><li>Shutdown spare-part stock complete</li><li>Users can operate smoothly (clinical training report)</li><li>Clear issue escalation path</li></ul></div>
+    <div class="card"><h3>What the customer must be ready for</h3><ul><li>Water, power, UPS and layout rectification</li><li>LIS ready for the order and result link</li><li>Tubes and barcodes confirmed (13×100 and 13×75)</li><li>Reagents, consumables and performance verification material</li></ul></div>
+  </div>
+  <p style="margin-top:12px">Training lines used by application specialists: operation, advanced functions (auto QC, vision linkage, rerun, dilution, sorting), and auto validation.</p>
+</section>
+
+<!-- QUIZ -->
+<section class="view" id="v-quiz">
+  <h2>Check your understanding <span class="th">แบบทดสอบ</span></h2>
+  <p>Ten questions drawn from the source files. Use them to test a trainee or yourself.</p>
+  <div id="quiz"></div>
+</section>
+
+<footer>
+  <strong>Sources (your MT8000 folder only):</strong> 01 Introduction to Module of MT 8000; 02 Innolab Software; 03 IT Solution; 04 TLA Service Process; 05 Vision inspection linkage; 06 Auto QC; 07 Auto Rerun; 08 Smart Dilution; 09 Smart Sorting; 10 TAT Auto Urgent; Advanced Function Red book; Q&amp;As on MT 8000 Operation; MT-8000 Operator's Manual (2024-07); Auto Validation SOP v2.0 and presentation; Middleware LIS Protocol; MT8000 brochure. Pictures are slide images from the module intro, IT solution, vision, Auto QC, smart dilution, smart sorting and TAT decks; the diagrams are redrawn from the same files. Not used: trip, expense, proposal and competitor files, and the 200–585 MB decks, which were not opened. Some slides are in development notes (for example auto-mixing and 'custom rules' flagged as pending validation), so confirm the current software version before promising a feature.
+</footer>
+</div>
+
+<script>
+const MODS=[
+{n:"Bulk Loader",th:"ตัวเทตัวอย่าง",role:"Takes tubes poured in loose and turns them into racked, identified tubes: dump, rack and output in one machine (3-in-1).",
+ spec:[["Size","1400 × 1120 × 1570 mm"],["Capacity","1050 tubes (7 × 150)"],["Throughput","850 tubes/h; dumping flux 1000 tubes/h; dumping chamber 400"]],
+ how:"A tilt-identification camera recognises tubes in random orientation and checks tube type and blood quality. Two baskets (front, back) plus an abnormal basket sit in front of an internal transport. Mode is set in the I/O interface: front basket first, back basket first, or first-in-first-out. In priority mode one basket is the priority basket and loads first.",
+ ops:["Priority into the I/O gripper: STAT rack, priority basket, routine rack, routine basket (equal to FIFO basket).","A basket holding samples shows half green on screen.","Pause loading before powering off the I/O module or track."],
+ fault:["Abnormal basket has tubes: lamp and screen turn orange. Causes: the camera could not recognise a tube, or tubes were left in the mechanism at shutdown recovery. Take them out and press the status lamp to clear.","After a bad power-off with failed reset, tubes may be stuck where they cannot be cleared; remove the back cover of the I/O module and take them out by hand."]},
+{n:"Input/Output (I/O) Module",th:"โมดูลรับ-ส่งตัวอย่าง",role:"The front door of the line. Receives racks, reads barcodes, photographs tubes, sorts them, and returns finished or abnormal tubes.",
+ spec:[["Drawers","7, default 2 in and 5 out; 3 racks each"],["Throughput","850 tubes/h"],["Vision","Side camera on the rail and top camera beside the gripper"]],
+ how:"Drawers are set by software as input or output, centrifuged or not, archive-direct, and so on. The gripper reads the rack RFID to set priority (red rack first). The side camera reads barcode, tube type, height, total blood volume, serum volume, serum index and whether a cap is on. The top camera sees whether a position holds a tube; with it enabled, tubes can be placed in any order and empty holes are skipped (without it, the gripper tries each position up to three times).",
+ ops:["Load racks in order from position 1.","Keep barcode labels off the cap and leave a camera window.","Never load calibrators or controls into the normal racks; use the standalone module.","Do not stand in front of an opening drawer. Close with the drawer button; do not remove a rack while a drawer moves.","Greiner tubes with caps cause a slip error in the I/O module.","Stay with 13 mm tubes ≤ 100 mm; very thick labels or tight tubes go to the standalone module in a 21-position rack."],
+ fault:["Lamp colours: blue normal, yellow warning, red fault.","Overhead shooting is switched on in More → Setup → Overhead shoot vision setup, then restart the system.","Output area rules: System Setup → Area Rules; area types: Area Type Setup. Pause and empty the I/O module before changing."]},
+{n:"Centrifuge Module",th:"โมดูลเหวี่ยง",role:"Spins non-centrifuged tubes automatically, balancing the rotor by camera.",
+ spec:[["Size","960 × 1100 × 1550 mm"],["Capacity","80 tubes (4 carriers × 20)"],["Throughput","460 tubes/h at 7 min; 430 tubes/h at 10 min"],["Max","4500 r/min · 4300 g · 20 min · 5–25 °C"]],
+ how:"The vision system identifies blood volume and the controller balances the load; the allowed weight deviation is 20 g. Tubes of different height can spin together, but 13 mm and 16 mm tubes are split into two runs. With fewer than 80 tubes, spinning starts after 90 seconds without new tubes. Work modes are biochemistry, immunology and coagulation; coagulation and immunoassay tubes can spin together if parameters are set the same.",
+ ops:["Set parameters at Setup → Others → Centrifuge Parameters Setup, after pressing Pause.","Do not switch screens while the manipulator moves.","Do not take samples out during a run.","Do not press Screen Pause during centrifugation."],
+ fault:["If you removed samples by hand because of a fault: in sample management right-click the barcode, choose Duplicate Barcode Release, then reload on the I/O module.","Alarm 720000000: wait for the current run, power off, remove loose tubes, put adapters and balance tubes back, restart."]},
+{n:"Decapper Module",th:"โมดูลเปิดฝา",role:"Removes caps from centrifuged tubes before analysis, in a closed, filtered and disinfected space.",
+ spec:[["Size","550 × 1100 × 1550 mm"],["Throughput","850 tubes/h"],["Waste","Capacity over 3000 caps"]],
+ how:"Rotating decap action for a high success rate; the decap height follows tube height from the camera. The cabinet has air extraction, ultraviolet disinfection and filtered air circulation. A buffer allows the waste-cap container to be changed without shutting down.",
+ ops:["Warning threshold: 1000–3000. Full threshold: 3001–3500. Set at Setup → Others → Tank Threshold Setup while the module is idle.","Change the bag: pull out the drawer bucket, replace the bag (70 × 80 cm), put the ring back, press Zero.","Do not load capped tubes from the I/O module before the decapper is initialised."],
+ fault:["Alarm 740000000: power off the module, remove tubes being decapped, restart.","Fibre sensor errors in decapping: use Remove Error and call if it returns."]},
+{n:"Track Module",th:"ราง (Track)",role:"Carries each tube in its own carrier between modules.",
+ spec:[["Speed","150 mm/s"],["Throughput","3600 tubes/h per piece"],["Width","30 cm"],["Layout","4 tracks"]],
+ how:"RFID on carriers identifies each tube, so there is no repeated barcode scanning. Each node has its own small loop and there is a pre-processing loop, so a jam in one place does not block the rest. Tracks overtake in both directions and can connect at any angle. A front track module links directly to an analyzer, removing the rack-based transfer: transfer time changes from about a minute to about a second.",
+ ops:["Terminal cabinet at the track end: do not move any part.","Never place a tube into a carrier by hand."],
+ fault:["Track failure: turn the main track power switch (back of the I/O module) off and on. The system re-records every carrier; this takes 10–30 minutes depending on tubes on the track.","Tube circles and never reaches output: see Troubleshooting."]},
+{n:"Standalone Sampling Module",th:"โมดูลใส่ตัวอย่างอิสระ",role:"A separate door for calibrators, QC, micro samples and extremely urgent tubes.",
+ spec:[["Size","720 × 1150 × 1212 mm"],["Throughput","800 tubes/h"],["Capacity","Two drawers per row, two racks each, 200 tubes"]],
+ how:"Motorised drawers alternate in and out. A pulse sensor in front of the drawer lets tubes sit in any position. Use either rack-number mode or barcode mode. Its priority is above the I/O module, but positions are limited, so STAT routine tubes still belong on the I/O module. It has no vision workstation: no photo and no serum index.",
+ ops:["In rack-number mode the tube must have no barcode, or it must be fully covered; otherwise 'Unknown barcode'.","Output order differs from input order. Find tubes in the rack status screen.","Where a 21-position rack is in the inlet, put one in the outlet too.","Calibration and QC: system on standby, 21-position rack with adapter, Mindray vials opened, ISE calibration or maintenance barcode printed from the middleware."],
+ fault:["Do not press Stop while a tube sits at the dispense position."]},
+{n:"Decapping & Recapping Integrated Module",th:"โมดูลเปิด-ปิดฝาแบบรวม",role:"Post-analysis: recaps tubes, does second decapping for reruns, handles Mindray QC vials, buffers and discards.",
+ spec:[["Size","1125 × 1050 × 1550 mm"],["Buffer","376 tubes"],["Throughput","850 tubes/h; QC mixing 120 tubes/h"],["Fit","0–2 per system"]],
+ how:"Components: cap feeder, recap head, secondary decapper, normal-temperature buffer (tubes wait here before results are out, then go to the refrigerator), QC mixing assembly and a QC vial open/close assembly. QC is rewarmed in the buffer. A rerun can start from the buffer without entering the refrigerator.",
+ ops:["Discard time between 03:00 and 05:00; do not pull waste containers during discarding.","Empty waste tube and cap bins daily, then press Clear. There is no buffer space for bins: if one is out of position, tasks pause.","Alarm limits: waste tube 700 and cap 360 by default.","Do not take racks or tubes out of the buffer by hand."],
+ fault:["'Feeder abnormal error' after an empty hopper: power off and restart the post-processing module.","If a cap fails to recap and the belt slips off: Module Pause first, then power off and remove the cap.","After a power failure remove the clamping-head cover before powering on.","Forced power-off while the buffer arm is working can skip teeth and give error 903011300.","The auto mixing function was described as 'not available in June, expected in September' in the deck. Check the software version."]},
+{n:"Refrigerated Storage Module",th:"โมดูลเก็บตัวอย่างเย็น",role:"Keeps tubes at 2–8 °C, tracked by rack and position, and holds QC for Auto QC.",
+ spec:[["Size","1530 × 1030 × 1950 mm"],["Capacity","10,152 tubes"],["Throughput","850 tubes/h"],["Fit","0–2 per system"]],
+ how:"94-position racks with RFID and vision/HIL information keep an exact map of storage. Tubes go in after the last test: if no further test comes within 1 hour, or when the 4 buffer racks fill, the oldest rack goes to the refrigerator. Only standard 13 mm tubes and disposable vials with adapters can enter; 16 mm tubes cannot. Storage can be partitioned by period. Default discard rule is 7 days, with custom rules available; the screen shows rack ID and storage date.",
+ ops:["Rack hole 1 faces the inside of the refrigerator.","If a rack is removed for a fault, put the QC racks back in their original positions (up to three QC racks, default racks 1–3).","The refrigerator is locked by default: unlock on screen before opening.","Display colours: ice blue 2–8 °C normal; yellow 1–3 or 8–13 °C; red below 1 or above 13 °C. The reading updates about 10 minutes after an alarm, not in real time.","Door open longer than 15 minutes: turn the refrigeration off to avoid condensation.","Over capacity (more than 10,000 tubes in a week): Capacity Optimization Settings can send weekend samples to the output area for offline storage."],
+ fault:["To send tubes to an output area instead of the refrigerator, create a sorting rule and pick the output area."]}
+];
+const FNS=[
+{n:"Auto rerun",c:"r",who:"CSA",why:"The middleware reruns a sample by itself when a rule says the first result is questionable, with no one walking to the instrument.",how:"Five rule types: result alarm flag, sample characteristic (hemolysis, icterus, lipemia), range (critical, reference or custom), logic relation (for example total bilirubin must not be less than direct bilirubin), and auto validation interception. Related tests can be rerun together. Rerun can run on the original, any random, or a switched analyzer. The highest-priority matching rule is used.",path:"Setup → Chemistries → Auto Rerun",watch:["Rules are set per test; the switch must be on.","Auto rerun needs a first result. Smart dilution decides before the first test."]},
+{n:"Intelligent scheduling and priority",c:"r",who:"CSA",why:"Gets urgent tubes to the front and lets the lab shape the flow.",how:"Priority comes from the rack colour and the order data. Rules can be customised by test item, item type, patient type, department and sample category: Ordinary, Emergency or Extremely urgent. Timed exclusive scheduling can reserve a node or module for a sample type for a time window.",path:"Settings → Settings Overview → System Settings → Scheduling Rule Settings",watch:["An exclusive node stays idle for others even when empty. That is by design.","Check that every test of a sample can run on the node you choose."]},
+{n:"TAT auto urgent and statistics",c:"r",who:"CSA",why:"Turn-around time (TAT) warnings and automatic escalation.",how:"A TAT rule sets warning time and timeout. At warning the order turns yellow in Sample Management; after timeout it turns red, and the sample can become extra urgent automatically. Statistics can start from collection or loading, and end at completion or upload (the recommended choices).",path:"System → TAT setup; Statistics → TAT Statistics",watch:["A new rule is enabled by default.","Choose start and end points the lab agrees with, or the numbers will not match its own reports."]},
+{n:"Vision inspection linkage",c:"r",who:"CSA",why:"About 70 % of sample quality problems arise before analysis. Cameras find them before reagent is spent.",how:"Overhead and side cameras with top, side and parallel light give a true-colour photo. AI judges tube type, cap, centrifugation state, blood and serum volume, and HIL grade. Serum volume recognition works for serum and plasma. The lab decides what happens to a failed sample: intercept to the abnormal area, test with a flag, or send to the biochemistry analyzer for a real serum index.",path:"Settings → Settings Overview → Visual Recognition Settings; HIL cut-offs at Setup → Tests → Test Setup → Qualitative",watch:["Sample volume recognition is off by default.","If the picture index disagrees with the analyzer index, trust the analyzer. Set interception for moderate and severe only.","Serious disagreements: send CCD and SRP logs to headquarters."]},
+{n:"Original rack archiving",c:"r",who:"CSA",why:"Finds an old sample by rack number without a barcode scan.",how:"The software records sample coordinates. Offline, racks switch to archive mode.",path:"—",watch:["The customer must buy enough racks for their volume."]},
+{n:"Smart screen",c:"r",who:"IT",why:"A wall display of line status for the lab manager.",how:"Seven blocks: sample overview, pending samples, TAT goal rate, TAT warning, device status, reagent and consumables, critical value. Positions can be changed, but new modules cannot be added.",path:"Middleware → Dynamic → Screen Config → Create (template or custom)",watch:["Alarm limits for reagents are set on the analyzers."]},
+{n:"Remote control",c:"r",who:"IT",why:"The technician checks the line from a desk instead of walking to it.",how:"Lab and TLA networks are linked; any PC on the intranet can open the middleware or control the analyzer PC (VNC) and the LIS PC.",path:"—",watch:["A private network needs the hospital IT department."]},
+{n:"Auto QC",c:"a",who:"CSA with IT",why:"QC is prepared, mixed, rewarmed, run and stored without a technician. Mindray quotes about 30 minutes saved per day on preparation.",how:"Requires the post-processing module with the refrigerator. QC is loaded once through the 'archive directly' area. At the set time the QC tube is taken from the refrigerator, rewarmed and mixed, run on the chosen analyzers, then returned and capped. Out-of-control QC can be sent to a phone through the data collection application.",path:"Middleware → QC → Auto QC setting",watch:["Set the trigger about 3 hours away from the sample-discard time, and away from the chemistry analyzer's sleep time and the immunoassay analyzer's cleaning time. Run it about an hour before CLIA cleaning.","Do not switch on 'QC auto apply' on the analyzer; the QC order may run twice.","Sample volume: aspiration volume × 7 days + dead volume 560 µL. Disposable vial dead volume is 150 µL.","Replace QC every 7 days for stable tests and every 1–3 days for unstable ones.","Load uncapped tubes (additive-free or disposable) through the centrifuged area, or archive-direct with a 21-position rack in the outlet. Open the vial cap. Barcode goes on the vial, not the adapter.","Verify at least 7 days against manual QC before relying on it."]},
+{n:"Smart dilution",c:"a",who:"CSA",why:"For a patient whose last result was diluted, run the dilution first and save a test and time.",how:"After sample registration the middleware reads the patient's history. If the rule matches, it orders the dilution directly. Twelve factors can be combined (patient's earlier result, earlier dilution, sex, age, department, patient type, diagnosis, sample type, priority, earlier flag, earlier value, test interval). Chemistry dilution ratios can be set by hand; CLIA ratios are fixed.",path:"Setup → Tests → Smart Dilution Setup (software EBJ718 v01.09.00.14670 or later)",watch:["Differs from auto rerun, which needs a first result.","Department and other lists must exist in the Dictionary first.","Example from the deck: same patient, ALT tested twice in 5 days, previous ALT diluted, flagged ↑, above 500: dilute at the stated factor."]},
+{n:"Smart sorting",c:"a",who:"CSA with IT",why:"Replaces manual sorting after testing, for example offline coagulation, physical examination, HIV positive.",how:"Rules use eight factors (test type, sorted samples, sample status, sample type, department, patient type, tube height, qualitative result) and item results, joined with AND/OR. Up to 50 rules; each is assigned to an area of a 50-position output drawer.",path:"Setup → Setup Overview → Section Rule Setup; Processing Rule Setup",watch:["Create offline tests with a channel code first and confirm the LIS link.","Pause and empty the I/O module before saving area assignments.","'First Loading' means the rule applies only the first time the sample loads."]},
+{n:"Auto receipt",c:"a",who:"IT with LIS vendor",why:"Skips the second reception step: samples are loaded directly and the middleware inquires the LIS for orders.",how:"Sample loads, the middleware queries the LIS, the LIS returns items, and the system numbers and schedules the sample.",path:"LIS function plus middleware setup",watch:["Needs the LIS vendor's development and testing."]},
+{n:"LIS-side rerun",c:"a",who:"IT",why:"A reviewer presses one button in the LIS to request a rerun; the system finds the sample (even in the refrigerator).",how:"LIS sends the rerun order through the interface.",path:"LIS function",watch:["Needs LIS cooperation; may be configured at installation."]},
+{n:"Auto validation",c:"a",who:"IT, CSA and lab",why:"Releases reports with no manual review when every rule passes.",how:"See the Auto validation tab.",path:"Setup → Chemistries → Auto Validation; Statistics → Auto-Validation",watch:["Takes many months; never promise a pass rate."]}
+];
+const TS=[
+["Sample circles on the main track and never reaches output","Sample was on a 21-position rack and there is no 21-position rack in the outlet, or another cause","Put a 21-position rack in the output area. If it continues, restart SRP."],
+["Track fault, carriers lost","Track error","Power the main track switch (back of the I/O module) off and on. Seat clearing takes 10–30 min."],
+["Orange lamp, tubes in the abnormal basket (bulk loader)","Camera could not recognise a tube, or tubes left after shutdown recovery","Take tubes out, press the status lamp to clear."],
+["'Unknown barcode' on the standalone module","Rack-number mode used but a barcode is visible","Cover the barcode fully, or use barcode mode."],
+["Slip error on the I/O module","A Greiner tube with a cap was loaded","Remove it; do not load capped Greiner tubes."],
+["Cap does not come off","Barcode label stuck across the cap","Relabel; keep labels off the cap."],
+["Gripper problems with certain tubes","Very thick label or tube too tight in the 50-hole rack","Use the standalone module with a 21-position rack."],
+["Samples removed by hand from the centrifuge","Centrifuge fault","Right-click barcode in Sample Management → Duplicate Barcode Release; reload on I/O."],
+["Samples in 'Test abnormal'","Reagent short or analyzer fault","Fix the cause. The gripper reloads them automatically."],
+["Samples in 'Download failed'","No order from the LIS","Check LIS link and order; reload from the inlet."],
+["Serum index from picture differs from analyzer","Camera estimate vs measurement","Trust the analyzer; adjust the threshold or set intercept for moderate and severe only; send CCD and SRP logs if large."],
+["Feeder abnormal error (integrated module)","Cap hopper ran empty","Refill; power off and restart the post-processing module."],
+["Error 903011300","Buffer arm powered off by force while working","Avoid forced power-off during tasks; contact service."],
+["Tasks paused in integrated module","Waste bin out of position (no buffer)","Put the bin back, press Clear after emptying."],
+["Auto QC stays 'testing' and does not run","Stuck QC order","Restart SRP (only with no samples online); call out the QC; reload from the centrifuged area; delete unfinished QC orders. Delete all unfinished QC orders before closing for the day."],
+["Auto QC: volume off","QC solution ran out; tube goes to the output area","Add QC solution, renew volume in Auto QC Setting, reload through archive-direct."],
+["Refrigerator temperature alarm","Reading outside 2–8 °C (yellow 1–3 or 8–13, red outside that)","Wait about 10 min for the display to refresh; check the door. Turn refrigeration off if the door has been open 15+ min."],
+["960000001 Disconnected with dispatch software","Software down or network cable","Check software, network ports, then Remove Error."],
+["960000002 Startup initiation not performed","Start-up sequence not done","Power off and restart the system."],
+["960000003 Samples cannot be retrieved","Output area full","Replace the output rack with a compatible one; the error clears itself."],
+["960000006 Empty single tube carrier not in time","Object or track error","Remove the object, clear any track error, then Remove Error."],
+["700130202 and similar Z-axis / gripper stall (I/O manipulator)","Motor stalled or gripper lost steps","Remove Error; if it recurs, call service."],
+["702010102 / 702020102 Front or back cover open","Cover sensor not blocked","Close the cover; Remove Error."],
+["700000000 I/O module status abnormal","Assembly action abnormal","Power off, remove tubes being loaded or unloaded and all tubes in outlet drawers, then restart."],
+["7002xxxx–7008xxxx Drawer 1–7 movement","Drawer stalled","Check for objects in the path and for racks (remove the rack cover); Remove Error."],
+["701510203 / 701510103 / 701510303 Camera errors","CCD disconnected, light off, network wire","Enable CCDRecognize, check network port, light indicator and camera cable."],
+["701520103 / 701530203 Overhead light source","Light brightness abnormal","Check the backlight or raking-light wire."],
+["720000000 Centrifuge status abnormal","Assembly action abnormal","Wait for the run to finish, power off, remove tubes, put adapters and balance tubes back, restart."],
+["740000000 Decapping status abnormal","Assembly action abnormal","Power off, remove tubes in decapping, restart."],
+["640750103 Sample barcode cannot be identified (analyzer front track)","Barcode direction or dirty","Check barcode orientation and cleanliness."],
+["640760101 / 640760301 Capped or uncentrifuged sample at analyzer I/O","Capped offline tube, or uncentrifuged","Decap and reload, or reload from the centrifuged area."],
+["640760201 Sample tube height out of range","Wrong tube, cap loose, tube not at bottom","Seat the tube fully and cap correctly, reload."],
+["640760401 / 640760501 Calibrator or ISE detergent order","Calibrators or ISE materials not loaded in order","Reload with calibrator; load ISE detergent and activator together."],
+["853530102–853540202 Vision work position camera or lamp","Camera connection, serial port, network wire or lamp","Check each, restart camera and analyzer software."]
+];
+const QZ=[
+["A red 50-hole rack is loaded on the I/O module. What happens?",["It is treated as extra urgent through the RFID on the rack","It is treated as a QC rack","It is only for 16 mm tubes","It goes straight to the refrigerator"],0,"The red rack carries the extra-urgent priority; white racks are for routine and STAT."],
+["What is the difference between auto rerun and smart dilution?",["None, same function","Auto rerun needs a first result; smart dilution decides from history after registration","Smart dilution is only for coagulation","Auto rerun is done by the LIS"],1,"Smart dilution judges at registration and skips the first test."],
+["Which drawer type should a non-centrifuged tube use?",["Centrifuged drawer","Archive-direct drawer","Non-centrifuged drawer","Standalone drawer"],2,"If it is put in the centrifuged area it is recognised as whole blood and centrifuged anyway."],
+["A 21-position rack is placed in an inlet drawer. What else?",["Nothing","A 21-position rack in the outlet drawer too","Pause the system","Remove the RFID"],1,"Otherwise the samples cannot be retrieved or circle on the track."],
+["What is the first goal of auto validation?",["Highest pass rate","No false-negative results","Fewest rules","Skip the LIS"],1,"A higher pass rate carries more risk."],
+["How is auto validation sent to the LIS?",["AV or UV flags with the result","A PDF report","A phone message","A separate database"],0,"OBX-25 carries AV or UV, and OBX-26 the failed rule name."],
+["A trainee needs to run calibrators. Where?",["Bulk loader","50-hole white rack on the I/O","Standalone module with a 21-position rack","Centrifuge"],2,"Calibrators and QC do not go on normal racks."],
+["When does a tube enter the refrigerator?",["Immediately after loading","After 1 hour with no further test, or when the 4 buffer racks fill","Only on Fridays","Only after a rerun"],1,"Also, 16 mm tubes cannot enter."],
+["How long do you wait before restarting the analyzer after shutdown?",["No wait","At least 10 seconds","1 hour","Until next day"],1,"The manual: at least 10 seconds."],
+["What do you do for a sample circling the main track?",["Pull the power","Check for a 21-position rack in the outlet, then restart SRP if needed","Delete the order","Replace the track"],1,"This is the sequence given in the Q&A file."]
+];
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+
+const D1="01 Module intro",D3="03 IT solution",D5="05 Vision linkage",D6="06 Auto QC",D8="08 Smart dilution",D9="09 Smart sorting",D10="10 TAT auto urgent";
+const SRC={
+m_line:[D1,3,"MT 8000 line, modules named on the track."],m_bulk:[D1,5,"Bulk loader: parameters and 3-in-1 idea."],m_bulkmode:[D1,7,"Bulk loader loading modes and the screen status."],
+m_io:[D1,14,"I/O module: flexible drawer setup, unified loading."],m_paths:[D1,15,"Loading area setup: what path each drawer type gives a tube."],m_abn:[D1,16,"Five abnormal outlet areas and how to handle each."],
+m_iovision:[D1,19,"Visual inspection linkage across input and output."],m_lamps:[D1,20,"Alarm lamp colours on the module and drawer lamps."],m_racks:[D1,21,"Sample racks and loading rules."],
+m_cent:[D1,23,"Centrifuge module specifications."],m_centset:[D1,25,"Centrifuge parameter screen and cautions."],m_decap:[D1,28,"Decapper: setting thresholds and changing the waste bag."],
+m_track:[D1,30,"Track: speed, throughput, RFID, 4-track design."],m_direct:[D1,31,"Direct connection to analyzers without a rack transfer unit."],
+m_stand:[D1,35,"Standalone loading module and its racks."],m_adapt:[D1,36,"Adapters and micro containers."],m_integ:[D1,39,"Decapping and recapping integrated module."],
+m_fridge:[D1,51,"Refrigerated storage module specifications."],m_frack:[D1,53,"94-position rack with RFID and magnet pads."],m_rackstat:[D1,55,"Rack status screen colours for the refrigerator."],
+v_hw:[D5,9,"Eye's Vision hardware: top, side and parallel light, rotating scan."],v_effect:[D5,10,"What the camera sees: normal, hemolysis, icterus, lipemia, EP tube, micro cup."],
+v_over:[D5,12,"Enabling overhead shooting in the software."],v_side:[D5,16,"Side shot: what the camera reports."],v_hil:[D5,21,"Sample vision window with HIL levels."],
+q_flow:[D6,4,"Auto QC conduct flow: six steps."],q_set:[D6,8,"Auto QC setting screen and recommended values."],q_how:[D6,13,"How to do Auto QC: prepare, load, store."],q_verify:[D6,14,"Example timeline of one QC run."],
+d_formula:[D8,7,"Smart dilution formula, with an example."],s_rule:[D9,8,"Creating a sorting rule."],s_area:[D9,12,"Assigning sorting rules to output areas."],
+t_sched:[D10,8,"Customised scheduling: time window and node."],t_ex:[D10,5,"TAT rule example in Sample Management."],
+ar_rule1:["07 Auto rerun",3,"Auto rerun, results flag check: rule explained."],ar_rule2:["07 Auto rerun",4,"Auto rerun, HIL check and the three rerun options (random, original, switch)."],ar_rule3:["07 Auto rerun",5,"Auto rerun, range check."],
+ar_flag:["02 Innolab software",76,"Setup screen: result alarm check, with the start/stop main switch."],ar_hil:["02 Innolab software",77,"Setup screen: sample characteristic (HIL) check."],ar_range:["02 Innolab software",78,"Setup screen: range check."],ar_logic:["02 Innolab software",79,"Setup screen: logic relation check."],ar_av:["02 Innolab software",80,"Setup screen: intercepting rules of auto validation."],
+av_setup:["02 Innolab software",81,"Chemistries → Auto Validation setup screen."],av_orig:["TLA auto validation deck",11,"Original rule setup: import standard rules or build one by one, then activate."],av_hist:["TLA auto validation deck",12,"Run history data against the rules: pass-rate dashboard."],av_lis:["TLA auto validation deck",14,"LIS validation screen shows manual and auto result with the rule."],av_rec:["TLA auto validation deck",15,"Mismatch record sheet used during comparison."],
+sop_p11:["Auto validation SOP v2.0",11,"History check steps: Import History Data, then Review History Samples."],sop_p12:["Auto validation SOP v2.0",12,"Reading pass rates and fixing low-pass rules."],
+area_a:["02 Innolab software",85,"Section setup: area types of the I/O drawers."],area_steps:["02 Innolab software",88,"Steps to change the I/O partition."],area_rule:["02 Innolab software",90,"Section rule setup: rule names, formulas, descriptions."],area_tube:["02 Innolab software",92,"Sample tube judgment rules (tube height factor)."],area_apply:["02 Innolab software",93,"After rules are set, assign them in Area Type Setup."],
+lis_checkin:["02 Innolab software",96,"LIS setup: check-in setup."],tat_set:["02 Innolab software",99,"System setup: TAT setup."],tat_auto:["02 Innolab software",100,"TAT setup: auto expedite on timeout."],auto_rel:["02 Innolab software",102,"Auto release sample setup (release time, default overtime)."],
+d_menu:[D8,4,"Smart dilution: where to find the setup icon."],d_list:[D8,5,"Smart dilution setup: choose item, function switch, priority up/down, create."],d_create:[D8,6,"Smart dilution rule dialog: name, sample type, formula, dilution ratio."],d_effect:[D8,12,"How a smart dilution rule shows in the sample screens."],
+s_offline:[D9,4,"Creating an offline item with a channel code."],s_menu:[D9,6,"Section rule setup menu."],s_proc:[D9,15,"Processing rule setup."],s_first:[D9,18,"Processing rule: the 'First Loading' option."],
+t_add:[D10,3,"TAT rule dialog."],t_resched:[D10,6,"Scheduling priority rule dialog (Regular, Stat, Urgent)."],
+q_menu:[D6,6,"Auto QC setting list."],q_btn:[D6,7,"Auto QC buttons: New, Edit, Delete, Copy, Print Barcode, Retrieve, Manual Execute."],q_retest:[D6,9,"Retest request for out-of-control QC."],q_bs:[D6,10,"BS-2800 system configuration: set the non-sleep time."],q_cl1:[D6,11,"CL-8000i configuration: avoid the cleaning time."],q_cl2:[D6,12,"CL-8000i QC setup: do not set 'QC auto apply'."],
+i_receipt:[D3,16,"Auto receipt flow."],i_path:[D3,25,"Sample pathway visualisation."],i_screen:[D3,9,"Smart screen content blocks."]};
+const FIG=c=>`<figure class="fig"><img data-f="${c}" alt="${esc(SRC[c][2])}" loading="lazy"><figcaption></figcaption></figure>`;
+const FIGS=a=>a&&a.length?`<h3>From the original slides</h3><div class="figs">${a.map(FIG).join("")}</div>`:"";
+const MIMG={"Bulk Loader":["m_bulk","m_bulkmode"],"Input/Output (I/O) Module":["m_io","m_iovision","m_abn","m_lamps","m_racks"],"Centrifuge Module":["m_cent","m_centset"],"Decapper Module":["m_decap"],"Track Module":["m_track","m_direct"],"Standalone Sampling Module":["m_stand","m_adapt"],"Decapping & Recapping Integrated Module":["m_integ"],"Refrigerated Storage Module":["m_fridge","m_frack","m_rackstat"]};
+const FIMG={"Auto rerun":["ar_rule1","ar_rule2","ar_rule3","ar_flag","ar_hil","ar_range","ar_logic","ar_av"],"Intelligent scheduling and priority":["t_resched","t_sched"],"Vision inspection linkage":["v_over","v_side","v_hil","v_hw","v_effect"],"Auto QC":["q_menu","q_btn","q_set","q_retest","q_bs","q_cl1","q_cl2","q_flow","q_how","q_verify"],"Smart dilution":["d_menu","d_list","d_create","d_formula","d_effect"],"Smart sorting":["s_offline","s_menu","s_rule","area_rule","area_tube","s_area","area_apply","s_proc","s_first"],"TAT auto urgent and statistics":["tat_set","t_add","tat_auto","t_ex","t_sched"],"Auto receipt":["lis_checkin","i_receipt"],"Smart screen":["i_screen"],"Auto validation":["av_setup","av_orig","av_hist","sop_p11","sop_p12","av_lis","av_rec"]};
+const lg=r=>`<h3>Logic to setting <span class="th">ตรรกะการตั้งค่า</span></h3><div class="tablewrap"><table><tr><th>If the lab says…</th><th>Set this</th><th>Why</th></tr>${r.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td></tr>`).join("")}</table></div>`;
+const LOGIC={
+"Auto rerun":lg([["A result comes back with an alarm flag","Result flag check. Add related tests so they rerun together.","One alarm often means the whole panel needs a second look."],["Hemolysis, icterus or lipemia is marked","HIL check, with a rerun option","Random = any analyzer. Original = same analyzer, to confirm. Switch = a different named analyzer, to rule out an instrument problem."],["Result outside critical, reference or custom range","Range check","Confirms extreme values before a report leaves."],["Two tests must agree (Tbil not below Dbil)","Logic relation check, user defined","Catches impossible combinations without a person looking."],["Auto validation blocked the result","Auto-validation interception check","Lets blocked results rerun by themselves before a person reviews."],["Several rules match","Keep priorities in order","The rule with the highest priority is the one used."]]),
+"Intelligent scheduling and priority":lg([["ER, ICU and OPD must be fast","Scheduling priority rule by department, level Emergency or Extremely urgent","Rules can match department, patient type, item, item type and sample category."],["Outpatients must finish before 12:00","Exclusive node for a time window (for example 08:00–12:00 node 1 for outpatients)","The node stays reserved even when idle, so a tube never waits for a free analyzer."],["A test exists on one node only","Do not exclude that node for samples that need it","A sample must not be scheduled to a node that cannot run all its tests."]]),
+"TAT auto urgent and statistics":lg([["Routine TAT target is N minutes","Timeout = N. Warning earlier than timeout.","Yellow warns the user before the target is missed."],["STAT must not wait","Auto expedite on timeout","The sample gets extra-urgent priority automatically."],["Lab measures TAT from blood collection","Start state: collection. End state: completed or uploaded.","Match the lab's own report, or the numbers will disagree."],["Lab measures from the moment it reaches the line","Start state: loading","Excludes time before the sample reaches the lab."]]),
+"Vision inspection linkage":lg([["Reject hemolysis above 2+","Intercept at the matching HIL grade for that test; moderate and severe are the usual levels","Avoids wrong interception when the picture estimate and the analyzer index disagree."],["Rejection depends on the test (K, LDH, phosphate, AST, ALT, ALP)","Qualitative cut-offs per test in Test Setup → Qualitative","The same hemolysis grade is harmless for one test and unacceptable for another."],["Redraw if the sample is very turbid","Lipemia grade interception, or send to the biochemistry analyzer for a real serum index","The analyzer index is the reference."],["Samples placed at random in the rack","Enable overhead shooting and restart","Empty holes are skipped and red racks keep priority."],["Short on serum","Enable visual sample volume recognition (off by default)","Insufficient volume appears in the Sample Vision area before aspiration."]]),
+"Auto QC":lg([["QC twice a day, morning first","Trigger time before shift start, 3 h away from discard time","Avoid chemistry sleep and immunoassay cleaning times."],["Lab uses Mindray or third-party QC","Container: sample tube without additive or disposable vial","Mindray vials need the cap opened; barcode goes on the vial, not the adapter."],["Control is stable for N days","Volume = aspiration × days + dead volume (560 µL tube; 150 µL vial)","The tube runs out only when planned."],["QC after calibration or a new lot","Auto QC by reagent lot, bottle or after calibration","Matches the lab's QC policy."],["Immunoassay analyzer has its own QC order","Turn off 'QC auto apply' on the analyzer","Otherwise QC runs twice."]]),
+"Smart dilution":lg([["High positives are common (HBsAg, HCG)","Rule for that test, sample type and dilution ratio","The first run is skipped for patients who needed dilution before."],["How long is history valid?","Test interval factor (for example ≤ 5 days, or 1 month)","Old results should not drive today's decision."],["Only if the last result was high","Previous result > threshold AND previous flag ↑ AND previous diluted","Three conditions reduce wrong dilution."],["Chemistry vs immunoassay","Chemistry ratio is user defined; CLIA ratio is fixed","The slide states this difference."],["Two rules match","Order them with Priority Up/Down","The higher one runs."]]),
+"Smart sorting":lg([["Some tests run on another analyzer or outside the lab","Create an offline test with a channel code, then a rule: sorted samples contain that test","Offline tests must exist before rules can pick them."],["Sort by department or patient type","Factor: Department or Patient type (create names in the Dictionary first)","Lists must exist before use."],["HIV positive must be isolated","Item result factor: HIV > 1","Sorted after online testing finishes."],["Where do sorted tubes go?","Assign the rule to an output area of a 50-position drawer","Up to 50 rules; pause and empty the I/O first."]]),
+"Auto receipt":lg([["Lab wants to skip second reception","LIS check-in setup with the vendor's support","The middleware inquires the LIS for orders at loading."],["HIS and LIS names are unknown","Record them in the survey first","The vendor must be involved before the interface is planned."]]),
+"Auto validation":lg([["Lab wants a quick start","Import the standard rule set, then adjust","Initial rules come from head-customer experience."],["Sample check: IV contamination, anticoagulant interference (ALP < 50, Ca < 7, K > 6 in the form)","Sample status and range rules","The survey form prints these as examples; the lab must confirm numbers."],["Sample integrity: hemolysis 3+, bilirubin > 40 mg/dL, TG > 800 mg/dL, TP > 10 g/dL (form examples)","HIL flag and range rules","The camera or analyzer index feeds the rule."],["Critical values (Na, K, glucose, TnI > 500)","Critical value check","Define each limit with the lab."],["Logic: Tbil ≥ Dbil, TP ≥ ALB, TC ≥ TG/5 + HDL + LDL","Logic rules","Catch impossible results."],["Delta check 3–7 days, RCV","History rules with the right days and difference","The SOP advises care with days and the size of the change."],["Lab wants one LIS step (approve only) or two","Set results to be sent by sample, then let the LIS approve","Auto validation needs by-sample sending in version 735."]])
+};
+const st=a=>`<div class="steps">${a.map(x=>`<div><b>${x[0]}</b>${x[1]}</div>`).join("")}</div>`;
+const DIAG={
+"Vision inspection linkage":`<h3>Workflow</h3>`+st([["Load","Rack goes into the I/O drawer, any order if overhead shooting is on."],["Overhead scan","Top camera checks which holes hold tubes and gives red racks priority."],["Side shot","Reads barcode, tube type, cap, centrifuge state, volume, serum volume, HIL."],["Decide","Rules set by the lab: pass, intercept to the abnormal area, or test with a flag."],["Review","User opens Sample Vision to see the photo and serum index."]]),
+"Auto QC":`<h3>Set up once</h3>`+st([["Collect","QC names, IDs, levels, tests, analyzers, trigger rules, volumes."],["Auto QC setting","QC → Auto QC setting. Use a barcode different from routine QC."],["Prepare","Create the order, print the barcode, split QC into a tube or disposable vial."],["Load","Archive-direct from the I/O, uncapped. QC goes into the refrigerator."],["Function verify","Run and debug the trigger."],["Data verify","At least 7 days against manual QC; keep the tests that agree."]])+`<h3>What happens each day (example from the slide)</h3>`+st([["06:20 Order","Middleware creates the QC order."],["Fetch","QC leaves the refrigerator for the integrated module."],["06:35 Rewarm and mix","QC is rewarmed and mixed in the buffer."],["06:36 Analyze","Tube arrives at the analyzer; test finishes about 07:26."],["Return","QC is recapped and goes back to the refrigerator."]]),
+"Smart dilution":`<h3>Reading the example rule</h3>`+st([["Same patient","At least 2 tests in the last 5 days (test interval ≤ 5 days)."],["Last test diluted","The Nth previous result of this test was diluted."],["Flagged ↑","The previous result carried the high flag."],["Above 500","Previous ALT result greater than 500."],["Action","All conditions true: skip the first run and dilute directly."]]),
+"Smart sorting":`<h3>Setup workflow</h3>`+st([["Create offline items","Setup → Tests → New, with a channel code. Confirm the LIS link."],["Create the rule","Section Rule Setup → Create. Name it, build the formula from the 8 factors."],["Assign an area","Output area setting: right-click the area and assign the rule."],["Pause, clear, save","Empty the I/O module, then save. The pad shows the rule name."],["Test","Run a few samples to confirm."]]),
+"TAT auto urgent and statistics":`<h3>What the colours mean</h3>`+st([["Normal","Within the TAT target."],["Yellow","Warning time reached. Order turns yellow in Sample Management."],["Red","Timeout reached. Can trigger automatic urgent priority."]])
+};
+$("#modlist").innerHTML=MODS.map((m,i)=>`<details ${i===0?"open":""}><summary><span>${esc(m.n)} <span class="th">${esc(m.th)}</span></span></summary><div>
+<p>${esc(m.role)}</p>
+<dl class="spec">${m.spec.map(s=>`<dt>${esc(s[0])}</dt><dd>${esc(s[1])}</dd>`).join("")}</dl>
+<h3>How it works</h3><p>${esc(m.how)}</p>
+<h3>Operating rules</h3><ul>${m.ops.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
+<h3>Faults and handling</h3><ul>${m.fault.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>${FIGS(MIMG[m.n])}</div></details>`).join("");
+
+$("#fnlist").innerHTML=FNS.map(f=>`<details><summary><span><span class="tag ${f.c==="a"?"adv":""}">${f.c==="a"?"Advanced":"Routine"}</span>${esc(f.n)}</span></summary><div>
+<p><strong>Why:</strong> ${esc(f.why)}</p><p><strong>Principle:</strong> ${esc(f.how)}</p>
+<p><strong>Led by:</strong> ${esc(f.who)}${f.path!=="—"?` · <strong>Where:</strong> <code>${esc(f.path)}</code>`:""}</p>
+<ul>${f.watch.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>${LOGIC[f.n]||""}${DIAG[f.n]||""}${FIGS(FIMG[f.n])}</div></details>`).join("");
+
+function drawT(){const q=$("#q").value.toLowerCase().trim();
+ $("#tbody").innerHTML=TS.filter(r=>!q||r.join(" ").toLowerCase().includes(q)).map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")||`<tr><td colspan="3">No match. Try a module name or an alarm number.</td></tr>`}
+$("#q").addEventListener("input",drawT);drawT();
+
+let score=0,answered=0;
+$("#quiz").innerHTML=QZ.map((q,i)=>`<div class="card" style="margin-bottom:12px" data-i="${i}"><h3>${i+1}. ${esc(q[0])}</h3>${q[1].map((o,j)=>`<button class="opt" data-j="${j}">${esc(o)}</button>`).join("")}<div class="fb"></div></div>`).join("")+`<div class="card"><h3 id="score">Score: 0 / ${QZ.length}</h3><button class="btn ghost" id="reset">Start again</button></div>`;
+$("#quiz").addEventListener("click",e=>{
+ if(e.target.id==="reset"){location.reload();return}
+ const b=e.target.closest(".opt");if(!b)return;const card=b.closest(".card");if(card.dataset.done)return;card.dataset.done=1;
+ const q=QZ[+card.dataset.i],j=+b.dataset.j;answered++;
+ card.querySelectorAll(".opt").forEach((o,k)=>{if(k===q[2])o.classList.add("right")});
+ if(j===q[2])score++;else b.classList.add("wrong");
+ card.querySelector(".fb").textContent=(j===q[2]?"Correct. ":"Not quite. ")+q[3];
+ $("#score").textContent=`Score: ${score} / ${QZ.length}`});
+
+$("#avextra").innerHTML=LOGIC["Auto validation"]+FIGS(FIMG["Auto validation"]);
+$("#swextra").innerHTML=FIGS(["area_a","area_steps","area_apply","auto_rel"]);
+document.querySelectorAll("img[data-f]").forEach(i=>{const c=i.dataset.f,s=SRC[c];i.src="img/"+c+".jpg";const f=i.parentElement.querySelector("figcaption");f.innerHTML=`<b>${esc(s[2])}</b> Source: ${s[0]}, slide ${s[1]}`});
+const lb=document.createElement("div");lb.id="lb";lb.innerHTML="<img alt=''>";document.body.appendChild(lb);
+document.addEventListener("click",e=>{const i=e.target.closest(".fig img");if(i){lb.firstChild.src=i.src;lb.classList.add("on")}else if(e.target.closest("#lb"))lb.classList.remove("on")});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")lb.classList.remove("on")});
+const SV=[
+[1,"Tube brand (BD, Greiner, Vacuette, Bio-One, other brands) and whether they use gel","Tubes must be validated brands (see the validated list in the Operator's Manual). The cameras read tube type and height."],
+[2,"Tube size: 13×75, 13×100, paediatric 13×75","Rack and adapter choice. Height limit on the I/O is 100 mm; an EP tube goes in a 13×75."],
+[3,"Specimen types: serum, whole blood, Li-Hep plasma, urine, CSF, dialysis, body fluid","Which tubes go to the centrifuge, which go to the standalone module, and which tests run on the line. Urine uses 16×100 tubes."],
+[4,"Daily workload (tubes) and estimated racks","Bulk loader and drawer layout, rack count, original-rack archiving, refrigerator size."],
+[5,"Days to discard tube, based on section, and storage rack","Low-temperature storage period (default 7 days) and discard rule; capacity optimisation."],
+[6,"Take out to run on another analyzer (chemistry or immunoassay tests)","Offline tests and smart sorting rules; output area for those tubes."],
+[7,"Sorting for other sections (hematology, coagulation) or outside labs","Offline tests with a channel code, section rules, output areas."],
+[8,"Storage time in the refrigerator, by chemistry and immunoassay","Low-temperature storage cycle setting and discard rules."],
+[9,"Centrifuge speed, chemistry and immunoassay; special tests","Centrifuge parameters (work modes: biochemistry, immunology, coagulation) and awaiting time."],
+[10,"Expected TAT (minutes) for chemistry and immunoassay, and today's TAT","TAT rules: warning, timeout, statistics start and end."],
+[11,"STAT TAT (minutes) and which tests","TAT rule with auto expedite; scheduling priority."],
+[12,"STAT department priority: ER, ICU, OPD, surgery, gynaecology, IPD","Scheduling priority rules by department; priority levels."],
+[13,"Reject criteria: hemolysis grade, infectious samples, tests affected (K, LDH, phosphate, AST, ALT, ALP)","Vision HIL interception and qualitative cut-offs per test."],
+[14,"Redraw criteria: milky or turbid grade, interference, indirect ISE","Vision lipemia interception and serum index handling."],
+[15,"QC requirement: cycles per day for chemistry and immunoassay, every parameter or selected, Mindray or third-party QC","Auto QC schedule, container type, volume, analyzers and trigger time."],
+[16,"Calibration requirement: common, new lot, other new bottle, new cartridge","Auto QC by reagent lot, bottle or after calibration; calibration through the standalone module."],
+[17,"Familiar with middleware?","Depth of training; how much of the software walk-through you need."],
+[18,"Rule validation: LIS steps (2 steps or 1), strict protocol and timeline, sample check, integrity check, range check, critical value check, flag check, rerun check, clinical criteria, delta check, IQC accumulation (RCV)","Auto validation rule set (see the Auto validation tab) and LIS design: whether the LIS keeps a second step or only approves."],
+[19,"Other improvement needs; prepare data for auto validation; existing rule template","History data for the pass-rate run; initial rules from the template."],
+[20,"Limits or workflows the system may not support yet; QA needs (LA, ISO, MOPH)","Raise with Mindray early, before the order."]
+];
+const SC=[["Tube and specimen",210,[1,2,3]],["Volume and storage",165,[4,5,8]],["Sorting and offline",280,[6,7]],["Centrifuge",22,[9]],["TAT and priority",48,[10,11,12]],["Sample quality criteria",0,[13,14]],["QC and calibration",130,[15,16]],["Software and validation",320,[17,18,19,20]]];
+const scOf=n=>SC.find(c=>c[2].includes(n));
+$("#svlegend").innerHTML=SC.map(c=>`<span class="cchip" style="--h:${c[1]}">${c[0]}</span>`).join("");
+$("#svbody").innerHTML=SV.map(r=>{const c=scOf(r[0]);return `<tr class="rh" style="--h:${c[1]}"><td>${r[0]}</td><td><span class="cchip" style="--h:${c[1]}">${c[0]}</span><br>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`}).join("");
+const ids=["overview","modules","flow","software","functions","autoval","daily","trouble","survey","delivery","quiz"];
+function route(){let h=(location.hash||"#overview").slice(1);if(!ids.includes(h))h="overview";
+ ids.forEach(id=>$("#v-"+id).classList.toggle("on",id===h));
+ document.querySelectorAll("#tabs a").forEach(a=>a.getAttribute("href")==="#"+h?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current"));
+ const cur=document.querySelector('#tabs a[aria-current="page"]');if(cur&&cur.scrollIntoView)cur.scrollIntoView({block:"nearest",inline:"center"});}
+window.addEventListener("hashchange",()=>{route();window.scrollTo(0,0)});route();
+</script>
+
+</body></html>

@@ -136,6 +136,7 @@ wuttachai49.github.io/
 | **CAL6000 Guide** | [cal6000-field-guide.html](https://wuttachai49.github.io/cal6000-field-guide.html) |
 | **EU Series Re-exam Rules** | [re-exam-rule-eu-series.html](https://wuttachai49.github.io/re-exam-rule-eu-series.html) |
 | **BC-6000 Second Analyzer Guide** | [bc6000-second-analyzer-guide.html](https://wuttachai49.github.io/bc6000-second-analyzer-guide.html) |
+| **MT8000 TLA guide** | [mt8000-tla-guide/](https://wuttachai49.github.io/mt8000-tla-guide/) |
 
 ---
 
