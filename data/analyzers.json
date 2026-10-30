@@ -426,5 +426,29 @@
                 "url": "cl1000i-detail/index.html"
             }
         ]
+    },
+    {
+        "id": "assay_summary_immuno_cl",
+        "name": "Assay Summary Immuno CL series",
+        "type": "Chemiluminescence Immunoassay",
+        "manufacturer": "Mindray",
+        "description": "Assay summary for the Mindray CL series immunoassay analyzers: assay menu with method, procedure, hook effect and result-time comparison.",
+        "parameters": [
+            "Method: sandwich vs competitive",
+            "Procedure: one-, two- and three-step",
+            "Hook effect values per assay",
+            "First result time per analyzer"
+        ],
+        "troubleshooting": [
+            "Confirm the assay method and procedure on the reagent package insert when sources differ"
+        ],
+        "notes": "Built from the Assay_summary workbook; verify against the current package insert before quoting values.",
+        "attachments": [
+            {
+                "name": "⭐ Assay Summary Immuno CL series",
+                "type": "Interactive HTML",
+                "url": "assay-summary-immuno-cl/index.html"
+            }
+        ]
     }
 ]

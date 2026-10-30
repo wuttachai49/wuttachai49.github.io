@@ -138,6 +138,7 @@ wuttachai49.github.io/
 | **BC-6000 Second Analyzer Guide** | [bc6000-second-analyzer-guide.html](https://wuttachai49.github.io/bc6000-second-analyzer-guide.html) |
 | **MT8000 TLA guide** | [mt8000-tla-guide/](https://wuttachai49.github.io/mt8000-tla-guide/) |
 | **CL1000i detail** | [cl1000i-detail/](https://wuttachai49.github.io/cl1000i-detail/) |
+| **Assay Summary Immuno CL series** | [assay-summary-immuno-cl/](https://wuttachai49.github.io/assay-summary-immuno-cl/) |
 
 ---
 

@@ -1,0 +1,265 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Assay Summary Export</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: a lab worksheet. Control strip on top (filter, sort, columns, export), one dense table below that fits the screen. */
+:root{--bg:#eef3f4;--surface:#fff;--surface2:#e3ecee;--ink:#10232a;--muted:#5b717a;--line:#cfdcdf;--accent:#00798a;--accent-ink:#fff;--glow:#d9f0f3;--good:#18794e;--warn:#9a5b00;
+--fd:'Barlow Condensed','Arial Narrow',sans-serif;--fb:'IBM Plex Sans',system-ui,sans-serif;--fm:'IBM Plex Mono',ui-monospace,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1a20;--surface:#112630;--surface2:#17313c;--ink:#e4eef1;--muted:#95aab4;--line:#27424e;--accent:#43c9db;--accent-ink:#06222a;--glow:#12353f;--good:#66d391;--warn:#f0b04f;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b1a20;--surface:#112630;--surface2:#17313c;--ink:#e4eef1;--muted:#95aab4;--line:#27424e;--accent:#43c9db;--accent-ink:#06222a;--glow:#12353f;--good:#66d391;--warn:#f0b04f;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--fb);font-size:14px;line-height:1.5;padding-block:20px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1400px;margin:0 auto}
+h1{font-family:var(--fd);font-size:clamp(1.9rem,5vw,2.8rem);line-height:1;margin:0 0 4px;font-weight:700;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 16px;max-width:70ch}
+.panel{background:var(--surface);border:1px solid var(--line);padding:14px;margin-bottom:12px;display:grid;gap:12px}
+.row{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
+.lab{font-family:var(--fm);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+input[type=search],select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);padding:6px 9px;min-width:0;max-width:100%}
+input[type=search]{width:min(100%,220px)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button{font:inherit;cursor:pointer;color:var(--ink);background:var(--surface);border:1px solid var(--line);padding:6px 12px}
+button:hover{background:var(--surface2)}
+.seg{display:inline-flex;flex-wrap:wrap}.seg button{border-radius:0;margin-right:-1px}
+.seg button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);position:relative}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:3px 10px;border-radius:12px;font-size:.8rem}
+.chip[aria-pressed=true]{background:var(--glow);border-color:var(--accent);font-weight:600}
+.chip[aria-pressed=false]{color:var(--muted);text-decoration:line-through}
+.exp{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.exp .go{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600;padding:8px 16px}
+.exp .go:hover{filter:brightness(1.1)}
+.exp .go:disabled{opacity:.5;cursor:not-allowed}
+#msg{font-family:var(--fm);font-size:.8rem;color:var(--good);min-height:1.2em}
+#msg.err{color:var(--warn)}
+.tbl{overflow-x:auto;border:1px solid var(--line);background:var(--surface);max-height:75vh;overflow-y:auto}
+table{border-collapse:collapse;width:100%;font-size:.8rem}
+th,td{padding:6px 7px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;overflow-wrap:break-word}
+th,td:first-child{min-width:5.5em}td.ck{min-width:0}
+th{position:sticky;top:0;background:var(--surface2);font-family:var(--fd);font-size:.95rem;letter-spacing:.03em;font-weight:600;cursor:pointer;user-select:none;z-index:1;white-space:nowrap}
+th:hover{background:var(--glow)}
+th .ar{color:var(--accent);margin-left:3px}
+th.nosort{cursor:default}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}td.n{font-family:var(--fm)}
+td.mono{font-family:var(--fm);font-size:.74rem;white-space:pre-line}
+td.nm{font-weight:600}
+tr:hover td{background:color-mix(in srgb,var(--glow) 55%,transparent)}
+tr.sel td{background:var(--glow)}
+td.ck,th.ck{width:30px;text-align:center}
+input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
+.pn{color:color-mix(in srgb,hsl(var(--h) 80% 46%) 70%,var(--ink));font-weight:600}
+.mt{display:inline-block;padding:1px 9px;border-radius:10px;font-size:.74rem;font-weight:600;line-height:1.35;background:color-mix(in srgb,hsl(var(--h) 80% 52%) 18%,transparent);color:color-mix(in srgb,hsl(var(--h) 80% 42%) 65%,var(--ink));border:1px solid color-mix(in srgb,hsl(var(--h) 80% 50%) 45%,transparent)}
+.key{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 10px}
+.key i{width:10px;height:10px;border-radius:50%;display:inline-block;background:hsl(var(--h) 75% 50%)}
+.key span.k{display:inline-flex;gap:6px;align-items:center;font-size:.78rem;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:2px 10px}
+.foot{color:var(--muted);font-size:.78rem;margin-top:10px;max-width:90ch}
+.count{font-family:var(--fm);font-size:.8rem;color:var(--muted)}
+@media(max-width:700px){table{min-width:720px}}
+</style>
+
+<div class="wrap">
+<h1>Assay Summary Export</h1>
+<p class="sub">Mindray CL-series assay menu from the June 2025 workbook. Filter, sort, choose columns, then save the table as Excel or PDF exactly as you see it.</p>
+
+<div class="panel">
+  <div class="row">
+    <span class="lab">Find</span><input type="search" id="q" placeholder="Assay name, e.g. TSH" aria-label="Search assay">
+    <span class="lab">Method</span><select id="fm" aria-label="Method"><option value="">All</option></select>
+    <span class="lab">Procedure</span><select id="fp" aria-label="Procedure"><option value="">All</option></select>
+    <div class="seg" id="site" role="group" aria-label="List"><button type="button" aria-pressed="true" data-s="">All assays</button><button type="button" aria-pressed="false" data-s="mit">Mitrapracha sheet (12)</button></div>
+    <button type="button" id="reset">Reset</button>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="row">
+    <span class="lab">Sort by</span><select id="s1" aria-label="First sort column"></select>
+    <button type="button" id="d1" aria-label="First sort direction" title="Toggle direction">A → Z</button>
+    <span class="lab">then</span><select id="s2" aria-label="Second sort column"><option value="">none</option></select>
+    <button type="button" id="d2" aria-label="Second sort direction" title="Toggle direction">A → Z</button>
+    <span class="count">You can also click a column heading.</span>
+  </div>
+  <div class="row"><span class="lab">Columns</span><div class="chips" id="cols" role="group" aria-label="Columns to show and export"></div></div>
+  <div class="row exp">
+    <span class="lab">Save</span>
+    <button type="button" class="go" id="xl">Excel (.xlsx)</button>
+    <button type="button" class="go" id="pdf">PDF</button>
+    <button type="button" id="csv">CSV</button>
+    <button type="button" id="copy">Copy for pasting</button>
+    <div class="seg" id="scope" role="group" aria-label="Rows to save"><button type="button" aria-pressed="true" data-v="all">All rows shown</button><button type="button" aria-pressed="false" data-v="sel">Ticked rows only (<span id="nsel">0</span>)</button></div>
+    <span id="msg" role="status"></span>
+  </div>
+</div>
+
+<div class="key" id="key" aria-label="Colour key"></div>
+<div class="tbl"><table><thead id="th"></thead><tbody id="tb"></tbody></table></div>
+<p class="foot">Source: Assay_summary-20250609_update_ToRCH.xlsx, sheet "Summary" (reference ranges are the workbook's "Referece range" column). "Mitrapracha sheet" = the 12 assays on the workbook sheet มิตรประชา. Values are copied as printed in the workbook; check the reagent insert and your lab's validated ranges before use. The saved file lists the filters and sort used.</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script>
+(function(){
+'use strict';
+var DATA=[["AFP", 18, 19.5, 16, 19.25, 17.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 15, "WHO 1st International Standard", "18 months", "56 days", "120000 ng/mL", "0.5-1210 ng/mL", "Male: <7.2 ng/mL\nFemale: <7.4 ng/mL\nTotal: <7 ng/mL", "ng/mL x 0.83 = IU/mL\nIU/mL x 1.21 = ng/mL", 2], ["CEA", 32.67, 33, 30.67, 32.75, 31.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 8, "WHO 1st International Standard（73/601）", "18 months", "56 days", "60000 ng/mL", "0.2-1000 ng/mL", "Male: <5.2 ng/mL\nFemale: <3.3 ng/mL\nTotal: <4.5 ng/mL", "ng/mL x 1 = μg/L", 1], ["CA125", 22.67, 23, 20.67, 22.75, 21.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA and lithium heparin)", 10, "Mindray Internal Standard", "18 months", "56 days", "100000 U/mL", "1-5000 U/mL", "<35 U/mL", "U/mL x 1 = kU/L", 1], ["CA15-3", 33, 34.5, 31, 34.25, 32.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA and lithium heparin)", 10, "Mindray Internal Standard", "18 months", "28 days", "20000 U/mL", "1-500 U/mL", "<32 U/mL", "U/mL x 1 = kU/L", 2], ["CA19-9", 23, 24.5, 21, 24.25, 22.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA and lithium heparin)", 15, "Mindray Internal Standard", "18 months", "56 days", "300000 U/mL", "1.0-2000 U/mL", "Male: <26 U/mL\nFemale: <35 U/mL\nTotal: <30 U/mL", "U/mL x 1 = kU/L", 2], ["t-PSA", 22.67, 23, 20.67, 22.75, 21.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 15, "WHO 1st International Standard（96/670）", "18 months", "28 days", "10000 ng/mL", "0.008-100 ng/mL", "<4 ng/mL", "ng/mL x 1 = μg/L", 1], ["FPSA", 22.67, 23, 20.67, 22.75, 21.85, "Sandwich", "One-step, one-separation", "Human serum", 10, "WHO 1st International Standard（96/668）", "18 months", "28 days", "30000 ng/mL", "0.01-30 ng/mL", "<1 ng/mL", "ng/mL x 1 = μg/L", 1], ["CA72-4", 22.67, 23, 20.67, 22.75, 21.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 8, "Mindray Internal Standard", "18 months", "56 days", "15000 U/mL", "0.2-300 U/mL", "<7 U/mL", "/", 1], ["NSE", 17.67, 18, 15.67, 17.75, 16.85, "Sandwich", "One-step, one-separation", "Human serum", 5, "Mindray Internal Standard", "18 months", "28 days", "120000 ng/mL", "0.05-370 ng/mL", "<16.5 ng/mL", "/", 1], ["CYFRA 21-1", 17.67, 18, 15.67, 17.75, 16.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 10, "Mindray Internal Standard", "12 months", "28 days", "2000 ng/mL", "0.1-500 ng/mL", "<3.3 ng/mL", "/", 1], ["TSH", 38, 38.5, 36, 38.5, 37.6, "Sandwich", "One-step, one-separation", "Human serum", 30, "WHO 3rd International Standard （81/565）", "12 months", "56 days", "1000 mIU/mL", "0.005-100 μIU/mL", "0.35-5.1 mIU/mL\nPregnant ：T1：0.09-4.87 μIU/mL\nT2：0.47-4.79 μIU/mL\nT3：0.50-5.4 μIU/mL", "μIU/mL x 1 = mIU/L", 1], ["FT3", 43.33, 43, 40.67, 42.75, 41.85, "Competitive", "One-step, one-separation", "Human serum", 30, "Mindray Internal Standard", "18 months", "56 days", "/", "0.88-30 pg/mL", "1.8-4.3 pg/mL\nPregnant ：T1：2.1-3.2 pg/mL\nT2：1.9-3.1 pg/mL\nT3：1.9-2.8 pg/mL", "pg/mL x 1.536 = pmol/L\npmol/L x 0.651 = pg/mL", 1], ["FT4", 33.33, 33, 30.67, 32.75, 31.85, "Competitive", "Two-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 15, "Mindray Internal Standard", "18 months", "56 days", "/", "0.3-6.0 ng/dL", "0.87-1.85 ng/dL\nPregnant：T1：0.83-1.54 ng/dL\nT2：0.56-1.32 ng/dL\nT3：0.54-1.05 ng/dL", "ng/dL x 12.872 = pmol/L\npmol/L x 0.077688 = ng/dL", 1], ["T3", 33.33, 33, 30.67, 32.75, 31.85, "Competitive", "Two-step, one-separation", "Human serum", 50, "ID-GC/MS", "18 months", "56 days", "/", "0.2-8.0 ng/mL", "1.8-4.3 ng/mL", "ng/mL x 1.536 = nmol/L\nnmol/L x 0.651 = ng/mL", 1], ["T4", 43.33, 43, 40.67, 42.75, 41.85, "Competitive", "Two-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 30, "ID-GC/MS", "18 months", "56 days", "/", "0.5-30 μg/dL", "5.0-14.5 μg/dL", "μg/dL x 12.87 = nmol/L\nnmol/L x 0.077688 = μg/dL", 1], ["Tg", 32.33, 33, 30.67, 32.75, 31.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (sodium heparin and lithium heparin)", 10, "IRMM reference material BCR457", "18 months", "56 days", "40000 ng/mL", "0.1-500 ng/mL", "1.28-50 ng/mL", "/", 1], ["Anti-Tg", 39, 41, 35.67, 40.5, 39.1, "Sandwich", "Two-step, two-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 10, "WHO International Standard （65/093）", "18 months", "56 days", "350000 IU/mL", "0.9-2500 IU/mL", "<4 IU/mL", "/", 2], ["Anti-TPO", 39, 41, 35.67, 40.5, 39.1, "Sandwich", "Two-step, two-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 15, "WHO International Standard （66/387）", "12 months", "28 days", "/", "0.25-1000 IU/mL", "<9 IU/mL", "/", 2], ["Total βHCG", 28.67, 29.5, 25.33, 29, 28.1, "Sandwich", "Two-step, two-separation", "Human serum", 10, "WHO 5th International Standard（07/364）", "12 months", "28 days", "/", "0.5-5000 mIU/mL", "Males: <0.5-2.2 mIU/mL\nNon-pregnant females: <0.5-3.0 mIU/mL \n\nApproximate Gestational Age\n1-10 weeks: 50-221796 mIU/mL\n11-15 weeks: 15205-227034 mIU/mL\n16-24 weeks: 5002-75445 mIU/mL\n25-40 weeks: 1501-69208 mIU/mL", "mIU/mL x 1 = IU/L", 1], ["Total βHCG II", 17.67, 18, 15.67, 17.75, 16.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA and heparin)", 5, "WHO 5th International Standard（07/364）", "18 months", "28 days", "750000 mIU/mL", "0.5-5000 mIU/mL", "Males: <5 mIU/mL\nNon-pregnant females: <5 mIU/mL\n\nApproximate Gestational Age\n1-10 weeks: 195-22976 mIU/mL\n11-15 weeks: 22305-233036 mIU/mL\n16-22 weeks: 7902-49645 mIU/mL\n22-40 weeks: 1580-48608 mIU/mL", "mIU/mL x 1 = IU/L", 1], ["FSH", 32.67, 33, 30.67, 32.75, 31.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA and lithium heparin)", 25, "WHO 1st International Standard（92/510）", "18 months", "28 days", "28000 mIU/mL", "0.2-200 mIU/mL", "For reagent prior to lot#20190101\nMale: 0.9-7.0 mIU/mL\nFemale\n Follicular phase: 2.0-7.1 mIU/mL\nOvulation phase: 2.7-12.3 mIU/mL\nLuteal phase: 1.0-4.4 mIU/mL\nPost-menopause: 14.4-75.5 mIU/mL\nFor reagent later than lot#20190101\nMale: 1.5-12.4 mIU/mL\nFemale\n Follicular phase: 3.5-12.5 mIU/mL\nOvulation phase: 4.7-21.5 mIU/mL\nLuteal phase: 1.7-7.7 mIU/mL\nPost-menopause: 25.8-134.8 mIU/mL", "mIU/mL x 1 = IU/L", 1], ["LH", 38.67, 39.5, 35.33, 39, 38.1, "Sandwich", "Two-step, two-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 15, "WHO 2nd International Standard（80/552）", "18 months", "28 days", "/", "0.2-250 mIU/mL", "Male: 1.4-7.7 mIU/mL\nFemale\n Follicular phase: 1.9-11.6 mIU/mL\nOvulation phase: 12.9-105.2 mIU/mL\nLuteal phase: 0.8-10.5 mIU/mL\nPost-menopause: 6.6-66.4 mIU/mL", "mIU/mL x 1 = IU/L", 1], ["PRL", 22.67, 23, 20.67, 22.75, 21.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 10, "WHO 3rd International Standard（84/500）", "18 months", "28 days", "10000 ng/mL", "0.47-200 ng/mL", "Male: 3.0-16.5 ng/mL\nFemale\nPre-menopausal (<50 yr old): 3.8-30.7 ng/mL\nPostmenopausal (≥50 yr old): 3.2-24.9 ng/mL", "ng/mL x 21.2 = μIU/mL (mIU/L)\nμIU/mL (mIU/L) x 0.047 =ng/mL", 1], ["E2", 43.33, 43, 40.67, 42.75, 41.85, "Competitive", "Two-step, one-separation", "Human serum", 35, "ID-GC/MS", "18 months", "56 days", "/", "25-4800 pg/mL", "Male: ＜25-84 pg/mL\nFemale\n Follicular phase: 20-138 pg/mL\nOvulation phase: 100-440 pg/mL\nLuteal phase: 31-317 pg/mL\nPost-menopause: ＜25-84 pg/mL", "pg/mL (ng/L) x 3.671 = pmol/L\npmol/L x 0.273 = pg/mL (ng/L)", 1], ["PROG", 22.67, 23, 20.67, 22.75, 21.85, "Competitive", "One-step, one-separation", "Human serum", 25, "ID-GC/MS", "12 months", "28 days", "/", "0.1-40 ng/mL", "Male: 0.1-2.1 ng/mL\nUnpregnant female\n Follicular phase: 0.2-1.6 ng/mL\nOvulation phase: 0.3-2.1 ng/mL\nLuteal phase: 1.8-22.5 ng/mL\nPost-menopause: ≤1.05 ng/mL\nPregnant female\nFirst trimester: 3.9-60 ng/mL\nSecond trimester: 15.4-60 ng/mL", "ng/mL (μg/L) x 3.18 = nmol/L\nnmol/L x 0.314 = ng/mL (μg/L)", 1], ["TESTO", 22.67, 23, 20.67, 22.75, 21.85, "Competitive", "One-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 20, "ID-GC/MS", "18 months", "56 days", "/", "0.1-16 ng/mL", "Male: 2.27-9.76 ng/mL\nFemale: ≤1.23 ng/mL", "ng/mL x 3.47 = nmol/L\nnmol/L x 0.288 = ng/mL", 1], ["E3", 32.67, 33, 30.67, 32.75, 31.85, "Competitive", "One-step, one-separation", "Human serum", 20, "Mindray Internal Standard", "18 months", "28 days", "/", "0.1-30 ng/mL", "Gestational week\n1-10: <0.1-0.2 ng/mL\n11-25: 0.2-5.8 ng/mL\n26-28: 2.2-7.6 ng/mL\n29-32: 3.5-8.9 ng/mL\n33-36: 4.9-15.7 ng/mL\n37-38: 6.0-24 ng/mL\n39-40: 8.2-24.2 ng/mL", "ng/mL x 3.467 = nmol/L\nnmol/L x 0.288 = ng/mL", 1], ["HBsAg", 58.67, 59.5, 55.33, 59, 58.1, "Sandwich", "Two-step, two-separation", "Human serum", 50, "WHO 2nd International Standard（00/588）", "18 months", "28 days", "/", "0.05~250 IU/mL", "Non-reactive: <0.05 IU/mL\nReactive: ≥0.05 IU/mL", "/", 1], ["Anti-HBs", 32.33, 33, 30.67, 32.75, 31.85, "Sandwich", "One-step, one-separation", "Human serum", 50, "WHO 2nd International Standard（07/164）", "18 months", "28 days", "70000 mIU/mL", "2~1000 mIU/mL", "Non-reactive: <10 mIU/mL\nReactive: ≥10 mIU/mL", "/", 1], ["HBeAg", 43.33, 43, 40.67, 42.75, 41.85, "Sandwich", "Two-step, one-separation", "Human serum", 50, "Paul-Ehrlich-Institut（PEI ）National Standard Material", "18 months", "28 days", "/", "/", "Non-reactive: COI<1.00\nReactive: COI≥1.00", "/", 1], ["Anti-HBe", 45.33, 45, 42.67, 44.75, 43.85, "Competitive", "Two-step, one-separation", "Human serum", 50, "Paul-Ehrlich-Institut（PEI ）National Standard Material (Anti-HBe IgG)", "18 months", "28 days", "/", "/", "Non-reactive: COI>1.00\nReactive: COI≤1.00", "/", 1], ["Anti-HBc", 43.33, 43, 40.67, 42.75, 41.85, "Competitive", "Two-step, one-separation", "Human serum", 50, "Paul-Ehrlich-Institut（PEI ）National Standard Material (Anti-HBc IgG)", "18 months", "28 days", "/", "/", "Non-reactive: COI>1.00\nReactive: COI≤1.00", "/", 1], ["HIV", 58.67, 59.5, 55.33, 59, 58.1, "Sandwich", "Two-step, two-separation", "Human serum", 100, "WHO 1st International Standard（90/636）", "18 months", "28 days", "/", "/", "Non-reactive: COI<1.00\nReactive: COI≥1.00", "/", 1], ["Anti-HCV", 38.67, 39.5, 35.33, 39, 38.1, "Sandwich", "Two-step, two-separation", "Human serum and plasma (sodium heparin and lithium heparin)", 20, "Mindray Internal Standard", "12 months", "28 days", "/", "/", "Non-reactive: COI<1.00\nReactive: COI≥1.00", "/", 1], ["Anti-TP", 38.67, 39.5, 35.33, 39, 38.1, "Sandwich", "Two-step, two-separation", "Human serum and plasma (sodium heparin)", 50, "Mindray Internal Standard", "12 months", "56 days", "/", "/", "Non-reactive: COI<1.00\nReactive: COI≥1.00", "/", 1], ["TnI", 17.67, 18, 15.67, 17.75, 16.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 75, "Mindray Internal Standard", "12 months", "28 days", "1000 ng/mL", "0.006-50 ng/mL", "99th Percentile: 0.04 ng/mL", "/", 1], ["BNP", 22.67, 23, 20.67, 22.75, 21.85, "Sandwich", "One-step, one-separation", "Human EDTA plasma collected in plastic tubes", 100, "Mindray Internal Standard", "12 months", "28 days", "100000 pg/mL", "10-5000 pg/mL", "Cut off for heart failure: 100 pg/mL", "pg/mL x 0.289 = pmol/L", 1], ["CK-MB", 17.67, 18, 15.67, 17.75, 16.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 10, "Mindray Internal Standard", "12 months", "28 days", "20 000 ng/mL", "0.1-300 ng/mL", "Male\n99th Percentile: 6.36 ng/mL\n97.5th Percentile: 5.03 ng/mL\nFemale\n99th Percentile: 4.97 ng/mL\n97.5th Percentile: 3.68 ng/mL", "/", 1], ["MYO", 17.67, 18, 15.67, 17.75, 16.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 5, "Mindray Internal Standard", "18 months", "28 days", "100 000 ng/mL", "1-3000 ng/mL", "Male 95th Percentile: 80 ng/mL\nFemale 95th Percentile: 65 ng/mL", "/", 1], ["Insulin", 17.67, 18, 15.67, 17.75, 16.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 10, "WHO International Standard （66/304）", "18 months", "56 days", "20000 μIU/mL", "0.2-1000 μIU/mL", "2.2~25.0 μIU/mL", "/", 1], ["C-Peptide", 22.67, 23, 20.67, 22.75, 21.85, "Sandwich", "One-step, one-separation", "Human serum, plasma (EDTA, sodium heparin and lithium heparin) and urine", 10, "WHO International Standard （84/510）", "18 months", "56 days", "Serum/plasma: 180 ng/mL\nUrine: 1800ng/mL", "Serum/plasma: 0.01-40 ng/mL\nUrine: 0.1-400 ng/mL", "Serum: 1.0~4.8 ng/mL\n24-hour Urine: 18.5~192.9 µg/24 hours", "/", 1], ["FERR", 23, 24.5, 21, 24.25, 22.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 15, "Chinese National Standard Material FERP 150540", "18 months", "56 days", "80000ng/mL", "0.5-1500 ng/mL", "Male: 27-375 ng/mL\nFemale: 12-135 ng/mL", "ng/mL x 1 = μg/L", 2], ["VB12", 41.67, 41, 39.33, 40.5, 40.35, "Competitive", "Three-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 50, "Mindray Internal Standard", "12 months", "28 days", "/", "50-2000 pg/mL", "180-916 pg/mL", "pmol/L x 1.36 = pg/mL\npg/mL x 0.738 = pmol/L", 2], ["Folate", 51.67, 51, 49.33, 50.5, 50.35, "Competitive", "Three-step, one-separation", "Human serum and plasma (sodium heparin and lithium heparin)", 80, "Mindray Internal Standard", "12 months", "28 days", "/", "0.8-20 ng/mL", "3.20~19.60ng/mL", "ng/mL x2.266 = nmol/L", 2], ["RBC Folate", 51.67, 51, 49.33, 50.5, 50.35, "Competitive", "Three-step, one-separation", "Human whole blood (EDTA, sodium heparin and lithium heparin)", 80, "Mindray Internal Standard", "12 months", "28 days", "/", "/", "119.47~822.63 ng/mL", "ng/mL x2.266 = nmol/L", 2], ["VD", 51.67, 51, 49.33, 50.5, 50.35, "Competitive", "Three-step, one-separation", "Human serum and plasma (sodium heparin and lithium heparin)", 40, "Mindray Internal Standard", "12 months", "56 days", "/", "3.0-150 ng/mL", "Deficient: <20 ng/mL\nInsufficient: 20-30 ng/mL\nSufficient: >30 ng/mL", "ng/mL x 2.5 = nmol/L", 2], ["PTH", 17.67, 18, 15.67, 17.75, 16.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 30, "WHO International Standard（79/500）", "12 months", "56 days", "25000 pg/mL", "1.2-5000 pg/mL", "12.0-88.0 pg/mL", "pg/mL x 0.106 = pmol/L", 1], ["CT", 22.67, 23, 20.67, 22.75, 21.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 30, "WHO International Standard 89/620", "12 months", "28 days", "1000000 pg/mL", "0.5-2000 pg/mL", "Male: <9.2 pg/mL\nFemale: <6 pg/mL", "/", 1], ["ACTH", 38.67, 39.5, 35.33, 39, 38.1, "Sandwich", "Two-step, two-separation", "Human EDTA plasma in pre-cooled plastic tubes or siliconized glass tubes", 50, "Mindray Internal Standard", "12 months", "28 days", "/", "1-2000 pg/mL", "7:00 AM - 10:00 AM: 7.0-65.0 pg/mL", "/", 1], ["Cortisol", 22.67, 23, 20.67, 22.75, 21.85, "Competitive", "One-step, one-separation", "Human serum, plasma (EDTA, sodium heparin and lithium heparin) and urine", 10, "ID-GC/MS", "18 months", "28 days", "/", "0.4-60 ug/mL", "Serum\n7:00 AM - 10:00 AM: 6.4-22.8 µg/Dl\n16:00 PM - 20:00 PM: < 10 µg/Dl\nUrine\nUnextracted: 75-520 µg/24 hours\nExtracted: 22-115 µg/24 hours", "µg/dL x 27.59 = nmol/L", 1], ["DHEA-S", 32.67, 33, 30.67, 32.75, 31.85, "Competitive", "One-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 10, "Mindray Internal Standard", "18 months", "28 days", "/", "2-1000 ug/dL", "Children\n＜1 week: 100-620 μg/dL\n1-4 weeks: 30-440 μg/dL\n1-12 months: 5-132 μg/dL\n1-4 years: 0-20 μg/dL\n5-9 years: 3-90 μg/dL\nMale\n10-14 years: 22-240 μg/dL\n15-19 years: 70-486 μg/dL\n20-24 years: 200-498 μg/dL\n25-34 years: 150-452 μg/dL\n35-44 years: 92-440 μg/dL\n45-54 years: 45-336 μg/dL\n55-64 years: 50-300 μg/dL\n65-74 years: 30-250 μg/dL\n≥75 years: 15-120 μg/dL\nFemale\n10-14 years: 32-286 μg/dL\n15-19 years: 63-360 μg/dL\n20-24 years: 140-400 μg/dL\n25-34 years: 100-350 μg/dL\n35-44 years: 60-330 μg/dL\n45-54 years: 32-250 μg/dL\n55-64 years: 18-200 μg/dL\n65-74 years: 9-250 μg/dL\n≥75 years: 13-160 μg/dL", "µg/dL x 0.02714 = µmol/L", 1], ["PG I", 17.67, 18, 16, 17.25, 16.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 5, "Mindray Internal Standard", "18 months", "56 days", "5000 ng/mL", "1-200 ng/mL", "PG I＜70 ng/mL and PG I/II＜3.0", "/", 1], ["PG II", 17.67, 18, 16, 17, 17.1, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 10, "Mindray Internal Standard", "18 months", "56 days", "1000 ng/mL", "0.5-100 ng/mL", "PG I＜70 ng/mL and PG I/II＜3.0", "/", 1], ["rT3", 32.67, 33, 31, 32, 31.6, "Competitive", "Two-step, one-separation", "Human serum", 20, "Chinese National\nReference Material (150552-0004)", "18 months", "28 days", "/", "0.05-10 ng/mL", "0.2-0.95 ng/mL", "/", 1], ["LN", 22.67, 23, 21, 22, 21.85, "Sandwich", "One-step, one-separation", "Human serum", 25, "Mindray Internal Standard", "18 months", "28 days", "3000 ng/mL", "5-800 ng/mL", "<133 ng/mL", "/", 1], ["HA", 33.33, 33, 31, 32, 31.6, "Competitive", "Two-step, one-separation", "Human serum", 100, "Mindray Internal Standard", "18 months", "28 days", "/", "5-2000 ng/mL", "<106 ng/mL", "/", 1], ["PIIINP", 22.67, 23, 21, 22, 21.85, "Sandwich", "One-step, one-separation", "Human serum", 5, "Mindray Internal Standard", "18 months", "28 days", "300 ng/mL", "1.5-100 ng/mL", "<17 ng/mL", "/", 1], ["CIV", 22.67, 23, 21, 22, 21.85, "Sandwich", "One-step, one-separation", "Human serum", 20, "Mindray Internal Standard", "18 months", "28 days", "3000 ng/mL", "5-1000 ng/mL", "<98 ng/mL", "/", 1], ["PCT", 17.67, 18, 16, 17, 16.85, "Sandwich", "One-step, one-separation", "Human serum and plasma (EDTA, sodium heparin and lithium heparin)", 25, "Mindray Internal Standard", "18 months", "28 days", "1000 ng/mL", "0.02-100 ng/mL", "<0.05 ng/mL\n(depends on the clinical use)", "/", 1], ["SCCA", 22.67, 23, 21, 22.25, 21.85, "Sandwich", "One-step, one-separation", "Human serum", 30, "Mindray Internal Standard", "18 months", "28 days", "10000 ng/mL", "0.1-70 ng/mL", "≤ 1.8 ng/mL", "/", 1], ["HE4", 22.67, 23, 21, 22.25, 21.85, "Sandwich", "One-step, one-separation", "Human serum", 5, "Mindray Internal Standard", "18 months", "56 days", "40000 pmol/L", "15-1500 pmol/L", "< 40 yr old: <60.53 pmol/L\n40-49 yr old: <76.33 pmol/L\n50-59 yr old: <74.31 pmol/L\n60-69 yr old: <83.26 pmol/L\n>70 yr old: 105.69 pmol/L", "/", 1], ["ProGRP", 22.67, 23, 21, 22.25, 21.85, "Sandwich", "One-step, one-separation", "Human serum", 20, "Mindray Internal Standard", "18 months", "28 days", "100000 pg/mL", "3-5000 pg/mL", "5th percentile: 25.23 pg/mL\n95th percentile: 67.42 pg/mL\n97.5th percentile: 78.62 pg/mL", "/", 1], ["CA50", 22.67, 23, 21, 22.25, 21.85, "Sandwich", "One-step, one-separation", "Human serum", 20, "Mindray Internal Standard", "18 months", "56 days", "10000 U/mL", "1.0-500 U/mL", "< 25 U/mL", "/", 1], ["CA242", 22.67, 23, 21, 22.25, 21.85, "Sandwich", "One-step, one-separation", "Human serum", 20, "Mindray Internal Standard", "18 months", "56 days", "10000 U/mL", "0.5-200 U/mL", "< 10 U/mL", "/", 1], ["Aldosterone", 43.33, 43, 41, 40.25, 41.85, "Competitive", "One-step, one-separation", "Human serum and plasma (EDTA)", 100, "Mindray Internal Standard", "18 months", "28 days", "/", "14.5-2000 pg/mL", "Upright (serum): 32-394 pg/mL\nSupine (serum): 30-228 pg/mL\nUpright (plasma): 31-351 pg/mL\nSupine (plasma): 29-240 pg/mL", "/", 1], ["Renin", 27.67, 28, 26, 27.25, 26.85, "Sandwich", "One-step, one-separation", "Plasma (EDTA)", 100, "WHO Reference Material IPR68/356", "18 months", "28 days", "3056 pg/mL", "0.5-500 pg/mL", "Upright: 2.8-28.5 pg/mL\nSupine: 1.8-24.5 pg/mL", "pg/mL x 1.67 = µIU/mL", 1], ["AMH", 22, 23, 21, 22, 23, "Sandwich", "One-step, one-separation", "Human serum or heparin plasma", 50, "Mindray Internal Standard", "18 months", "56 days", "1400 ng/mL", "0.01-23 ng/mL", "Health male\nAdult: 1.32-12.00\n\nHealth female (age)\n20-24: 1.58-10.34\n25-29: 1.25-9.54\n30-34: 0.65-8.05\n35-39: 0.53-6.93\n40-44: 0.09-5.80\n45-50; 0.01-3.52\nPCOS female: 2.3-18", "ng/mL x 7.14 =pmol/L", 1], ["nCoV NTAb", 43.04, 43.67, 40.77, 42.64, 42.77, "Competitive", "Two-step, one-separation", "Human serum  and plasma (heparin )", 10, "Mindray Internal Standard", "6 months", "14 days", "/", "2.0-400.0 AU/mL", "< 10 AU/mL", "/", 1], ["nCoV S-RBD", 28.37, 30.17, 25.44, 29.14, 28.9, "Sandwich", "Two-step, two-separation", "Human serum  and plasma (heparin )", 10, "Mindray Internal Standard", "6 months", "14 days", "/", "3.0-1000.0 AU/mL", "< 10 AU/mL", "/", 1], ["nCoV TAb", 27.04, 28.17, 25.77, 27.64, 27.9, "Sandwich", "One-step, one-separation", "Human serum  and plasma (heparin )", 10, "Mindray Internal Standard", "12 months", "14 days", "/", "3.0-2000.0 AU/mL", "<10 AU/mL", "/", 1], ["RV IgG", 29, 31, 27, 30, 30, "Sandwich", "Two-step, two-separation", "Human serum and plasma ( EDTA, sodium heparin, lithium heparin and sodium citrate)", 6, "WHO International Standard (RUBI-1-94)", "12 months", "28 days", "/", "0.17-350.00 IU/mL", "Non-reactive: <5.00 IU/ml\nIndeterminate: 5.00-10.00 IU/mL\nReactive:≥10.00 IU/ml", "/", 1], ["RV IgM", 29, 31, 27, 30, 30, "Sandwich", "Two-step, two-separation", "Human serum and plasma ( EDTA, sodium heparin, lithium heparin and sodium citrate)", 15, "Mindray Internal Standard", "12 months", "28 days", "/", "/", "Non-reactive: COI<0.80\nIndeterminate: 0.80≤COI＜1.00\nReactive: COI≥1.00", "/", 1], ["Toxo IgG", 29, 31, 27, 30, 30, "Sandwich", "Two-step, two-separation", "Human serum and plasma ( EDTA, sodium heparin, lithium heparin and sodium citrate)", 6, "WHO International Standard (01/600)", "12 months", "28 days", "/", "0.13-200.00 IU/mL", "Non-reactive: <1.60 IU/ml\nIndeterminate: 1.60-2.00 IU/mL\nReactive:≥2.00 IU/ml", "/", 1], ["Toxo IgM", 29, 31, 27, 30, 30, "Sandwich", "Two-step, two-separation", "Human serum and plasma ( EDTA, sodium heparin, lithium heparin and sodium citrate)", 8, "Mindray Internal Standard", "12 months", "28 days", "/", "/", "Non-reactive: COI<0.80\nIndeterminate: 0.80≤COI＜1.00\nReactive: COI≥1.00", "/", 1], ["CMV IgG", 29, 31, 26, 30, 30, "Sandwich", "Two-step, two-separation", "Human serum and plasma ( EDTA, sodium heparin, lithium heparin and sodium citrate)", 8, "WHO International Standard(136616/17)", "12 months", "28 days", "/", "0.15-60.00 IU/mL", "Non-reactive: <0.90 IU/ml\nIndeterminate: 0.90-1.10 IU/mL\nReactive:≥1.10 IU/ml", "/", 1], ["CMV IgM", 29, 31, 26, 30, 30, "Sandwich", "Two-step, two-separation", "Human serum and plasma ( EDTA, sodium heparin, lithium heparin and sodium citrate)", 10, "Mindray Internal Standard", "12 months", "28 days", "/", "/", "Non-reactive: COI<0.80\nIndeterminate: 0.80≤COI＜1.00\nReactive: COI≥1.00", "/", 1], ["IL-6", 17, 18, 16, 17, 18, "Sandwich", "One-step, one-separation", "Human serum and plasma (K2-EDTA, lithium heparin)", 30, "WHO 1st International Standard (89/548)", "18 months", "28 days", "2,000,000 pg/mL", "1.5-5,000 pg/mL", "＜7pg/mL", "/", 1], ["sCD14-ST", 17, 18, 16, 17, 18, "Sandwich", "One-step, one-separation", "Human serum and plasma (K2-EDTA, Na2-EDTA, sodium heparin,\nlithium heparin)", 50, "Mindray Internal Standard", "18 months", "28 days", "4,000,000 pg/mL", "20-20,000 pg/mL", "＜200pg/ml", "/", 1], ["hs-cTnI", 17.67, 18, 18, 17.75, 18, "Sandwich (multi-site, CLIA)", "One-step, one-separation", "Human serum and plasma (sodium heparin, lithium heparin)", 80, "Standardized against a commercial hs-cTnI assay (CLIA)", "12 months", "28 days", "1,000,000 ng/L", "2.4-25,000 ng/L", "99th percentile URL:\nOverall: 24.2 ng/L\nFemale: 15.3 ng/L\nMale: 31.3 ng/L", "1 ng/L x 0.001 = ng/mL\n1 ng/L x 0.001 = μg/L\n1 ng/L x 1 = pg/mL", 1]];
+/* key, label, short label for PDF, numeric, default-visible */
+var C=[
+ {i:0,l:'Assay',n:0,v:1,w:16},
+ {i:1,l:'CL-900i first result (min)',s:'CL-900i (min)',n:1,v:0,w:10},
+ {i:2,l:'CL-1000i first result (min)',s:'CL-1000i (min)',n:1,v:1,w:11},
+ {i:3,l:'CL-1200i first result (min)',s:'CL-1200i (min)',n:1,v:0,w:10},
+ {i:4,l:'CL-2000i first result (min)',s:'CL-2000i (min)',n:1,v:0,w:10},
+ {i:5,l:'CL-6000i first result (min)',s:'CL-6000i (min)',n:1,v:0,w:10},
+ {i:6,l:'Method',n:0,v:1,w:12},
+ {i:7,l:'Procedure',n:0,v:1,w:20},
+ {i:8,l:'Sample type',n:0,v:0,w:28},
+ {i:9,l:'Sample volume (µL)',s:'Sample (µL)',n:1,v:1,w:9},
+ {i:10,l:'Traceability',n:0,v:0,w:24},
+ {i:11,l:'Shelf life',n:0,v:0,w:10},
+ {i:12,l:'Onboard stability (2-8 °C)',s:'Onboard stability',n:0,v:1,w:11},
+ {i:13,l:'Hook effect',n:0,v:1,w:14},
+ {i:14,l:'Measuring range',n:0,v:1,w:18},
+ {i:15,l:'Reference range',n:0,v:1,w:26,mono:1},
+ {i:16,l:'Conversion',n:0,v:0,w:24,mono:1},
+ {i:17,l:'Cuvettes used',n:1,v:0,w:9},
+ {i:18,l:'Panel (video menu grouping)',s:'Panel',n:0,v:0,w:13}
+];
+var PAN={'Thyroid':['FT3','FT4','T3','T4','TSH','Anti-Tg','Anti-TPO','Tg'],'Infectious disease':['HIV','HBsAg','Anti-HBs','HBeAg','Anti-HBe','Anti-HBc','Anti-HCV','Anti-TP'],'Hormone':['Total βHCG','FSH','LH','PRL','E2','E3','TESTO','PROG','ACTH','DHEA-S','Cortisol'],'Metabolic (bone, anaemia)':['PTH','CT','VD','FERR','VB12','Folate','RBC Folate'],'Cardiac':['CK-MB','MYO','TnI','BNP'],'Tumor marker':['CEA','AFP','CA125','CA15-3','CA19-9','FPSA','t-PSA','NSE','CYFRA 21-1','CA72-4'],'Diabetes':['Insulin','C-Peptide']};
+var PH={'Thyroid':215,'Infectious disease':5,'Hormone':290,'Metabolic (bone, anaemia)':35,'Cardiac':335,'Tumor marker':85,'Diabetes':175};
+var MH={'Sandwich':195,'Sandwich (multi-site, CLIA)':195,'Competitive':25};
+var PRH={'One-step, one-separation':265,'Two-step, one-separation':45,'Two-step, two-separation':310,'Three-step, one-separation':0};
+var PM={};Object.keys(PAN).forEach(function(k){PAN[k].forEach(function(n){PM[n]=k})});
+DATA.forEach(function(r){r[18]=PM[r[0]]||'Other (not on video slide)'});
+function hue(i,v){return i===0?PH[PM[v]]:i===6?MH[v]:i===7?PRH[v]:i===18?PH[v]:undefined}
+function rgb(h,s,l){s/=100;l/=100;var k=function(n){return (n+h/30)%12},a=s*Math.min(l,1-l),f=function(n){return Math.round(255*(l-a*Math.max(-1,Math.min(k(n)-3,Math.min(9-k(n),1)))))};return [f(0),f(8),f(4)]}
+var MIT=['AFP','CEA','t-PSA','TSH','FT3','FT4','T3','T4','Total βHCG II','Anti-HBs','HIV','hs-cTnI'];
+var $=function(s){return document.querySelector(s)};
+var st={q:'',m:'',p:'',site:'',sort:[{i:0,d:1},null],scope:'all',vis:C.map(function(c){return !!c.v}),sel:{}};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function save(){try{localStorage.setItem('assayx',JSON.stringify({vis:st.vis}))}catch(e){}}
+try{var s0=JSON.parse(localStorage.getItem('assayx')||'null');if(s0&&s0.vis&&s0.vis.length===C.length)st.vis=s0.vis}catch(e){}
+
+/* option lists */
+function uniq(i){var o={};DATA.forEach(function(r){if(r[i]!=='')o[r[i]]=1});return Object.keys(o)}
+uniq(6).forEach(function(v){$('#fm').insertAdjacentHTML('beforeend','<option>'+esc(v)+'</option>')});
+uniq(7).forEach(function(v){$('#fp').insertAdjacentHTML('beforeend','<option>'+esc(v)+'</option>')});
+C.forEach(function(c){var o='<option value="'+c.i+'">'+esc(c.l)+'</option>';$('#s1').insertAdjacentHTML('beforeend',o);$('#s2').insertAdjacentHTML('beforeend',o)});
+$('#s1').value='0';
+$('#cols').innerHTML=C.map(function(c,k){return '<button type="button" class="chip" data-k="'+k+'" aria-pressed="'+st.vis[k]+'">'+esc(c.s||c.l)+'</button>'}).join('');
+
+$('#key').innerHTML='<span class="lab">Name colour = panel</span>'+Object.keys(PH).map(function(k){return '<span class="k"><i style="--h:'+PH[k]+'"></i>'+esc(k)+'</span>'}).join('')+'<span class="lab" style="margin-left:8px">Method</span>'+Object.keys(MH).slice(0,1).concat('Competitive').map(function(k){return '<span class="mt" style="--h:'+MH[k]+'">'+k+'</span>'}).join('')+'<span class="lab" style="margin-left:8px">Procedure</span>'+Object.keys(PRH).map(function(k){return '<span class="mt" style="--h:'+PRH[k]+'">'+k+'</span>'}).join('');
+/* data pipeline */
+var cmp=new Intl.Collator(undefined,{numeric:true,sensitivity:'base'});
+function rows(){
+  var t=st.q.trim().toLowerCase();
+  var r=DATA.filter(function(x){
+    if(st.site&&MIT.indexOf(x[0])<0)return false;
+    if(st.m&&x[6]!==st.m)return false;
+    if(st.p&&x[7]!==st.p)return false;
+    if(t&&String(x[0]).toLowerCase().indexOf(t)<0)return false;return true});
+  var keys=st.sort.filter(Boolean);
+  r.sort(function(a,b){for(var k=0;k<keys.length;k++){var i=keys[k].i,d=keys[k].d,u=a[i],v=b[i];
+      var ue=(u===''||u==null),ve=(v===''||v==null);if(ue||ve){if(ue&&ve)continue;return ue?1:-1}
+      var c=(typeof u==='number'&&typeof v==='number')?u-v:cmp.compare(String(u),String(v));
+      if(c)return c*d}return 0});
+  return r}
+function cols(){return C.filter(function(c,k){return st.vis[k]})}
+function exportRows(){var r=rows();if(st.scope==='sel')r=r.filter(function(x){return st.sel[x[0]]});return r}
+
+/* render */
+function render(){
+  var r=rows(),cs=cols();
+  $('#count').textContent=r.length+' of '+DATA.length+' assays';
+  var h='<tr><th class="ck nosort"><input type="checkbox" id="all" aria-label="Tick all shown rows"></th>';
+  cs.forEach(function(c){var ix=st.sort.findIndex(function(s){return s&&s.i===c.i});
+    var ar=ix<0?'':'<span class="ar">'+(st.sort[ix].d>0?'▲':'▼')+(st.sort[1]?(ix+1):'')+'</span>';
+    h+='<th class="'+(c.n?'n':'')+'" data-i="'+c.i+'" title="Click to sort">'+esc(c.s||c.l)+ar+'</th>'});
+  $('#th').innerHTML=h+'</tr>';
+  $('#tb').innerHTML=r.map(function(x){
+    var s=st.sel[x[0]];
+    return '<tr'+(s?' class="sel"':'')+'><td class="ck"><input type="checkbox" data-a="'+esc(x[0])+'"'+(s?' checked':'')+' aria-label="Tick '+esc(x[0])+'"></td>'+
+    cs.map(function(c){var v=x[c.i],h=hue(c.i,v),inner=v===''?'':esc(v);if(h!==undefined)inner=(c.i===0||c.i===18)?'<span class="pn" style="--h:'+h+'">'+inner+'</span>':'<span class="mt" style="--h:'+h+'">'+inner+'</span>';return '<td class="'+(c.n?'n ':'')+(c.mono?'mono ':'')+(c.i===0?'nm':'')+'">'+inner+'</td>'}).join('')+'</tr>'}).join('')||'<tr><td colspan="'+(cs.length+1)+'">No assay matches.</td></tr>';
+  var al=$('#all');if(al){var n=r.filter(function(x){return st.sel[x[0]]}).length;al.checked=r.length>0&&n===r.length;al.indeterminate=n>0&&n<r.length}
+  var ns=Object.keys(st.sel).filter(function(k){return st.sel[k]}).length;$('#nsel').textContent=ns;
+  $('#d1').textContent=st.sort[0]&&st.sort[0].d<0?'Z → A':'A → Z';
+  $('#d2').textContent=st.sort[1]&&st.sort[1].d<0?'Z → A':'A → Z';
+  var s1=st.sort[0]?st.sort[0].i:'';$('#s1').value=String(s1);$('#s2').value=st.sort[1]?String(st.sort[1].i):'';
+}
+function msg(t,err){var m=$('#msg');m.textContent=t;m.className=err?'err':'';}
+
+/* events */
+$('#q').addEventListener('input',function(e){st.q=e.target.value;render()});
+$('#fm').addEventListener('change',function(e){st.m=e.target.value;render()});
+$('#fp').addEventListener('change',function(e){st.p=e.target.value;render()});
+$('#site').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call($('#site').children,function(x){x.setAttribute('aria-pressed',x===b)});st.site=b.dataset.s;render()});
+$('#scope').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call($('#scope').children,function(x){x.setAttribute('aria-pressed',x===b)});st.scope=b.dataset.v});
+$('#reset').addEventListener('click',function(){st.q='';st.m='';st.p='';st.site='';st.sort=[{i:0,d:1},null];st.sel={};$('#q').value='';$('#fm').value='';$('#fp').value='';[].forEach.call($('#site').children,function(x,k){x.setAttribute('aria-pressed',k===0)});render();msg('')});
+$('#cols').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var k=+b.dataset.k;
+  if(st.vis[k]&&st.vis.filter(Boolean).length===1)return;st.vis[k]=!st.vis[k];b.setAttribute('aria-pressed',st.vis[k]);save();render()});
+$('#s1').addEventListener('change',function(e){st.sort[0]={i:+e.target.value,d:st.sort[0]?st.sort[0].d:1};render()});
+$('#s2').addEventListener('change',function(e){st.sort[1]=e.target.value===''?null:{i:+e.target.value,d:st.sort[1]?st.sort[1].d:1};render()});
+$('#d1').addEventListener('click',function(){if(st.sort[0])st.sort[0].d*=-1;render()});
+$('#d2').addEventListener('click',function(){if(st.sort[1])st.sort[1].d*=-1;render()});
+$('#th').addEventListener('click',function(e){
+  if(e.target.id==='all'){var r=rows();r.forEach(function(x){st.sel[x[0]]=e.target.checked});render();return}
+  var th=e.target.closest('th[data-i]');if(!th)return;var i=+th.dataset.i;
+  if(st.sort[0]&&st.sort[0].i===i)st.sort[0].d*=-1;else st.sort=[{i:i,d:1},st.sort[0]&&st.sort[0].i!==i?st.sort[0]:null];render()});
+$('#tb').addEventListener('change',function(e){var a=e.target.dataset.a;if(a===undefined)return;st.sel[a]=e.target.checked;render()});
+
+/* export helpers */
+function sortText(){return st.sort.filter(Boolean).map(function(s){return C[s.i].l+(s.d>0?' (A-Z / low-high)':' (Z-A / high-low)')}).join(', ')||'none'}
+function filterText(){var f=[];if(st.q)f.push('search "'+st.q+'"');if(st.m)f.push('method = '+st.m);if(st.p)f.push('procedure = '+st.p);if(st.site)f.push('Mitrapracha sheet only');if(st.scope==='sel')f.push('ticked rows only');return f.join('; ')||'none'}
+function stamp(){var d=new Date(),p=function(n){return String(n).padStart(2,'0')};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())}
+function need(){var r=exportRows();if(!r.length){msg(st.scope==='sel'?'Tick at least one row first, or choose "All rows shown".':'No rows to save.',1);return null}return r}
+var DL=null;
+function offer(name,data,label){
+  if(!DL){msg('Saving files is not available in this view. Use "Copy for pasting" and paste into Excel.',1);return}
+  DL.save({filename:name,data:data}).then(function(){msg(label+' saved.')},function(e){
+    if(e&&e.code==='declined')msg('Save cancelled.');else if(e&&e.code==='rate_limited')msg('A save prompt is already open. Answer it, then try again.',1);else msg('Could not save the file ('+(e&&e.code||'error')+').',1)})}
+
+$('#xl').addEventListener('click',function(){
+  var r=need();if(!r)return;if(!window.XLSX){msg('Excel library did not load. Check your connection and reload.',1);return}
+  var cs=cols(),aoa=[cs.map(function(c){return c.l})];
+  r.forEach(function(x){aoa.push(cs.map(function(c){var v=x[c.i];return v===''?null:v}))});
+  var ws=XLSX.utils.aoa_to_sheet(aoa);
+  ws['!cols']=cs.map(function(c){return {wch:Math.max(10,Math.min(40,c.w+2))}});
+  ws['!autofilter']={ref:XLSX.utils.encode_range({s:{r:0,c:0},e:{r:aoa.length-1,c:cs.length-1}})};
+  var info=XLSX.utils.aoa_to_sheet([['Assay Summary export'],['Source','Assay_summary-20250609_update_ToRCH.xlsx, sheet Summary'],['Exported',stamp()],['Rows',r.length],['Sorted by',sortText()],['Filters',filterText()],['Note','Values copied as printed in the workbook. Check the reagent insert and your lab\'s validated ranges before use.']]);
+  info['!cols']=[{wch:14},{wch:90}];
+  var wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Assays');XLSX.utils.book_append_sheet(wb,info,'Export info');
+  offer('assay-summary-'+stamp()+'.xlsx',XLSX.write(wb,{bookType:'xlsx',type:'array'}),'Excel file')});
+
+$('#pdf').addEventListener('click',function(){
+  var r=need();if(!r)return;if(!(window.jspdf&&window.jspdf.jsPDF)){msg('PDF library did not load. Check your connection and reload.',1);return}
+  var cs=cols(),doc=new window.jspdf.jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+  var tot=cs.reduce(function(a,c){return a+c.w},0),W=297-16,fs=cs.length>10?6.3:7.2;
+  doc.setFontSize(14);doc.text('Assay Summary',8,11);
+  doc.setFontSize(8);doc.setTextColor(90);
+  doc.text('Source: Assay_summary-20250609_update_ToRCH.xlsx · '+stamp()+' · '+r.length+' assays',8,15.5);
+  doc.text('Sorted by: '+sortText()+'   Filters: '+filterText(),8,19.5,{maxWidth:W});
+  var styles={};cs.forEach(function(c,k){styles[k]={cellWidth:W*c.w/tot,halign:c.n?'right':'left'}});
+  doc.autoTable({startY:23,margin:{left:8,right:8,bottom:12},head:[cs.map(function(c){return c.s||c.l})],
+    body:r.map(function(x){return cs.map(function(c){var v=x[c.i];return v===''?'':String(v)})}),
+    styles:{fontSize:fs,cellPadding:1.3,overflow:'linebreak',lineColor:[207,220,223],lineWidth:.1,textColor:[16,35,42]},
+    headStyles:{fillColor:[0,121,138],textColor:255,fontSize:fs+.4,halign:'left'},
+    columnStyles:styles,didParseCell:function(d){if(d.section!=='body')return;var c=cs[d.column.index],v=r[d.row.index][c.i],h=hue(c.i,v);if(h===undefined)return;d.cell.styles.textColor=rgb(h,75,32);d.cell.styles.fontStyle='bold';if(c.i===6||c.i===7)d.cell.styles.fillColor=rgb(h,80,92)},alternateRowStyles:{fillColor:[240,246,247]},
+    didDrawPage:function(d){doc.setFontSize(7);doc.setTextColor(110);doc.text('Check the reagent insert and your lab\'s validated ranges before use.   Page '+doc.internal.getNumberOfPages(),8,doc.internal.pageSize.getHeight()-5)}});
+  offer('assay-summary-'+stamp()+'.pdf',doc.output('arraybuffer'),'PDF')});
+
+function csvCell(v){v=String(v==null?'':v);return /[",\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
+$('#csv').addEventListener('click',function(){var r=need();if(!r)return;var cs=cols();
+  var t=[cs.map(function(c){return csvCell(c.l)}).join(',')].concat(r.map(function(x){return cs.map(function(c){return csvCell(x[c.i])}).join(',')})).join('\r\n');
+  offer('assay-summary-'+stamp()+'.csv','﻿'+t,'CSV file')});
+$('#copy').addEventListener('click',function(){var r=need();if(!r)return;var cs=cols();
+  var t=[cs.map(function(c){return c.l}).join('\t')].concat(r.map(function(x){return cs.map(function(c){return String(x[c.i]).replace(/[\t\r\n]+/g,' | ')}).join('\t')})).join('\n');
+  var ok=function(){msg('Copied '+r.length+' rows. Paste into Excel or Sheets.')};
+  var fb=function(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();var g=false;try{g=document.execCommand('copy')}catch(e){}document.body.removeChild(ta);g?ok():msg('Copy was blocked here. Use the Excel or CSV buttons.',1)};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,fb);else fb()});
+
+render();
+(window.claude&&window.claude.use?window.claude.use('downloads'):Promise.resolve(null)).then(function(d){DL=d;if(!d)msg('File saving is not available in this view; "Copy for pasting" still works.',1)},function(){DL=null});
+})();
+</script>
+
+</body></html>
