@@ -137,6 +137,8 @@ footer{padding:34px 0 60px;font-size:.85rem;color:var(--muted)}
 .atbl{table-layout:fixed;font-size:.78rem}
 .atbl th,.atbl td{padding:6px 5px;overflow-wrap:anywhere}
 .atbl th{font-size:.9rem;letter-spacing:0;text-transform:none;overflow-wrap:normal}
+.atbl td:nth-child(3) .mt{white-space:nowrap}
+.atbl th.n{font-size:.8rem;overflow-wrap:anywhere}
 .atbl .mt{white-space:normal;font-size:.72rem;padding:1px 7px;line-height:1.35}
 .atbl .rr{min-width:0;font-size:.72rem}
 @media(max-width:700px){.atbl{table-layout:auto;min-width:760px}}
@@ -869,11 +871,11 @@ footer{padding:34px 0 60px;font-size:.85rem;color:var(--muted)}
   <span class="res" id="acount"></span>
 </div>
 <div class="row" id="aLeg" style="gap:8px;margin-top:8px" aria-label="Panel colours"></div>
-<div class="tbl" style="margin-top:10px;max-height:620px;overflow:auto"><table class="atbl"><colgroup><col style="width:9%"><col style="width:7%"><col style="width:9%"><col style="width:15%"><col style="width:7%"><col style="width:9%"><col style="width:14%"><col style="width:18%"><col style="width:12%"></colgroup>
-  <thead><tr><th>Assay</th><th class="n">First result (min)</th><th>Method</th><th>Procedure</th><th class="n">Sample (µL)</th><th>Onboard stability</th><th>Measuring range</th><th class="rr" style="font-family:inherit;font-size:inherit">Reference range</th><th>Hook effect (up to)</th></tr></thead>
+<div class="tbl" style="margin-top:10px;max-height:620px;overflow:auto"><table class="atbl"><colgroup><col style="width:9%"><col style="width:6%"><col style="width:9%"><col style="width:11%"><col style="width:6%"><col style="width:7%"><col style="width:10%"><col style="width:13%"><col style="width:8%"><col style="width:7%"><col style="width:7%"><col style="width:7%"></colgroup>
+  <thead><tr><th>Assay</th><th class="n">First result (min)</th><th>Method</th><th>Procedure</th><th class="n">Sample (µL)</th><th>Onboard stability</th><th>Measuring range</th><th class="rr" style="font-family:inherit;font-size:inherit">Reference range</th><th>Hook effect (up to)</th><th class="n">Min µL 0.5 mL Beckman</th><th class="n">Min µL 2 mL Beckman</th><th class="n">Min µL 2 mL Hitachi</th></tr></thead>
   <tbody id="atb"></tbody></table></div>
 <div class="grid g3" style="margin-top:14px" id="aSum"></div>
-<p class="src">Source: Assay_summary-20250609_update_ToRCH.xlsx, sheet "Summary" (columns Method, Procedure, Sample volume, Onboard stability, Measuring range, <b>Referece range</b> [spelled so in the file], Hook effect). Test-name colour = panel as grouped on the promotional video slide (video 2:20); assays not on that slide are grey. Reference ranges are copied as printed in the workbook: check the reagent insert and your own lab's validated range before use. The "Mitrapracha" button filters to the 12 assays on the workbook sheet named มิตรประชา: AFP, CEA, t-PSA, TSH, FT3, FT4, T3, T4, Total βHCG II, Anti-HBs, HIV, hs-cTnI. The sheet อาชีวะ lists the CL-2000i first-result times for the full menu.</p>
+<p class="src">Source: Assay_summary-20250609_update_ToRCH.xlsx, sheet "Summary" (columns Method, Procedure, Sample volume, Onboard stability, Measuring range, <b>Referece range</b> [spelled so in the file], Hook effect). Test-name colour = panel as grouped on the promotional video slide (video 2:20); assays not on that slide are grey. Min vol columns = sample volume + 5 µL excess aspiration + container dead volume (CL-1000i Operation manual, Table 1.2; the dead volume is 50 / 150 / 100 µL at 50 µL or less and 50 / 350 / 250 µL above 50 µL for the 0.5 mL Beckman, 2 mL Beckman and 2 mL Hitachi microtubes; the manual does not say whether the 5 µL counts towards the 50 µL limit, so the defined sample volume is used; primary tubes are not listed because the manual gives a liquid height of at least 8 mm above the bottom, not a volume). Reference ranges are copied as printed in the workbook: check the reagent insert and your own lab's validated range before use. The "Mitrapracha" button filters to the 12 assays on the workbook sheet named มิตรประชา: AFP, CEA, t-PSA, TSH, FT3, FT4, T3, T4, Total βHCG II, Anti-HBs, HIV, hs-cTnI. The sheet อาชีวะ lists the CL-2000i first-result times for the full menu.</p>
 <div class="grid g2" style="margin-top:14px">
   <figure data-zoom><img src="img/vid14.jpg" alt="Assay menu of 50 immunoassays"><figcaption>Assay menu by panel as shown in the promotional video. <i>CL-1000i promotional video, 2:20</i></figcaption></figure>
   <figure data-zoom><img src="img/prod12.jpg" alt="Mixing system slide"><figcaption>Vortex mixing: the eccentric seat shakes the cuvette bottom; its speed is monitored. <i>SD-APP-35 Product PPT, slide 12</i></figcaption></figure>
@@ -1440,11 +1442,12 @@ var ASSAYS=[["AFP", 19.5, "Sandwich", "One-step, one-separation", "15", "56 days
   Object.keys(ps).forEach(function(k){p.insertAdjacentHTML('beforeend','<option>'+esc(k)+'</option>')});
   Object.keys(pc).forEach(function(k){pn.insertAdjacentHTML('beforeend','<option>'+esc(k)+'</option>')});
   $('#aLeg').innerHTML=Object.keys(pc).map(function(k){var h=hue(k);return '<span class="chip"'+(h===null?'':' style="--h:'+h+'"')+'><i'+(h===null?' style="background:var(--muted)"':'')+'></i>'+esc(k)+' · '+pc[k]+'</span>'}).join('')+Object.keys(MH).slice(0,1).concat(['Competitive']).map(function(k){return '<span class="chip"><span class="mt" style="--h:'+MH[k]+'">'+k+'</span></span>'}).join('')+Object.keys(PH).map(function(k){return '<span class="chip"><span class="mt" style="--h:'+PH[k]+'">'+k+'</span></span>'}).join('')+'<span class="chip"><b class="rr" style="min-width:0">Reference range</b></span>';
+  function mv(s,k){var v=parseFloat(s);if(isNaN(v))return '-';var D=[[50,50],[150,350],[100,250]][k];return v+5+(v<=50?D[0]:D[1])}
   function d(){var t=q.value.trim().toLowerCase(),n=0,h='';
     ASSAYS.forEach(function(a){if(site&&MIT.indexOf(a[0])<0)return;if(m.value&&a[2]!==m.value)return;if(p.value&&a[3]!==p.value)return;if(pn.value&&a[9]!==pn.value)return;if(t&&a[0].toLowerCase().indexOf(t)<0)return;n++;
       var hh=hue(a[9]);
-      h+='<tr><td><b class="pn"'+(hh===null?' style="color:var(--muted)"':' style="--h:'+hh+'"')+'>'+esc(a[0])+'</b></td><td class="n">'+a[1]+'</td><td>'+tag(a[2],MH)+'</td><td>'+tag(a[3],PH)+'</td><td class="n">'+esc(a[4])+'</td><td>'+esc(a[5])+'</td><td>'+esc(a[6])+'</td><td class="rr">'+(a[8]?esc(a[8]).replace(/ \| /g,'<br>'):'-')+'</td><td>'+esc(a[7])+'</td></tr>'});
-    tb.innerHTML=h||'<tr><td colspan="9">No match.</td></tr>';$('#acount').textContent=n+' shown'}
+      h+='<tr><td><b class="pn"'+(hh===null?' style="color:var(--muted)"':' style="--h:'+hh+'"')+'>'+esc(a[0])+'</b></td><td class="n">'+a[1]+'</td><td>'+tag(a[2],MH)+'</td><td>'+tag(a[3],PH)+'</td><td class="n">'+esc(a[4])+'</td><td>'+esc(a[5])+'</td><td>'+esc(a[6])+'</td><td class="rr">'+(a[8]?esc(a[8]).replace(/ \| /g,'<br>'):'-')+'</td><td>'+esc(a[7])+'</td><td class="n">'+mv(a[4],0)+'</td><td class="n">'+mv(a[4],1)+'</td><td class="n">'+mv(a[4],2)+'</td></tr>'});
+    tb.innerHTML=h||'<tr><td colspan="12">No match.</td></tr>';$('#acount').textContent=n+' shown'}
   [q,m,p,pn].forEach(function(x){x.addEventListener('input',d)});
   $('#asite').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;$$('button',$('#asite')).forEach(function(x){x.setAttribute('aria-pressed',x===b)});site=b.dataset.s;d()});
   d();
