@@ -38,7 +38,7 @@ button:hover{background:var(--surface2)}
 table{border-collapse:collapse;width:100%;font-size:.8rem}
 th,td{padding:6px 7px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;overflow-wrap:break-word}
 th,td:first-child{min-width:5.5em}td.ck{min-width:0}
-th{position:sticky;top:0;background:var(--surface2);font-family:var(--fd);font-size:.95rem;letter-spacing:.03em;font-weight:600;cursor:pointer;user-select:none;z-index:1;white-space:nowrap}
+th{position:sticky;top:0;background:var(--surface2);font-family:var(--fd);font-size:.95rem;letter-spacing:.03em;font-weight:600;cursor:pointer;user-select:none;z-index:1;white-space:normal;line-height:1.1}
 th:hover{background:var(--glow)}
 th .ar{color:var(--accent);margin-left:3px}
 th.nosort{cursor:default}
@@ -130,6 +130,7 @@ var PH={'Thyroid':215,'Infectious disease':5,'Hormone':290,'Metabolic (bone, ana
 var MH={'Sandwich':195,'Sandwich (multi-site, CLIA)':195,'Competitive':25};
 var PRH={'One-step, one-separation':265,'Two-step, one-separation':45,'Two-step, two-separation':310,'Three-step, one-separation':0};
 var PM={};Object.keys(PAN).forEach(function(k){PAN[k].forEach(function(n){PM[n]=k})});
+DATA.forEach(function(r){var v=parseFloat(r[9]);r[9]=isNaN(v)?'':v});
 DATA.forEach(function(r){r[18]=PM[r[0]]||'Other (not on video slide)'});
 function hue(i,v){return i===0?PH[PM[v]]:i===6?MH[v]:i===7?PRH[v]:i===18?PH[v]:undefined}
 function rgb(h,s,l){s/=100;l/=100;var k=function(n){return (n+h/30)%12},a=s*Math.min(l,1-l),f=function(n){return Math.round(255*(l-a*Math.max(-1,Math.min(k(n)-3,Math.min(9-k(n),1)))))};return [f(0),f(8),f(4)]}
