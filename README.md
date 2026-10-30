@@ -137,6 +137,7 @@ wuttachai49.github.io/
 | **EU Series Re-exam Rules** | [re-exam-rule-eu-series.html](https://wuttachai49.github.io/re-exam-rule-eu-series.html) |
 | **BC-6000 Second Analyzer Guide** | [bc6000-second-analyzer-guide.html](https://wuttachai49.github.io/bc6000-second-analyzer-guide.html) |
 | **MT8000 TLA guide** | [mt8000-tla-guide/](https://wuttachai49.github.io/mt8000-tla-guide/) |
+| **CL1000i detail** | [cl1000i-detail/](https://wuttachai49.github.io/cl1000i-detail/) |
 
 ---
 

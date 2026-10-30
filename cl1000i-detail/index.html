@@ -1,0 +1,1458 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>CL-1000i Training Handbook</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout concept: an instrument service manual. Sticky chapter rail, wide reading column, figures with source tags. Photon-teal accent only where signal or action lives. */
+:root{
+  --bg:#f2f5f6; --surface:#ffffff; --surface2:#e9eff1; --ink:#12222b; --muted:#566872; --line:#d0dce1;
+  --accent:#007a8c; --accent-ink:#ffffff; --glow:#dff3f6; --warn:#a4520a; --warn-bg:#fcefd9; --bad:#b42318; --bad-bg:#fde7e4; --good:#16773f; --good-bg:#def3e6;
+  --fd:'Barlow Condensed','Arial Narrow',sans-serif; --fb:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif; --fm:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0b1a20; --surface:#112630; --surface2:#17313c; --ink:#e4eef1; --muted:#95aab4; --line:#27424e;
+  --accent:#43c9db; --accent-ink:#06222a; --glow:#12353f; --warn:#f0b04f; --warn-bg:#3a2a10; --bad:#ff8a7d; --bad-bg:#3d1a17; --good:#66d391; --good-bg:#12331f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0b1a20; --surface:#112630; --surface2:#17313c; --ink:#e4eef1; --muted:#95aab4; --line:#27424e;
+  --accent:#43c9db; --accent-ink:#06222a; --glow:#12353f; --warn:#f0b04f; --warn-bg:#3a2a10; --bad:#ff8a7d; --bad-bg:#3d1a17; --good:#66d391; --good-bg:#12331f; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{background:var(--bg);color:var(--ink);font-family:var(--fb);font-size:15px;line-height:1.6;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.wrap{max-width:1080px;margin:0 auto}
+h1,h2,h3,h4{font-family:var(--fd);font-weight:600;line-height:1.1;margin:0;text-wrap:balance;letter-spacing:.01em}
+h1{font-size:clamp(2.4rem,7vw,4.2rem);font-weight:700}
+h2{font-size:clamp(1.9rem,4.5vw,2.7rem)}
+h3{font-size:1.45rem;margin-bottom:.4rem}
+h4{font-size:1.1rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;margin-bottom:.35rem}
+p{margin:.45rem 0;max-width:72ch}
+a{color:var(--accent)}
+code,.mono{font-family:var(--fm);font-size:.88em}
+code{background:var(--surface2);padding:.08em .35em;border-radius:3px}
+/* header */
+.hero{padding:44px 0 26px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{font-family:var(--fm);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.hero p.lead{font-size:1.1rem;color:var(--muted);margin-top:14px}
+.specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:26px}
+.specs div{background:var(--surface);padding:12px 14px}
+.specs b{display:block;font-family:var(--fd);font-size:1.9rem;line-height:1;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums}
+.specs span{font-size:.82rem;color:var(--muted)}
+.rule{background:var(--warn-bg);color:var(--ink);border:1px solid var(--warn);padding:10px 14px;margin-top:20px;font-size:.9rem}
+/* nav */
+nav.rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line);margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px)));padding:0 max(16px,env(safe-area-inset-left,0px))}
+nav.rail ul{display:flex;gap:4px;list-style:none;margin:0 auto;padding:6px 0;overflow-x:auto;max-width:1080px;scrollbar-width:thin}
+nav.rail a{display:block;white-space:nowrap;text-decoration:none;color:var(--muted);font-family:var(--fd);font-size:1.12rem;font-weight:600;padding:5px 12px;border-bottom:3px solid transparent;letter-spacing:.03em}
+nav.rail a.on{color:var(--ink);border-color:var(--accent)}
+nav.rail a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* sections */
+section.ch{padding:48px 0 12px;border-bottom:1px solid var(--line)}
+section.ch>.wrap>header{margin-bottom:20px}
+.kick{font-family:var(--fm);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}
+.card{background:var(--surface);border:1px solid var(--line);padding:16px 18px;min-width:0}
+.card.flat{background:transparent}
+.card h3{margin-top:0}
+ul.b{margin:.4rem 0;padding-left:1.15rem}
+ul.b li{margin:.22rem 0}
+ol.b{margin:.4rem 0;padding-left:1.3rem}
+ol.b li{margin:.25rem 0}
+.tag{display:inline-block;font-family:var(--fm);font-size:.68rem;letter-spacing:.04em;padding:1px 7px;border:1px solid var(--line);color:var(--muted);border-radius:2px;margin-left:6px;vertical-align:middle;white-space:nowrap}
+.src{font-family:var(--fm);font-size:.72rem;color:var(--muted);margin-top:8px}
+.callout{border:1px solid var(--line);border-left:4px solid var(--accent);background:var(--glow);padding:10px 14px;margin:14px 0;font-size:.92rem}
+.callout.warn{border-left-color:var(--warn);background:var(--warn-bg)}
+.callout.bad{border-left-color:var(--bad);background:var(--bad-bg)}
+.callout b.t{font-family:var(--fd);font-size:1.05rem;letter-spacing:.06em;text-transform:uppercase}
+figure{margin:0;min-width:0}
+figure img{display:block;width:100%;height:auto;border:1px solid var(--line);background:#fff;cursor:zoom-in}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:5px}
+figcaption i{font-style:normal;font-family:var(--fm);font-size:.72rem}
+.svgfig svg{width:100%;height:auto;display:block;background:var(--surface);border:1px solid var(--line)}
+.tbl{overflow-x:auto;border:1px solid var(--line);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-family:var(--fd);font-size:1rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;background:var(--surface2);position:sticky;top:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--fm)}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;font-family:var(--fm);font-size:.72rem;padding:1px 8px;border-radius:10px;border:1px solid currentColor}
+.pill.ok{color:var(--good)}.pill.wa{color:var(--warn)}.pill.er{color:var(--bad)}
+/* controls */
+.seg{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line);width:max-content;max-width:100%;margin:8px 0 12px}
+.seg button{font:inherit;font-size:.88rem;background:var(--surface);color:var(--ink);border:0;border-right:1px solid var(--line);padding:7px 14px;cursor:pointer}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.btn{font:inherit;font-size:.88rem;background:var(--accent);color:var(--accent-ink);border:0;padding:7px 14px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+input[type=search],input[type=text],input[type=number],select,textarea{font:inherit;font-size:.9rem;background:var(--surface);color:var(--ink);border:1px solid var(--line);padding:7px 10px;min-width:0;max-width:100%}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.stepper{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.stepper button{font:inherit;font-size:.82rem;background:var(--surface);color:var(--ink);border:1px solid var(--line);padding:5px 10px;cursor:pointer}
+.stepper button[aria-pressed="true"]{border-color:var(--accent);background:var(--glow);font-weight:600}
+.timeline{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:6px 0 14px}
+.ev{padding:6px 10px;border:1px solid var(--line);background:var(--surface);font-size:.82rem;display:flex;gap:6px;align-items:center}
+.ev.add{border-left:4px solid var(--accent)}
+.ev.inc{border-left:4px solid var(--warn)}
+.ev.wash{border-left:4px solid var(--good)}
+.ev.read{border-left:4px solid var(--ink);background:var(--glow)}
+.ev .arrow{color:var(--muted)}
+.check{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px dashed var(--line)}
+.check:last-child{border-bottom:0}
+.check input{margin-top:5px;accent-color:var(--accent);width:17px;height:17px;flex:none}
+.prog{height:6px;background:var(--surface2);margin:6px 0 10px}
+.prog i{display:block;height:100%;background:var(--accent);width:0;transition:width .2s}
+details{border:1px solid var(--line);background:var(--surface);margin:8px 0}
+details>summary{cursor:pointer;padding:9px 14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+details>summary::after{content:"+";font-family:var(--fm);color:var(--accent)}
+details[open]>summary::after{content:"–"}
+details>div{padding:4px 16px 14px}
+.dlg{position:fixed;inset:0;background:rgba(5,15,20,.88);z-index:50;display:none;align-items:center;justify-content:center;padding:20px}
+.dlg.on{display:flex}
+.dlg img{max-width:100%;max-height:92vh;background:#fff}
+.dlg button{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px))}
+footer{padding:34px 0 60px;font-size:.85rem;color:var(--muted)}
+.res{font-family:var(--fm);font-size:.9rem}
+.res b{font-weight:500}
+.ok-t{color:var(--good)}.bad-t{color:var(--bad)}
+@media (max-width:560px){.hero{padding-top:30px}th,td{padding:6px 8px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.prog i{transition:none}}
+
+.pn{color:color-mix(in srgb,hsl(var(--h) 80% 46%) 70%,var(--ink));font-weight:600}
+.rr{color:color-mix(in srgb,hsl(150 70% 38%) 70%,var(--ink));font-family:var(--fm);font-size:.78rem;min-width:11em;white-space:normal}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;padding:2px 10px;border-radius:12px;border:1px solid var(--line);background:var(--surface)}
+.chip i{width:10px;height:10px;border-radius:50%;background:hsl(var(--h) 75% 50%);display:inline-block}
+.cmp th{border-top:4px solid var(--line);vertical-align:bottom}
+.cmp td:first-child{font-weight:600;white-space:nowrap}
+.cmp .c-sa,.cmp .c-m1{border-top-color:hsl(195 75% 45%)}.cmp .c-co,.cmp .c-m2{border-top-color:hsl(25 85% 52%)}.cmp .c-m3{border-top-color:hsl(290 55% 55%)}
+.cmp td:nth-child(2){background:color-mix(in srgb,hsl(195 75% 50%) 9%,transparent)}
+.cmp td:nth-child(3){background:color-mix(in srgb,hsl(25 85% 52%) 9%,transparent)}
+.cmp td:nth-child(4){background:color-mix(in srgb,hsl(290 55% 55%) 9%,transparent)}
+.mt{display:inline-block;padding:1px 9px;border-radius:10px;font-size:.78rem;font-weight:600;white-space:nowrap;background:color-mix(in srgb,hsl(var(--h) 80% 52%) 18%,transparent);color:color-mix(in srgb,hsl(var(--h) 80% 42%) 65%,var(--ink));border:1px solid color-mix(in srgb,hsl(var(--h) 80% 50%) 45%,transparent)}
+.symt tbody tr{cursor:pointer}.symt tbody tr:hover td{background:var(--surface2)}
+.symt tbody tr[aria-selected="true"] td{background:var(--glow);font-weight:600}
+.symt tbody tr[aria-selected="true"] td:first-child{box-shadow:inset 4px 0 0 var(--accent)}
+.symt td:first-child{font-family:var(--fm);color:var(--muted);width:2.5em}
+.atbl{table-layout:fixed;font-size:.78rem}
+.atbl th,.atbl td{padding:6px 5px;overflow-wrap:anywhere}
+.atbl th{font-size:.9rem;letter-spacing:0;text-transform:none;overflow-wrap:normal}
+.atbl .mt{white-space:normal;font-size:.72rem;padding:1px 7px;line-height:1.35}
+.atbl .rr{min-width:0;font-size:.72rem}
+@media(max-width:700px){.atbl{table-layout:auto;min-width:760px}}
+</style>
+<div class="wrap">
+<header class="hero">
+  <div class="eyebrow">Mindray CL-1000i · Chemiluminescence Immunoassay Analyzer</div>
+  <h1>CL-1000i training handbook for application specialists</h1>
+  <p class="lead">How the analyzer measures, how a sample moves through it, how to install and verify it, how to train users, and how to troubleshoot. Everything here comes from the CL-1000i Operation manual, the CL1000i-TH manual, the Mindray product, application, precaution and maintenance decks, the training deck, the promotional video, the two validation reports, the IQOQ form and the assay summary you supplied.</p>
+  <div class="specs">
+    <div><b>120</b><span>tests per hour</span></div>
+    <div><b>25</b><span>reagent positions, 2–8 °C</span></div>
+    <div><b>60</b><span>samples: 6 lanes × 10 positions</span></div>
+    <div><b>37±0.3 °C</b><span>reaction disk, 3 rings × 25 = 75</span></div>
+    <div><b>4</b><span>magnetic separation (dispersion) steps</span></div>
+    <div><b>10–200 µL</b><span>sample, 1 µL steps (reagent 20–200 µL)</span></div>
+  </div>
+  <div class="rule"><b>Source rule applied.</b> No outside knowledge was added. Where two of your files disagree, the page shows both values and marks them <span class="pill wa">check</span>. Tap any picture to enlarge it. Figures are cropped from your files; the tag under each names the file.</div>
+</header>
+
+<nav class="rail" aria-label="Chapters"><ul>
+  <li><a href="#system">1 System</a></li>
+  <li><a href="#principle">2 Principle</a></li>
+  <li><a href="#workflow">3 Workflow</a></li>
+  <li><a href="#install">4 Installation</a></li>
+  <li><a href="#verify">5 IQOQ &amp; verification</a></li>
+  <li><a href="#operate">6 Daily use &amp; user training</a></li>
+  <li><a href="#maint">7 Maintenance</a></li>
+  <li><a href="#trouble">8 Troubleshooting</a></li>
+  <li><a href="#assays">9 Assay menu</a></li>
+</ul></nav>
+
+<!-- ============ 1 SYSTEM ============ -->
+<section class="ch" id="system"><div class="wrap">
+<header><div class="kick">Chapter 1</div><h2>The system and its modules</h2>
+<p>One analyzing unit, an operation unit (computer with the operating software), a printer and the consumables. It is a closed system: reagents, calibrators and controls carry 2D barcodes that load their data.</p></header>
+
+<div class="grid g2">
+  <figure data-zoom><img src="img/vid3.jpg" alt="CL-1000i with the headline numbers 120 tests per hour, 25 reagent positions, 60 samples"><figcaption>Headline features. <i>CL-1000i promotional video, 0:20</i></figcaption></figure>
+  <figure data-zoom><img src="img/prod3.jpg" alt="Labelled cut-away of the analyzer"><figcaption>Cut-away with module names: reaction disk, magnetic separation disk, sample probe assembly, sample syringe, reagent carousel, cuvette tray, waste bin, substrate bottle. <i>SD-APP-35 Product PPT, slide 3</i></figcaption></figure>
+</div>
+
+<h3 style="margin-top:26px">Tap a module</h3>
+<div class="seg" id="modSeg" role="group" aria-label="Module"></div>
+<div class="grid g2" id="modOut" aria-live="polite"></div>
+
+<h3 style="margin-top:28px">Status lights and what they mean</h3>
+<div class="grid g2">
+  <div class="tbl"><table>
+    <thead><tr><th>Unit</th><th>Off</th><th>On</th><th>Flashing</th></tr></thead>
+    <tbody>
+      <tr><td>Sample lanes (6)</td><td>Lane empty</td><td>Green: rack placed, test not started. Yellow: testing</td><td>Green flash: test done, rack waiting to be removed. Yellow flash: calibration requested but no calibrator on the rack</td></tr>
+      <tr><td>Reagent carousel (1)</td><td>Not in use</td><td>In use</td><td>Lid open</td></tr>
+      <tr><td>Reaction cuvette (2)</td><td>Not in use and not empty</td><td>In use</td><td>Cuvette box empty</td></tr>
+      <tr><td>Waste bin (1)</td><td>Not in use and not full</td><td>In use</td><td>Waste bin full</td></tr>
+      <tr><td>Substrate (2)</td><td>Not in use and not empty</td><td>In use</td><td>Substrate empty</td></tr>
+    </tbody></table></div>
+  <figure data-zoom><img src="img/prod18.jpg" alt="Indicator table slide"><figcaption>Indicators and button functions: reagent button rotates the carousel, waste button clears the count, substrate button loads. <i>SD-APP-35 Product PPT, slide 18</i></figcaption></figure>
+</div>
+<div class="callout warn"><b class="t">Substrate light detail (CL1000i-TH manual)</b> With both substrate positions enabled: steady = bottle in use, do not change; flashing = expired or empty, change it; off = full and on standby for switching. With one position: off = unloaded.</div>
+<p class="src">Sources: SD-APP-35 Product PPT slides 3–18 · SD-APP-36 Application guide p4–6, 20 · CL1000i-TH manual pp. 4–14 · CL-1000i Operation manual ch.1</p>
+<p class="src" style="margin-top:22px"><b>Files behind this chapter:</b> CL-1000i Operation manual ch.1 (specifications, Table 1.2 sample containers) · SD-APP-35 Product PPT slides 3–18 (modules) · CL-1000i promotional video (frames noted on each figure)</p>
+</div></section>
+
+<!-- ============ 2 PRINCIPLE ============ -->
+<section class="ch" id="principle"><div class="wrap">
+<header><div class="kick">Chapter 2</div><h2>Measurement principle</h2>
+<p>The analyzer uses two immunoassay formats. <b>Sandwich</b> is for large molecules such as HCG and anti-HBc. <b>Competitive</b> is for small molecules such as FT4 and E2. Both use antibody-coated magnetic beads, an enzyme label, washing by magnetic separation, then a luminescence substrate read by the photometer.</p></header>
+
+<div class="grid g2" style="align-items:start">
+  <div>
+    <div class="seg" id="fmtSeg" role="group" aria-label="Assay format">
+      <button type="button" aria-pressed="true" data-f="sand">Sandwich</button>
+      <button type="button" aria-pressed="false" data-f="comp">Competitive</button>
+    </div>
+    <div class="stepper" id="stageBtns" role="group" aria-label="Reaction stage"></div>
+    <div class="svgfig"><svg id="reaction" viewBox="0 0 640 330" role="img" aria-label="Animated schematic of the reaction in one cuvette, stage by stage"></svg></div>
+    <p id="stageText" aria-live="polite" style="margin-top:10px"></p>
+    <p class="src">Graphic drawn from: CL-1000i Operation manual §4.1 (Fig 4.1, 4.2: bead, sample, label, 37 °C incubation, dispersion) · SD-APP-35 Product PPT slides 13–15 (separation, substrate, photometer)</p>
+  </div>
+  <div>
+    <div class="card">
+      <h3>Read the result the right way round</h3>
+      <ul class="b">
+        <li><b>Sandwich:</b> more analyte in the sample binds more labelled antibody on the bead, so <b>more light</b>. Calibrator signals must rise with concentration.</li>
+        <li><b>Competitive:</b> sample analyte and labelled antigen compete for the same bead antibody, so more analyte gives <b>less light</b>. Calibrator signals must fall with concentration.</li>
+        <li>This is exactly what the <code>MON</code> flag checks: "ascending sequence of sandwich method and descending sequence of competitive method". Calibrators loaded in the wrong order trigger it.</li>
+      </ul>
+      <p class="src">CL-1000i Operation manual §4.1, §16.4 (MON)</p>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h3>What the signal is</h3>
+      <p>The photometer counts photons (CPS). The reaction principle is listed as <b>AMPPD-ALP</b>; the substrate is the "AMPPD" bottle, which is colloidal and must reach room temperature for at least 6 hours before use. The Effect check reads three blank cuvettes and the result must fall between 2500 and 6500 RLU (see chapter 8).</p>
+      <p class="src">SD-APP-36 Application guide p4, p27 · SD-APP-38 Maintenance PPT slide 16</p>
+    </div>
+  </div>
+</div>
+
+<div class="grid g2" style="margin-top:20px">
+  <figure data-zoom><img src="img/man150.jpg" alt="Manual figure 4.1 double-antibody sandwich method"><figcaption>Sandwich: antibody-coated beads + sample + enzyme-labelled antibody, 37 °C incubation, dispersion. <i>CL-1000i Operation manual, Fig 4.1</i></figcaption></figure>
+  <figure data-zoom><img src="img/man151.jpg" alt="Manual figure 4.2 competitive method"><figcaption>Competitive: antibody-coated beads + sample + enzyme-labelled antigen at the same time. The manual prints this caption as "Double-Antigen Sandwich Method"; the text above it describes the competitive method. <i>CL-1000i Operation manual, Fig 4.2</i></figcaption></figure>
+</div>
+
+<h3 style="margin-top:30px">Compare the two principles</h3>
+<div class="tbl cmp"><table>
+<thead><tr><th>Item</th><th class="c-sa">Sandwich (double antibody)</th><th class="c-co">Competitive</th></tr></thead>
+<tbody>
+<tr><td>Suited to</td><td>Large molecules, e.g. HCG, anti-HBc (manual text)</td><td>Small molecules, e.g. FT4, E2 (manual text)</td></tr>
+<tr><td>What is on the bead</td><td>Antibody-coated magnetic bead</td><td>Antibody-coated magnetic bead</td></tr>
+<tr><td>Enzyme-labelled reagent</td><td>Labelled <b>antibody</b>: binds a second site on the analyte</td><td>Labelled <b>antigen</b>: competes with the sample analyte for the bead antibody</td></tr>
+<tr><td>Analyte on the bead</td><td>Held between bead antibody and labelled antibody</td><td>Analyte and labelled antigen share the limited bead antibody sites</td></tr>
+<tr><td>More analyte in sample gives</td><td><b>More light</b> (more label bound)</td><td><b>Less light</b> (less label bound)</td></tr>
+<tr><td>Calibrator signal order (MON flag)</td><td>Ascending with concentration</td><td>Descending with concentration</td></tr>
+<tr><td>After incubation</td><td>Magnetic separation and wash (4 dispersion steps), substrate, read</td><td>Same</td></tr>
+<tr><td>Assays in the workbook</td><td>59 (e.g. AFP, CEA, TSH, t-PSA, HBsAg, hs-cTnI). 42 list a hook-effect value.</td><td>20 (e.g. FT3, FT4, T3, T4, E2, PROG, Cortisol). Hook effect is "/" for all.</td></tr>
+<tr><td>Average first result time, CL-1000i</td><td>27.5 min</td><td>38.2 min</td></tr>
+</tbody></table></div>
+<div class="callout warn"><b class="t">Anti-HBc <span class="pill wa">check</span></b> The CL-1000i Operation manual names anti-HBc as a sandwich example; the assay workbook lists Anti-HBc as <b>Competitive</b> (two-step, one separation). Use the workbook for the assay on your reagent insert and confirm with the package insert.</div>
+<p class="src">Sources: CL-1000i Operation manual §4.1 (Fig 4.1, 4.2) and §16.4 (MON flag) · Assay_summary-20250609_update_ToRCH.xlsx, sheet Summary, columns Method, Hook effect, CL-1000i first result time (counts and averages calculated from the sheet)</p>
+
+<h3 style="margin-top:30px">Analysis modes: one-step, two-step, one or two separations</h3>
+<p>Mode is set per assay (see the assay menu in chapter 9). The probe dispenses 3 kinds of liquid for a one-step test and 4 for a two-step test (CL1000i-TH manual).</p>
+<div class="seg" id="modeSeg" role="group" aria-label="Analysis mode">
+  <button type="button" aria-pressed="true" data-m="1">One-step, 1 separation</button>
+  <button type="button" aria-pressed="false" data-m="2">Two-step, 1 separation</button>
+  <button type="button" aria-pressed="false" data-m="3">Two-step, 2 separations</button>
+</div>
+<div class="timeline" id="modeLine" aria-live="polite"></div>
+<div class="row" style="gap:16px;font-size:.8rem;color:var(--muted)"><span class="ev add">add liquid</span><span class="ev inc">incubate 37 °C</span><span class="ev wash">separate and wash</span><span class="ev read">substrate and read</span></div>
+<p id="modeText" style="margin-top:10px"></p>
+<p class="src">Timeline drawn from: CL-1000i Operation manual §4.2 (Fig 4.3–4.5) · CL1000i-TH manual (liquids per test)</p>
+<div class="grid g3" style="margin-top:14px">
+  <figure data-zoom><img src="img/man152.jpg" alt="Manual figure 4.3 one-step method"><figcaption>One-step. <i>CL-1000i Operation manual, Fig 4.3</i></figcaption></figure>
+  <figure data-zoom><img src="img/man153.jpg" alt="Manual figure 4.4 two-step with one dispersion"><figcaption>Two-step, one dispersion. <i>CL-1000i Operation manual, Fig 4.4</i></figcaption></figure>
+  <figure data-zoom><img src="img/man154.jpg" alt="Manual figure 4.5 two-step with two dispersions"><figcaption>Two-step, two dispersions. <i>CL-1000i Operation manual, Fig 4.5</i></figcaption></figure>
+</div>
+
+<h3 style="margin-top:30px">Compare the analysis modes</h3>
+<div class="tbl cmp"><table>
+<thead><tr><th>Item</th><th class="c-m1">One-step, 1 separation</th><th class="c-m2">Two-step, 1 separation</th><th class="c-m3">Two-step, 2 separations</th></tr></thead>
+<tbody>
+<tr><td>Liquids dispensed by the probe</td><td>3</td><td>4</td><td>4</td></tr>
+<tr><td>Incubations at 37 °C</td><td>1</td><td>2</td><td>2</td></tr>
+<tr><td>Separations (wash)</td><td>1</td><td>1</td><td>2</td></tr>
+<tr><td>Order</td><td>Sample + labelled reagent together, incubate, separate</td><td>Sample, labelled reagent, incubate, second addition, incubate, one separation</td><td>Sample, labelled reagent, incubate, separate, second addition, incubate, separate</td></tr>
+<tr><td>Substrate injected</td><td>Last phase of the one separation</td><td>Last phase of the one separation</td><td>Only in the second separation; none after the first, the cuvette just returns to the reaction disk</td></tr>
+<tr><td>What the extra separation does</td><td>-</td><td>-</td><td>Removes unbound analyte before the second reagent is added</td></tr>
+<tr><td>Manual figure</td><td>Fig 4.3</td><td>Fig 4.4</td><td>Fig 4.5</td></tr>
+<tr><td>Assays in the workbook</td><td>49, e.g. AFP, CEA, TSH, FT3, t-PSA, Anti-HBs</td><td>10, e.g. FT4, T3, T4, E2, HBeAg, Anti-HBc</td><td>16, e.g. HBsAg, HIV, Anti-HCV, Anti-TP, LH, TORCH IgG/IgM</td></tr>
+<tr><td>Average first result, CL-1000i</td><td>24.4 min</td><td>39.3 min</td><td>37.8 min</td></tr>
+</tbody></table></div>
+<p class="src">The workbook also has <b>three-step, one-separation</b> (4 assays: VB12, Folate, RBC Folate, VD; average 48.5 min), which the Operation manual does not describe, so it is not drawn above. Sources: Operation manual §4.2 (Fig 4.3 to 4.5) · CL1000i-TH manual (3 vs 4 liquids) · Assay_summary-20250609_update_ToRCH.xlsx, columns Procedure and CL-1000i first result time (counts and averages calculated from the sheet)</p>
+
+<h3 style="margin-top:30px">From signal to concentration</h3>
+<div class="grid g2">
+  <div class="card">
+    <h3>Quantitative: 4PLC</h3>
+    <p class="mono" style="font-size:1rem;overflow-x:auto">CPS = (P1 − P4) / (1 + (C / P2)<sup>P3</sup>) + P4</p>
+    <ul class="b">
+      <li>CPS is photon count, C is concentration, P1–P4 are the four curve parameters.</li>
+      <li>A <b>master curve</b> is made for every reagent lot from several calibrator levels over several analyzers and packed on the reagent box as a 2D barcode.</li>
+      <li>At the lab you run <b>1 to 3 point calibration</b>. The software adjusts the master curve parameters with the algorithm set for that assay.</li>
+      <li>Two stages: factory pre-calibration (master curve) and real-calibration at the end user.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Qualitative: cutoff and COI</h3>
+    <ul class="b">
+      <li>1-point: <code>Cutoff = a × CalCPS + b</code></li>
+      <li>2-point: <code>Cutoff = a × Cal1CPS + b × Cal2CPS + c</code></li>
+      <li>a, b, c are fixed per assay. The sample RLU is compared with the cutoff to call positive or negative.</li>
+      <li>Infectious-disease results carry flags: <code>REAC</code> positive, <code>NREA</code> negative, <code>INDE</code> gray area.</li>
+    </ul>
+    <p class="src">CL-1000i Operation manual §4.3, §16.4</p>
+  </div>
+</div>
+<p class="src">Sources: CL-1000i Operation manual ch.4 · SD-APP-36 Application guide p4 · CL1000i-TH manual p10</p>
+<p class="src" style="margin-top:22px"><b>Files behind this chapter:</b> CL-1000i Operation manual §4 (formats, Fig 4.1–4.5, 4PLC and cutoff formulas) and §16.4 (MON flag) · CL1000i-TH manual (3 vs 4 liquids) · SD-APP-36 Application guide p4, p27 · SD-APP-38 Maintenance PPT slide 16 · Assay_summary-20250609_update_ToRCH.xlsx (method and procedure counts)</p>
+</div></section>
+
+<!-- ============ 3 WORKFLOW ============ -->
+<section class="ch" id="workflow"><div class="wrap">
+<header><div class="kick">Chapter 3</div><h2>Instrument workflow: where a sample goes</h2>
+<p>A single probe handles both sample and reagent. The gripper moves each cuvette between the stations. Tap a station to see what happens there.</p></header>
+
+<div class="svgfig"><svg id="flow" viewBox="0 0 900 470" role="img" aria-label="Flow of a sample and cuvette through the CL-1000i stations"></svg></div>
+<div class="card" id="flowInfo" aria-live="polite" style="margin-top:12px"></div>
+<p class="src">Flow graphic and station notes drawn from: SD-APP-35 Product PPT slides 6–16 · SD-APP-36 Application guide · CL-1000i Operation manual · CL1000i_training deck (see the figures below for exact slides)</p>
+
+<div class="grid g2" style="margin-top:20px">
+  <figure data-zoom><img src="img/prod16.jpg" alt="Cuvette transfer layout"><figcaption>Cuvette path: trays, buffer area, dilution and mixing position, magnetic separation, reaction carousel, throwing positions. <i>SD-APP-35 Product PPT, slide 16</i></figcaption></figure>
+  <figure data-zoom><img src="img/app6.jpg" alt="Analyzing unit layout"><figcaption>Analyzing unit layout: magnetic separation, incubation and measuring, probe, reagent disk, cuvette loading, sample feeding, substrate positions. <i>SD-APP-36 Application guide, p6</i></figcaption></figure>
+</div>
+
+<h3 style="margin-top:30px">The working day in 12 steps</h3>
+<p>This is the manual's general operating procedure. Use it as the spine for user training.</p>
+<div class="tbl"><table>
+  <thead><tr><th>#</th><th>Step</th><th>What the user does</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Check before powering on</td><td>Wash buffer, probe wash solution, cuvettes, substrate, power, printing paper, waste tank or sewer connection, probe and rack feeder</td></tr>
+    <tr><td>2</td><td>Power on</td><td>Switch on the analyzing unit, run the operating software</td></tr>
+    <tr><td>3</td><td>Check system status</td><td>Consumables, printer, LIS connection, analyzing unit, alarms, reagent/calibration, maintenance, subsystems</td></tr>
+    <tr><td>4</td><td>Prepare reagents</td><td>Reagent, probe wash solution, substrate, wash buffer; load cuvettes; empty the waste container</td></tr>
+    <tr><td>5</td><td>Calibration</td><td>Request calibrations, prepare calibrators, run</td></tr>
+    <tr><td>6</td><td>Quality control</td><td>Program, prepare and run controls</td></tr>
+    <tr><td>7</td><td>Routine samples</td><td>Program, prepare and run</td></tr>
+    <tr><td>8</td><td>STAT samples</td><td>Program, prepare and run emergency samples</td></tr>
+    <tr><td>9</td><td>Test status</td><td>Reagent status, calibrator, control, routine and STAT status, rack and carousel status, stop the analysis</td></tr>
+    <tr><td>10</td><td>Daily maintenance</td><td>Per maintenance card (chapter 7)</td></tr>
+    <tr><td>11</td><td>Power off</td><td>Switch off the power supply</td></tr>
+    <tr><td>12</td><td>Check after power off</td><td>Restore the reagent carousel cover, take out and store calibrators, controls and samples, clean the panels, empty waste tank and solid waste container</td></tr>
+  </tbody></table></div>
+<p class="src">Source: CL-1000i Operation manual Table 2.1 (§2.1)</p>
+<div class="callout"><b class="t">Keep power on for the cooling</b> The main power must stay on so the refrigerator keeps cooling the reagents. The analyzing unit and the operation computer must stay on so the reagent carousel keeps mixing the beads. <span class="tag">SD-APP-36 Application guide p8</span></div>
+<p class="src" style="margin-top:22px"><b>Files behind this chapter:</b> SD-APP-35 Product PPT slides 6–16 · SD-APP-36 Application guide (operating steps) · CL1000i_training deck · CL-1000i Operation manual (operation chapters) · the flow graphic is drawn from these</p>
+</div></section>
+<!-- ============ 4 INSTALL ============ -->
+<section class="ch" id="install"><div class="wrap">
+<header><div class="kick">Chapter 4</div><h2>Installation</h2>
+<p>Installation is done by Mindray technicians or people they authorize. Your job as application specialist is to have the site ready, check the delivery, and bring the lab to a state where verification (chapter 5) can pass.</p></header>
+
+<div class="grid g2">
+  <div class="card">
+    <h3>Site requirements</h3>
+    <div class="tbl" style="border:0"><table>
+      <tbody>
+        <tr><td>Use</td><td>Indoor only</td></tr>
+        <tr><td>Bench</td><td>Level (gradient &lt; 1/200), bears at least 250 kg, free of vibration</td></tr>
+        <tr><td>Air</td><td>Ventilated, free of dust, not in direct sun, away from heat or draft, no corrosive or flammable gas</td></tr>
+        <tr><td>Temperature</td><td>15–30 °C</td></tr>
+        <tr><td>Humidity</td><td>35–85 %RH, no condensation (the validation report form writes this as 35–85 %)</td></tr>
+        <tr><td>Altitude</td><td>−400 to 4000 m</td></tr>
+        <tr><td>Interference</td><td>Away from large noise and power interference, brush-type motors, frequently switched contacts. No mobile phones or radio transmitters near the system</td></tr>
+        <tr><td>Power</td><td>Three-wire cord, properly grounded socket, 220–240 V; zero-ground voltage &lt; 5 V (validation record)</td></tr>
+        <tr><td>Water</td><td>Specific resistance &gt; 1 MΩ·cm at 25 °C (validation record)</td></tr>
+        <tr><td>Operator</td><td>Clean mask and gloves without talcum powder. The analyzer measures trace material, so outside contamination changes results</td></tr>
+      </tbody></table></div>
+    <p class="src">CL-1000i Operation manual §1.1.1 · SD-APP-36 Application guide p7 · 2022 validation report</p>
+  </div>
+  <div class="card">
+    <h3>Drainage and fluidics</h3>
+    <ul class="b">
+      <li>Waste outlet no less than 50 mm wide and no higher than 100 mm; waste tubing no longer than 5 m; with a waste tank the guide tube is at least 2 m.</li>
+      <li>Waste outlets 1 and 2 are routed <b>separately</b>. Never join them or connect them to another instrument's waste, or back-flow can damage the analyzer.</li>
+      <li>Do not fold or press the tubes. The sewer opening must be lower than the system's waste outlet.</li>
+      <li>The analyzer drains <b>3.1 L of liquid waste per hour</b>. Empty the waste tank before and after testing.</li>
+      <li>Four fluid connections: wash buffer inlet, waste outlet 1, waste outlet 2, waste sensor.</li>
+    </ul>
+    <div class="callout bad"><b class="t">Biohazard</b> Wear gloves and lab coat, goggles if needed. Dispose of waste under local regulation.</div>
+  </div>
+</div>
+
+<div class="grid g3" style="margin-top:16px">
+  <figure data-zoom><img src="img/man42.jpg" alt="Fluidic connection diagrams for waste tank and sewer"><figcaption>Fluidic connection: waste tank or sewer. <i>CL-1000i Operation manual, Fig 1.1, 1.2</i></figcaption></figure>
+  <figure data-zoom><img src="img/man43.jpg" alt="System clearance diagram"><figcaption>Clearances (mm): unit 1400 × 760, ≥700 on the wall side, ≥500 on the other sides and between units. <i>CL-1000i Operation manual, Fig 1.3</i></figcaption></figure>
+  <figure data-zoom><img src="img/prod4.jpg" alt="Rear and internal view with connection labels"><figcaption>Rear connections: wash buffer inlet, CD80 waste outlet, wash buffer waste outlet, power source. <i>SD-APP-35 Product PPT, slide 4</i></figcaption></figure>
+</div>
+
+<div class="grid g2" style="margin-top:16px">
+  <div class="card">
+    <h3>Operation unit (computer and printer)</h3>
+    <div class="tbl" style="border:0"><table><tbody>
+      <tr><td>CPU / RAM</td><td>P4 2.6 GHz or above / at least 4 GB</td></tr>
+      <tr><td>Disk</td><td>160 GB</td></tr>
+      <tr><td>OS</td><td>Activated or free Microsoft Windows 8 64-bit</td></tr>
+      <tr><td>Screen</td><td>1280 × 1024 pixels</td></tr>
+      <tr><td>Network</td><td>One adapter to the analyzer. For LIS or internet, prepare another adapter (Intel gigabit)</td></tr>
+      <tr><td>Ports / sound</td><td>3 or more serial ports; network adapter and sound card with speaker</td></tr>
+      <tr><td>Printer</td><td>Ink jet, laser or stylus printer</td></tr>
+    </tbody></table></div>
+    <p class="src">CL-1000i Operation manual Table 1.1</p>
+  </div>
+  <div class="card">
+    <h3>Power-on order and warm-up</h3>
+    <ol class="b">
+      <li>External vacuum pump module, if configured.</li>
+      <li>Analyzing unit switch (right side, up = on).</li>
+      <li>Printer.</li>
+      <li>Monitor, then the computer of the operation unit. The software starts by itself.</li>
+      <li>Log in. The startup check runs and the main screen appears.</li>
+    </ol>
+    <p>Follow this order or the analyzer and the computer may report a communication error. After a cold start the machine incubates before it reaches standby: about <b>30 min</b> in the application guide, <b>about 20 min</b> in the CL1000i-TH manual <span class="pill wa">check</span>. Plan the first test accordingly.</p>
+    <p class="src">SD-APP-36 Application guide p8–10 · CL1000i-TH manual §2.1 · CL-1000i Operation manual §2.3</p>
+  </div>
+</div>
+
+<h3 style="margin-top:26px">First-day software setup</h3>
+<div class="grid g3">
+  <div class="card"><h4>Chemistries</h4><p>The system is closed, so each assay must be imported. <code>Utility → Chemistries → Import → Load Default</code>, then <b>Add</b> the assays this lab will run. Change the display order under <code>Options → Display Order</code>.</p><p class="src">SD-APP-36 Application guide p11–13</p></div>
+  <div class="card"><h4>Ranges, panels, calculations</h4><p><code>Ref Range</code>: reference, critical and user ranges by sex, age and sample type; also auto rerun, auto dilution and reflex. <code>Calculations</code>: derived items such as PSA/FPSA ratio. <code>Panels</code>: one-key request, for example a fertility panel.</p><p class="src">SD-APP-36 Application guide p14–16</p></div>
+  <div class="card"><h4>System setup</h4><p><code>Utility → System Setup</code>: users and permissions, auto wakeup, STAT lane, sample test mode, auto release time, default sample cup, print templates, units dictionary, auto maintenance, host (LIS) parameters: transport mode, protocol, channel no. Change the default administrator password at first login; it is case sensitive.</p><p class="src">SD-APP-36 Application guide p76–91 · CL-1000i Operation manual §2.3.3</p></div>
+</div>
+
+<h3 style="margin-top:26px">Installation readiness checklist</h3>
+<div class="card">
+  <div class="prog"><i id="instBar"></i></div>
+  <div class="res" id="instCount">0 of 0 done</div>
+  <div id="instList"></div>
+</div>
+
+<div class="grid g2" style="margin-top:16px">
+  <div class="callout warn"><b class="t">Restarting after a long shutdown (over 7 days)</b>
+    Drain the wash buffer and substrate hydropneumatic system, prime and wash with DI or ultra-pure water, then drain again. This prevents wash buffer crystallizing. If you cannot do it yourself, contact Mindray customer service or the distributor. To restart: load wash buffer, check waste tank and container, check cuvettes, power on, prime the substrate tubing, load new substrate bottles, prime again, run Fluidic Prime, Daily Clean and System Diagnosis.
+    <div class="src">CL-1000i Operation manual §2.3.2</div></div>
+  <div class="callout"><b class="t">Do not start unaided</b> After maintenance, run calibration or QC. Do not perform maintenance not described in the manual; it can damage the instrument or void the warranty. <span class="tag">Manual §15.1</span></div>
+</div>
+<p class="src" style="margin-top:22px"><b>Files behind this chapter:</b> CL-1000i Operation manual (installation requirements, Fig 4.x site figures shown here as man42/man43) · CL1000i-TH manual · SD-APP-35 Product PPT slide 4 · CL1000i_training deck · FR-APP-18 IQOQ form (checklist)</p>
+</div></section>
+
+<!-- ============ 5 VERIFY ============ -->
+<section class="ch" id="verify"><div class="wrap">
+<header><div class="kick">Chapter 5</div><h2>IQOQ and performance verification</h2>
+<p>Form <b>FR-APP-18</b> records either an installation or an annual calibration / performance verification. It has ten numbered items plus a header and sign-off. This chapter says what to write in each box, where the number comes from on the instrument, and the limit.</p></header>
+
+<div class="grid g2" style="align-items:start">
+  <figure data-zoom><img src="img/iqoq.jpg" alt="FR-APP-18 IQOQ form"><figcaption>The blank form, in Thai and English. <i>FR-APP-18 IQOQ Performance verification</i></figcaption></figure>
+  <div>
+    <h3>Header and sign-off</h3>
+    <ul class="b">
+      <li>Tick <b>Installation</b> or <b>Annual calibration / Performance verification</b>.</li>
+      <li>Customer name, department, instrument model (CL-1000i), analyzer serial number, distributor, install or verification date.</li>
+      <li>Basic acceptance block: <b>SW version</b> (read it from the software; the earlier reports show 0.2.17.41770 and 1.2.21.44667 as examples).</li>
+      <li>Close the form with the <b>overall conclusion</b> Pass or Fail, the "Other requirement" line (correlate ___ samples; reference system for correlation), then the application signature and the laboratory signature, each dated.</li>
+    </ul>
+    <div class="callout warn"><b class="t">Who may run it</b> The report notes say the whole validation should be done by an engineer authorized by Mindray, following the CL1000i Series Performance Validation Guide. The report proves the machine's status only at the time of validation.</div>
+  </div>
+</div>
+
+<h3 style="margin-top:26px">What to fill in, item by item</h3>
+<div class="tbl"><table>
+  <thead><tr><th>#</th><th>Form item</th><th>Write / tick</th><th>Limit</th><th>Where it comes from</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>System environment</td><td>Pass/Fail: overall system status; consumable and reagent prompt</td><td>No red alarm; everything needed is loaded</td><td>Main screen status area, Alarm menu, <code>Reagent → Reagent Overview / Consumable Management</code></td></tr>
+    <tr><td>2</td><td>Working environment</td><td>Write ambient temperature and humidity, tick Pass/Fail</td><td>15–30 °C; humidity ≤ 85 %</td><td>Room thermometer/hygrometer</td></tr>
+    <tr><td>3</td><td>Consumable record</td><td>Lot and expiry of substrate, wash buffer, and cleaning solution</td><td>In date</td><td>Labels; substrate lot and expiry are read by scanning the 2D barcode in <code>Consumable Management</code></td></tr>
+    <tr><td>4</td><td>Reagent items</td><td>List each assay and its "ver." entry</td><td>—</td><td>Reagent Overview</td></tr>
+    <tr><td rowspan="6">5</td><td>SPT: Dark count</td><td>Value (CPS), Pass/Fail</td><td>Maximum &lt; 350 CPS</td><td><code>Utility → Maintenance → Diagnostics → Photometer Diagnosis → Dark Current Count</code></td></tr>
+    <tr><td>DCF stability test</td><td>Relative extreme difference (R.E.D)</td><td>&lt; 1.5 %</td><td>Photometer Diagnosis → DCF Diagnosis (20 cycles by default)</td></tr>
+    <tr><td>Substrate background test</td><td>SD</td><td>SD &lt; 100</td><td><code>Diagnostics → System Diagnosis → System Check → Background</code></td></tr>
+    <tr><td>Wash solution test</td><td>Value</td><td>−500 to 500</td><td>System Check → Wash test (run with background, probe and cleaning tests)</td></tr>
+    <tr><td>Sample probe system repeatability</td><td>CV</td><td>&lt; 1.5 %</td><td>System Check → Probe test</td></tr>
+    <tr><td>Reagent probe system repeatability</td><td>CV</td><td>&lt; 1.5 %</td><td>System Check → Probe test</td></tr>
+    <tr><td>6</td><td>Daily clean</td><td>Run it, tick Pass/Fail</td><td>Completes without error</td><td><code>Utility → Maintenance → Maintenance Command → Daily Clean</code> (about 20 min)</td></tr>
+    <tr><td>7</td><td>Effect check</td><td>Write the three results in the remark boxes 1, 2, 3</td><td>2500–6500</td><td><code>Maintenance Command → Effect Check</code></td></tr>
+    <tr><td>8</td><td>Calibration status</td><td>Pass if every assay is calibrated without the flags DUP, DEV, SLOP, LVC</td><td>Remark on the form: "CO sandwich &lt; 10 %, CO competitive &lt; 20 %"</td><td><code>Reagent → Calibration Result</code></td></tr>
+    <tr><td>9</td><td>Repeatability (clinical performance)</td><td>Rows 1–15: results of one low and one high level for up to 5 assays; then Mean, SD, %CV, Pass/Fail per column</td><td>%CV &lt; 5 %</td><td>Run the high-value or positive control of each chemistry 15 times. For negatives, calculate from RLU</td></tr>
+    <tr><td>10</td><td>Preliminary accuracy (IQC)</td><td>Pass if all QC results are within range</td><td>All "within" range</td><td><code>QC → Results</code>, L-J chart</td></tr>
+  </tbody></table></div>
+<div class="grid g2" style="margin-top:14px">
+  <div class="card">
+    <h3>Doing the System Check</h3>
+    <ol class="b">
+      <li><code>Utility → Maintenance → Diagnostics → System Diagnosis → System Check</code>.</li>
+      <li>Set the lane number (default 1) and put a rack in that lane.</li>
+      <li>In rack position 1 dispense at least <b>1 mL of system check solution 1</b> (probe precision test). In position 2 dispense <b>2 mL of solution 2</b> (cleaning test).</li>
+      <li>Tick the tests. Wash buffer test must run with the background test. Wash test must run with background, probe and cleaning tests. Cleaning test must run with background, wash and probe tests.</li>
+      <li>Start; Exit when done.</li>
+    </ol>
+    <p class="src">CL-1000i Operation manual §14.7</p>
+  </div>
+  <div class="card">
+    <h3>Choosing and recording item 9</h3>
+    <ul class="b">
+      <li>Pick one of the items the hospital cares about most. Preferably use different detection methods across the five columns.</li>
+      <li>Run 15 replicates. If you use the ServiceUser tool's FQC report, the repeatability codes are <code>JZJMD-1</code> Test 1 low, <code>-2</code> Test 1 high, <code>-3</code> Test 2 low, <code>-4</code> Test 2 high, <code>-5</code> Test 3 low, <code>-6</code> Test 3 high.</li>
+      <li>Past reports in your files used 10 replicates of FT3, FT4, TSH at low and high level and, for infectious disease, 5 replicates of HIV and HBsAg RLU with a %CV limit of 5 %.</li>
+    </ul>
+  </div>
+</div>
+<div class="callout bad"><b class="t">If item 5 fails</b> The form's remark says: check whether the substrate and its tubes are contaminated, and whether the sampling verticality and horizontal position are appropriate. The manual adds: a failed background test points to contaminated substrate, substrate dispensing or the photometer; a failed probe test also points to the reagent probe sampling system; failed wash or cleaning tests point to dispersion aspirating or dispensing.</div>
+
+<h3 style="margin-top:26px">Repeatability calculator</h3>
+<p>Paste replicate results, one per line or separated by spaces. The formulas are the ones printed in the 2022 validation report: bias % = (mean − target mean) / target mean, and total error TE = 1.65 × %CV + |bias %|. It opens with the FT3 low-level example from that report.</p>
+<div class="card">
+  <div class="grid g2">
+    <div><label for="rep">Replicates</label><br><textarea id="rep" rows="7" style="width:100%">2.17 2.21 2.21 2.26 2.22 2.25 2.26 2.26 2.25 2.24</textarea></div>
+    <div class="grid" style="gap:10px;align-content:start">
+      <div><label for="tgt">Target mean</label><br><input id="tgt" type="number" step="any" value="2.18"></div>
+      <div><label for="tea">TEa (allowable total error, %)</label><br><input id="tea" type="number" step="any" value="11.3"></div>
+      <div><label for="cvl">%CV limit</label><br><input id="cvl" type="number" step="any" value="5"></div>
+    </div>
+  </div>
+  <div class="res" id="repOut" aria-live="polite" style="margin-top:12px"></div>
+  <p class="src">Example numbers in the report for this column: mean 2.233, SD 0.030, %CV 1.336, bias 2.431 %, TE 4.636 %, TEa 11.3 %, manufacturer CV criterion 5 %.</p>
+</div>
+
+<h3 style="margin-top:26px">Example values from your two past validation reports</h3>
+<div class="tbl"><table>
+  <thead><tr><th>Check</th><th>Report limit</th><th class="n">2019 example</th><th class="n">2022 example</th></tr></thead>
+  <tbody>
+    <tr><td>Dark current count (mean, SD)</td><td>&lt; 200</td><td class="n">45.92, 3.121</td><td class="n">31.76, 4.58</td></tr>
+    <tr><td>Photon count: relative extreme difference</td><td>&lt; 0.01</td><td class="n">0.000526</td><td class="n">0.002426</td></tr>
+    <tr><td>Photon count: CV</td><td>—</td><td class="n">0.00225</td><td class="n">0.000223</td></tr>
+    <tr><td>DCF diagnosis: relative extreme difference</td><td>&lt; 1.5</td><td class="n">0.002421</td><td class="n">0.001794</td></tr>
+    <tr><td>Background test (AVE) and SD</td><td>3000–6000; SD 0–200</td><td class="n">3926; 141</td><td class="n">screen only</td></tr>
+    <tr><td>Probe performance CV</td><td>0.00–2.00</td><td class="n">1.01</td><td class="n">screen only</td></tr>
+    <tr><td>Running environment</td><td colspan="3">15–30 °C · 35–85 % humidity · 220–240 V · zero-ground &lt; 5 V · water &gt; 1 MΩ·cm · light working time &lt; 1500 H · waste tubing not bent, suitable height</td></tr>
+  </tbody></table></div>
+<div class="callout warn"><b class="t">Limits that differ between files <span class="pill wa">check</span></b>
+  <ul class="b"><li>Dark count: the reports say &lt; 200, the IQOQ form says maximum &lt; 350 CPS.</li>
+  <li>Substrate background SD: form &lt; 100, report screen shows 0–200. Probe CV: form &lt; 1.5 %, report screen 0.00–2.00.</li>
+  <li>Item 8 remark reads "CO sandwich &lt; 10 %, CO competitive &lt; 20 %". The files do not say what "CO" stands for. Ask Mindray before you quote it to a lab.</li></ul>
+  Use the limit printed on the form you are signing, and record the version of the form.</div>
+<p class="src">Sources: FR-APP-18 · CL-1000i Operation manual §14.2, §14.7 · 2019 and 2022 performance validation reports</p>
+<p class="src" style="margin-top:22px"><b>Files behind this chapter:</b> FR-APP-18 IQOQ Performance verification form · Performance_Verification_CL1000i 2019 report · Performance_verification_CL1000i_Camilian_2022 report · CL-1000i Operation manual (CV, bias and TE formulas)</p>
+</div></section>
+<!-- ============ 6 OPERATE ============ -->
+<section class="ch" id="operate"><div class="wrap">
+<header><div class="kick">Chapter 6</div><h2>Daily use and user training</h2>
+<p>What every lab user must do right, in the order they meet it. Each block states the rule and the reason the files give.</p></header>
+
+<h3>6.1 Consumables: load them correctly</h3>
+<div class="seg" id="conSeg" role="group" aria-label="Consumable"></div>
+<div class="grid g2" id="conOut" style="align-items:start" aria-live="polite"></div>
+
+<h3 style="margin-top:30px">6.2 Samples: prepare, tube, volume</h3>
+<div class="grid g2">
+  <div class="card">
+    <h3>Pretreatment</h3>
+    <ul class="b">
+      <li>Centrifuge at <b>2000 g</b> (glass tube) or <b>2200 g</b> (plastic tube) for at least 10 min; 15–20 min preferred.</li>
+      <li>BD red-cap tube recommended. Clot time: 15–30 min with clot activator, 60–120 min in a blank tube.</li>
+      <li>Remove bubbles. Look for fibrin, clots, hemolysis, lipemia, icterus and deal with them.</li>
+      <li>Serum level above 1 cm, otherwise transfer to a microtube.</li>
+      <li>Tubes fit: diameter 12–16 mm, height 65–102 mm. Push the tube bottom to the rack bottom or it can collide inside the machine.</li>
+    </ul>
+    <p class="src">SD-APP-37 Precautions PPT slide 7 · SD-APP-35 Product PPT slide 7 · SD-APP-36 Application guide p67</p>
+  </div>
+  <div class="card">
+    <h3>Dead volume</h3>
+    <div class="tbl" style="border:0"><table>
+      <thead><tr><th>Container</th><th class="n">Aspirate ≤ 50 µL</th><th class="n">Aspirate &gt; 50 µL</th></tr></thead>
+      <tbody>
+        <tr><td>Beckman Φ14×25 mm, 0.5 mL</td><td class="n">50 µL</td><td class="n">50 µL</td></tr>
+        <tr><td>Beckman Φ14×25 mm, 2 mL</td><td class="n">150 µL</td><td class="n">350 µL</td></tr>
+        <tr><td>Hitachi Φ12×37 mm, 2 mL</td><td class="n">100 µL</td><td class="n">250 µL</td></tr>
+        <tr><td>1.5 mL EP tube (recommended)</td><td class="n" colspan="2">250 µL</td></tr>
+      </tbody></table></div>
+    <p>Too little sample gives incomplete results and wastes reagent. For control cups: control volume = amount needed + 10 % + dead volume.</p>
+    <p class="src">SD-APP-35 Product PPT slide 8 · SD-APP-36 Application guide p63 · CL1000i_training deck slide 8</p>
+  </div>
+</div>
+
+<h3 style="margin-top:30px">6.3 Calibration</h3>
+<div class="grid g2" style="align-items:start">
+  <div>
+    <div class="stepper" id="calSteps" role="group" aria-label="Calibration steps"></div>
+    <div class="card" id="calOut" aria-live="polite"></div>
+  </div>
+  <figure data-zoom><img src="img/app39.jpg" alt="Calibration procedure summary slide"><figcaption>Four tasks: import master curve, define calibrator, edit calibrator position, request and review. <i>SD-APP-36 Application guide, p39</i></figcaption></figure>
+</div>
+<div class="tbl" style="margin-top:14px"><table>
+  <thead><tr><th>Cal status</th><th>Colour</th><th>Meaning</th></tr></thead>
+  <tbody>
+    <tr><td>Cal Required</td><td><span class="pill er">red</span></td><td>Needs calibration: new reagent lot, calibration time passed, calibrator value changed, parameter or unit changed. Master curve not yet scanned shows "Master curve Scanned = N"</td></tr>
+    <tr><td>Requested</td><td>none</td><td>Calibration ordered (F5)</td></tr>
+    <tr><td>Calibrated</td><td>none</td><td>Done within the set time; testing is normal</td></tr>
+    <tr><td>Cal Failed</td><td><span class="pill er">red</span></td><td>Run finished but results outside acceptance or cannot be calculated. No results are calculated meanwhile. You may <b>Reject</b> it and return to the previous valid curve (<code>Cal Options F8</code>)</td></tr>
+    <tr><td>Cal Time Out</td><td><span class="pill er">red</span></td><td>Time exceeded; recalibrate or extend. The system warns 30 min before</td></tr>
+    <tr><td>Cal Time Extended</td><td><span class="pill wa">yellow</span></td><td>Extended without a time limit. Every result carries the <code>EXT</code> flag</td></tr>
+  </tbody></table></div>
+<ul class="b">
+  <li>Each assay uses its own calibrator, usually 2 levels (cutoff assays) or 3 (C0, C1, C2). Put the 3 calibrators of one assay in the same lane.</li>
+  <li>Calibrate separately for each reagent bottle with <code>Cal Options → Individual bottle calibration</code>; the factor then applies only to that bottle.</li>
+  <li>Calibrators: shelf life 1 year; open life 1 month at 2–8 °C in the CL1000i-TH manual and the reagent table of the application guide gives 1–3 months <span class="pill wa">check</span>; HCG at −20 °C.</li>
+</ul>
+
+<h3 style="margin-top:30px">6.4 Quality control</h3>
+<div class="grid g2">
+  <div class="card">
+    <h3>Setup</h3>
+    <ul class="b">
+      <li>Two control levels, one normal and one abnormal. Run QC after every calibration, reagent lot change, maintenance and instrument problem check (CL1000i-TH manual).</li>
+      <li>Import target values by scanning the 2D barcode inside the control box: <code>QC → QC Setup → Import Control</code>. Values can only be edited when status is Stop or Standby.</li>
+      <li>Set positions in <code>Control Position</code>; set rules in <code>QC Setup → Rules</code>. <b>1-3s is normally used</b>; choose more Westgard rules to suit the lab. Control X and Y are the first and second material.</li>
+      <li>Third-party controls: Mindray controls are recommended for basic system performance. For third party, evaluate the target values first because of immuno specificity, then add manually: name, lot, expiry, position, chemistry, target, SD.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Reading results</h3>
+    <ul class="b">
+      <li><b>L-J chart</b> shows up to 31 points per screen, up to 1 year, 3 control materials per chart. Mark bad points with a comment (up to 100 characters); deleting a point only removes it from MEAN and CV, not from the data.</li>
+      <li><b>Twin-plot</b> shows the last 10 runs of control X against control Y: random error versus systematic error by quadrant.</li>
+      <li>Out-of-rule results raise a message and sound in real time and show the rule symbol (22S, 31S, R4S, 10X).</li>
+      <li>Never use the <code>Archive</code> menu to back up the hard disk.</li>
+    </ul>
+    <p class="src">SD-APP-36 Application guide p46–59 · CL1000i-TH manual §4 · CL-1000i Operation manual §16.4</p>
+  </div>
+</div>
+<details><summary>Control materials listed in the application guide</summary><div>
+  <div class="tbl"><table><thead><tr><th>Control</th><th>Assays</th><th>Open life</th></tr></thead><tbody>
+    <tr><td>Thyroid function multi (L, H)</td><td>FT3, FT4, T3, T4, TSH, Tg</td><td>30 days</td></tr>
+    <tr><td>Anti-thyroid antibodies (L, H)</td><td>Anti-Tg, Anti-TPO</td><td>60 days</td></tr>
+    <tr><td>Tumor marker multi (L, H)</td><td>CEA, AFP, CA125, CA15-3, CA19-9, FPSA, TPSA, FERR, CA72-4, Cyfra 21-1</td><td>30 days</td></tr>
+    <tr><td>Reproductive multi (L, H)</td><td>LH, FSH, E2, E3, PROG, TESTO, total β-HCG, PRL</td><td>30 days</td></tr>
+    <tr><td>Immunoassay multi (L, H)</td><td>Insulin, C-peptide, cortisol, DHEA-S</td><td>60 days</td></tr>
+    <tr><td>Cardiac marker multi (L, H)</td><td>Troponin I, BNP, MYO, CK-MB</td><td>1–30 days</td></tr>
+    <tr><td>Metabolic multi (L, H)</td><td>PTH, VD, VB12, CT, folate, ferritin</td><td>30 days</td></tr>
+    <tr><td>Single high/low or pos/neg</td><td>NSE, ACTH, HBsAg, Anti-HBs, HBeAg, Anti-HBe, Anti-HBc, Anti-HCV, Anti-TP, HIV</td><td>—</td></tr>
+  </tbody></table></div>
+  <p>Storage 2–8 °C. Equilibrate to room temperature after taking out. Frozen at −20 °C they last more than 3 months; aliquot for longer storage.</p>
+</div></details>
+
+<h3 style="margin-top:30px">6.5 Running samples</h3>
+<div class="grid g2">
+  <div class="card">
+    <h3>Three ways to identify samples</h3>
+    <ul class="b">
+      <li><b>Sequential:</b> by sample ID order. <b>Rack ID:</b> you define rack number and tube position. <b>Barcode:</b> tube can sit in any position of any routine rack.</li>
+      <li>Only one mode at a time. Routine and STAT share it. Change it only in Standby or Stopped: <code>Utility → System Setup → Instrument → Analysis Mode</code>.</li>
+      <li>STAT lane: default lane 6, any of lanes 1–6 can be set, several allowed. Request STAT from the STAT icon or from <code>Program → Sample → STAT</code>; load on the STAT lane; Start.</li>
+      <li>More than 5 samples for the same assay: use <b>Batch</b>.</li>
+      <li>A finished sample's position must be <b>released</b> before reuse (<code>Program → Sample → Release</code>). Auto release is at a set hour; the CL1000i-TH manual notes midnight. With LIS barcode mode no manual release is needed.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Rerun and dilution</h3>
+    <ul class="b">
+      <li>Only finished results can be rerun: <code>Results → Current → Rerun (F5)</code>, load the rack on the rerun lane.</li>
+      <li><b>Predilution</b> uses the fixed factors below. <b>Off-line dilution</b> takes any factor from 2 to 9999 for a sample you diluted by hand. <b>Replicate</b> repeats the test.</li>
+      <li>Auto rerun (repeat, dilute or reflex) is set per assay in <code>Utility → Chemistries → Ref Range</code> with a priority order.</li>
+      <li>Recall all rerun values with <code>Recall Rerun Results</code>; choose which one is reported with <b>Set Default</b>.</li>
+      <li><b>Result missing at the LIS?</b> Check it on the analyzer first. It may be above the linearity range and need dilution and a repeat before it goes to the physician.</li>
+    </ul>
+  </div>
+</div>
+<div class="tbl" style="margin-top:12px"><table>
+  <thead><tr><th>Assay</th><th class="n">Auto predilution factor</th><th>Assay</th><th class="n">Factor</th><th>Assay</th><th class="n">Factor</th><th>Assay</th><th class="n">Factor</th></tr></thead>
+  <tbody>
+    <tr><td>CA19-9</td><td class="n">10</td><td>TSH</td><td class="n">10</td><td>CEA</td><td class="n">40</td><td>Prog</td><td class="n">10</td></tr>
+    <tr><td>CA15-3</td><td class="n">5</td><td>T4</td><td class="n">2</td><td>t-PSA</td><td class="n">3</td><td>LH</td><td class="n">4</td></tr>
+    <tr><td>FPSA</td><td class="n">3</td><td>T3</td><td class="n">2</td><td>FERR</td><td class="n">20</td><td>HCG</td><td class="n">40</td></tr>
+    <tr><td>AFP</td><td class="n">40</td><td>E2</td><td class="n">2</td><td>FT3</td><td class="n">10</td><td>TESTO</td><td class="n">10</td></tr>
+    <tr><td>E3</td><td class="n">10</td><td>FT4</td><td class="n">10</td><td>PRL</td><td class="n">5</td><td>FSH</td><td class="n">2</td></tr>
+  </tbody></table></div>
+<p class="src">SD-APP-36 Application guide p61–72, 87–89 · CL1000i-TH manual §5</p>
+
+<h3 style="margin-top:30px">6.6 Software menu map</h3>
+<div class="grid g3">
+  <div class="card"><h4>Program</h4><p>Order samples (manual or edit), order QC, view rack status.</p></div>
+  <div class="card"><h4>Results</h4><p>Sample and QC results, reaction curve, rerun, delete orders, history, send to LIS (Host), abnormal tab.</p></div>
+  <div class="card"><h4>Reagent</h4><p>Reagent/Calibration (load, reagent stop, Cal F5, No Cal F6, load list), Consumable Management, Cal Setup, Cal Position, Calibration Result, Reagent Overview.</p></div>
+  <div class="card"><h4>QC</h4><p>L-J chart, twin-plot, summary, QC setup, rules, control position.</p></div>
+  <div class="card"><h4>Utility</h4><p>Chemistries, System Setup, Maintenance (scheduled, commands, diagnostics), status.</p></div>
+  <div class="card"><h4>Alarm · Exit</h4><p>Error log and edit log, today and history. Exit closes the program or logs out to change user.</p></div>
+</div>
+<div class="grid g3" style="margin-top:14px">
+  <figure data-zoom><img src="img/app10.jpg" alt="Main screen with labelled areas"><figcaption>Main screen: status area, shortcut icons, function buttons, function window, prompt message. <i>SD-APP-36 Application guide, p10</i></figcaption></figure>
+  <figure data-zoom><img src="img/trn15.jpg" alt="Ordering a calibration"><figcaption>Ordering a calibration. <i>Training deck, slide 15</i></figcaption></figure>
+  <figure data-zoom><img src="img/trn29.jpg" alt="Alarm handling slide"><figcaption>Yellow and red alarm handling. <i>Training deck, slide 29</i></figcaption></figure>
+</div>
+
+<h3 style="margin-top:30px">6.7 User training plan and sign-off</h3>
+<p>A suggested order built from the chapters above. Tick items as each user shows them on the analyzer, not just hears about them.</p>
+<div class="grid g2">
+  <div class="card"><h4>Session A: safe start</h4><div id="trA"></div></div>
+  <div class="card"><h4>Session B: reagents and consumables</h4><div id="trB"></div></div>
+  <div class="card"><h4>Session C: calibration and QC</h4><div id="trC"></div></div>
+  <div class="card"><h4>Session D: samples and results</h4><div id="trD"></div></div>
+  <div class="card"><h4>Session E: maintenance and problems</h4><div id="trE"></div></div>
+  <div class="card"><h4>Progress</h4><div class="prog"><i id="trBar"></i></div><div class="res" id="trCount"></div>
+    <p style="margin-top:10px">Print-free sign-off: the ticks stay in this browser only. Record the final date and trainee names on your own training log.</p></div>
+</div>
+<p class="src" style="margin-top:22px"><b>Files behind this chapter:</b> SD-APP-37 Precautions PPT · SD-APP-36 Application guide · CL1000i_training deck · CL1000i-TH manual · CL-1000i Operation manual (calibration, QC, results, ch.15 maintenance) · SD-APP-38 Maintenance PPT</p>
+</div></section>
+<!-- ============ 7 MAINTENANCE ============ -->
+<section class="ch" id="maint"><div class="wrap">
+<header><div class="kick">Chapter 7</div><h2>Maintenance</h2>
+<p>What to do daily, weekly, monthly and as needed, how to record it, and the step-by-step for cleaning the dispersion probes and tubes.</p></header>
+
+<h3>7.1 Maintenance schedule</h3>
+<p>Counted from the date you perform it. When the countdown reaches 0 the item turns <b>yellow</b> on the Utility button, Maintenance tab, Scheduled Maintenance tab and the item itself. Frequencies assume 5 hours a day: 600 tests per day, 15,000 per month.</p>
+<div class="tbl"><table>
+  <thead><tr><th>When</th><th>Task</th></tr></thead>
+  <tbody>
+    <tr><td><b>Daily</b> (1 day)</td><td>Check waste tank connection · check consumable status · check syringe for leaks · check probe (water must shoot straight from the tip) · clean probe exterior (gauze with alcohol, then distilled water) · clean exterior of dispersion aspirate probes · <b>Daily clean</b> (auto, about 20 min) · <b>Effect check</b> (every 4 or 24 h per the precaution deck)</td></tr>
+    <tr><td><b>Weekly</b> (8 days)</td><td>Replace or clean the four dispersion aspirate probes (A1–A4). Unscrew the round nut counter-clockwise, lift out, do not bend. Also clean probe D and the wash well (CL1000i_training deck). Replace probe wash solution CD80 weekly</td></tr>
+    <tr><td><b>Monthly</b> (31 days)</td><td>Clean dust screens (main power off; reinstall only when fully dry) · clean wash well · wipe dispense probes and tubes · clean vortexer hole</td></tr>
+    <tr><td><b>Three-month</b> (91 days)</td><td>Wash buffer bubble optical coupler calibration (more than 1/3 tank of wash buffer)</td></tr>
+    <tr><td><b>By count</b></td><td>Clean interior of dispersion aspirate probe every 5000 routine tests or 2500 infectious disease tests</td></tr>
+    <tr><td><b>As needed</b></td><td>Fluidic prime (when patient or QC results are poor, or effect check low; for substrate prime 10 times) · clean analyzer panels · clean reagent carousel · clean probe interior · replace syringe, probe · remove bubbles from syringe · discard cuvettes · clean wash buffer tank cap · barcode maintenance</td></tr>
+    <tr><td><b>Part life</b></td><td>Pump tube 6 months · syringe 3 months · dispersion aspirate probe assembly weekly · probe when damaged or bent · substrate spike when damaged</td></tr>
+  </tbody></table></div>
+<ul class="b">
+  <li>Record each task: <code>Utility → Maintenance → Maintenance → Scheduled Maintenance</code>, tick Select, OK. Use <b>Log</b> to add comments.</li>
+  <li>If Auto maintenance fails, fix the cause and repeat it before running, or the system will not allow runs. It needs spare supplies: at least 10 tests of substrate, at least 1 cuvette box on board, and room for 30 tests in the waste bin (CL1000i_training deck).</li>
+  <li>Run calibration or QC after any maintenance. If an effect check still fails, do not test until it is fixed.</li>
+</ul>
+<div class="grid g2" style="margin-top:12px">
+  <figure data-zoom><img src="img/maint5.jpg" alt="Clog detection photo"><figcaption>Daily clean, clog detection: aspirate wash buffer, dispense, detect liquid level. <i>SD-APP-38 Maintenance PPT, slide 5</i></figcaption></figure>
+  <figure data-zoom><img src="img/prec9.jpg" alt="Maintenance card"><figcaption>The maintenance card that ships with the analyzer. <i>SD-APP-37 Precautions PPT, slide 9</i></figcaption></figure>
+</div>
+
+<h3 style="margin-top:30px" id="cleandisp">7.2 Clean dispersion probes and tubes</h3>
+<p>The four dispersion aspirate probes (<b>A1–A4</b>) remove unbound material in the magnetic separation (chapter 3). If they are dirty or clogged, wash solution is left behind and the result is affected; contaminated aspirate probes cause carryover; crystals on the dispersion <i>dispensing</i> probes make washing insufficient and the substrate volume inaccurate. All three jobs start from the same command.</p>
+<div class="svgfig"><svg viewBox="0 0 920 250" role="img" aria-label="Clean dispersion command flow: open the Clean Dispersion Probes/Tubes command, open the shield, Continue, remove and clean each probe A1 to A4 one at a time, Continue, Done, close the shield, record it in Scheduled Maintenance"><defs><marker id="cdA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="currentColor"/></marker></defs>
+<g font-size="12" fill="currentColor" font-family="IBM Plex Sans,sans-serif">
+<text x="20" y="22" font-size="12" style="fill:var(--muted)" font-family="IBM Plex Mono,monospace">COMMON PATH</text>
+<rect x="20" y="34" width="150" height="58" rx="8" style="fill:var(--surface2)" stroke="currentColor"/><text x="95" y="58" text-anchor="middle" font-weight="600">1 Menu</text><text x="95" y="76" text-anchor="middle" font-size="10.5" style="fill:var(--muted)">Utility › Maintenance ›</text>
+<rect x="206" y="34" width="150" height="58" rx="8" style="fill:var(--surface2)" stroke="currentColor"/><text x="281" y="58" text-anchor="middle" font-weight="600">2 Command</text><text x="281" y="76" text-anchor="middle" font-size="10.5" style="fill:var(--muted)">Clean Dispersion Probes/Tubes</text>
+<rect x="392" y="34" width="150" height="58" rx="8" style="fill:var(--surface2)" stroke="currentColor"/><text x="467" y="58" text-anchor="middle" font-weight="600">3 Open shield</text><text x="467" y="76" text-anchor="middle" font-size="10.5" style="fill:var(--muted)">upper protective shield</text>
+<rect x="578" y="34" width="150" height="58" rx="8" style="fill:var(--surface2)" stroke="currentColor"/><text x="653" y="58" text-anchor="middle" font-weight="600">4 Continue</text><text x="653" y="76" text-anchor="middle" font-size="10.5" style="fill:var(--muted)">on screen</text>
+<rect x="764" y="34" width="136" height="58" rx="8" style="fill:var(--accent)"/><text x="832" y="58" text-anchor="middle" font-weight="600" style="fill:var(--accent-ink)">5 Probe by probe</text><text x="832" y="76" text-anchor="middle" font-size="10.5" style="fill:var(--accent-ink)">A1 · A2 · A3 · A4</text>
+<line x1="170" y1="63" x2="204" y2="63" stroke="currentColor" stroke-width="1.6" marker-end="url(#cdA)"/><line x1="356" y1="63" x2="390" y2="63" stroke="currentColor" stroke-width="1.6" marker-end="url(#cdA)"/><line x1="542" y1="63" x2="576" y2="63" stroke="currentColor" stroke-width="1.6" marker-end="url(#cdA)"/><line x1="728" y1="63" x2="762" y2="63" stroke="currentColor" stroke-width="1.6" marker-end="url(#cdA)"/>
+<text x="20" y="128" font-size="12" style="fill:var(--muted)" font-family="IBM Plex Mono,monospace">STEP 5, ONE PROBE AT A TIME (do not bend or bump the probe)</text>
+<rect x="20" y="140" width="150" height="46" rx="8" style="fill:var(--surface2)" stroke="currentColor"/><text x="95" y="160" text-anchor="middle" font-weight="600">Unscrew nut</text><text x="95" y="176" text-anchor="middle" font-size="10.5" style="fill:var(--muted)">anticlockwise, lift out</text>
+<rect x="206" y="140" width="150" height="46" rx="8" style="fill:var(--surface2)" stroke="currentColor"/><text x="281" y="160" text-anchor="middle" font-weight="600">Clean</text><text x="281" y="176" text-anchor="middle" font-size="10.5" style="fill:var(--muted)">see table: task decides how</text>
+<rect x="392" y="140" width="150" height="46" rx="8" style="fill:var(--surface2)" stroke="currentColor"/><text x="467" y="160" text-anchor="middle" font-weight="600">Refit</text><text x="467" y="176" text-anchor="middle" font-size="10.5" style="fill:var(--muted)">tighten clockwise</text>
+<rect x="578" y="140" width="150" height="46" rx="8" style="fill:var(--surface2)" stroke="currentColor"/><text x="653" y="160" text-anchor="middle" font-weight="600">Spring test</text><text x="653" y="176" text-anchor="middle" font-size="10.5" style="fill:var(--muted)">lift gently: springs back</text>
+<line x1="170" y1="163" x2="204" y2="163" stroke="currentColor" stroke-width="1.6" marker-end="url(#cdA)"/><line x1="356" y1="163" x2="390" y2="163" stroke="currentColor" stroke-width="1.6" marker-end="url(#cdA)"/><line x1="542" y1="163" x2="576" y2="163" stroke="currentColor" stroke-width="1.6" marker-end="url(#cdA)"/>
+<path d="M653 186 L653 204 L95 204 L95 190" fill="none" stroke="currentColor" stroke-dasharray="5 4" stroke-width="1.4" marker-end="url(#cdA)"/><text x="374" y="198" text-anchor="middle" font-size="10.5" style="fill:var(--muted)">next probe, a fresh tissue each time</text>
+<rect x="764" y="140" width="136" height="46" rx="8" style="fill:var(--surface2)" stroke="currentColor"/><text x="832" y="160" text-anchor="middle" font-weight="600">6 Continue › Done</text><text x="832" y="176" text-anchor="middle" font-size="10.5" style="fill:var(--muted)">unit resets itself</text>
+<text x="20" y="234" font-size="12">7 Close the shield · 8 <tspan font-family="IBM Plex Mono,monospace">Scheduled Maintenance</tspan> › tick the task › OK (stamps today’s date) · 9 Log › comments › OK</text>
+</g></svg></div>
+<p class="src">Graphic built from: CL-1000i Operation manual §15.4.6 (daily, steps 1–12), §15.5.1 (weekly), §15.6.3 (monthly)</p>
+
+<div class="tbl" style="margin-top:12px"><table>
+<thead><tr><th>Task</th><th>When</th><th>What you do to the probe</th><th>Materials</th><th>Tick in Scheduled Maintenance</th></tr></thead>
+<tbody>
+<tr><td><b>Clean exterior of dispersion aspirate probes</b> (A1–A4)</td><td><span class="pill ok">Daily</span></td><td>Remove one probe at a time, wipe the outside from top to bottom with tissue wet with DI water until fully clean, refit, check it springs back. New tissue for each probe.</td><td>Dust-free tissue, DI water</td><td>Daily › Clean Exterior of Dispersion Aspirate Probe</td></tr>
+<tr><td><b>Replace / clean aspirate probes</b></td><td><span class="pill wa">Weekly</span></td><td>Swap each probe for a clean spare (also disconnect and reconnect its quick joint on the panel behind the carousel), then prime and clean the removed probe for next week (below).</td><td>4 clean probes, gauze or alcohol cotton, ethanol, DI or distilled water, CD80, 3 beakers, dispersion cleaning tool (unclogging device and syringe), clean sealed bag</td><td>Weekly › Replace/Clean Aspirate Probes</td></tr>
+<tr><td><b>Wipe dispense probes / tubes</b></td><td><span class="pill er">Monthly</span></td><td>Remove each dispensing probe (keep the soft tube connection tight, do not drop it), look at the outside of the tip near the hole, wipe off crystals with gauze wet with DI water, refit and check the soft tube is not loose.</td><td>Clean gauze, DI water</td><td>Monthly › Wipe Dispense Probes/Tubes</td></tr>
+<tr><td><b>Clean interior of dispersion aspirate probe</b></td><td><span class="pill wa">By test count</span> <span class="pill wa">check</span></td><td>Every 5000 routine tests or 2500 infectious disease tests (maintenance card). The manual covers interior cleaning inside the weekly task; use the syringe method below.</td><td>As weekly</td><td>Follow the card; record in the log</td></tr>
+</tbody></table></div>
+<p class="src">Sources: Operation manual §15.4.6, §15.5.1, §15.6.3 and Table 15.2 · SD-APP-37 Precautions PPT slide 9 (maintenance card frequencies) · CL1000i-TH manual §6.2 (weekly)</p>
+
+<div class="grid g2" style="margin-top:14px">
+  <div class="card"><h4>Weekly: clean the removed probe</h4>
+    <ol class="b">
+      <li>Wipe the outside with gauze or alcohol cotton wet with ethanol. Clean the inside with the unclogging device.</li>
+      <li>Fit the syringe tool (accessory kit) to the probe quick joint. Put the other end in a beaker of <b>CD80</b> and push and pull the plunger <b>more than 10 times</b>.</li>
+      <li>Lift the tip above the liquid and push the liquid out. Repeat in a beaker of deionized or distilled water: aspirate, then discharge into an empty beaker, <b>at least 10 times</b>.</li>
+      <li>Disconnect from the syringe, swing the probe and tube to shake out the liquid, dry the outside with lint-free gauze. Keep the tube connection tight throughout.</li>
+      <li>Repeat for the other probes. Dry them <b>1 hour</b> in a clean ventilated place, then keep each in a clean sealed bag.</li>
+    </ol>
+    <p class="src">Operation manual §15.5.1 steps 13–17</p></div>
+  <div class="card"><h4>After fitting and safety</h4>
+    <ul class="b">
+      <li>After a weekly swap run <code>Maintenance Command → Fluidic Prime</code>, tick <b>Dispersion Cycle</b>, set the cycle to <b>5</b>, Execute. Watch the probes while it primes: they must be fitted correctly with no tube leakage.</li>
+      <li>Do it only when system status is <b>Incubation or Standby</b>.</li>
+      <li>The probe tip is sharp: bent or damaged probe = replace at once, or results become unreliable. Wear gloves, lab coat, goggles if needed.</li>
+      <li>A loose guide tube or a leak: call customer service, because the leak can cause system failure.</li>
+      <li>Related automatic checks: Daily clean tests the probes for clogs, then soaks them in CD80 (chapter 8). Clogged probes there mean unclog, check the connector for leakage and the pump tube, then repeat Daily clean.</li>
+    </ul>
+    <p class="src">Operation manual §15.5.1 · SD-APP-38 Maintenance PPT (Daily clean: clog detection, enhanced wash) · CL1000i-TH manual §6.1.6</p></div>
+</div>
+
+<p class="src" style="margin-top:22px"><b>Files behind this chapter:</b> CL-1000i Operation manual ch.15 (§15.4.6, §15.5.1, §15.6.3, Table 15.2) · SD-APP-38 Maintenance PPT · SD-APP-37 Precautions PPT slide 9 (maintenance card) · CL1000i-TH manual §6 · CL1000i_training deck</p>
+</div></section>
+
+<!-- ============ 7 TROUBLE ============ -->
+<section class="ch" id="trouble"><div class="wrap">
+<header><div class="kick">Chapter 8</div><h2>Troubleshooting</h2>
+<p>The manual's method has five steps: an error occurs and is indicated; check the error log and component status; identify the error; carry out the fix; check that the fix worked.</p></header>
+
+<div class="grid g2">
+  <div class="card">
+    <h3>How the analyzer tells you</h3>
+    <ul class="b">
+      <li><b>Alarm tone</b> (volume adjustable under System Setup, can be silenced), <b>alarm message</b> in the prompt area, <b>colour</b> on the Reagent, Utility and Alarm buttons, an <b>alarm message box</b>, a <b>result flag</b> (data alarm) and the <b>error log</b>.</li>
+      <li><span class="pill wa">Yellow</span> is a warning. The message box is yellow for a common error (a warning, or an invalid test, reagent or sample).</li>
+      <li><span class="pill er">Red</span> is a serious warning or error. The box is red and you can only reboot or exit. If the machine stops, click the analyzer icon and press <b>Home</b> to return to standby. If it stays red, read the error log and call service.</li>
+      <li>Every error log has a help icon with description, causes and solutions. <code>Alarm → Error Log</code> can be searched by date, event ID, component and type. The <b>Edit Log</b> records deletes and edits of results and calibration factors.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Decode an error code</h3>
+    <p>Type a code such as <code>A54001</code> or <code>C06001</code>.</p>
+    <div class="row"><label for="code" class="res">Code</label><input id="code" type="text" value="A54001" maxlength="6" style="width:9em" autocomplete="off" spellcheck="false"></div>
+    <div class="res" id="codeOut" aria-live="polite" style="margin-top:10px"></div>
+    <p class="src">CL-1000i Operation manual §16.1.2 · "C" codes come from the operation unit, "A" codes from the analyzing unit.</p>
+  </div>
+</div>
+
+<h3 style="margin-top:30px">Daily clean and effect check, as flows</h3>
+<p>These are the two automatic checks that decide whether the analyzer may run. If Auto maintenance cannot finish, the system will not allow runs until you fix it and repeat it.</p>
+<div class="svgfig"><svg id="dcSvg" viewBox="0 0 920 470" role="img" aria-label="Daily clean has four stages: clog detection, enhanced wash, DCF check, substrate sensor calibration. Effect check reads three blank cuvettes and passes between 2500 and 6500 RLU."></svg></div>
+<div class="grid g2" style="margin-top:14px">
+  <figure data-zoom><img src="img/maint12.jpg" alt="Sensor calibration flow chart"><figcaption>Substrate coupler sensor calibration logic: reads AD values, sets calibration value 0 and 255, checks the change and the 2048± window. <i>SD-APP-38 Maintenance PPT, slide 12</i></figcaption></figure>
+  <figure data-zoom><img src="img/maint16.jpg" alt="Effect check procedure"><figcaption>Effect check procedure. <i>SD-APP-38 Maintenance PPT, slide 16</i></figcaption></figure>
+</div>
+<div class="callout warn"><b class="t">Effect check limit <span class="pill wa">check</span></b> The SD-APP-38 Maintenance PPT, the IQOQ form and its troubleshooting text use <b>2500–6500</b>. The CL1000i-TH manual says <b>3000–6500</b>. Use 2500–6500 for the IQOQ form and tell the lab which you follow.</div>
+
+<h3 style="margin-top:30px">What are you seeing?</h3>
+<p>Pick a row in the table, or use the drop-down. The steps open underneath.</p>
+<div class="tbl"><table class="symt"><thead><tr><th>#</th><th>Symptom</th><th>First thing to try</th></tr></thead><tbody id="symTb"></tbody></table></div>
+<div class="row" style="margin-top:10px"><label for="sym" class="res">Symptom</label>
+  <select id="sym" style="min-width:min(100%,380px)"></select></div>
+<div class="card" id="symOut" aria-live="polite" style="margin-top:10px"></div>
+
+<h3 style="margin-top:30px">Flag and alarm lookup</h3>
+<div class="row"><label for="fq" class="res">Search</label><input id="fq" type="search" placeholder="Flag, meaning or action, e.g. DUP, clog, bubble" style="flex:1;min-width:min(100%,260px)">
+  <div class="seg" id="ftype" role="group" aria-label="Flag type" style="margin:0"><button type="button" aria-pressed="true" data-t="">All</button><button type="button" aria-pressed="false" data-t="Cal">Calibration</button><button type="button" aria-pressed="false" data-t="Result">Result</button><button type="button" aria-pressed="false" data-t="System">System</button></div>
+  <span class="res" id="fcount"></span></div>
+<div class="tbl" style="margin-top:10px;max-height:560px;overflow:auto"><table>
+  <thead><tr><th>Flag</th><th>Type</th><th>Meaning and cause</th><th>Do this</th></tr></thead>
+  <tbody id="ftb"></tbody></table></div>
+<p class="src">Sources: CL-1000i Operation manual §16.4 (Table 16.4) · SD-APP-36 Application guide p44–45 · SD-APP-38 Maintenance PPT · SD-APP-37 Precautions PPT · CL1000i-TH manual §7</p>
+
+<div class="grid g2" style="margin-top:20px">
+  <div class="card"><h3>Diagnostics you can run</h3>
+    <ul class="b">
+      <li><b>Photometer:</b> dark current, photon count, DCF. Run all three after photometer parts are replaced; run photon count and DCF when QC is out of range or precision is abnormal.</li>
+      <li><b>Level sense:</b> for "probe contacts no liquid" or "aspirates nothing" alarms once you have ruled out a clog. Put 2/3 tube of water in position 1, 20 consecutive runs.</li>
+      <li><b>Dispersion, substrate dispensing, wash buffer dispensing, system diagnosis</b> under <code>Utility → Maintenance → Diagnostics</code>.</li>
+    </ul>
+    <p class="src">CL-1000i Operation manual ch.14</p></div>
+  <div class="card"><h3>Stop and call service</h3>
+    <ul class="b">
+      <li>Dark current, photon count or DCF diagnosis shows Fail.</li>
+      <li>Red alarm persists after Home and a restart of software and analyzer.</li>
+      <li>Repeated wash buffer bubble alarms (the sensor needs calibration by an engineer).</li>
+      <li>Waste bin button pressed without changing the bin, then a gripper collision.</li>
+      <li>Sample transport error three times; DCF fluctuating during daily clean.</li>
+    </ul></div>
+</div>
+<p class="src" style="margin-top:22px"><b>Files behind this chapter:</b> CL-1000i Operation manual §16.1–16.5 and ch.14 · SD-APP-38 Maintenance PPT · SD-APP-37 Precautions PPT · CL1000i-TH manual §7 · SD-APP-36 Application guide p44–45</p>
+</div></section>
+
+<!-- ============ 8 ASSAYS ============ -->
+<section class="ch" id="assays"><div class="wrap">
+<header><div class="kick">Chapter 9</div><h2>Assay menu reference</h2>
+<p>From the assay summary workbook (the June 2025 update). Method and procedure tell you which flow in chapter 2 applies. First result time is for the CL-1000i.</p></header>
+<div class="row">
+  <label for="aq" class="res">Search</label><input id="aq" type="search" placeholder="Assay name, e.g. TSH" style="min-width:min(100%,220px)">
+  <label for="am" class="res">Method</label><select id="am"><option value="">All</option></select>
+  <label for="ap" class="res">Procedure</label><select id="ap"><option value="">All</option></select>
+  <div class="seg" id="asite" role="group" aria-label="Site list" style="margin:0"><button type="button" aria-pressed="true" data-s="">All 79 assays</button><button type="button" aria-pressed="false" data-s="mit">Mitrapracha sheet (12)</button></div>
+  <label for="apn" class="res">Panel</label><select id="apn"><option value="">All</option></select>
+  <span class="res" id="acount"></span>
+</div>
+<div class="row" id="aLeg" style="gap:8px;margin-top:8px" aria-label="Panel colours"></div>
+<div class="tbl" style="margin-top:10px;max-height:620px;overflow:auto"><table class="atbl"><colgroup><col style="width:9%"><col style="width:7%"><col style="width:9%"><col style="width:15%"><col style="width:7%"><col style="width:9%"><col style="width:14%"><col style="width:18%"><col style="width:12%"></colgroup>
+  <thead><tr><th>Assay</th><th class="n">First result (min)</th><th>Method</th><th>Procedure</th><th class="n">Sample (µL)</th><th>Onboard stability</th><th>Measuring range</th><th class="rr" style="font-family:inherit;font-size:inherit">Reference range</th><th>Hook effect (up to)</th></tr></thead>
+  <tbody id="atb"></tbody></table></div>
+<div class="grid g3" style="margin-top:14px" id="aSum"></div>
+<p class="src">Source: Assay_summary-20250609_update_ToRCH.xlsx, sheet "Summary" (columns Method, Procedure, Sample volume, Onboard stability, Measuring range, <b>Referece range</b> [spelled so in the file], Hook effect). Test-name colour = panel as grouped on the promotional video slide (video 2:20); assays not on that slide are grey. Reference ranges are copied as printed in the workbook: check the reagent insert and your own lab's validated range before use. The "Mitrapracha" button filters to the 12 assays on the workbook sheet named มิตรประชา: AFP, CEA, t-PSA, TSH, FT3, FT4, T3, T4, Total βHCG II, Anti-HBs, HIV, hs-cTnI. The sheet อาชีวะ lists the CL-2000i first-result times for the full menu.</p>
+<div class="grid g2" style="margin-top:14px">
+  <figure data-zoom><img src="img/vid14.jpg" alt="Assay menu of 50 immunoassays"><figcaption>Assay menu by panel as shown in the promotional video. <i>CL-1000i promotional video, 2:20</i></figcaption></figure>
+  <figure data-zoom><img src="img/prod12.jpg" alt="Mixing system slide"><figcaption>Vortex mixing: the eccentric seat shakes the cuvette bottom; its speed is monitored. <i>SD-APP-35 Product PPT, slide 12</i></figcaption></figure>
+</div>
+</div></section>
+
+<footer><div class="wrap">
+  <b>Files used</b><br>
+  CL-1000i CL-1000i Operation manual v2.0 (Vol. I–II) · CL1000i-TH manual (S.E. Supply) · CL1000i training deck (Thai) · SD-APP-35 Product, SD-APP-36 Application, SD-APP-37 Precautions, SD-APP-38 Maintenance decks · CL-1000i promotional video · Performance validation reports (2019, 2022) · FR-APP-18 IQOQ form · Assay summary workbook.<br>
+  <span class="res">Instrument figures are cropped from these files. Verify any limit against the current Mindray documents before you sign a record.</span>
+</div></footer>
+</div>
+<div class="dlg" id="dlg" role="dialog" aria-modal="true" aria-label="Enlarged figure"><button class="btn" type="button" id="dlgx">Close</button><img alt="" id="dlgimg"></div>
+
+<script>
+(function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function store(k,v){try{if(v===undefined){return localStorage.getItem(k)}localStorage.setItem(k,v)}catch(e){return null}}
+function seg(el,items,cb,init){
+  el.innerHTML=items.map(function(it,i){return '<button type="button" aria-pressed="'+(i===init)+'" data-i="'+i+'">'+esc(it)+'</button>'}).join('');
+  el.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+    $$('button',el).forEach(function(x){x.setAttribute('aria-pressed',x===b)});cb(+b.dataset.i)});
+  cb(init);
+}
+function fig(src,alt,cap,from){return '<figure data-zoom><img src="img/'+src+'" alt="'+esc(alt)+'" loading="lazy"><figcaption>'+cap+(from?' <i>'+from+'</i>':'')+'</figcaption></figure>'}
+
+/* ---------- lightbox ---------- */
+var dlg=$('#dlg'),dimg=$('#dlgimg');
+document.addEventListener('click',function(e){
+  var f=e.target.closest('figure[data-zoom] img');
+  if(f){dimg.src=f.src;dimg.alt=f.alt;dlg.classList.add('on');return}
+  if(e.target===dlg||e.target.id==='dlgx'){dlg.classList.remove('on')}
+});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')dlg.classList.remove('on')});
+
+/* ---------- nav highlight ---------- */
+(function(){
+  var links=$$('nav.rail a'),secs=links.map(function(a){return $(a.getAttribute('href'))});
+  function upd(){var y=window.scrollY+120,cur=0;secs.forEach(function(s,i){if(s&&s.offsetTop<=y)cur=i});
+    links.forEach(function(a,i){a.classList.toggle('on',i===cur)})}
+  window.addEventListener('scroll',upd,{passive:true});upd();
+})();
+
+/* ---------- 1 modules ---------- */
+var MODS=[
+ {n:'Sample delivery',img:'prod6.jpg',cap:'Sample delivery module with six channels',from:'SD-APP-35 Product PPT, slide 6',b:[
+  '6 channels, one rack per channel. The rack does not distinguish routine, STAT or calibration. Default STAT channel is the 6th; it can be set in software.',
+  'Each rack channel and the transport mechanism has detection sensors. Each rack holds 10 positions.',
+  'Tubes: diameter 12–16 mm, height 65–102 mm; also 2 mL Hitachi micro cups, 0.5 mL and 2 mL BCI micro cups.',
+  'Barcode reader reads sample tubes and fetches orders from the LIS.']},
+ {n:'Sample / reagent probe',img:'prod9.jpg',cap:'Single probe for sample and reagent',from:'SD-APP-35 Product PPT, slide 9',b:[
+  'One probe aspirates and dispenses both sample (10–200 µL) and reagent (20–200 µL), in 1 µL steps.',
+  'Liquid level detection, clot detection, probe jam detection, horizontal and vertical anti-collision.',
+  'Probe washing: four nozzles slightly above 45 mm shower the outer surface with wash buffer; vacuum removes the wash buffer from inner and outer surfaces.',
+  'The probe dispenses 3 kinds of liquid in a one-step test and 4 in a two-step test.']},
+ {n:'Probe cleaning',img:'prod10.jpg',cap:'Sample probe cleaning assembly',from:'SD-APP-35 Product PPT, slide 10',b:[
+  'Wash buffer cleans inside and outside the probe after each aspiration.',
+  'CD80 concentrated probe wash solution is used in daily maintenance. It is loaded by hand: <code>Reagent → Consumable Management → Wash Solution</code>, then enter volume, bottle number, expiry and lot.']},
+ {n:'Reagent carousel',img:'vid8.jpg',cap:'Reagent carousel with bottles at 2–8 °C',from:'CL-1000i promotional video, 1:20',b:[
+  '25 positions at 2–8 °C, constant refrigeration. Opened reagent is stable on board up to 56 days (28 days for some assays, see chapter 9).',
+  'The carousel rotates to mix the magnetic particle bottle automatically, so the beads do not settle.',
+  'Barcodes are read automatically when the lid is closed. Carousel button: flashing = lid open or ready to load, steady = rotating for analysis (do not open), off = free.',
+  'Open the cover before each day’s work so the probe is not bent; close it when not in use to keep reagent cold.']},
+ {n:'Mixing',img:'prod12.jpg',cap:'Vortex mixing of the cuvette',from:'SD-APP-35 Product PPT, slide 12',b:[
+  'Vortex mixing: a cuvette is held at the mixing position and an eccentric seat shakes its bottom.',
+  'The rotation speed is monitored during mixing. Too slow or too fast raises the RMXL, RMXH, WMXL or WMXH flags.']},
+ {n:'Reaction disk',img:'prod15.jpg',cap:'Reaction disk with photometer',from:'SD-APP-35 Product PPT, slide 15',b:[
+  'Three rings of 25 positions = 75, at 37 ± 0.3 °C (fluctuation ± 0.2 °C).',
+  'Inner and middle rings incubate sample and reagent. The outer ring adds reagent components, incubates with substrate and measures light.',
+  'The disk and the photometer are directly connected.']},
+ {n:'Magnetic separation',img:'prod13.jpg',cap:'Magnetic separation disk',from:'SD-APP-35 Product PPT, slide 13',b:[
+  'After incubation the magnetic particle complex is separated from the reaction liquid by washing. Four dispersion steps with wash buffer, with the beads dispersed in each step.',
+  'In 1-step 1-separation, 2-step 1-separation and the second separation of 2-step 2-separation, substrate is injected in the last phase, mixed with the beads, and the cuvette returns to the reaction disk for measurement.',
+  'After the first separation of a 2-step 2-separation test no substrate is added; the gripper returns the cuvette to the reaction disk.']},
+ {n:'Substrate',img:'prod14.jpg',cap:'Two substrate positions',from:'SD-APP-35 Product PPT, slide 14',b:[
+  'Two loading positions; the analyzer switches to the second bottle when the first finishes. The needle pierces the bottle from the bottom.',
+  'New bottle: at least 6 hours at room temperature before use. Open life 14 days. Bottles of 300 or 500 tests.']},
+ {n:'Cuvettes and waste',img:'prod16.jpg',cap:'Cuvette transfer and waste',from:'SD-APP-35 Product PPT, slide 16',b:[
+  'Two boxes of cuvettes on board plus the buffer area = 242 pieces (88 per box, up to 66 in the buffer area). The tray self-locks; click <b>Load</b> in the software to unlock.',
+  'Used cuvettes go to a paper waste bin, up to 185 per bin, counted by software and monitored by sensor.']}
+];
+(function(){
+  var out=$('#modOut');
+  seg($('#modSeg'),MODS.map(function(m){return m.n}),function(i){var m=MODS[i];
+    out.innerHTML=fig(m.img,m.n,esc(m.cap),m.from)+'<div class="card"><h3>'+esc(m.n)+'</h3><ul class="b">'+m.b.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul><p class="src">Source: '+esc(m.from||'')+'</p></div>';
+  },0);
+})();
+
+/* ---------- 2 reaction scene ---------- */
+var SA=[-45,10,65];
+function pol(cx,cy,a,r){var t=a*Math.PI/180;return [cx+r*Math.cos(t),cy+r*Math.sin(t)]}
+function f1(n){return Math.round(n*10)/10}
+function diamond(x,y,s,fill){return '<polygon points="'+f1(x)+','+f1(y-s)+' '+f1(x+s)+','+f1(y)+' '+f1(x)+','+f1(y+s)+' '+f1(x-s)+','+f1(y)+'" fill="'+fill+'" stroke="#7d1f1a" stroke-width="1"/>'}
+function star(x,y,r){return '<circle cx="'+f1(x)+'" cy="'+f1(y)+'" r="'+r+'" fill="#f4b400" stroke="#8a6200" stroke-width="1"/>'}
+function yg(x,y,a,len,col){var p=pol(x,y,a,len),q1=pol(p[0],p[1],a+35,7),q2=pol(p[0],p[1],a-35,7);
+  return '<path d="M'+f1(x)+' '+f1(y)+' L'+f1(p[0])+' '+f1(p[1])+' M'+f1(q1[0])+' '+f1(q1[1])+' L'+f1(p[0])+' '+f1(p[1])+' L'+f1(q2[0])+' '+f1(q2[1])+'" fill="none" stroke="'+col+'" stroke-width="2" stroke-linecap="round"/>'}
+function freeY(x,y){return yg(x,y+6,-90,12,'var(--accent)')+star(x,y-12,4)}
+function dot(x,y){return '<circle cx="'+x+'" cy="'+y+'" r="3" style="fill:var(--muted)" opacity=".6"/>'}
+var FP=[[150,62],[330,60],[170,255],[250,262],[335,235],[105,235],[245,70],[345,160],[130,170],[290,230]];
+var GR=[[190,90],[300,170],[120,260],[220,230],[360,100],[200,160]];
+function beadsPos(washed){return washed?[[84,95],[84,150],[84,205]]:[[130,110],[225,190],[305,115]]}
+function scene(fmt,st){
+  var sand=fmt==='sand';
+  var names=sand?['Beads','Sample','Labelled antibody','Incubate 37 °C','Wash','Substrate','Light']:['Beads','Sample + labelled antigen','Incubate and compete','Wash','Substrate','Light'];
+  var k=sand?st:(st<=1?st:st+1); /* map competitive to sandwich index: 0,1,3,4,5,6 -> use 2 as incubate */
+  var stage=names[st];
+  var washed=(sand?st>=4:st>=3), sub=(sand?st>=5:st>=4), light=(sand?st===6:st===5);
+  var inc=(sand?st>=3:st>=2);
+  var B=beadsPos(washed),s='';
+  s+='<rect x="30" y="24" width="360" height="282" rx="16" fill="none" stroke="currentColor" stroke-width="2"/>';
+  if(sub)s+='<rect x="32" y="120" width="356" height="184" rx="14" style="fill:var(--glow)"/>';
+  if(washed){s+='<rect x="12" y="70" width="14" height="170" fill="#8a949a" stroke="currentColor"/><text x="19" y="262" font-size="11" text-anchor="middle" fill="currentColor">magnet</text>'}
+  /* free items */
+  var showFree=!washed;
+  if(showFree){
+    if(sand){
+      if(st===1){for(var i=0;i<6;i++)s+=diamond(FP[i][0],FP[i][1],7,'#d6403a');GR.forEach(function(g){s+=dot(g[0],g[1])})}
+      if(st===2){for(var i2=0;i2<6;i2++)s+=diamond(FP[i2][0],FP[i2][1],7,'#d6403a');GR.forEach(function(g){s+=dot(g[0],g[1])});for(var j=0;j<6;j++)s+=freeY(FP[j+4>9?j:j+4][0]+14,FP[j+4>9?j:j+4][1]+18)}
+      if(st===3){[0,1].forEach(function(i3){s+=diamond(FP[i3][0],FP[i3][1],7,'#d6403a')});[2,3].forEach(function(i4){s+=freeY(FP[i4][0],FP[i4][1])});GR.forEach(function(g){s+=dot(g[0],g[1])})}
+    }else{
+      if(st===1){for(var a=0;a<4;a++)s+=diamond(FP[a][0],FP[a][1],7,'#d6403a');for(var b=4;b<8;b++){s+=diamond(FP[b][0],FP[b][1],7,'#d6403a')+star(FP[b][0]+9,FP[b][1]-9,4)}GR.forEach(function(g){s+=dot(g[0],g[1])})}
+      if(st===2){[0,1].forEach(function(q){s+=diamond(FP[q][0],FP[q][1],7,'#d6403a')});[5,6].forEach(function(q){s+=diamond(FP[q][0],FP[q][1],7,'#d6403a')+star(FP[q][0]+9,FP[q][1]-9,4)});GR.forEach(function(g){s+=dot(g[0],g[1])})}
+    }
+  }
+  /* beads, antibodies, bound items */
+  B.forEach(function(bp,bi){
+    var cx=bp[0],cy=bp[1];
+    SA.forEach(function(a,si){
+      s+=yg(cx,cy,a,26,'var(--accent)');
+      var p=pol(cx,cy,a,32);
+      if(sand){
+        if(inc){s+=diamond(p[0],p[1],6,'#d6403a');var q=pol(cx,cy,a,46);s+=yg(p[0],p[1],a,16,'var(--accent)');s+=star(pol(cx,cy,a,56)[0],pol(cx,cy,a,56)[1],4)}
+      }else if(inc){
+        var lab=((bi+si)%3===1);
+        s+=diamond(p[0],p[1],6,'#d6403a');if(lab){s+=star(p[0]+7,p[1]-7,4)}
+      }
+    });
+    s+='<circle cx="'+cx+'" cy="'+cy+'" r="16" fill="#b8925a" stroke="#6d5130" stroke-width="1.5"/>';
+  });
+  /* light */
+  if(light){
+    var n=sand?9:3;
+    B.forEach(function(bp,bi){SA.forEach(function(a,si){
+      var lab=sand||((bi+si)%3===1); if(!lab)return;
+      var c=sand?pol(bp[0],bp[1],a,56):pol(bp[0]+7,bp[1]-7,a,0);
+      var cx=sand?c[0]:pol(bp[0],bp[1],a,32)[0]+7, cy=sand?c[1]:pol(bp[0],bp[1],a,32)[1]-7;
+      for(var r=0;r<6;r++){var u=pol(cx,cy,r*60,8),v=pol(cx,cy,r*60,15);s+='<line x1="'+f1(u[0])+'" y1="'+f1(u[1])+'" x2="'+f1(v[0])+'" y2="'+f1(v[1])+'" stroke="#f4b400" stroke-width="2" stroke-linecap="round"/>'}
+    })});
+  }
+  /* right panel */
+  s+='<text x="420" y="46" font-size="12" style="fill:var(--muted)" font-family="IBM Plex Mono,monospace" letter-spacing="1">STAGE '+(st+1)+' OF '+names.length+'</text>';
+  s+='<text x="420" y="76" font-size="26" font-weight="600" fill="currentColor" font-family="Barlow Condensed,sans-serif">'+esc(stage)+'</text>';
+  if(light){
+    s+='<path d="M392 165 L440 165" stroke="#f4b400" stroke-width="3" marker-end="url(#ar)"/>';
+    s+='<rect x="446" y="130" width="170" height="72" rx="6" fill="none" stroke="currentColor" stroke-width="2"/><text x="531" y="158" font-size="13" text-anchor="middle" fill="currentColor">Photometer</text><text x="531" y="178" font-size="12" text-anchor="middle" style="fill:var(--muted)">counts photons (CPS)</text>';
+    s+='<text x="420" y="232" font-size="14" font-weight="600" style="fill:var(--accent)">'+(sand?'More analyte, more light':'More analyte, less light')+'</text>';
+  }
+  /* legend */
+  var ly=262;
+  s+='<circle cx="428" cy="'+ly+'" r="8" fill="#b8925a" stroke="#6d5130"/><text x="446" y="'+(ly+4)+'" font-size="12" fill="currentColor">antibody-coated magnetic bead</text>';
+  s+=diamond(428,ly+22,6,'#d6403a')+'<text x="446" y="'+(ly+26)+'" font-size="12" fill="currentColor">analyte from the sample</text>';
+  s+=(sand?freeY(428,ly+52).replace(/stroke-width="2"/,'stroke-width="2"'):diamond(428,ly+48,6,'#d6403a')+star(435,ly+41,4))+'<text x="446" y="'+(ly+50)+'" font-size="12" fill="currentColor">'+(sand?'enzyme-labelled antibody':'enzyme-labelled antigen')+'</text>';
+  s+='<defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#f4b400"/></marker></defs>';
+  if(inc&&!washed)s+='<text x="420" y="104" font-size="13" style="fill:var(--warn)" font-family="IBM Plex Mono,monospace">37 °C incubation</text>';
+  if(washed&&!sub)s+='<text x="420" y="104" font-size="13" style="fill:var(--good)" font-family="IBM Plex Mono,monospace">unbound material washed away</text>';
+  return s;
+}
+var TXT={
+ sand:['Antibody-coated magnetic beads are in the cuvette. Each bead carries antibody (the small Y shapes).',
+  'Sample is added. The red diamonds are the analyte (the antigen of interest). Grey dots stand for everything else in the sample.',
+  'Enzyme-labelled antibody (Y with a yellow marker) is added. In a one-step assay it goes in with the sample and incubates once; in a two-step assay the sample incubates first (see the analysis modes below).',
+  'Incubation at 37 °C. Analyte binds the antibody on the bead, and labelled antibody binds a second site on the analyte, forming bead–analyte–label complexes. Some analyte and label stay free.',
+  'Dispersion: magnets hold the beads while wash buffer removes everything unbound. Each wash step disperses the beads so the wash is complete. The CL-1000i washes in 4 steps.',
+  'Substrate is injected in the last phase of separation and mixed with the beads, and the cuvette goes to the reaction disk for measurement.',
+  'The photometer counts the light given by the label on the beads. In a sandwich assay more analyte means more bound label, so more light.'],
+ comp:['Antibody-coated magnetic beads are in the cuvette.',
+  'Sample and enzyme-labelled antigen are added at the same time. Red diamonds are analyte from the sample; a diamond with a yellow marker is labelled antigen.',
+  'Incubation at 37 °C. Analyte and labelled antigen compete for the antibody on the beads. The more analyte in the sample, the fewer labelled antigens bind.',
+  'Dispersion: magnets hold the beads while wash buffer removes unreacted analyte and labelled antigen.',
+  'Substrate is injected in the last phase of separation and mixed with the beads, then the cuvette goes to the reaction disk.',
+  'The photometer counts the light. In a competitive assay more analyte means fewer bound labels, so less light.']
+};
+(function(){
+  var fmt='sand',st=0,svg=$('#reaction'),btns=$('#stageBtns'),tx=$('#stageText');
+  var NM={sand:['Beads','Sample','Label','Incubate','Wash','Substrate','Light'],comp:['Beads','Sample + label','Incubate','Wash','Substrate','Light']};
+  function draw(){
+    var n=NM[fmt].length; if(st>=n)st=n-1;
+    btns.innerHTML=NM[fmt].map(function(t,i){return '<button type="button" aria-pressed="'+(i===st)+'" data-i="'+i+'">'+(i+1)+' '+t+'</button>'}).join('');
+    svg.innerHTML=scene(fmt,st);tx.textContent=TXT[fmt][st];
+  }
+  btns.addEventListener('click',function(e){var b=e.target.closest('button');if(b){st=+b.dataset.i;draw()}});
+  $('#fmtSeg').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+    $$('button',$('#fmtSeg')).forEach(function(x){x.setAttribute('aria-pressed',x===b)});fmt=b.dataset.f;st=0;draw()});
+  draw();
+})();
+
+/* ---------- 2 modes ---------- */
+(function(){
+  var M={
+   1:{ev:[['add','Sample'],['add','Labelled antibody or antigen'],['inc','Incubate'],['wash','Separate (disperse, 4 steps)'],['read','Add substrate'],['inc','Incubate'],['read','Measure']],
+      t:'One incubation and one separation. Generally competitive assays and some double-antibody sandwich assays work this way. Example: AFP, CEA, CA125, TSH, FT3.'},
+   2:{ev:[['add','Sample'],['add','Labelled antibody or antigen'],['inc','Incubate'],['add','Second labelled antibody or antigen'],['inc','Incubate'],['wash','Separate once'],['read','Add substrate'],['inc','Incubate'],['read','Measure']],
+      t:'Two additions and incubations, one separation. Example in the assay menu: FT4, T3, T4, E2, HBeAg, Anti-HBe, Anti-HBc (two-step, one separation). The manual’s text for this mode lists the second addition before dispersion; the shipped Fig 4.4 draws the second incubation after the first.'},
+   3:{ev:[['add','Sample'],['add','Labelled antibody or antigen'],['inc','Incubate'],['wash','Separate (no substrate)'],['add','Second labelled antibody or antigen'],['inc','Incubate'],['wash','Separate, inject substrate'],['read','Measure']],
+      t:'Two incubations and two separations. The first separation removes unbound analyte; the cuvette goes back to the reaction disk without substrate. The second separation injects substrate. Example: HBsAg, HIV, Anti-HCV, Anti-TP, LH, Anti-Tg, Anti-TPO, rubella, Toxoplasma and CMV IgG/IgM.'}
+  };
+  var cur=1,line=$('#modeLine'),txt=$('#modeText');
+  function draw(){var m=M[cur];
+    line.innerHTML=m.ev.map(function(e,i){return '<div class="ev '+e[0]+'">'+(i?'<span class="arrow">›</span>':'')+esc(e[1])+'</div>'}).join('');txt.textContent=m.t}
+  $('#modeSeg').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+    $$('button',$('#modeSeg')).forEach(function(x){x.setAttribute('aria-pressed',x===b)});cur=+b.dataset.m;draw()});
+  draw();
+})();
+
+/* ---------- 3 flow ---------- */
+var ST={
+ A:{t:'Sample rack',s:'6 lanes × 10 positions',x:20,y:30,w:170,h:70,b:['Six lanes, one rack per lane, up to 60 samples and loadable while running. Routine, STAT and calibrator racks are the same rack; lane 6 is the default STAT lane.','Barcode reader identifies tubes and pulls the order from the LIS; or you program by sequence or by rack position.','Lights: yellow = testing; green flashing = done, remove the rack.']},
+ B:{t:'Probe',s:'sample and reagent, one probe',x:270,y:30,w:170,h:70,b:['One probe does both jobs: sample 10–200 µL, reagent 20–200 µL, 1 µL steps, with level detection, clot detection and anti-collision.','Dispenses 3 liquids for a one-step test, 4 for a two-step test. Washed inside and out with wash buffer after each use.','Typical faults: SMPL (no sample), SJAM or RJAM (clog), SBMP or RBMP (bump).']},
+ C:{t:'Reagent carousel',s:'25 positions, 2–8 °C',x:520,y:30,w:190,h:70,b:['Refrigerated at 2–8 °C. The bead bottle is rotated continuously so the beads stay suspended.','Closing the lid triggers a barcode scan of every position; check <code>Reagent → Reagent Overview</code> that all bottles are identified.','Do not open the lid while the carousel button is steady.']},
+ D:{t:'Cuvette trays',s:'2 boxes × 88',x:20,y:170,w:170,h:70,b:['Two boxes on board; with the buffer area the stock is up to 242 cuvettes. The gripper takes one cuvette at a time to each station.','Load a tray at any time; the counter resets itself. Keep the tray level or the gripper collides. Flashing door light = tray empty.']},
+ E:{t:'Reaction disk',s:'75 positions, 37 °C',x:270,y:170,w:170,h:70,b:['Sample, reagent and cuvette meet here. Inner and middle rings incubate; the outer ring takes added liquids and does the measurement.','Temperature 37 ± 0.3 °C. On a cold start expect incubation before standby (about 20–30 min, see chapter 4).','Vortex mixing by an eccentric seat under the cuvette; speed is monitored.']},
+ F:{t:'Magnetic separation',s:'4 dispersion steps',x:520,y:170,w:190,h:70,b:['Four aspirate probes (A1–A4) and wash buffer remove unbound material while the beads are held and dispersed in each step.','Last phase injects substrate into the cuvette (not after the first separation of a two-step, two-separation test).','Clog detection of these probes is the first part of Daily clean; they are replaced or cleaned weekly.']},
+ G:{t:'Substrate',s:'2 bottles, auto switch',x:730,y:170,w:150,h:70,b:['Two bottles, picked up from the bottom by a needle; the analyzer switches when one empties. Preheated before dispensing.','At least 6 h at room temperature before loading; 14 days after opening.','Air bubbles during dispensing raise the CSDB flag.']},
+ H:{t:'Photometer',s:'photon count (CPS)',x:730,y:300,w:150,h:70,b:['Connected directly to the reaction disk. The signal is converted to concentration with the 4PLC curve (or compared with the cutoff for qualitative assays).','Checks: dark current, photon count and DCF diagnosis; the DCF check also runs 20 times in Daily clean (≤ 1.5 %).']},
+ I:{t:'Result',s:'screen, print, LIS',x:730,y:390,w:150,h:60,b:['Results appear in <code>Results → Current</code> with flags; reaction curves can be opened. Results go to the LIS automatically or by <code>Host (F8)</code>.','If a value does not reach the LIS, check it on the analyzer: it may be above the linearity range and need a dilution and repeat before reporting.']},
+ J:{t:'Waste bin',s:'185 cuvettes per bin',x:520,y:300,w:190,h:70,b:['Used cuvettes drop into a paper waste bin. The software counts to 185 and the bin sensor flags full.','After changing the bin, press the button beside it. Pressing it without changing the bin can make the gripper collide.']},
+ K:{t:'Wash buffer',s:'10 L tank',x:270,y:300,w:170,h:70,b:['One tank at a time, 28 days after opening. Volume updates by weight when the tray is pushed back in. Do not pool leftover buffer; keep the tube clean.','Repeated bubble alarms in the wash buffer tubes need an engineer to calibrate the sensor.']}
+};
+(function(){
+  var svg=$('#flow'),info=$('#flowInfo'),sel='A';
+  var arrows=[['A','B','sample'],['C','B','reagent'],['B','E','dispense'],['D','E','cuvette'],['E','F','incubated'],['F','G','+ substrate'],['G','H','measure'],['H','J','discard'],['H','I','result']];
+  function mid(k,side){var s=ST[k];return side==='r'?[s.x+s.w,s.y+s.h/2]:side==='l'?[s.x,s.y+s.h/2]:side==='b'?[s.x+s.w/2,s.y+s.h]:[s.x+s.w/2,s.y]}
+  function path(a,b){
+    var A=ST[a],B=ST[b],p,q;
+    if(a==='A'&&b==='B'){p=mid('A','r');q=mid('B','l')}
+    else if(a==='C'&&b==='B'){p=mid('C','l');q=mid('B','r')}
+    else if(a==='B'&&b==='E'){p=mid('B','b');q=mid('E','t')}
+    else if(a==='D'&&b==='E'){p=mid('D','r');q=mid('E','l')}
+    else if(a==='E'&&b==='F'){p=[440,190];q=[520,190]}
+    else if(a==='F'&&b==='G'){p=mid('F','r');q=mid('G','l')}
+    else if(a==='G'&&b==='H'){p=mid('G','b');q=mid('H','t')}
+    else if(a==='H'&&b==='J'){p=mid('H','l');q=mid('J','r')}
+    else {p=mid('H','b');q=mid('I','t')}
+    return [p,q];
+  }
+  function draw(){
+    var s='<defs><marker id="fa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="currentColor"/></marker></defs>';
+    arrows.forEach(function(r){var p=path(r[0],r[1]),a=p[0],b=p[1];
+      s+='<line x1="'+a[0]+'" y1="'+a[1]+'" x2="'+b[0]+'" y2="'+b[1]+'" stroke="currentColor" stroke-width="1.6" marker-end="url(#fa)"/>';
+      var lx=(a[0]+b[0])/2,ly=(a[1]+b[1])/2;if(Math.abs(a[1]-b[1])<2&&Math.abs(a[0]-b[0])<60)return;
+      var vert=Math.abs(a[0]-b[0])<2;
+      s+='<text x="'+(vert?lx+6:lx)+'" y="'+(vert?ly+4:ly-6)+'" font-size="11" text-anchor="'+(vert?'start':'middle')+'" style="fill:var(--muted)">'+esc(r[2])+'</text>'});
+    s+='<path d="M440 335 L480 335 L480 225 L520 225" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#fa)"/><text x="486" y="288" font-size="11" style="fill:var(--muted)">wash</text>';
+    Object.keys(ST).forEach(function(k){var b=ST[k],on=k===sel;
+      s+='<g tabindex="0" role="button" data-k="'+k+'" aria-label="'+esc(b.t)+'" style="cursor:pointer"><rect x="'+b.x+'" y="'+b.y+'" width="'+b.w+'" height="'+b.h+'" rx="8" '+(on?'style="fill:var(--accent)" stroke="none"':'style="fill:var(--surface2)" stroke="currentColor" stroke-width="1.4"')+'/>'+
+       '<text x="'+(b.x+b.w/2)+'" y="'+(b.y+b.h/2-3)+'" text-anchor="middle" font-size="15" font-weight="600" font-family="Barlow Condensed,sans-serif" letter-spacing=".4" '+(on?'style="fill:var(--accent-ink)"':'fill="currentColor"')+'>'+esc(b.t)+'</text>'+
+       '<text x="'+(b.x+b.w/2)+'" y="'+(b.y+b.h/2+14)+'" text-anchor="middle" font-size="11" '+(on?'style="fill:var(--accent-ink)"':'style="fill:var(--muted)"')+'>'+esc(b.s)+'</text></g>'});
+    svg.innerHTML=s;
+    var b=ST[sel];info.innerHTML='<h3>'+esc(b.t)+'</h3><ul class="b">'+b.b.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul>';
+  }
+  svg.addEventListener('click',function(e){var g=e.target.closest('g[data-k]');if(g){sel=g.dataset.k;draw()}});
+  svg.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){var g=e.target.closest('g[data-k]');if(g){e.preventDefault();sel=g.dataset.k;draw();var n=svg.querySelector('g[data-k="'+sel+'"]');if(n)n.focus()}}});
+  draw();
+})();
+
+/* ---------- 4 install checklist ---------- */
+function checklist(host,items,key,bar,count){
+  var saved={};try{saved=JSON.parse(store(key)||'{}')}catch(e){}
+  var h='';items.forEach(function(it,i){h+='<label class="check"><input type="checkbox" data-i="'+i+'"'+(saved[i]?' checked':'')+'><span>'+it+'</span></label>'});
+  host.innerHTML=h;
+  function upd(){var c=$$('input:checked',host).length;bar.style.width=(100*c/items.length)+'%';count.textContent=c+' of '+items.length+' done'}
+  host.addEventListener('change',function(){var o={};$$('input',host).forEach(function(x){if(x.checked)o[x.dataset.i]=1});store(key,JSON.stringify(o));upd()});
+  upd();
+}
+checklist($('#instList'),[
+ 'Package checked on receipt; goods match the packing list; no sign of damage (claim at once if there is).',
+ 'Bench level (&lt; 1/200), holds 250 kg, no vibration, out of direct sun, no heat or draft source.',
+ 'Clearances kept: ≥ 700 mm wall side, ≥ 500 mm other sides and between units.',
+ 'Ambient 15–30 °C and 35–85 %RH; air conditioning available if outside range.',
+ 'Grounded three-wire socket, 220–240 V, zero-ground voltage &lt; 5 V.',
+ 'Waste route ready: outlet ≥ 50 mm wide, ≤ 100 mm high, tubing ≤ 5 m; outlets 1 and 2 separate; tank guide tube ≥ 2 m.',
+ 'Water source meets &gt; 1 MΩ·cm at 25 °C (needed for validation record and DI rinse).',
+ 'Computer meets the specification; second network adapter ready if connecting the LIS.',
+ 'Wash buffer, CD80, cuvettes and waste bins on site; substrate taken out at least 6 h (better a day) before use.',
+ 'LIS parameters agreed: transport mode, protocol, channel number.',
+ 'Users named for the permission table; default administrator password to be changed.',
+ 'Mindray-authorized installer booked; IQOQ form FR-APP-18 printed.'
+],'cl1000i-inst',$('#instBar'),$('#instCount'));
+
+/* ---------- 5 repeatability calculator ---------- */
+(function(){
+  function calc(){
+    var v=$('#rep').value.split(/[\s,;]+/).map(parseFloat).filter(function(x){return !isNaN(x)});
+    var tg=parseFloat($('#tgt').value),tea=parseFloat($('#tea').value),lim=parseFloat($('#cvl').value),o=$('#repOut');
+    if(v.length<2){o.textContent='Enter at least 2 values.';return}
+    var n=v.length,m=v.reduce(function(a,b){return a+b},0)/n,sd=Math.sqrt(v.reduce(function(a,b){return a+(b-m)*(b-m)},0)/(n-1)),cv=100*sd/m;
+    var h='n = '+n+'<br>Mean = <b>'+m.toFixed(4)+'</b> &nbsp; SD = <b>'+sd.toFixed(4)+'</b> &nbsp; %CV = <b>'+cv.toFixed(3)+'</b> <span class="'+(cv<lim?'ok-t':'bad-t')+'">'+(cv<lim?'Pass (&lt; '+lim+' %)':'Fail (≥ '+lim+' %)')+'</span>';
+    if(!isNaN(tg)&&tg!==0){var bias=100*(m-tg)/tg,te=1.65*cv+Math.abs(bias);
+      h+='<br>Bias = <b>'+bias.toFixed(3)+' %</b>';
+      h+='<br>TE = 1.65 × '+cv.toFixed(3)+' + '+Math.abs(bias).toFixed(3)+' = <b>'+te.toFixed(3)+' %</b>';
+      if(!isNaN(tea))h+=' <span class="'+(te<tea?'ok-t':'bad-t')+'">'+(te<tea?'within TEa '+tea+' %':'exceeds TEa '+tea+' %')+'</span>'}
+    o.innerHTML=h;
+  }
+  ['rep','tgt','tea','cvl'].forEach(function(id){$('#'+id).addEventListener('input',calc)});calc();
+})();
+
+/* ---------- 6 consumables ---------- */
+var CON=[
+ {n:'Reagent',img:'prec2.jpg',cap:'Reagent loading steps on the carousel',from:'SD-APP-37 Precautions PPT, slide 2',b:[
+  '<b>Check</b> the pack: buckle broken, package broken, barcode damaged? Do not use a pack with a broken package, leaking foil or broken plastic fastener.',
+  '<b>Mix</b> the bead bottle gently by inversion until no beads remain at the bottom (10–20 times in the CL1000i_training deck). No bubbles. For an opened reagent only rotate the bead bottle; do not turn the whole pack upside down.',
+  '<b>Open</b> the foil slowly, holding the bottle about a foot away to avoid splashes in the eyes. Check the silicone seal can be pierced; break adhesion with a clean tip, never reuse a tip on two seals.',
+  '<b>Load</b> with the gear side first, press the tail until you hear a click. Tug to confirm. Close the lid: barcodes are read automatically. Press the button beside the carousel to check the bottle turns freely.',
+  '<b>While running:</b> <code>Reagent/Calibration → Reagent Stop (F2)</code>, wait until the countdown reaches 0 and the load prompt appears. Opening earlier stops the tests in progress. On the CL-1000i the run continues when you close the lid.',
+  'Barcode not read: <code>Reagent Overview → select position → Load (F1)</code>, type the barcode digits, <code>Load (F3)</code>.',
+  'New lot: scan the master curve before calibrating. Wear clean gloves without talcum powder.']},
+ {n:'Substrate',img:'prec3.jpg',cap:'Substrate package and loading',from:'SD-APP-37 Precautions PPT, slide 3',b:[
+  'Check package, leakage, barcode. Equilibrate at least <b>6 h</b> at room temperature; better to take it out the day before.',
+  'Choose bottle size (300 or 500 tests) and one or two channels by workload. Keep at least <b>10 tests</b> spare for Auto maintenance.',
+  '<code>Reagent → Consumable Management</code>, choose the channel, <b>Load</b>. If an old bottle is registered press <b>Unload</b> first. Scan the 2D barcode at the center of the label for lot, expiry and test count.',
+  'Removing: screw the cap clockwise to close it first, take the metal block off, lift the bottle straight up.',
+  'Loading: tear the bottom foil, set the bottle vertically under the metal block, then turn the cap a quarter turn anticlockwise (loosen, do not remove). Press Load (F3) to save.',
+  'Do not puncture the bottle repeatedly. Always leave a bottle in position, even on holiday, to protect probe and tubing. Use the channel that matches the software. Open life 14 days.']},
+ {n:'Wash buffer',img:'prec4.jpg',cap:'Wash buffer tank change',from:'SD-APP-37 Precautions PPT, slide 4',b:[
+  'Check the pack for damage, soaking, squashing. Flashing indicator = load a new tank; change the one whose light flashes.',
+  'Disconnect the tube, hang it on the hook without touching the nozzle. Move the cap-tube assembly from the old tank into the new one and fasten it.',
+  'Put the tank on the tray with the arrow pointing at the machine, push the nozzle into the assembly until it clicks, push the tray in. The light stops flashing; volume updates by weight.',
+  'Clean crystallized salt off the tank cap. Do not pool dead volume from old tanks. Repeated bubble alarms need an engineer.']},
+ {n:'Waste bin',img:'prec5.jpg',cap:'Waste box change',from:'SD-APP-37 Precautions PPT, slide 5',b:[
+  'Flashing light = full: open the door, remove the full box, leave the other, place a new one, then <b>press the button</b> to reset the count.',
+  'Pressing the button without changing the box can leave it full and the gripper may collide; call service. If pressed by accident, empty the box and load it again.',
+  'Check the lights before every start of the day. If you replace a bin during operation, finish within 2 minutes. Keep room for 30 tests for Auto maintenance. Bin holds 185 cuvettes.']},
+ {n:'Cuvette',img:'prec6.jpg',cap:'Cuvette tray loading',from:'SD-APP-37 Precautions PPT, slide 6',b:[
+  'Check for damage. Open the package carefully and do not drop cuvettes. If you drop one on the floor, discard it.',
+  '<code>Reagent → Consumable Management</code>, choose the tray, <b>Load</b>. Pull the tray rack out when it shows Unlocked, seat the cuvette tray until the bottom touches the rack, push it in, close the door against dust.',
+  'Load only what you need; avoid keeping cuvettes longer than 7 days; if more than 3 cuvettes are missing from the pack when you open it, the pack is affected. Clear empty trays promptly. Keep at least one box on board for Auto maintenance.',
+  'Keep the tray level so the gripper does not collide. A gripper failure alarm while gripping a cuvette can be ignored (Precautions deck).']},
+ {n:'CD80 probe wash',img:'',cap:'',from:'',b:[
+  'Used to improve probe cleaning; loaded by hand only. Add CD80 to the bottle off-line, not while it sits in its position, to keep the instrument clean.',
+  'Place the bottle to the bottom of its position or it may collide with the probe. Then in software: <code>Consumable Management → Wash Solution → Load</code>, enter volume, bottle number, expiry, lot.',
+  'Replace weekly (CL1000i_training deck). Open life 3 months, store 2–35 °C, 1 L bottles.']}
+];
+(function(){
+  var out=$('#conOut');
+  seg($('#conSeg'),CON.map(function(c){return c.n}),function(i){var c=CON[i];
+    out.innerHTML=(c.img?fig(c.img,c.n,esc(c.cap),c.from):'')+'<div class="card"><h3>'+esc(c.n)+'</h3><ul class="b">'+c.b.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul><p class="src">Source: '+esc(c.from||'SD-APP-37 Precautions PPT; CL-1000i Operation manual (consumable management); CL1000i_training deck (CD80 weekly)')+'</p></div>';
+  },0);
+})();
+
+/* ---------- 6 calibration steps ---------- */
+(function(){
+  var S=[
+   ['1 Master curve','Scan the 2D barcode on the inside of the <b>reagent package</b> every time a new reagent lot goes on board: <code>Reagent → Cal Setup → Master Curve (F3)</code>, then Save. Saved data cannot be edited. Until scanned, <code>Cal Setup → Immunology → Master curve Scanned = N</code> and the assay shows Cal Required.'],
+   ['2 Define calibrator','Scan the barcode inside the <b>calibrator box</b>: <code>Reagent → Cal Setup → Define (F1)</code>. It carries assay, lot and expiry. Save after each box. Saved data cannot be edited.'],
+   ['3 Position','<code>Reagent → Cal Position</code>: choose lane and position for each calibrator (put the 3 calibrators of one assay in the same lane). <code>Sample cup (F5)</code> picks the cup type because dead volumes differ. Delete with F6.'],
+   ['4 Request','<code>Reagent → Reagent/Calibration</code>, select the assay by its reagent position, press <b>Cal (F5)</b>; status becomes Requested. <b>No Cal (F6)</b> cancels. <b>Load list (F4)</b> shows which calibrators go where; check the position every time.'],
+   ['5 Run','Place calibrators on a rack in any rack number at the ordered positions, load the rack in the lane, press Start. A flashing yellow lane light means calibration was requested but no calibrator is on the rack.'],
+   ['6 Review','<code>Reagent → Calibration Result</code>: <b>Current</b> for the latest of every assay, <b>History</b> by assay and period. <b>Cal Data (F2)</b>, <b>Trend (F6)</b>, <b>Archive (F5)</b> to Excel, Print (F7). Passing the internal checks gives Calibrated; otherwise see the calibration flags in chapter 8.']
+  ];
+  var o=$('#calOut'),b=$('#calSteps'),cur=0;
+  function d(){b.innerHTML=S.map(function(s,i){return '<button type="button" aria-pressed="'+(i===cur)+'" data-i="'+i+'">'+s[0]+'</button>'}).join('');o.innerHTML='<h3>'+S[cur][0].slice(2)+'</h3><p>'+S[cur][1]+'</p>'}
+  b.addEventListener('click',function(e){var x=e.target.closest('button');if(x){cur=+x.dataset.i;d()}});d();
+})();
+
+/* ---------- 6 training ---------- */
+(function(){
+  var G={trA:[
+    'Names the six lanes, STAT lane, reagent carousel, substrate positions, cuvette doors, waste bins and what each light means.',
+    'Follows the power-on order and checks the pre-start list (wash buffer, CD80, cuvettes, substrate, waste, paper, probe).',
+    'Logs in, finds status, Alarm and Reagent buttons; knows yellow versus red.',
+    'States the safety points: moving parts, laser barcode reader, biohazard, ethanol.'],
+   trB:[
+    'Mixes, opens, checks silicone seal and loads a reagent; closes the lid and confirms barcode read.',
+    'Loads reagent during a run with Reagent Stop and waits for the prompt.',
+    'Loads substrate (6 h rule, channel, cap) and wash buffer without touching the nozzle.',
+    'Changes waste bin and presses the button only after changing.',
+    'Loads a cuvette tray and CD80.'],
+   trC:[
+    'Scans master curve, defines calibrator, sets position, requests and runs a calibration.',
+    'Reads Calibration Result and names the status colours.',
+    'Imports a control by barcode, sets rules, runs QC and reads L-J and twin-plot.',
+    'Explains when QC and calibration are repeated (new lot, calibration, maintenance, problem).'],
+   trD:[
+    'Prepares a sample (spin, bubbles, fibrin, level over 1 cm) and picks the right tube and dead volume.',
+    'Programs a routine sample, a batch and a STAT sample; releases a rack position.',
+    'Reads a result, opens the reaction curve, reruns with a dilution and sets the default value.',
+    'Explains why a result may not reach the LIS.'],
+   trE:[
+    'Performs and logs the daily checks; runs Daily clean and Effect check and says the pass limits.',
+    'Cleans probe exterior and knows the weekly and monthly tasks.',
+    'Reads the error log, decodes the event ID, looks up a flag.',
+    'Knows what to try (Home, restart, prime) and when to call service.']};
+  var all=[],keys=Object.keys(G),saved={};
+  try{saved=JSON.parse(store('cl1000i-train')||'{}')}catch(e){}
+  keys.forEach(function(k){var h='';G[k].forEach(function(t,i){var id=k+i;all.push(id);h+='<label class="check"><input type="checkbox" data-id="'+id+'"'+(saved[id]?' checked':'')+'><span>'+t+'</span></label>'});$('#'+k).innerHTML=h});
+  function upd(){var c=$$('#operate input[data-id]:checked').length;$('#trBar').style.width=(100*c/all.length)+'%';$('#trCount').textContent=c+' of '+all.length+' skills shown'}
+  $('#operate').addEventListener('change',function(e){if(!e.target.dataset.id)return;var o={};$$('#operate input[data-id]').forEach(function(x){if(x.checked)o[x.dataset.id]=1});store('cl1000i-train',JSON.stringify(o));upd()});
+  upd();
+})();
+
+/* ---------- 7 error decoder ---------- */
+(function(){
+  var C={'00':'Operating system','01':'Instrument communication','02':'Database','03':'Result calculation','04':'Sample bar code','05':'Reagent bar code','06':'LIS host','07':'Consumable','08':'Rack feeder system','09':'Analyzer performance'};
+  var A={'50':'Rack feeder system','51':'Probe','52':'Reagent carousel','53':'Reaction carousel','54':'Photometer','55':'Gripper','56':'Dispersion aspirating','57':'Dispersion dispensing','58':'Dispersion carousel','59':'Hydro system','60':'Temperature control','61':'Refrigeration'};
+  function d(){var v=$('#code').value.trim().toUpperCase(),o=$('#codeOut'),m=/^([CA])(\d{2})(\d{3})$/.exec(v);
+    if(!m){o.innerHTML='Format: one letter C or A, then 2 digits for the component, then 3 digits for the serial number.';return}
+    var tbl=m[1]==='C'?C:A,comp=tbl[m[2]];
+    o.innerHTML=m[1]==='C'?'Raised on the <b>operation unit</b> (computer/software).<br>Component '+m[2]+': <b>'+(comp||'not listed in the manual')+'</b><br>Serial: '+m[3]:'Raised on the <b>analyzing unit</b>.<br>Component '+m[2]+': <b>'+(comp||'not listed in the manual')+'</b><br>Serial: '+m[3];
+    o.innerHTML+='<br><span style="color:var(--muted)">Open the error log help icon for causes and fixes of this exact code (manual §16.5).</span>';}
+  $('#code').addEventListener('input',d);d();
+})();
+
+/* ---------- 7 daily clean / effect check svg ---------- */
+(function(){
+  var s='<defs><marker id="da" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="currentColor"/></marker></defs>';
+  function tx(x,y,t,o){o=o||{};return '<text x="'+x+'" y="'+y+'" font-size="'+(o.s||12)+'" '+(o.w?'font-weight="'+o.w+'" ':'')+(o.f?'font-family="'+o.f+'" ':'')+(o.a?'text-anchor="'+o.a+'" ':'')+(o.c?'style="fill:var(--'+o.c+')" ':'fill="currentColor" ')+'>'+t+'</text>'}
+  s+=tx(20,24,'DAILY CLEAN (about 20 min, automatic)',{s:13,w:600,f:'IBM Plex Mono,monospace',c:'muted'});
+  var D=[
+   ['1 Clog detection',['4 cuvettes used.','Probes aspirate wash buffer,','level checked after inject.'],'≤ limit: pass','> limit: stop, alarm "dispersion aspirating probes clogged"'],
+   ['2 Enhanced wash',['CD80 into cuvette; each dispersion','probe soaks 3 min, ×3, then wash','buffer ×3. Sample/reagent probe:','CD80, soak 3 min, ×3, wash well.'],'Probes clean','Needs supplies: CD80, wash buffer'],
+   ['3 DCF check',['Photometer drift correction','factor read 20 times.','Relative extreme difference.'],'≤ 1.5 %: pass','> 1.5 %: "DCF is violently fluctuating", call service'],
+   ['4 Substrate sensor',['Aspirating and dispensing','coupler (bubble detection)','calibrated with AD values.'],'Signal in range: success','Fail: wiring, back-suction level, bubbles, replace sensor']];
+  D.forEach(function(d,i){var x=20+i*226,w=206;
+    s+='<rect x="'+x+'" y="40" width="'+w+'" height="190" rx="8" style="fill:var(--surface2)" stroke="currentColor" stroke-width="1.3"/>';
+    s+=tx(x+12,64,d[0],{s:19,w:600,f:'Barlow Condensed,sans-serif'});
+    d[1].forEach(function(l,j){s+=tx(x+12,88+j*16,l,{s:11.5})});
+    s+='<rect x="'+(x+10)+'" y="158" width="'+(w-20)+'" height="26" rx="4" style="fill:var(--good-bg)"/>'+tx(x+16,175,d[2],{s:11.5,c:'good'});
+    s+='<rect x="'+(x+10)+'" y="190" width="'+(w-20)+'" height="32" rx="4" style="fill:var(--bad-bg)"/>';
+    var words=d[3],mid=Math.ceil(words.length/2),sp=words.lastIndexOf(' ',34);if(words.length<=34)sp=-1;
+    if(sp>0){s+=tx(x+16,203,words.slice(0,sp),{s:10.5,c:'bad'})+tx(x+16,215,words.slice(sp+1),{s:10.5,c:'bad'})}else s+=tx(x+16,210,words,{s:10.5,c:'bad'});
+    if(i<3)s+='<line x1="'+(x+w)+'" y1="135" x2="'+(x+w+20)+'" y2="135" stroke="currentColor" stroke-width="1.6" marker-end="url(#da)"/>';
+  });
+  s+=tx(20,272,'EFFECT CHECK (every 4 or 24 h, automatic)',{s:13,w:600,f:'IBM Plex Mono,monospace',c:'muted'});
+  var E=['3 cuvettes','no sample/reagent','incubate','4-step dispersion','add substrate','read 3 RLUs'];
+  E.forEach(function(e,i){var x=20+i*150;
+    s+='<rect x="'+x+'" y="288" width="128" height="46" rx="6" '+(i===5?'style="fill:var(--accent)"':'style="fill:var(--surface2)"')+' stroke="currentColor" stroke-width="1.2"/>';
+    s+='<text x="'+(x+64)+'" y="316" font-size="11.5" text-anchor="middle" '+(i===5?'style="fill:var(--accent-ink)"':'fill="currentColor"')+'>'+e+'</text>';
+    if(i<5)s+='<line x1="'+(x+128)+'" y1="311" x2="'+(x+148)+'" y2="311" stroke="currentColor" stroke-width="1.6" marker-end="url(#da)"/>'});
+  /* gauge: 0..9000 over x 40..880 */
+  var gx=function(v){return 40+v/9000*840};
+  s+='<rect x="'+gx(0)+'" y="378" width="'+(gx(2500)-gx(0))+'" height="22" style="fill:var(--bad-bg)"/><rect x="'+gx(2500)+'" y="378" width="'+(gx(6500)-gx(2500))+'" height="22" style="fill:var(--good-bg)"/><rect x="'+gx(6500)+'" y="378" width="'+(gx(9000)-gx(6500))+'" height="22" style="fill:var(--bad-bg)"/>';
+  s+='<rect x="40" y="378" width="840" height="22" fill="none" stroke="currentColor" stroke-width="1"/>';
+  [0,2500,6500,9000].forEach(function(v){s+='<line x1="'+gx(v)+'" y1="378" x2="'+gx(v)+'" y2="408" stroke="currentColor"/>'+tx(gx(v),424,v,{s:11,a:'middle',f:'IBM Plex Mono,monospace'})});
+  s+=tx(gx(4500),394,'PASS 2500–6500 RLU',{s:12,a:'middle',c:'good',w:600});
+  s+=tx(gx(1250),394,'low',{s:11,a:'middle',c:'bad'})+tx(gx(7750),394,'high',{s:11,a:'middle',c:'bad'});
+  s+=tx(40,350,'Low: substrate expired or deteriorated, leak or bubbles in the line, bottle leak, long interval since last check.',{s:11,c:'bad'});
+  s+=tx(40,365,'High: contaminated substrate bottle or line, dirty cuvette, substrate outlet tube too short, foreign matter in cuvette.',{s:11,c:'bad'});
+  s+=tx(880,450,'Any one of the three RLUs outside the range gives "Auto effect check failed".',{s:11,a:'end',c:'muted'});
+  $('#dcSvg').innerHTML=s;
+})();
+
+/* ---------- 7 symptoms ---------- */
+var SY=[
+ ['Auto effect check failed, RLU below 2500',['Substrate expired or deteriorated: change it (it also needs 6 h at room temperature).','Leak or bubbles in the pipeline reduce the injected substrate: empty, clean and prime the pipeline.','Substrate bottle leaking, or the bubble detection misbehaving.','Interval since the last detection too long.','Then repeat the effect check. Do not test while it fails.']],
+ ['Auto effect check failed, RLU above 6500',['Pollution of the substrate bottle or pipeline.','Dirty cuvette or foreign matter in the cuvette.','Length of the metal tube at the substrate outlet too short.','Change the substrate, empty, clean and prime the pipeline, adjust the pipeline length, check the cuvette.']],
+ ['Effect check stops: shield, waste, buffer, substrate, cuvette',['Shield not closed: close it and repeat.','Waste tank full: empty. Insufficient buffer: replace. Substrate or waste container or cuvette not loaded: load.','Temperature abnormality: check the temperature alarm.']],
+ ['Daily clean: dispersion probes clogged',['Unclog the probes and run Daily clean again.','Check for leakage at the aspirating probe connectors.','Check the pump tube for breakage or clogging.','Check aspirate station vertical position adjustment and sample probe dispense vertical extreme positions.','Check the function of liquid level detection.','Also make sure at least 4 cuvettes and waste capacity are available.']],
+ ['Daily clean: DCF violently fluctuating',['The relative extreme difference of the 20 DCF readings exceeded 1.5 %.','Contact customer service or your local distributor (Daily clean DCF test failure).']],
+ ['Daily clean: substrate coupler calibration error',['Check the sensor wiring and run the sensor calibration.','See whether the substrate back-suction level is correct.','Pour the substrate pipeline and look for bubbles.','Replace the sensor if it still fails.']],
+ ['QC out of range or poor precision',['Run photon count diagnosis and DCF diagnosis (<code>Utility → Maintenance → Diagnostics → Photometer Diagnosis</code>).','Do a Fluidic prime (for substrate, 10 times) and an Effect check; do not test while the effect check fails.','Check reagent quality, control material and the rule symbol shown (22S, 31S, R4S, 10X).','Check the substrate for contamination; run the System Check (background, wash, probe, cleaning).']],
+ ['Alarm: probe touches no liquid or aspirates nothing',['First rule out a clog.','Run Level Sense Diagnosis: 2/3 tube of water in position 1, 20 consecutive tests.','Check sample volume against dead volume (SMPL flag).']],
+ ['Calibration flag (DUP, DEV, SLO, LVC, MON, RAT, RCV)',['Look the flag up below. Most say: check acceptance limits, reagent and calibrator are normal, then recalibrate.','MON: calibrators in the wrong order. Reload in order.','LVC: if maintenance was not done, do it first; replace the calibrator.','COV or repeated failure: contact customer service.','Meanwhile you may <b>Reject</b> the failed calibration and return to the previous valid one.']],
+ ['Result not on the LIS',['Check the value on the analyzer. It may be above the linearity range: dilute, rerun and verify before reporting.','Check the LIS icon in the status area: no colour = connection lost.','Check <code>Utility → System Setup → Host</code> (transport mode, protocol, channel).','Send manually with <code>Results → Host (F8)</code>.']],
+ ['Red alarm or machine stopped',['Open <code>Alarm → Error Log</code> and use the help icon on the entry.','Click the analyzer icon and press <b>Home</b> to return to standby.','If it stays red, restart the software, then the analyzing unit.','Still red: note the event ID and call service. If hydraulics stopped the system, Home is disabled: troubleshoot the hydraulic problem first.']],
+ ['Wash buffer bubble alarm keeps coming',['Clean crystallized salt from the tank cap.','Check the cap-tube assembly is tight.','If it repeats, contact an engineer to calibrate the sensor.','The three-monthly bubble optical coupler calibration also applies.']],
+ ['Reagent not recognised after closing the lid',['Check the bottle barcode for damage.','Load it manually: <code>Reagent Overview → position → Load (F1)</code>, key in the barcode digits, <code>Load (F3)</code>.','Make sure the bottle clicked into the position.']],
+ ['Tests stopped after loading reagent during a run',['The lid was opened before the Reagent Stop countdown reached 0 and the prompt appeared. Tests in progress could not continue and the machine stopped.','Next time: Reagent Stop (F2), wait for the prompt, then open.']]
+];
+(function(){
+  var sel=$('#sym'),o=$('#symOut'),tb=$('#symTb');
+  sel.innerHTML=SY.map(function(x,i){return '<option value="'+i+'">'+esc(x[0])+'</option>'}).join('');
+  function strip(s){return s.replace(/<[^>]+>/g,'')}
+  tb.innerHTML=SY.map(function(x,i){return '<tr tabindex="0" data-i="'+i+'"><td>'+(i+1)+'</td><td>'+esc(x[0])+'</td><td>'+esc(strip(x[1][0]))+'</td></tr>'}).join('');
+  function d(){var i=+sel.value,x=SY[i];
+    $$('tr',tb).forEach(function(r){r.setAttribute('aria-selected',+r.dataset.i===i)});
+    o.innerHTML='<h3>'+esc(x[0])+'</h3><ol class="b">'+x[1].map(function(t){return '<li>'+t+'</li>'}).join('')+'</ol><p class="src">Source: CL-1000i Operation manual §16 (error log, flags) · SD-APP-38 Maintenance PPT (Daily clean, Effect check troubleshooting) · SD-APP-37 Precautions PPT · CL1000i-TH manual §7</p>'}
+  sel.addEventListener('change',d);
+  tb.addEventListener('click',function(e){var r=e.target.closest('tr');if(r){sel.value=r.dataset.i;d()}});
+  tb.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){var r=e.target.closest('tr');if(r){e.preventDefault();sel.value=r.dataset.i;d()}}});
+  d();
+})();
+
+/* ---------- 7 flags ---------- */
+var RS='Restart the software, then the analyzing unit. If it stays, contact customer service or your distributor.';
+var FL=[
+ ['<','Result','Result below the low limit of the measuring range.','Take no action, or rerun to confirm.'],
+ ['>','Result','Result above the high limit of the measuring range.','Rerun with a diluted sample.'],
+ ['^ / ^!','Result','Above the reference range / above the critical range.','No action required.'],
+ ['v / v!','Result','Below the reference range / below the critical range.','No action required.'],
+ ['12S','Result','QC result between ±2 SD and ±3 SD of the assigned mean.','No action required.'],
+ ['13s','Result','QC result beyond ±3 SD.','Check reagent, control material and instrument.'],
+ ['22s','Result','Two controls in the same run, or two consecutive results of one control, beyond ±2 SD on the same side.','Check reagent, control material and instrument.'],
+ ['R4S','Result','One result in a run above +2 SD and the other below −2 SD.','Check reagent, control material and instrument.'],
+ ['41s','Result','Four consecutive results (two runs) on the same side beyond ±1 SD.','Check reagent, control material and instrument.'],
+ ['10x','Result','Ten results of a control, or five runs, on the same side of the mean.','Check reagent, control material and instrument.'],
+ ['ABN','Result','Sample RLU out of range: lower than the low absolute value.','Check sample for foreign matter or interferents, reagent quality and position, cuvette quality, photometric system.'],
+ ['RRN','Result','Sample RLU out of the range of the maximum-concentration calibrator RLU.','Rerun with diluted sample.'],
+ ['CarOvr','Result','Potential carryover.','Rerun.'],
+ ['CSDB','Result','Air bubbles detected during substrate dispensing (also a calibration error).','Prime the substrate, then rerun or recalibrate.'],
+ ['DJAM','Result','Probe clogged when aspirating diluted sample, or clog sensor fault.','Run the special wash. If it stays, unclog with the unclogging device; then call service.'],
+ ['SJAM','Result','Probe clogged during sampling.','Sample treatment (fibrin, clot).'],
+ ['RJAM','Result','Probe clogged while aspirating reagent, or clog sensor fault.','Handle the reagent.'],
+ ['SMPL','Result','Insufficient sample: probe aspirates nothing or no liquid level detected (also calibration).','Refill the sample.'],
+ ['SMPE','Result','Expired sample.','Replace the sample.'],
+ ['RGTL','Result','Insufficient reagent: reagent probe aspirates nothing (also calibration).','Replace the reagent.'],
+ ['RGTE','Result','Reagent expired.','Replace the reagent.'],
+ ['SUBE','Cal','Expired substrate used to analyze sample or control.','Change the substrate.'],
+ ['DTGL','Cal','Insufficient wash solution; carryover invalidates the test.','Load wash solution.'],
+ ['NOCUP','Result','No cuvette on the tray or the gripper grips nothing.','Load cuvettes and rerun.'],
+ ['ERR','Result','Cuvette positions disabled, hole dirty, or part disabled.','Home the system.'],
+ ['SBMP / RBMP','Result','Probe bumps an object while aspirating; the test is invalid.','No operation required, or rerun.'],
+ ['SHTE','Result','Sample transport error: sample transport jammed or hardware error.','Recover the failure. If it appears 3 times, contact customer service.'],
+ ['NOID','Result','No sample ID in the test result (software error).','Contact customer service.'],
+ ['ICA','Result','RLU normal but the result cannot be calculated: no valid calibration.','Rerun after calibration.'],
+ ['CAL','Result','Result calculated with default calibration factors.','No action required.'],
+ ['CALJ','Result','Calibration factor rejected; result uses it.','No action required.'],
+ ['EXT','Result','Result uses an extended calibration factor.','No action, or recalibrate.'],
+ ['EDT / DEL / REC / R','Result','Edited result / deleted QC result / recalculated manually / rerun result.','No action required.'],
+ ['REAC','Result','Infectious disease result positive.','No action, or rerun.'],
+ ['NREA','Result','Infectious disease result negative.','No action required.'],
+ ['INDE','Result','Infectious disease result in the gray area.','No action, or rerun.'],
+ ['COV','Cal','Calibration curve not convergent: no curve could be calculated.','Check reagent and calibrator; recalibrate. If it stays, contact customer service.'],
+ ['DET','Cal','Determination coefficient of the curve fit outside the limit.','Check the acceptance limit is reasonable, reagent and calibrator normal; recalibrate.'],
+ ['DUP','Cal','Calibration repeatability error: CV above the index in the reagent barcode.','Check acceptance limit, find the cause, recalibrate.'],
+ ['DEV','Cal','Calibrator RLU deviation out of range.','Recalibrate.'],
+ ['LVC','Cal','Previous valid calibration out of the range in the calibrator barcode.','Do overdue maintenance and recalibrate; replace the calibrator; if it stays, contact service.'],
+ ['MON','Cal','Monotony check failed: calibrator signals not rising (sandwich) or falling (competitive) with concentration.','Put calibrators in the right order and recalibrate. If it stays, contact service.'],
+ ['RAT','Cal','Calibrator signal ratio outside the range in the barcode.','Recalibrate.'],
+ ['RCV','Cal','Recovery regression check failed (calibrator concentration out of range).','Recalibrate.'],
+ ['SLO','Cal','Slope outside the fluctuation range in the barcode.','Recalibrate.'],
+ ['ADSE','Cal','Abnormal RLU: slope below 0 when RLU is calculated.','No action required.'],
+ ['VAM','Cal','Calibration data lost: run unfinished so the factor cannot be calculated.','Restart software or restore the system, restart the analyzer; then contact service if it stays.'],
+ ['DCF','Cal','Photometer calibration (DCF) failed during calibration.','Restart the software, then the analyzer; if it stays contact service.'],
+ ['RMXL / RMXH','System','Vortex speed of reaction liquid too low / too high during mixing.',RS],
+ ['WMXL / WMXH','System','Vortex speed too low / too high during dispersion wash-buffer mixing.',RS],
+ ['Srr','System','System error: hydropneumatic subsystem alarm, or vortexer and dispersion mixing alarm.',RS],
+ ['TNN','System','Temperature error of reaction carousel, dispersion carousel or substrate preheating.',RS]
+];
+(function(){
+  var tb=$('#ftb'),q=$('#fq'),type='';
+  function d(){var t=q.value.trim().toLowerCase(),n=0,h='';
+    FL.forEach(function(r){if(type&&r[1]!==type)return;if(t&&(r.join(' ').toLowerCase().indexOf(t)<0))return;n++;
+      h+='<tr><td><code>'+esc(r[0])+'</code></td><td>'+r[1]+'</td><td>'+esc(r[2])+'</td><td>'+esc(r[3])+'</td></tr>'});
+    tb.innerHTML=h||'<tr><td colspan="4">No match.</td></tr>';$('#fcount').textContent=n+' shown'}
+  q.addEventListener('input',d);
+  $('#ftype').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;$$('button',$('#ftype')).forEach(function(x){x.setAttribute('aria-pressed',x===b)});type=b.dataset.t;d()});
+  d();
+})();
+
+/* ---------- 8 assays ---------- */
+var ASSAYS=[["AFP", 19.5, "Sandwich", "One-step, one-separation", "15", "56 days", "0.5-1210 ng/mL", "120000 ng/mL", "Male: <7.2 ng/mL | Female: <7.4 ng/mL | Total: <7 ng/mL", "Tumor marker"], ["CEA", 33, "Sandwich", "One-step, one-separation", "8", "56 days", "0.2-1000 ng/mL", "60000 ng/mL", "Male: <5.2 ng/mL | Female: <3.3 ng/mL | Total: <4.5 ng/mL", "Tumor marker"], ["CA125", 23, "Sandwich", "One-step, one-separation", "10", "56 days", "1-5000 U/mL", "100000 U/mL", "<35 U/mL", "Tumor marker"], ["CA15-3", 34.5, "Sandwich", "One-step, one-separation", "10", "28 days", "1-500 U/mL", "20000 U/mL", "<32 U/mL", "Tumor marker"], ["CA19-9", 24.5, "Sandwich", "One-step, one-separation", "15", "56 days", "1.0-2000 U/mL", "300000 U/mL", "Male: <26 U/mL | Female: <35 U/mL | Total: <30 U/mL", "Tumor marker"], ["t-PSA", 23, "Sandwich", "One-step, one-separation", "15", "28 days", "0.008-100 ng/mL", "10000 ng/mL", "<4 ng/mL", "Tumor marker"], ["FPSA", 23, "Sandwich", "One-step, one-separation", "10", "28 days", "0.01-30 ng/mL", "30000 ng/mL", "<1 ng/mL", "Tumor marker"], ["CA72-4", 23, "Sandwich", "One-step, one-separation", "8", "56 days", "0.2-300 U/mL", "15000 U/mL", "<7 U/mL", "Tumor marker"], ["NSE", 18, "Sandwich", "One-step, one-separation", "5", "28 days", "0.05-370 ng/mL", "120000 ng/mL", "<16.5 ng/mL", "Tumor marker"], ["CYFRA 21-1", 18, "Sandwich", "One-step, one-separation", "10", "28 days", "0.1-500 ng/mL", "2000 ng/mL", "<3.3 ng/mL", "Tumor marker"], ["TSH", 38.5, "Sandwich", "One-step, one-separation", "30", "56 days", "0.005-100 μIU/mL", "1000 mIU/mL", "0.35-5.1 mIU/mL | Pregnant ：T1：0.09-4.87 μIU/mL | T2：0.47-4.79 μIU/mL | T3：0.50-5.4 μIU/mL", "Thyroid"], ["FT3", 43, "Competitive", "One-step, one-separation", "30", "56 days", "0.88-30 pg/mL", "/", "1.8-4.3 pg/mL | Pregnant ：T1：2.1-3.2 pg/mL | T2：1.9-3.1 pg/mL | T3：1.9-2.8 pg/mL", "Thyroid"], ["FT4", 33, "Competitive", "Two-step, one-separation", "15", "56 days", "0.3-6.0 ng/dL", "/", "0.87-1.85 ng/dL | Pregnant：T1：0.83-1.54 ng/dL | T2：0.56-1.32 ng/dL | T3：0.54-1.05 ng/dL", "Thyroid"], ["T3", 33, "Competitive", "Two-step, one-separation", "50", "56 days", "0.2-8.0 ng/mL", "/", "1.8-4.3 ng/mL", "Thyroid"], ["T4", 43, "Competitive", "Two-step, one-separation", "30", "56 days", "0.5-30 μg/dL", "/", "5.0-14.5 μg/dL", "Thyroid"], ["Tg", 33, "Sandwich", "One-step, one-separation", "10", "56 days", "0.1-500 ng/mL", "40000 ng/mL", "1.28-50 ng/mL", "Thyroid"], ["Anti-Tg", 41, "Sandwich", "Two-step, two-separation", "10", "56 days", "0.9-2500 IU/mL", "350000 IU/mL", "<4 IU/mL", "Thyroid"], ["Anti-TPO", 41, "Sandwich", "Two-step, two-separation", "15", "28 days", "0.25-1000 IU/mL", "/", "<9 IU/mL", "Thyroid"], ["Total βHCG", 29.5, "Sandwich", "Two-step, two-separation", "10", "28 days", "0.5-5000 mIU/mL", "/", "Males: <0.5-2.2 mIU/mL | Non-pregnant females: <0.5-3.0 mIU/mL  |  | Approximate Gestational Age | 1-10 weeks: 50-221796 mIU/mL | 11-15 weeks: 15205-227034 mIU/mL | 16-24 weeks: 5002-75445 mIU/mL | 25-40 weeks: 1501-69208 mIU/mL", "Hormone"], ["Total βHCG II", 18, "Sandwich", "One-step, one-separation", "5", "28 days", "0.5-5000 mIU/mL", "750000 mIU/mL", "Males: <5 mIU/mL | Non-pregnant females: <5 mIU/mL |  | Approximate Gestational Age | 1-10 weeks: 195-22976 mIU/mL | 11-15 weeks: 22305-233036 mIU/mL | 16-22 weeks: 7902-49645 mIU/mL | 22-40 weeks: 1580-48608 mIU/mL", "Other (not on video slide)"], ["FSH", 33, "Sandwich", "One-step, one-separation", "25", "28 days", "0.2-200 mIU/mL", "28000 mIU/mL", "For reagent prior to lot#20190101 | Male: 0.9-7.0 mIU/mL | Female |  Follicular phase: 2.0-7.1 mIU/mL | Ovulation phase: 2.7-12.3 mIU/mL | Luteal phase: 1.0-4.4 mIU/mL | Post-menopause: 14.4-75.5 mIU/mL | For reagent later than lot#20190101 | Male: 1.5-12.4 mIU/mL | Female |  Follicular phase: 3.5-12.5 mIU/mL | Ovulation phase: 4.7-21.5 mIU/mL | Luteal phase: 1.7-7.7 mIU/mL | Post-menopause: 25.8-134.8 mIU/mL", "Hormone"], ["LH", 39.5, "Sandwich", "Two-step, two-separation", "15", "28 days", "0.2-250 mIU/mL", "/", "Male: 1.4-7.7 mIU/mL | Female |  Follicular phase: 1.9-11.6 mIU/mL | Ovulation phase: 12.9-105.2 mIU/mL | Luteal phase: 0.8-10.5 mIU/mL | Post-menopause: 6.6-66.4 mIU/mL", "Hormone"], ["PRL", 23, "Sandwich", "One-step, one-separation", "10", "28 days", "0.47-200 ng/mL", "10000 ng/mL", "Male: 3.0-16.5 ng/mL | Female | Pre-menopausal (<50 yr old): 3.8-30.7 ng/mL | Postmenopausal (≥50 yr old): 3.2-24.9 ng/mL", "Hormone"], ["E2", 43, "Competitive", "Two-step, one-separation", "35", "56 days", "25-4800 pg/mL", "/", "Male: ＜25-84 pg/mL | Female |  Follicular phase: 20-138 pg/mL | Ovulation phase: 100-440 pg/mL | Luteal phase: 31-317 pg/mL | Post-menopause: ＜25-84 pg/mL", "Hormone"], ["PROG", 23, "Competitive", "One-step, one-separation", "25", "28 days", "0.1-40 ng/mL", "/", "Male: 0.1-2.1 ng/mL | Unpregnant female |  Follicular phase: 0.2-1.6 ng/mL | Ovulation phase: 0.3-2.1 ng/mL | Luteal phase: 1.8-22.5 ng/mL | Post-menopause: ≤1.05 ng/mL | Pregnant female | First trimester: 3.9-60 ng/mL | Second trimester: 15.4-60 ng/mL", "Hormone"], ["TESTO", 23, "Competitive", "One-step, one-separation", "20", "56 days", "0.1-16 ng/mL", "/", "Male: 2.27-9.76 ng/mL | Female: ≤1.23 ng/mL", "Hormone"], ["E3", 33, "Competitive", "One-step, one-separation", "20", "28 days", "0.1-30 ng/mL", "/", "Gestational week | 1-10: <0.1-0.2 ng/mL | 11-25: 0.2-5.8 ng/mL | 26-28: 2.2-7.6 ng/mL | 29-32: 3.5-8.9 ng/mL | 33-36: 4.9-15.7 ng/mL | 37-38: 6.0-24 ng/mL | 39-40: 8.2-24.2 ng/mL", "Hormone"], ["HBsAg", 59.5, "Sandwich", "Two-step, two-separation", "50", "28 days", "0.05~250 IU/mL", "/", "Non-reactive: <0.05 IU/mL | Reactive: ≥0.05 IU/mL", "Infectious disease"], ["Anti-HBs", 33, "Sandwich", "One-step, one-separation", "50", "28 days", "2~1000 mIU/mL", "70000 mIU/mL", "Non-reactive: <10 mIU/mL | Reactive: ≥10 mIU/mL", "Infectious disease"], ["HBeAg", 43, "Sandwich", "Two-step, one-separation", "50", "28 days", "/", "/", "Non-reactive: COI<1.00 | Reactive: COI≥1.00", "Infectious disease"], ["Anti-HBe", 45, "Competitive", "Two-step, one-separation", "50", "28 days", "/", "/", "Non-reactive: COI>1.00 | Reactive: COI≤1.00", "Infectious disease"], ["Anti-HBc", 43, "Competitive", "Two-step, one-separation", "50", "28 days", "/", "/", "Non-reactive: COI>1.00 | Reactive: COI≤1.00", "Infectious disease"], ["HIV", 59.5, "Sandwich", "Two-step, two-separation", "100", "28 days", "/", "/", "Non-reactive: COI<1.00 | Reactive: COI≥1.00", "Infectious disease"], ["Anti-HCV", 39.5, "Sandwich", "Two-step, two-separation", "20", "28 days", "/", "/", "Non-reactive: COI<1.00 | Reactive: COI≥1.00", "Infectious disease"], ["Anti-TP", 39.5, "Sandwich", "Two-step, two-separation", "50", "56 days", "/", "/", "Non-reactive: COI<1.00 | Reactive: COI≥1.00", "Infectious disease"], ["TnI", 18, "Sandwich", "One-step, one-separation", "75", "28 days", "0.006-50 ng/mL", "1000 ng/mL", "99th Percentile: 0.04 ng/mL", "Cardiac"], ["BNP", 23, "Sandwich", "One-step, one-separation", "100", "28 days", "10-5000 pg/mL", "100000 pg/mL", "Cut off for heart failure: 100 pg/mL", "Cardiac"], ["CK-MB", 18, "Sandwich", "One-step, one-separation", "10", "28 days", "0.1-300 ng/mL", "20 000 ng/mL", "Male | 99th Percentile: 6.36 ng/mL | 97.5th Percentile: 5.03 ng/mL | Female | 99th Percentile: 4.97 ng/mL | 97.5th Percentile: 3.68 ng/mL", "Cardiac"], ["MYO", 18, "Sandwich", "One-step, one-separation", "5", "28 days", "1-3000 ng/mL", "100 000 ng/mL", "Male 95th Percentile: 80 ng/mL | Female 95th Percentile: 65 ng/mL", "Cardiac"], ["Insulin", 18, "Sandwich", "One-step, one-separation", "10", "56 days", "0.2-1000 μIU/mL", "20000 μIU/mL", "2.2~25.0 μIU/mL", "Diabetes"], ["C-Peptide", 23, "Sandwich", "One-step, one-separation", "10", "56 days", "Serum/plasma: 0.01-40 ng/mL Urine: 0.1-400 ng/mL", "Serum/plasma: 180 ng/mL Urine: 1800ng/mL", "Serum: 1.0~4.8 ng/mL | 24-hour Urine: 18.5~192.9 µg/24 hours", "Diabetes"], ["FERR", 24.5, "Sandwich", "One-step, one-separation", "15", "56 days", "0.5-1500 ng/mL", "80000ng/mL", "Male: 27-375 ng/mL | Female: 12-135 ng/mL", "Metabolic (bone, anaemia)"], ["VB12", 41, "Competitive", "Three-step, one-separation", "50", "28 days", "50-2000 pg/mL", "/", "180-916 pg/mL", "Metabolic (bone, anaemia)"], ["Folate", 51, "Competitive", "Three-step, one-separation", "80", "28 days", "0.8-20 ng/mL", "/", "3.20~19.60ng/mL", "Metabolic (bone, anaemia)"], ["RBC Folate", 51, "Competitive", "Three-step, one-separation", "80", "28 days", "/", "/", "119.47~822.63 ng/mL", "Metabolic (bone, anaemia)"], ["VD", 51, "Competitive", "Three-step, one-separation", "40", "56 days", "3.0-150 ng/mL", "/", "Deficient: <20 ng/mL | Insufficient: 20-30 ng/mL | Sufficient: >30 ng/mL", "Metabolic (bone, anaemia)"], ["PTH", 18, "Sandwich", "One-step, one-separation", "30", "56 days", "1.2-5000 pg/mL", "25000 pg/mL", "12.0-88.0 pg/mL", "Metabolic (bone, anaemia)"], ["CT", 23, "Sandwich", "One-step, one-separation", "30", "28 days", "0.5-2000 pg/mL", "1000000 pg/mL", "Male: <9.2 pg/mL | Female: <6 pg/mL", "Metabolic (bone, anaemia)"], ["ACTH", 39.5, "Sandwich", "Two-step, two-separation", "50", "28 days", "1-2000 pg/mL", "/", "7:00 AM - 10:00 AM: 7.0-65.0 pg/mL", "Hormone"], ["Cortisol", 23, "Competitive", "One-step, one-separation", "10", "28 days", "0.4-60 ug/mL", "/", "Serum | 7:00 AM - 10:00 AM: 6.4-22.8 µg/Dl | 16:00 PM - 20:00 PM: < 10 µg/Dl | Urine | Unextracted: 75-520 µg/24 hours | Extracted: 22-115 µg/24 hours", "Hormone"], ["DHEA-S", 33, "Competitive", "One-step, one-separation", "10", "28 days", "2-1000 ug/dL", "/", "Children | ＜1 week: 100-620 μg/dL | 1-4 weeks: 30-440 μg/dL | 1-12 months: 5-132 μg/dL | 1-4 years: 0-20 μg/dL | 5-9 years: 3-90 μg/dL | Male | 10-14 years: 22-240 μg/dL | 15-19 years: 70-486 μg/dL | 20-24 years: 200-498 μg/dL | 25-34 years: 150-452 μg/dL | 35-44 years: 92-440 μg/dL | 45-54 years: 45-336 μg/dL | 55-64 years: 50-300 μg/dL | 65-74 years: 30-250 μg/dL | ≥75 years: 15-120 μg/dL | Female | 10-14 years: 32-286 μg/dL | 15-19 years: 63-360 μg/dL | 20-24 years: 140-400 μg/dL | 25-34 years: 100-350 μg/dL | 35-44 years: 60-330 μg/dL | 45-54 years: 32-250 μg/dL | 55-64 years: 18-200 μg/dL | 65-74 years: 9-250 μg/dL | ≥75 years: 13-160 μg/dL", "Hormone"], ["PG I", 18, "Sandwich", "One-step, one-separation", "5", "56 days", "1-200 ng/mL", "5000 ng/mL", "PG I＜70 ng/mL and PG I/II＜3.0", "Other (not on video slide)"], ["PG II", 18, "Sandwich", "One-step, one-separation", "10", "56 days", "0.5-100 ng/mL", "1000 ng/mL", "PG I＜70 ng/mL and PG I/II＜3.0", "Other (not on video slide)"], ["rT3", 33, "Competitive", "Two-step, one-separation", "20", "28 days", "0.05-10 ng/mL", "/", "0.2-0.95 ng/mL", "Other (not on video slide)"], ["LN", 23, "Sandwich", "One-step, one-separation", "25", "28 days", "5-800 ng/mL", "3000 ng/mL", "<133 ng/mL", "Other (not on video slide)"], ["HA", 33, "Competitive", "Two-step, one-separation", "100", "28 days", "5-2000 ng/mL", "/", "<106 ng/mL", "Other (not on video slide)"], ["PIIINP", 23, "Sandwich", "One-step, one-separation", "5", "28 days", "1.5-100 ng/mL", "300 ng/mL", "<17 ng/mL", "Other (not on video slide)"], ["CIV", 23, "Sandwich", "One-step, one-separation", "20", "28 days", "5-1000 ng/mL", "3000 ng/mL", "<98 ng/mL", "Other (not on video slide)"], ["PCT", 18, "Sandwich", "One-step, one-separation", "25", "28 days", "0.02-100 ng/mL", "1000 ng/mL", "<0.05 ng/mL | (depends on the clinical use)", "Other (not on video slide)"], ["SCCA", 23, "Sandwich", "One-step, one-separation", "30", "28 days", "0.1-70 ng/mL", "10000 ng/mL", "≤ 1.8 ng/mL", "Other (not on video slide)"], ["HE4", 23, "Sandwich", "One-step, one-separation", "5", "56 days", "15-1500 pmol/L", "40000 pmol/L", "< 40 yr old: <60.53 pmol/L | 40-49 yr old: <76.33 pmol/L | 50-59 yr old: <74.31 pmol/L | 60-69 yr old: <83.26 pmol/L | >70 yr old: 105.69 pmol/L", "Other (not on video slide)"], ["ProGRP", 23, "Sandwich", "One-step, one-separation", "20", "28 days", "3-5000 pg/mL", "100000 pg/mL", "5th percentile: 25.23 pg/mL | 95th percentile: 67.42 pg/mL | 97.5th percentile: 78.62 pg/mL", "Other (not on video slide)"], ["CA50", 23, "Sandwich", "One-step, one-separation", "20", "56 days", "1.0-500 U/mL", "10000 U/mL", "< 25 U/mL", "Other (not on video slide)"], ["CA242", 23, "Sandwich", "One-step, one-separation", "20", "56 days", "0.5-200 U/mL", "10000 U/mL", "< 10 U/mL", "Other (not on video slide)"], ["Aldosterone", 43, "Competitive", "One-step, one-separation", "100", "28 days", "14.5-2000 pg/mL", "/", "Upright (serum): 32-394 pg/mL | Supine (serum): 30-228 pg/mL | Upright (plasma): 31-351 pg/mL | Supine (plasma): 29-240 pg/mL", "Other (not on video slide)"], ["Renin", 28, "Sandwich", "One-step, one-separation", "100", "28 days", "0.5-500 pg/mL", "3056 pg/mL", "Upright: 2.8-28.5 pg/mL | Supine: 1.8-24.5 pg/mL", "Other (not on video slide)"], ["AMH", 23, "Sandwich", "One-step, one-separation", "50", "56 days", "0.01-23 ng/mL", "1400 ng/mL", "Health male | Adult: 1.32-12.00 |  | Health female (age) | 20-24: 1.58-10.34 | 25-29: 1.25-9.54 | 30-34: 0.65-8.05 | 35-39: 0.53-6.93 | 40-44: 0.09-5.80 | 45-50; 0.01-3.52 | PCOS female: 2.3-18", "Other (not on video slide)"], ["nCoV NTAb", 43.7, "Competitive", "Two-step, one-separation", "10", "14 days", "2.0-400.0 AU/mL", "/", "< 10 AU/mL", "Other (not on video slide)"], ["nCoV S-RBD", 30.2, "Sandwich", "Two-step, two-separation", "10", "14 days", "3.0-1000.0 AU/mL", "/", "< 10 AU/mL", "Other (not on video slide)"], ["nCoV TAb", 28.2, "Sandwich", "One-step, one-separation", "10", "14 days", "3.0-2000.0 AU/mL", "/", "<10 AU/mL", "Other (not on video slide)"], ["RV IgG", 31, "Sandwich", "Two-step, two-separation", "6", "28 days", "0.17-350.00 IU/mL", "/", "Non-reactive: <5.00 IU/ml | Indeterminate: 5.00-10.00 IU/mL | Reactive:≥10.00 IU/ml", "Other (not on video slide)"], ["RV IgM", 31, "Sandwich", "Two-step, two-separation", "15", "28 days", "/", "/", "Non-reactive: COI<0.80 | Indeterminate: 0.80≤COI＜1.00 | Reactive: COI≥1.00", "Other (not on video slide)"], ["Toxo IgG", 31, "Sandwich", "Two-step, two-separation", "6", "28 days", "0.13-200.00 IU/mL", "/", "Non-reactive: <1.60 IU/ml | Indeterminate: 1.60-2.00 IU/mL | Reactive:≥2.00 IU/ml", "Other (not on video slide)"], ["Toxo IgM", 31, "Sandwich", "Two-step, two-separation", "8", "28 days", "/", "/", "Non-reactive: COI<0.80 | Indeterminate: 0.80≤COI＜1.00 | Reactive: COI≥1.00", "Other (not on video slide)"], ["CMV IgG", 31, "Sandwich", "Two-step, two-separation", "8", "28 days", "0.15-60.00 IU/mL", "/", "Non-reactive: <0.90 IU/ml | Indeterminate: 0.90-1.10 IU/mL | Reactive:≥1.10 IU/ml", "Other (not on video slide)"], ["CMV IgM", 31, "Sandwich", "Two-step, two-separation", "10", "28 days", "/", "/", "Non-reactive: COI<0.80 | Indeterminate: 0.80≤COI＜1.00 | Reactive: COI≥1.00", "Other (not on video slide)"], ["IL-6", 18, "Sandwich", "One-step, one-separation", "30", "28 days", "1.5-5,000 pg/mL", "2,000,000 pg/mL", "＜7pg/mL", "Other (not on video slide)"], ["sCD14-ST", 18, "Sandwich", "One-step, one-separation", "50", "28 days", "20-20,000 pg/mL", "4,000,000 pg/mL", "＜200pg/ml", "Other (not on video slide)"], ["hs-cTnI", 18, "Sandwich (multi-site, CLIA)", "One-step, one-separation", "80", "28 days", "2.4-25,000 ng/L", "1,000,000 ng/L", "99th percentile URL: | Overall: 24.2 ng/L | Female: 15.3 ng/L | Male: 31.3 ng/L", "Other (not on video slide)"]];
+(function(){
+  var MIT=['AFP','CEA','t-PSA','TSH','FT3','FT4','T3','T4','Total βHCG II','Anti-HBs','HIV','hs-cTnI'];
+  var HUE={'Thyroid':215,'Infectious disease':5,'Hormone':290,'Metabolic (bone, anaemia)':35,'Cardiac':335,'Tumor marker':85,'Diabetes':175};
+  var MH={'Sandwich':195,'Sandwich (multi-site, CLIA)':195,'Competitive':25},PH={'One-step, one-separation':265,'Two-step, one-separation':45,'Two-step, two-separation':310,'Three-step, one-separation':0};
+  function tag(t,map){return '<span class="mt" style="--h:'+(map[t]===undefined?200:map[t])+'">'+esc(t)+'</span>'}
+  function hue(k){return HUE[k]===undefined?null:HUE[k]}
+  var tb=$('#atb'),q=$('#aq'),m=$('#am'),p=$('#ap'),pn=$('#apn'),site='';
+  var ms={},ps={},pc={};ASSAYS.forEach(function(a){ms[a[2]]=1;ps[a[3]]=1;pc[a[9]]=(pc[a[9]]||0)+1});
+  Object.keys(ms).forEach(function(k){m.insertAdjacentHTML('beforeend','<option>'+esc(k)+'</option>')});
+  Object.keys(ps).forEach(function(k){p.insertAdjacentHTML('beforeend','<option>'+esc(k)+'</option>')});
+  Object.keys(pc).forEach(function(k){pn.insertAdjacentHTML('beforeend','<option>'+esc(k)+'</option>')});
+  $('#aLeg').innerHTML=Object.keys(pc).map(function(k){var h=hue(k);return '<span class="chip"'+(h===null?'':' style="--h:'+h+'"')+'><i'+(h===null?' style="background:var(--muted)"':'')+'></i>'+esc(k)+' · '+pc[k]+'</span>'}).join('')+Object.keys(MH).slice(0,1).concat(['Competitive']).map(function(k){return '<span class="chip"><span class="mt" style="--h:'+MH[k]+'">'+k+'</span></span>'}).join('')+Object.keys(PH).map(function(k){return '<span class="chip"><span class="mt" style="--h:'+PH[k]+'">'+k+'</span></span>'}).join('')+'<span class="chip"><b class="rr" style="min-width:0">Reference range</b></span>';
+  function d(){var t=q.value.trim().toLowerCase(),n=0,h='';
+    ASSAYS.forEach(function(a){if(site&&MIT.indexOf(a[0])<0)return;if(m.value&&a[2]!==m.value)return;if(p.value&&a[3]!==p.value)return;if(pn.value&&a[9]!==pn.value)return;if(t&&a[0].toLowerCase().indexOf(t)<0)return;n++;
+      var hh=hue(a[9]);
+      h+='<tr><td><b class="pn"'+(hh===null?' style="color:var(--muted)"':' style="--h:'+hh+'"')+'>'+esc(a[0])+'</b></td><td class="n">'+a[1]+'</td><td>'+tag(a[2],MH)+'</td><td>'+tag(a[3],PH)+'</td><td class="n">'+esc(a[4])+'</td><td>'+esc(a[5])+'</td><td>'+esc(a[6])+'</td><td class="rr">'+(a[8]?esc(a[8]).replace(/ \| /g,'<br>'):'-')+'</td><td>'+esc(a[7])+'</td></tr>'});
+    tb.innerHTML=h||'<tr><td colspan="9">No match.</td></tr>';$('#acount').textContent=n+' shown'}
+  [q,m,p,pn].forEach(function(x){x.addEventListener('input',d)});
+  $('#asite').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;$$('button',$('#asite')).forEach(function(x){x.setAttribute('aria-pressed',x===b)});site=b.dataset.s;d()});
+  d();
+  var c={};ASSAYS.forEach(function(a){c[a[3]]=(c[a[3]]||0)+1});
+  $('#aSum').innerHTML=Object.keys(c).map(function(k){return '<div class="card"><h4>'+esc(k)+'</h4><div class="res" style="font-size:1.6rem"><b>'+c[k]+'</b> of '+ASSAYS.length+' assays</div></div>'}).join('');
+})();
+})();
+
+</script>
+
+</body></html>

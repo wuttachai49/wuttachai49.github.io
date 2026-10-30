@@ -398,5 +398,33 @@
                 "url": "mt8000-tla-guide/index.html"
             }
         ]
+    },
+    {
+        "id": "cl1000i_detail",
+        "name": "CL1000i detail",
+        "type": "Chemiluminescence Immunoassay Analyzer",
+        "manufacturer": "Mindray",
+        "description": "Training handbook for application specialists: modules and status lights, sandwich vs competitive principle, analysis modes, sample workflow, installation, IQOQ verification, daily use, maintenance, troubleshooting and the assay menu.",
+        "parameters": [
+            "120 tests per hour, 25 reagent positions (2-8 °C)",
+            "60 samples: 6 lanes x 10 positions",
+            "Reaction disk 37±0.3 °C, 75 cuvette positions",
+            "4 magnetic separation (dispersion) steps",
+            "Sample 10-200 µL (1 µL steps), reagent 20-200 µL",
+            "Effect check: three blank cuvettes must read 2500-6500 RLU"
+        ],
+        "troubleshooting": [
+            "Read the module status light first, then the alarm code",
+            "Keep main power on so reagents stay cooled and beads keep mixing",
+            "After maintenance, run calibration or QC before testing"
+        ],
+        "notes": "Built from the CL-1000i Operation manual, CL1000i-TH manual and Mindray product, application and maintenance decks. Where files disagree the page shows both values and marks them 'check'.",
+        "attachments": [
+            {
+                "name": "⭐ CL1000i detail",
+                "type": "Interactive HTML",
+                "url": "cl1000i-detail/index.html"
+            }
+        ]
     }
 ]
