@@ -215,7 +215,12 @@ function stamp(){var d=new Date(),p=function(n){return String(n).padStart(2,'0')
 function need(){var r=exportRows();if(!r.length){msg(st.scope==='sel'?'Tick at least one row first, or choose "All rows shown".':'No rows to save.',1);return null}return r}
 var DL=null;
 function offer(name,data,label){
-  if(!DL){msg('Saving files is not available in this view. Use "Copy for pasting" and paste into Excel.',1);return}
+  if(!DL){
+    try{var mt=/\.xlsx$/.test(name)?'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':/\.pdf$/.test(name)?'application/pdf':'text/csv;charset=utf-8';
+      var u=URL.createObjectURL(new Blob([data],{type:mt})),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);
+      setTimeout(function(){URL.revokeObjectURL(u)},4000);msg(label+' downloaded.')}
+    catch(e){msg('Could not download the file. Use "Copy for pasting" and paste into Excel.',1)}
+    return}
   DL.save({filename:name,data:data}).then(function(){msg(label+' saved.')},function(e){
     if(e&&e.code==='declined')msg('Save cancelled.');else if(e&&e.code==='rate_limited')msg('A save prompt is already open. Answer it, then try again.',1);else msg('Could not save the file ('+(e&&e.code||'error')+').',1)})}
 
@@ -259,7 +264,7 @@ $('#copy').addEventListener('click',function(){var r=need();if(!r)return;var cs=
   if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,fb);else fb()});
 
 render();
-(window.claude&&window.claude.use?window.claude.use('downloads'):Promise.resolve(null)).then(function(d){DL=d;if(!d)msg('File saving is not available in this view; "Copy for pasting" still works.',1)},function(){DL=null});
+(window.claude&&window.claude.use?window.claude.use('downloads'):Promise.resolve(null)).then(function(d){DL=d},function(){DL=null});
 })();
 </script>
 
