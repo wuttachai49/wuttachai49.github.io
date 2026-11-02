@@ -84,6 +84,7 @@ input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
     <span class="lab">Save</span>
     <button type="button" class="go" id="xl">Excel (.xlsx)</button>
     <button type="button" class="go" id="pdf">PDF</button>
+    <button type="button" class="go" id="pdf1">PDF (1 page)</button>
     <button type="button" id="csv">CSV</button>
     <button type="button" id="copy">Copy for pasting</button>
     <div class="seg" id="scope" role="group" aria-label="Rows to save"><button type="button" aria-pressed="true" data-v="all">All rows shown</button><button type="button" aria-pressed="false" data-v="sel">Ticked rows only (<span id="nsel">0</span>)</button></div>
@@ -241,10 +242,11 @@ function pt(i,v){var s=String(v==null?'':v);
   s=s.replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').replace(/[ \t]{2,}/g,' ');
   if(i===15||i===16)s=s.replace(/(Pregnant|Pregnant female|Unpregnant female)\s*:\s*(T1:)/g,'$1\n$2').replace(/\n\n(Approximate|Health|PCOS)/g,'\n$1');
   return s.replace(/[^\u0000-ÿ–—‘’“”•…]/g,'').trim()}
-$('#pdf').addEventListener('click',function(){
+function makePdf(single){
   var r=need();if(!r)return;if(!(window.jspdf&&window.jspdf.jsPDF)){msg('PDF library did not load. Check your connection and reload.',1);return}
-  var cs=cols(),doc=new window.jspdf.jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+  var cs=cols(),J=window.jspdf.jsPDF;
   var pw=function(c){return c.w*(c.i===15||c.i===16?1.5:c.i===8||c.i===10?1.25:1)};var tot=cs.reduce(function(a,c){return a+pw(c)},0),W=297-16,fs=cs.length>12?6.3:cs.length>9?7.2:8;
+  function draw(doc){
   doc.setFontSize(14);doc.text('Assay Summary',8,11);
   doc.setFontSize(8);doc.setTextColor(90);
   doc.text('Source: Assay_summary-20250609_update_ToRCH.xlsx · '+stamp()+' · '+r.length+' assays',8,15.5);
@@ -255,8 +257,15 @@ $('#pdf').addEventListener('click',function(){
     rowPageBreak:'avoid',styles:{fontSize:fs,cellPadding:1.8,overflow:'linebreak',lineColor:[207,220,223],lineWidth:.1,textColor:[16,35,42]},
     headStyles:{fillColor:[0,121,138],textColor:255,fontSize:fs+.4,halign:'left'},
     columnStyles:styles,didParseCell:function(d){if(d.section!=='body')return;var c=cs[d.column.index],v=r[d.row.index][c.i],h=hue(c.i,v);if(h===undefined)return;d.cell.styles.textColor=rgb(h,75,32);d.cell.styles.fontStyle='bold';if(c.i===6||c.i===7)d.cell.styles.fillColor=rgb(h,80,92)},alternateRowStyles:{fillColor:[240,246,247]},
-    didDrawPage:function(d){doc.setFontSize(7);doc.setTextColor(110);doc.text('Check the reagent insert and your lab\'s validated ranges before use.   Page '+doc.internal.getNumberOfPages(),8,doc.internal.pageSize.getHeight()-5)}});
-  offer('assay-summary-'+stamp()+'.pdf',doc.output('arraybuffer'),'PDF')});
+    didDrawPage:function(d){doc.setFontSize(7);doc.setTextColor(110);doc.text('Check the reagent insert and your lab\'s validated ranges before use.'+(single?'':'   Page '+doc.internal.getNumberOfPages()),8,doc.internal.pageSize.getHeight()-5)}});
+  return doc.lastAutoTable.finalY}
+  var doc;
+  if(single){var fy=draw(new J({orientation:'portrait',unit:'mm',format:[297,8000]}));doc=new J({orientation:'portrait',unit:'mm',format:[297,Math.max(298,Math.ceil(fy+14))]})}
+  else doc=new J({orientation:'landscape',unit:'mm',format:'a4'});
+  draw(doc);
+  offer('assay-summary-'+stamp()+(single?'-1page':'')+'.pdf',doc.output('arraybuffer'),single?'PDF (1 page)':'PDF')}
+$('#pdf').addEventListener('click',function(){makePdf(0)});
+$('#pdf1').addEventListener('click',function(){makePdf(1)});
 
 function csvCell(v){v=String(v==null?'':v);return /[",\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
 $('#csv').addEventListener('click',function(){var r=need();if(!r)return;var cs=cols();
