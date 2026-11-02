@@ -236,18 +236,23 @@ $('#xl').addEventListener('click',function(){
   var wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Assays');XLSX.utils.book_append_sheet(wb,info,'Export info');
   offer('assay-summary-'+stamp()+'.xlsx',XLSX.write(wb,{bookType:'xlsx',type:'array'}),'Excel file')});
 
+function pt(i,v){var s=String(v==null?'':v);
+  s=s.replace(/[＜]/g,'<').replace(/[＞]/g,'>').replace(/≥/g,'>=').replace(/≤/g,'<=').replace(/[：]/g,':').replace(/[；]/g,';').replace(/[，]/g,',').replace(/[（]/g,'(').replace(/[）]/g,')').replace(/μ/g,'µ').replace(/β/g,'beta-').replace(/[‐‑‒]/g,'-').replace(/ /g,' ');
+  s=s.replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').replace(/[ \t]{2,}/g,' ');
+  if(i===15||i===16)s=s.replace(/(Pregnant|Pregnant female|Unpregnant female)\s*:\s*(T1:)/g,'$1\n$2').replace(/\n\n(Approximate|Health|PCOS)/g,'\n$1');
+  return s.replace(/[^\u0000-ÿ–—‘’“”•…]/g,'').trim()}
 $('#pdf').addEventListener('click',function(){
   var r=need();if(!r)return;if(!(window.jspdf&&window.jspdf.jsPDF)){msg('PDF library did not load. Check your connection and reload.',1);return}
   var cs=cols(),doc=new window.jspdf.jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
-  var tot=cs.reduce(function(a,c){return a+c.w},0),W=297-16,fs=cs.length>10?6.3:7.2;
+  var pw=function(c){return c.w*(c.i===15||c.i===16?1.5:c.i===8||c.i===10?1.25:1)};var tot=cs.reduce(function(a,c){return a+pw(c)},0),W=297-16,fs=cs.length>12?6.3:cs.length>9?7.2:8;
   doc.setFontSize(14);doc.text('Assay Summary',8,11);
   doc.setFontSize(8);doc.setTextColor(90);
   doc.text('Source: Assay_summary-20250609_update_ToRCH.xlsx · '+stamp()+' · '+r.length+' assays',8,15.5);
   doc.text('Sorted by: '+sortText()+'   Filters: '+filterText(),8,19.5,{maxWidth:W});
-  var styles={};cs.forEach(function(c,k){styles[k]={cellWidth:W*c.w/tot,halign:c.n?'right':'left'}});
-  doc.autoTable({startY:23,margin:{left:8,right:8,bottom:12},head:[cs.map(function(c){return c.s||c.l})],
-    body:r.map(function(x){return cs.map(function(c){var v=x[c.i];return v===''?'':String(v)})}),
-    styles:{fontSize:fs,cellPadding:1.3,overflow:'linebreak',lineColor:[207,220,223],lineWidth:.1,textColor:[16,35,42]},
+  var styles={};cs.forEach(function(c,k){styles[k]={cellWidth:W*pw(c)/tot,halign:c.n?'right':'left'}});
+  doc.autoTable({startY:23,margin:{left:8,right:8,bottom:12},head:[cs.map(function(c){return pt(c.i,c.s||c.l)})],
+    body:r.map(function(x){return cs.map(function(c){var v=x[c.i];return pt(c.i,v)})}),
+    rowPageBreak:'avoid',styles:{fontSize:fs,cellPadding:1.8,overflow:'linebreak',lineColor:[207,220,223],lineWidth:.1,textColor:[16,35,42]},
     headStyles:{fillColor:[0,121,138],textColor:255,fontSize:fs+.4,halign:'left'},
     columnStyles:styles,didParseCell:function(d){if(d.section!=='body')return;var c=cs[d.column.index],v=r[d.row.index][c.i],h=hue(c.i,v);if(h===undefined)return;d.cell.styles.textColor=rgb(h,75,32);d.cell.styles.fontStyle='bold';if(c.i===6||c.i===7)d.cell.styles.fillColor=rgb(h,80,92)},alternateRowStyles:{fillColor:[240,246,247]},
     didDrawPage:function(d){doc.setFontSize(7);doc.setTextColor(110);doc.text('Check the reagent insert and your lab\'s validated ranges before use.   Page '+doc.internal.getNumberOfPages(),8,doc.internal.pageSize.getHeight()-5)}});
