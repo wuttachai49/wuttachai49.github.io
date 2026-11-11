@@ -83,7 +83,7 @@ th:first-child,td:first-child{text-align:left}th{font-size:12px;color:var(--mute
     <div class="grid">
       <div><label for="r_df">Dilution factor per step</label><input id="r_df" type="number" min="1.01" step="any" value="2"></div>
       <div><label for="r_n">Number of tubes</label><input id="r_n" type="number" min="1" max="20" value="8"></div>
-      <div><label for="r_v">Final volume per tube (µL)</label><input id="r_v" type="number" min="1" step="any" value="500"></div>
+      <div><label for="r_v">Final volume per tube after transfer (µL)</label><input id="r_v" type="number" min="1" step="any" value="500"></div>
       <div><label for="r_c">Starting concentration (optional)</label><input id="r_c" type="number" step="any" placeholder="e.g. 1000"></div>
     </div>
     <div id="r_out"></div>
@@ -163,7 +163,7 @@ function single(){
 function serial(){
   const df=num("r_df"), n=Math.round(num("r_n")), vf=num("r_v"), c0=num("r_c");
   if(!(df>1)||!(n>=1&&n<=20)||!(vf>0)){$("r_out").innerHTML=msg("bad","Enter factor > 1, 1–20 tubes and a positive volume.");return}
-  const tr=vf/df, dil=vf-tr; let cum=1, rows="", tubes="";
+  const tr=vf/(df-1), dil=vf; let cum=1, rows="", tubes="";
   for(let i=1;i<=n;i++){
     cum*=df;
     const src=i===1?"Neat sample":`Tube ${i-1}`;
@@ -172,11 +172,11 @@ function serial(){
     const h=Math.max(8,100/Math.pow(df,Math.min(i,6)*0.55));
     tubes+=`<div class="tube"><i style="--h:${h}%;--o:${Math.max(.25,1-i*.1)}"></i><b>${i}</b>1:${fmt(cum)}</div>`;
   }
-  let h=`<div class="out">${stat(vol(dil),"Diluent into each tube")}${stat(vol(tr),"Transfer volume")}${stat(fmt(cum)+"×","Final dilution")}${stat(vol(tr),"Neat sample needed")+stat(vol(vf-tr),"Left in each tube after transfer")}</div>`;
+  let h=`<div class="out">${stat(vol(dil),"Diluent into each tube")}${stat(vol(tr),"Transfer volume")}${stat(vol(vf+tr),"Total in tube before transfer")}${stat(vol(vf),"Final volume left per tube")}${stat(fmt(cum)+"×","Final dilution")}${stat(vol(tr),"Neat sample needed")}</div>`;
   h+=`<div class="tubes">${tubes}</div>`;
   h+=`<table><tr><th>Tube</th><th>Transfer from</th><th>Volume</th><th>Add diluent</th><th>Cumulative</th><th>Conc.</th></tr>${rows}</table>`;
-  h+=`<div class="hint">Add ${vol(dil)} diluent to every tube first. Put ${vol(tr)} neat sample in tube 1, mix, then transfer ${vol(tr)} down the series. Each tube holds ${vol(vf)} after receiving its transfer and ${vol(vf-tr)} after passing one on; discard ${vol(tr)} from the last tube so all tubes end at ${vol(vf-tr)}.</div>`;
-  if(tr<minP()) h+=msg("warn",`Transfer volume ${vol(tr)} is below your ${fmt(minP())} µL pipette limit — raise the tube volume to at least ${vol(minP()*df)}.`);
+  h+=`<div class="hint">Add ${vol(dil)} diluent to every tube first. Put ${vol(tr)} neat sample in tube 1, mix, then transfer ${vol(tr)} down the series. Each tube then holds ${vol(vf+tr)} (${vol(dil)} diluent + ${vol(tr)} transferred in); after passing ${vol(tr)} on, ${vol(vf)} is left. Transfer ${vol(tr)} out of the last tube too (discard) so every tube ends at ${vol(vf)}.</div>`;
+  if(tr<minP()) h+=msg("warn",`Transfer volume ${vol(tr)} is below your ${fmt(minP())} µL pipette limit — raise the final volume per tube to at least ${vol(minP()*(df-1))}.`);
   $("r_out").innerHTML=h;
 }
 
