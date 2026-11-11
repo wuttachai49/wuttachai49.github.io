@@ -40,6 +40,11 @@ th:first-child,td:first-child{text-align:left}th{font-size:12px;color:var(--mute
 .credit b{color:var(--ink);font-weight:700;letter-spacing:.12em;text-transform:uppercase}
 .credit .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,#0b7a75,#4fc7bf,#f0c36a,#e0566a)}
 .disc{text-align:center}
+.help{font-size:11.5px;color:var(--mute);margin-top:4px;line-height:1.35}
+.explain{margin-top:14px;background:var(--bg);border-radius:10px;padding:10px 14px;font-size:13.5px}
+.explain summary{cursor:pointer;font-weight:600}
+.explain ol,.explain ul{margin:6px 0 6px 18px;padding:0}
+.explain .sub2{font-weight:600;margin-top:8px}
 .panel{display:none}.panel.on{display:block}
 @media print{nav,.row,.pbtn{display:none}body{background:#fff;color:#000}.card{border:1px solid #999}}
 </style>
@@ -92,12 +97,32 @@ th:first-child,td:first-child{text-align:left}th{font-size:12px;color:var(--mute
   <!-- OVER RANGE -->
   <section id="over" class="panel card">
     <div class="grid">
-      <div><label for="o_r">Measured result (over range)</label><input id="o_r" type="number" min="0" step="any" value="850"></div>
-      <div><label for="o_u">Upper linearity limit</label><input id="o_u" type="number" min="0" step="any" value="500"></div>
-      <div><label for="o_t">Target position in range (%)</label><input id="o_t" type="number" min="10" max="100" value="60"></div>
-      <div><label for="o_v">Final volume (µL)</label><input id="o_v" type="number" min="1" step="any" value="500"></div>
+      <div><label for="o_r">Measured result (over range)</label><input id="o_r" type="number" min="0" step="any" value="850"><div class="help">The flagged value the analyzer gave, above its linear range.</div></div>
+      <div><label for="o_u">Upper linearity limit</label><input id="o_u" type="number" min="0" step="any" value="500"><div class="help">Top of the assay's linear range. Picking a test name fills this in.</div></div>
+      <div><label for="o_t">Target position in range (%)</label><input id="o_t" type="number" min="10" max="100" value="60"><div class="help">Where the diluted reading should land. 60% is a safe middle; higher means less dilution but closer to the edge.</div></div>
+      <div><label for="o_v">Final volume (µL)</label><input id="o_v" type="number" min="1" step="any" value="500"><div class="help">How much diluted sample you want to prepare.</div></div>
     </div>
-    <div class="hint">Estimates the dilution needed so the rerun lands inside the analyzer's linear range. Always check the maximum validated dilution for the assay.</div>
+    <details class="explain" open>
+      <summary>How it works</summary>
+      <ol>
+        <li><b>Calculated factor</b> = result ÷ (upper limit × target %). Example: 850 ÷ (500 × 0.60) = 2.83×.</li>
+        <li><b>Suggested factor:</b> the next standard factor at or above it (2, 3, 4, 5, 10, 20, 25, 40, 50, 100, 200, 500, 1000).</li>
+        <li><b>Volumes:</b> sample = final volume ÷ factor; diluent = final volume − sample.</li>
+        <li><b>Expected reading</b> = result ÷ factor.</li>
+        <li><b>Reported result</b> = instrument reading × factor.</li>
+      </ol>
+      <div class="sub2">Warnings</div>
+      <ul>
+        <li>Expected reading above the upper limit, or below 10% of it → reconsider the factor.</li>
+        <li>Sample volume below your pipette limit → a two-step dilution is suggested.</li>
+        <li>Result already within range → no dilution needed.</li>
+      </ul>
+      <div class="sub2">Limits</div>
+      <ul>
+        <li>The factor is an estimate from the first, out-of-range reading, which may itself be inaccurate. The real result can differ.</li>
+        <li>Check the assay's maximum validated dilution and the correct diluent for that test; this tool doesn't know your lab's limits.</li>
+      </ul>
+    </details>
     <div id="o_out"></div>
   </section>
 
