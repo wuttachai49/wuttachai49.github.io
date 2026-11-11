@@ -103,6 +103,7 @@ th:first-child,td:first-child{text-align:left}th{font-size:12px;color:var(--mute
       <div><label for="o_t">Target position in range (%)</label><input id="o_t" type="number" min="10" max="100" value="60"><div class="help">Where the diluted reading should land. 60% is a safe middle; higher means less dilution but closer to the edge.</div></div>
       <div><label for="o_v">Final volume (µL)</label><input id="o_v" type="number" min="1" step="any" value="500"><div class="help">How much diluted sample you want to prepare.</div></div>
     </div>
+    <div id="o_out"></div>
     <details class="explain" open>
       <summary>How it works</summary>
       <ol>
@@ -124,7 +125,6 @@ th:first-child,td:first-child{text-align:left}th{font-size:12px;color:var(--mute
         <li>Check the assay's maximum validated dilution and the correct diluent for that test; this tool doesn't know your lab's limits.</li>
       </ul>
     </details>
-    <div id="o_out"></div>
   </section>
 
   <!-- C1V1 -->
