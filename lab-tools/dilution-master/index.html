@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab Dilution Planner</title>
+<style>
+:root{--bg:#bfe3f7;--card:#f1f3f5;--ink:#1c2430;--mute:#5a6572;--line:#d3d8de;--acc:#0b7a75;--accbg:#e3f4f2;--warn:#8a5a00;--warnbg:#fff3d6;--bad:#a4262c;--badbg:#fde8e8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:22px;margin:0 0 2px}.sub{color:var(--mute);margin:0 0 16px}
+nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+nav button{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:8px;cursor:pointer;font:inherit}
+nav button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+label{display:block;font-size:12px;color:var(--mute);margin-bottom:4px;font-weight:600;line-height:1.3;min-height:2.6em;display:flex;align-items:flex-end}
+.grid{align-items:end}
+input,select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);font:inherit}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+.out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px}
+.stat{background:var(--accbg);border-radius:10px;padding:10px 12px}
+.stat b{display:block;font-size:20px;color:var(--acc)}.stat span{font-size:12px;color:var(--mute)}
+.msg{padding:10px 12px;border-radius:8px;margin-top:12px;font-size:14px}
+.warn{background:var(--warnbg);color:var(--warn)}.bad{background:var(--badbg);color:var(--bad)}.ok{background:var(--accbg);color:var(--acc)}
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right}
+th:first-child,td:first-child{text-align:left}th{font-size:12px;color:var(--mute);text-transform:uppercase}
+.tubes{display:flex;gap:6px;align-items:flex-end;overflow-x:auto;padding:12px 0 4px}
+.tube{flex:0 0 auto;width:54px;text-align:center;font-size:11px;color:var(--mute)}
+.tube i{display:block;margin:0 auto 4px;width:30px;height:64px;border:2px solid var(--acc);border-radius:2px 2px 15px 15px;position:relative;overflow:hidden}
+.tube i::after{content:"";position:absolute;left:0;right:0;bottom:0;height:var(--h);background:var(--acc);opacity:var(--o)}
+.tube b{display:block;color:var(--ink);font-size:12px}
+.hint{font-size:13px;color:var(--mute);margin-top:8px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.pbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 12px;border-radius:8px;cursor:pointer;font:inherit}
+.disc{font-size:12px;color:var(--mute);margin-top:20px}
+.credit{margin:28px 0 6px;padding-top:16px;border-top:1px solid rgba(28,36,48,.18);text-align:center;font-size:14px;letter-spacing:.06em;color:var(--mute);display:flex;align-items:center;justify-content:center;gap:10px}
+.credit b{color:var(--ink);font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.credit .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,#0b7a75,#4fc7bf,#f0c36a,#e0566a)}
+.disc{text-align:center}
+.panel{display:none}.panel.on{display:block}
+@media print{nav,.row,.pbtn{display:none}body{background:#fff;color:#000}.card{border:1px solid #999}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🧪 Lab Dilution Planner</h1>
+  <p class="sub">Plan sample dilutions: single, serial, over‑range reruns and C₁V₁.</p>
+
+  <div class="card">
+    <div class="grid">
+      <div><label for="tname">Test name</label><input id="tname" list="tests" placeholder="e.g. Glucose" autocomplete="off"><datalist id="tests"></datalist></div>
+      <div><label for="minpip">Min. pipette volume (µL)</label><input id="minpip" type="number" min="0.1" step="0.1" value="5"></div>
+      <div><label for="cunit">Concentration unit</label><input id="cunit" value="mg/dL"></div>
+    </div>
+    <div id="tinfo" class="hint"></div>
+    <div class="hint">Volumes below your pipette limit trigger a warning and a suggested two‑step dilution.</div>
+  </div>
+
+  <nav id="tabs">
+    <button data-t="single" class="on">Single dilution</button>
+    <button data-t="serial">Serial dilution</button>
+    <button data-t="over">Over‑range rerun</button>
+    <button data-t="c1v1">C₁V₁ = C₂V₂</button>
+  </nav>
+
+  <!-- SINGLE -->
+  <section id="single" class="panel on card">
+    <div class="grid">
+      <div><label for="s_mode">Dilution given as</label>
+        <select id="s_mode"><option value="df">Dilution factor (1 in N)</option><option value="ratio">Ratio sample : diluent (1 : N)</option></select></div>
+      <div><label for="s_n" id="s_nl">N</label><input id="s_n" type="number" min="1" step="any" value="10"></div>
+      <div><label for="s_v">Final volume needed (µL)</label><input id="s_v" type="number" min="1" step="any" value="1000"></div>
+      <div><label for="s_c">Neat concentration (optional)</label><input id="s_c" type="number" step="any" placeholder="e.g. 1200"></div>
+    </div>
+    <div id="s_out"></div>
+  </section>
+
+  <!-- SERIAL -->
+  <section id="serial" class="panel card">
+    <div class="grid">
+      <div><label for="r_df">Dilution factor per step</label><input id="r_df" type="number" min="1.01" step="any" value="2"></div>
+      <div><label for="r_n">Number of tubes</label><input id="r_n" type="number" min="1" max="20" value="8"></div>
+      <div><label for="r_v">Final volume per tube (µL)</label><input id="r_v" type="number" min="1" step="any" value="500"></div>
+      <div><label for="r_c">Starting concentration (optional)</label><input id="r_c" type="number" step="any" placeholder="e.g. 1000"></div>
+    </div>
+    <div id="r_out"></div>
+  </section>
+
+  <!-- OVER RANGE -->
+  <section id="over" class="panel card">
+    <div class="grid">
+      <div><label for="o_r">Measured result (over range)</label><input id="o_r" type="number" min="0" step="any" value="850"></div>
+      <div><label for="o_u">Upper linearity limit</label><input id="o_u" type="number" min="0" step="any" value="500"></div>
+      <div><label for="o_t">Target position in range (%)</label><input id="o_t" type="number" min="10" max="100" value="60"></div>
+      <div><label for="o_v">Final volume (µL)</label><input id="o_v" type="number" min="1" step="any" value="500"></div>
+    </div>
+    <div class="hint">Estimates the dilution needed so the rerun lands inside the analyzer's linear range. Always check the maximum validated dilution for the assay.</div>
+    <div id="o_out"></div>
+  </section>
+
+  <!-- C1V1 -->
+  <section id="c1v1" class="panel card">
+    <div class="grid">
+      <div><label for="k_c1">C₁ stock</label><input id="k_c1" type="number" step="any" value="100"></div>
+      <div><label for="k_v1">V₁ stock volume</label><input id="k_v1" type="number" step="any" placeholder="solve"></div>
+      <div><label for="k_c2">C₂ final</label><input id="k_c2" type="number" step="any" value="10"></div>
+      <div><label for="k_v2">V₂ final volume</label><input id="k_v2" type="number" step="any" value="1000"></div>
+    </div>
+    <div class="hint">Leave exactly one field empty — it will be solved. Use the same volume unit for V₁ and V₂.</div>
+    <div id="k_out"></div>
+  </section>
+
+  <div class="row"><button class="pbtn" onclick="window.print()">Print worksheet</button></div>
+  <footer class="credit"><span class="dot"></span>Designed by <b>PANTONE Lab</b></footer>
+  <p class="disc">Planning aid only. Always follow your lab SOP and the assay manufacturer's validated diluent, maximum dilution and reportable range. Verify calculations before reporting patient results.</p>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const num=id=>{const v=parseFloat($(id).value);return isFinite(v)?v:NaN};
+const fmt=(x,d=3)=>{if(!isFinite(x))return"–";const a=Math.abs(x);return a>=100?x.toFixed(1).replace(/\.0$/,""):parseFloat(x.toPrecision(d)).toString()};
+const vol=u=>u>=1000?fmt(u/1000)+" mL":fmt(u)+" µL";
+const unit=()=>$("cunit").value.trim();
+const minP=()=>num("minpip")||0;
+const stat=(v,l)=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`;
+const msg=(c,t)=>`<div class="msg ${c}">${t}</div>`;
+
+function twoStep(df,vf){
+  let d1=Math.ceil(Math.sqrt(df));
+  if(Number.isInteger(df)) for(let i=Math.floor(Math.sqrt(df));i>=2;i--) if(df%i===0){d1=df/i;break;}
+  const d2=df/d1;
+  const v2=vf, s2=v2/d2;
+  const v1=Math.max(s2,minP()*d1), s1=v1/d1;
+  return {d1,d2,v1,s1,dil1:v1-s1,v2,s2,dil2:v2-s2};
+}
+
+function single(){
+  const mode=$("s_mode").value, n=num("s_n"), vf=num("s_v"), c=num("s_c");
+  $("s_nl").textContent=mode==="df"?"Dilution factor N (1 in N)":"Diluent parts N (1 : N)";
+  if(!(n>=1)||!(vf>0)){$("s_out").innerHTML=msg("bad","Enter N ≥ 1 and a positive final volume.");return}
+  const df=mode==="df"?n:n+1, s=vf/df, d=vf-s;
+  let h=`<div class="out">${stat(vol(s),"Sample")}${stat(vol(d),"Diluent")}${stat(vol(vf),"Final volume")}${stat("1 : "+fmt(df-1),"Sample : diluent")}${stat(fmt(df)+"×","Dilution factor")}`;
+  if(isFinite(c)) h+=stat(fmt(c/df)+" "+unit(),"Diluted concentration");
+  h+="</div>";
+  h+=msg("ok",`Pipette <b>${vol(s)}</b> sample into <b>${vol(d)}</b> diluent, mix well. ${isFinite(c)?`To report the original, multiply the instrument result by <b>${fmt(df)}</b>.`:""}`);
+  if(df===1) h+=msg("warn","Dilution factor 1 means no dilution.");
+  else if(s<minP()){
+    const t=twoStep(df,vf);
+    h+=msg("warn",`Sample volume ${vol(s)} is below your ${fmt(minP())} µL pipette limit — pipetting error will be large. Suggested two‑step dilution:`);
+    h+=`<table><tr><th>Step</th><th>Sample</th><th>Diluent</th><th>Final</th><th>Factor</th></tr>
+    <tr><td>1 · original → intermediate</td><td>${vol(t.s1)}</td><td>${vol(t.dil1)}</td><td>${vol(t.v1)}</td><td>${fmt(t.d1)}×</td></tr>
+    <tr><td>2 · intermediate → final</td><td>${vol(t.s2)}</td><td>${vol(t.dil2)}</td><td>${vol(t.v2)}</td><td>${fmt(t.d2)}×</td></tr></table>`;
+    if(t.s1<minP()||t.s2<minP()) h+=msg("warn","Even two steps leave a volume under the pipette limit — use larger volumes or a third step.");
+    h+=`<div class="hint">Total factor ${fmt(t.d1)} × ${fmt(t.d2)} = ${fmt(t.d1*t.d2)}×.</div>`;
+  }
+  if(df>1000) h+=msg("warn","Very high dilution factors may exceed the assay's validated maximum and amplify error.");
+  $("s_out").innerHTML=h;
+}
+
+function serial(){
+  const df=num("r_df"), n=Math.round(num("r_n")), vf=num("r_v"), c0=num("r_c");
+  if(!(df>1)||!(n>=1&&n<=20)||!(vf>0)){$("r_out").innerHTML=msg("bad","Enter factor > 1, 1–20 tubes and a positive volume.");return}
+  const tr=vf/df, dil=vf-tr; let cum=1, rows="", tubes="";
+  for(let i=1;i<=n;i++){
+    cum*=df;
+    const src=i===1?"Neat sample":`Tube ${i-1}`;
+    const need=i===n?vf:vf+tr; // tube must hold enough for next transfer
+    rows+=`<tr><td>Tube ${i}</td><td>${src}</td><td>${vol(tr)}</td><td>${vol(dil)}</td><td>1:${fmt(cum)}</td><td>${isFinite(c0)?fmt(c0/cum)+" "+unit():"–"}</td></tr>`;
+    const h=Math.max(8,100/Math.pow(df,Math.min(i,6)*0.55));
+    tubes+=`<div class="tube"><i style="--h:${h}%;--o:${Math.max(.25,1-i*.1)}"></i><b>${i}</b>1:${fmt(cum)}</div>`;
+  }
+  let h=`<div class="out">${stat(vol(dil),"Diluent into each tube")}${stat(vol(tr),"Transfer volume")}${stat(fmt(cum)+"×","Final dilution")}${stat(vol(vf+tr),"Min. tube‑1 prep volume")}</div>`;
+  h+=`<div class="tubes">${tubes}</div>`;
+  h+=`<table><tr><th>Tube</th><th>Transfer from</th><th>Volume</th><th>Add diluent</th><th>Cumulative</th><th>Conc.</th></tr>${rows}</table>`;
+  h+=`<div class="hint">Add ${vol(dil)} diluent to every tube first. Transfer ${vol(tr)} down the series, mixing each tube; discard ${vol(tr)} from the last tube so all tubes end at ${vol(vf)}.</div>`;
+  if(tr<minP()) h+=msg("warn",`Transfer volume ${vol(tr)} is below your ${fmt(minP())} µL pipette limit — raise the tube volume to at least ${vol(minP()*df)}.`);
+  $("r_out").innerHTML=h;
+}
+
+function over(){
+  const r=num("o_r"), u=num("o_u"), t=num("o_t")/100, vf=num("o_v");
+  if(!(r>0)||!(u>0)||!(t>0)||!(vf>0)){$("o_out").innerHTML=msg("bad","Fill in all fields with positive numbers.");return}
+  if(r<=u){$("o_out").innerHTML=msg("ok","Result is within the linear range — no dilution needed.");return}
+  const exact=r/(u*t);
+  const nice=[2,3,4,5,10,20,25,40,50,100,200,500,1000];
+  const df=nice.find(x=>x>=exact)||Math.ceil(exact);
+  const s=vf/df, d=vf-s, exp=r/df;
+  let h=`<div class="out">${stat(fmt(exact)+"×","Calculated factor")}${stat(df+"×","Suggested factor")}${stat(vol(s),"Sample")}${stat(vol(d),"Diluent")}${stat(fmt(exp)+" "+unit(),"Expected instrument reading")}</div>`;
+  h+=msg("ok",`Dilute 1 in ${df} (${vol(s)} sample + ${vol(d)} diluent). Instrument reading × ${df} = reported result.`);
+  if(exp>u||exp<u*0.1) h+=msg("warn","Expected reading is near the edge of the linear range — consider a different factor.");
+  if(s<minP()){const t2=twoStep(df,vf);h+=msg("warn",`Sample volume is below your pipette limit. Two‑step option: ${fmt(t2.d1)}× (${vol(t2.s1)} + ${vol(t2.dil1)}) then ${fmt(t2.d2)}× (${vol(t2.s2)} + ${vol(t2.dil2)}).`)}
+  $("o_out").innerHTML=h;
+}
+
+function c1v1(){
+  const f=["k_c1","k_v1","k_c2","k_v2"], vals=f.map(num), empty=f.filter((_,i)=>isNaN(vals[i]));
+  if(empty.length!==1){$("k_out").innerHTML=msg("warn","Leave exactly one field empty.");return}
+  const [c1,v1,c2,v2]=vals; let name,res;
+  if(empty[0]==="k_v1"){res=c2*v2/c1;name="V₁ (stock volume)"}
+  else if(empty[0]==="k_c1"){res=c2*v2/v1;name="C₁ (stock concentration)"}
+  else if(empty[0]==="k_c2"){res=c1*v1/v2;name="C₂ (final concentration)"}
+  else {res=c1*v1/c2;name="V₂ (final volume)"}
+  let h=`<div class="out">${stat(fmt(res),name)}`;
+  if(empty[0]==="k_v1") h+=stat(fmt(v2-res),"Diluent volume")+stat(fmt(c1/c2)+"×","Dilution factor");
+  h+="</div>";
+  if(!(res>=0)||!isFinite(res)) h=msg("bad","No valid solution for these values.");
+  else if(empty[0]==="k_v1"&&res>v2) h+=msg("bad","Stock is more dilute than the target — cannot reach C₂ by dilution.");
+  $("k_out").innerHTML=h;
+}
+
+// Typical values only — analyzers/reagents differ. Edit to match your lab's validated limits.
+const TESTS={
+ "Glucose":["mg/dL",500,"0.9% saline"],"Creatinine":["mg/dL",20,"0.9% saline"],
+ "Urea (BUN)":["mg/dL",150,"0.9% saline"],"Uric acid":["mg/dL",25,"0.9% saline"],
+ "Total bilirubin":["mg/dL",25,"0.9% saline"],"Albumin":["g/dL",6,"0.9% saline"],
+ "Total protein":["g/dL",12,"0.9% saline"],"ALT":["U/L",500,"0.9% saline"],
+ "AST":["U/L",500,"0.9% saline"],"ALP":["U/L",1500,"0.9% saline"],
+ "Amylase":["U/L",1500,"0.9% saline"],"Triglycerides":["mg/dL",1000,"0.9% saline"],
+ "Cholesterol":["mg/dL",600,"0.9% saline"],"Calcium":["mg/dL",20,"0.9% saline"],
+ "Sodium":["mmol/L",200,"deionized water"],"Potassium":["mmol/L",10,"deionized water"]};
+$("tests").innerHTML=Object.keys(TESTS).map(t=>`<option value="${t}">`).join("");
+$("tname").addEventListener("change",()=>{
+  const key=Object.keys(TESTS).find(k=>k.toLowerCase()===$("tname").value.trim().toLowerCase());
+  const t=TESTS[key];
+  if(!t){$("tinfo").textContent=$("tname").value?"Custom test — enter unit and linearity limit manually.":"";return}
+  $("tname").value=key; $("cunit").value=t[0]; $("o_u").value=t[1];
+  $("tinfo").innerHTML=`<b>${key}</b>: unit ${t[0]}, upper linearity limit ${t[1]}, typical diluent ${t[2]}. <i>Typical values — verify against your analyzer's validated limits.</i>`;
+  fns[document.querySelector(".panel.on").id]();
+});
+const fns={single,serial,over,c1v1};
+document.querySelectorAll("input,select").forEach(e=>e.addEventListener("input",()=>{fns[document.querySelector(".panel.on").id]()}));
+$("tabs").onclick=e=>{const t=e.target.dataset.t;if(!t)return;
+  document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));
+  document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("on",p.id===t));fns[t]()};
+single();serial();over();c1v1();
+</script>
+</body>
+</html>
