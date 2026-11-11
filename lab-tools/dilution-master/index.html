@@ -109,7 +109,7 @@ th:first-child,td:first-child{text-align:left}th{font-size:12px;color:var(--mute
       <ol>
         <li><b>Calculated factor</b> = result ÷ (upper limit × target %). Example: 850 ÷ (500 × 0.60) = 2.83×.</li>
         <li><b>Suggested factor:</b> the next standard factor at or above it (2, 3, 4, 5, 10, 20, 25, 40, 50, 100, 200, 500, 1000).</li>
-        <li><b>Volumes (whole µL):</b> sample = final volume ÷ factor, rounded to a whole µL; diluent = sample × (factor − 1). The final volume may differ slightly from what you entered so the factor stays exact.</li>
+        <li><b>Volumes (simple pipette values):</b> sample ≈ final volume ÷ factor; diluent = sample × (factor − 1). It picks round whole-µL values (multiples of 100, 50, 25, 10 or 5) so the factor stays exact. The final volume may differ by up to 6% from what you entered, e.g. 175 µL + 350 µL = 525 µL for 3×.</li>
         <li><b>Expected reading</b> = result ÷ factor.</li>
         <li><b>Reported result</b> = instrument reading × factor.</li>
       </ol>
@@ -206,6 +206,20 @@ function serial(){
   $("r_out").innerHTML=h;
 }
 
+// Pick whole-µL sample/diluent that are "round" pipette values (multiples of 100/50/25/10/5),
+// keep the factor exact (diluent = sample × (df−1)) and stay within ±6% of the requested volume.
+function nicePair(df,vf){
+  let best=null;
+  const base=Math.max(1,Math.round(vf/df));
+  for(let s=Math.max(1,Math.floor(base*0.9));s<=Math.ceil(base*1.1)+1;s++){
+    const d=s*(df-1), tot=s*df;
+    if(!Number.isInteger(d)||Math.abs(tot-vf)/vf>0.06) continue;
+    const r=[100,50,25,10,5].find(x=>s%x===0&&d%x===0)||1, off=Math.abs(tot-vf);
+    if(!best||r>best.r||(r===best.r&&off<best.off)) best={s,d,tot,r,off};
+  }
+  return best?[best.s,best.d,best.tot]:[base,base*(df-1),base*df];
+}
+
 function over(){
   const r=num("o_r"), u=num("o_u"), t=num("o_t")/100, vf=num("o_v");
   if(!(r>0)||!(u>0)||!(t>0)||!(vf>0)){$("o_out").innerHTML=msg("bad","Fill in all fields with positive numbers.");return}
@@ -213,7 +227,7 @@ function over(){
   const exact=r/(u*t);
   const nice=[2,3,4,5,10,20,25,40,50,100,200,500,1000];
   const df=nice.find(x=>x>=exact)||Math.ceil(exact);
-  const s=Math.max(1,Math.round(vf/df)), d=s*(df-1), vfa=s*df, exp=r/df; // whole µL, factor kept exact
+  const [s,d,vfa]=nicePair(df,vf), exp=r/df;
   let h=`<div class="out">${stat(fmt(exact)+"×","Calculated factor")}${stat(df+"×","Suggested factor")}${stat(vol(s),"Sample")}${stat(vol(d),"Diluent")}${stat(vol(vfa),"Final volume")}${stat(fmt(exp)+" "+unit(),"Expected instrument reading")}</div>`;
   h+=msg("ok",`Dilute 1 in ${df} (${vol(s)} sample + ${vol(d)} diluent = ${vol(vfa)}). Instrument reading × ${df} = reported result.`);
   if(exp>u||exp<u*0.1) h+=msg("warn","Expected reading is near the edge of the linear range — consider a different factor.");
