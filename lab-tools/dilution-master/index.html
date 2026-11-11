@@ -172,10 +172,10 @@ function serial(){
     const h=Math.max(8,100/Math.pow(df,Math.min(i,6)*0.55));
     tubes+=`<div class="tube"><i style="--h:${h}%;--o:${Math.max(.25,1-i*.1)}"></i><b>${i}</b>1:${fmt(cum)}</div>`;
   }
-  let h=`<div class="out">${stat(vol(dil),"Diluent into each tube")}${stat(vol(tr),"Transfer volume")}${stat(fmt(cum)+"×","Final dilution")}${stat(vol(vf+tr),"Min. tube‑1 prep volume")}</div>`;
+  let h=`<div class="out">${stat(vol(dil),"Diluent into each tube")}${stat(vol(tr),"Transfer volume")}${stat(fmt(cum)+"×","Final dilution")}${stat(vol(tr),"Neat sample needed")+stat(vol(vf-tr),"Left in each tube after transfer")}</div>`;
   h+=`<div class="tubes">${tubes}</div>`;
   h+=`<table><tr><th>Tube</th><th>Transfer from</th><th>Volume</th><th>Add diluent</th><th>Cumulative</th><th>Conc.</th></tr>${rows}</table>`;
-  h+=`<div class="hint">Add ${vol(dil)} diluent to every tube first. Transfer ${vol(tr)} down the series, mixing each tube; discard ${vol(tr)} from the last tube so all tubes end at ${vol(vf)}.</div>`;
+  h+=`<div class="hint">Add ${vol(dil)} diluent to every tube first. Put ${vol(tr)} neat sample in tube 1, mix, then transfer ${vol(tr)} down the series. Each tube holds ${vol(vf)} after receiving its transfer and ${vol(vf-tr)} after passing one on; discard ${vol(tr)} from the last tube so all tubes end at ${vol(vf-tr)}.</div>`;
   if(tr<minP()) h+=msg("warn",`Transfer volume ${vol(tr)} is below your ${fmt(minP())} µL pipette limit — raise the tube volume to at least ${vol(minP()*df)}.`);
   $("r_out").innerHTML=h;
 }
