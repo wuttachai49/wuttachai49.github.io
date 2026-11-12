@@ -3,19 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects & Development - Laboratory Knowledge Hub</title>
+    <title>Projects & Development - PANTONE LAB</title>
+    <script src="js/theme.js"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <nav>
-        <ul>
-            <li><a href="index.html">🏠 Home</a></li>
-            <li><a href="analyzers.html">🔬 Analyzers</a></li>
-            <li><a href="knowledge.html">📚 Knowledge Base</a></li>
-            <li><a href="projects.html">📋 Projects</a></li>
-            <li><a href="technical-news.html">📰 Technical News</a></li>
-            <li><a href="lab-tools.html">🧰 Lab Tools</a></li>
-        </ul>
+        <div class="nav-inner">
+            <a class="brand" href="index.html">PANTONE <span>LAB</span></a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="analyzers.html">Analyzers</a></li>
+                <li><a href="knowledge.html">Knowledge Base</a></li>
+                <li><a href="projects.html" class="active" aria-current="page">Projects</a></li>
+                <li><a href="technical-news.html">Technical News</a></li>
+                <li><a href="lab-tools.html">Lab Tools</a></li>
+            </ul>
+            <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme">🌙</button>
+        </div>
     </nav>
 
     <div class="container">
@@ -26,21 +31,13 @@
 
         <div class="content">
             <h2>Project Timeline</h2>
-            
+
             <div class="search-box">
-                <input 
-                    type="text" 
-                    id="search-projects" 
-                    class="search-input" 
-                    placeholder="Search projects..."
-                    onkeypress="if(event.key==='Enter') searchProjects(this.value)"
-                >
-                <button onclick="searchProjects(document.getElementById('search-projects').value)">Search</button>
+                <input type="text" id="search-projects" class="search-input" placeholder="Search projects..." autocomplete="off">
+                <button type="button" onclick="searchProjects(document.getElementById('search-projects').value)">Search</button>
             </div>
 
             <div id="projects-container" class="card-grid"></div>
-
-            <div id="project-detail" class="detail-view"></div>
         </div>
 
         <footer>

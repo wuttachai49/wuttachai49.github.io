@@ -4,18 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Technical News & Updates - Laboratory Knowledge Hub</title>
+    <script src="js/theme.js"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <nav>
-        <ul>
-            <li><a href="index.html">🏠 Home</a></li>
-            <li><a href="analyzers.html">🔬 Analyzers</a></li>
-            <li><a href="knowledge.html">📚 Knowledge Base</a></li>
-            <li><a href="projects.html">📋 Projects</a></li>
-            <li><a href="technical-news.html">📰 Technical News</a></li>
-            <li><a href="lab-tools.html">🧰 Lab Tools</a></li>
-        </ul>
+        <div class="nav-inner">
+            <a class="brand" href="index.html">PANTONE <span>LAB</span></a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="analyzers.html">Analyzers</a></li>
+                <li><a href="knowledge.html">Knowledge Base</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="technical-news.html" class="active" aria-current="page">Technical News</a></li>
+                <li><a href="lab-tools.html">Lab Tools</a></li>
+            </ul>
+            <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme">🌙</button>
+        </div>
     </nav>
 
     <div class="container">
@@ -33,14 +38,13 @@
                     id="search-news"
                     class="search-input"
                     placeholder="Search technical news by analyzer or keyword..."
-                    onkeypress="if(event.key==='Enter') searchNews(this.value)"
+                    oninput="searchNews(this.value)"
                 >
                 <button onclick="searchNews(document.getElementById('search-news').value)">Search</button>
             </div>
 
             <div id="news-container" class="card-grid"></div>
 
-            <div id="news-detail" class="detail-view"></div>
         </div>
 
         <footer>
@@ -78,55 +82,20 @@
             displayNews(newsData);
         });
 
+        const esc = (v) => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
         function displayNews(news) {
             const container = document.getElementById('news-container');
             if (!container) return;
-
-            container.innerHTML = '';
-            if (news.length === 0) {
-                container.innerHTML = '<p>No technical news available.</p>';
-                return;
-            }
-
-            news.forEach(article => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <h3>${article.title}</h3>
-                    <p><strong>Analyzer:</strong> ${article.analyzer}</p>
-                    <p><strong>Category:</strong> ${article.category}</p>
-                    <p>${article.description}</p>
-                    <p class="card-meta">📅 ${article.date}</p>
-                    <button onclick="viewNews('${article.id}')">View Details</button>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function viewNews(newsId) {
-            const article = newsData.find(n => n.id === newsId);
-            if (!article) return;
-
-            const detailContainer = document.getElementById('news-detail');
-            if (!detailContainer) return;
-
-            detailContainer.innerHTML = `
-                <h3>${article.title}</h3>
-                <p><strong>Subtitle:</strong> ${article.subtitle}</p>
-                <p><strong>Analyzer:</strong> ${article.analyzer}</p>
-                <p><strong>Category:</strong> ${article.category}</p>
-                <p><strong>Date Published:</strong> ${article.date}</p>
-
-                <h4>Description</h4>
-                <p>${article.description}</p>
-
-                <h4>📎 Full Documentation</h4>
-                <a href="${article.url}" style="display: inline-block; padding: 12px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; text-align: center; font-weight: 500; transition: background 0.3s;" onmouseover="this.style.background='#764ba2'" onmouseout="this.style.background='#667eea'">
-                    📖 Open Full Document
-                </a>
-
-                <button onclick="closeDetail()" style="margin-top: 20px; padding: 10px 20px; background: #bdc3c7; border: none; border-radius: 5px; cursor: pointer;">Close</button>
-            `;
+            container.innerHTML = news.length ? news.map(n => `
+                <div class="card">
+                    <div class="card-body">
+                        <h3>${esc(n.title)}</h3>
+                        <p class="card-meta">${esc(n.analyzer)} · ${esc(n.category)} · 📅 ${esc(n.date)}</p>
+                        <p class="card-desc">${esc(n.description)}</p>
+                    </div>
+                    <a class="open-link" href="${esc(n.url)}">Open <span aria-hidden="true">→</span></a>
+                </div>`).join('') : '<p class="empty">No technical news available.</p>';
         }
 
         function searchNews(query) {
@@ -143,10 +112,6 @@
             displayNews(filtered);
         }
 
-        function closeDetail() {
-            const newsDetail = document.getElementById('news-detail');
-            if (newsDetail) newsDetail.innerHTML = '';
-        }
     </script>
 </body>
 </html>

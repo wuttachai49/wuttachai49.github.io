@@ -517,5 +517,6 @@ document.querySelectorAll('.scbtn').forEach(b=>{b.addEventListener('click',()=>{
 let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{const a=document.querySelector('.scbtn.act');if(a)render(a.dataset.sc);},150);});
 requestAnimationFrame(()=>render('normalPT'));
 </script>
+<script src="../js/back.js"></script>
 </body>
 </html>

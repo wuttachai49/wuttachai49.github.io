@@ -4,18 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PANTONE LAB - Medical Laboratory Knowledge Base</title>
+    <script src="js/theme.js"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <nav>
-        <ul>
-            <li><a href="index.html">🏠 Home</a></li>
-            <li><a href="analyzers.html">🔬 Analyzers</a></li>
-            <li><a href="knowledge.html">📚 Knowledge Base</a></li>
-            <li><a href="projects.html">📋 Projects</a></li>
-            <li><a href="technical-news.html">📰 Technical News</a></li>
-            <li><a href="lab-tools.html">🧰 Lab Tools</a></li>
-        </ul>
+        <div class="nav-inner">
+            <a class="brand" href="index.html">PANTONE <span>LAB</span></a>
+            <ul>
+                <li><a href="index.html" class="active" aria-current="page">Home</a></li>
+                <li><a href="analyzers.html">Analyzers</a></li>
+                <li><a href="knowledge.html">Knowledge Base</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="technical-news.html">Technical News</a></li>
+                <li><a href="lab-tools.html">Lab Tools</a></li>
+            </ul>
+            <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme">🌙</button>
+        </div>
     </nav>
 
     <div class="container">
@@ -31,32 +36,32 @@
             <p>This platform serves as a comprehensive knowledge management system for medical laboratory professionals. Here you'll find:</p>
             
             <div class="card-grid">
-                <div class="card">
+                <a class="card" href="analyzers.html">
                     <h3>🔬 Analyzer Database</h3>
                     <p>Complete specifications, parameters, and troubleshooting guides for all laboratory analyzers including Mindray, Roche, Abbott, and more.</p>
-                    <a href="analyzers.html" class="btn">Explore Analyzers</a>
-                </div>
+                    <span class="card-cta">Explore Analyzers</span>
+                </a>
                 
-                <div class="card">
+                <a class="card" href="knowledge.html">
                     <h3>📚 Knowledge Base</h3>
                     <p>Technical terminology, clinical concepts, and laboratory science definitions with detailed explanations and clinical significance.</p>
-                    <a href="knowledge.html" class="btn">Browse Terms</a>
-                </div>
+                    <span class="card-cta">Browse Terms</span>
+                </a>
                 
-                <div class="card">
+                <a class="card" href="projects.html">
                     <h3>📋 Project Plans</h3>
                     <p>Upcoming tools, educational materials, and development initiatives. Track progress on quality management and analytical tools.</p>
-                    <a href="projects.html" class="btn">View Projects</a>
-                </div>
+                    <span class="card-cta">View Projects</span>
+                </a>
 
-                <div class="card">
+                <a class="card" href="technical-news.html">
                     <h3>📰 Technical News</h3>
                     <p>Latest analyzer updates, technical corrections, and laboratory innovations. Stay informed with the newest technical documentation and system updates.</p>
-                    <a href="technical-news.html" class="btn">Browse News</a>
-                </div>
+                    <span class="card-cta">Browse News</span>
+                </a>
             </div>
 
-            <h2 style="margin-top: 40px;">Core Expertise Areas</h2>
+            <h2>Core Expertise Areas</h2>
             <ul>
                 <li><strong>Urinalysis:</strong> Morphology analysis, cell classification, crystal identification (Mindray UA-5600 - EH-2090B/C)</li>
                 <li><strong>Hematology:</strong> WBC differential, RBC indices, platelet analysis </li>
@@ -85,7 +90,7 @@
             <p><strong>LinkedIn:</strong> <a href="---------">NOT YET</a></p>
             <p><strong>GitHub:</strong> <a href="https://github.com/wuttachai49">PANTONE GitHub</a></p>
 
-            <p style="margin-top: 30px; text-align: center; color: #999;">
+            <p class="updated">
                 Last updated: June 2026<br>
                 Committed to laboratory excellence and professional knowledge sharing
             </p>
