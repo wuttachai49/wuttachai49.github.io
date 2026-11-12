@@ -69,6 +69,7 @@ th:first-child,td:first-child{text-align:left}th{font-size:12px;color:var(--mute
     <button data-t="single" class="on">Single dilution</button>
     <button data-t="serial">Serial dilution</button>
     <button data-t="over">Over‑range rerun</button>
+    <button data-t="lin">Linearity prep</button>
     <button data-t="c1v1">C₁V₁ = C₂V₂</button>
   </nav>
 
@@ -123,6 +124,40 @@ th:first-child,td:first-child{text-align:left}th{font-size:12px;color:var(--mute
       <ul>
         <li>The factor is an estimate from the first, out-of-range reading, which may itself be inaccurate. The real result can differ.</li>
         <li>Check the assay's maximum validated dilution and the correct diluent for that test; this tool doesn't know your lab's limits.</li>
+      </ul>
+    </details>
+  </section>
+
+  <!-- LINEARITY -->
+  <section id="lin" class="panel card">
+    <div class="grid">
+      <div><label for="l_lo">Low pool concentration</label><input id="l_lo" type="number" step="any" value="0"><div class="help">Lowest level. Use 0 if the low pool is diluent/blank.</div></div>
+      <div><label for="l_hi">High pool concentration</label><input id="l_hi" type="number" step="any" value="500"><div class="help">Highest level, at or just above the upper end of the range you want to verify.</div></div>
+      <div><label for="l_n">Number of levels</label><input id="l_n" type="number" min="3" max="11" value="5"><div class="help">5 equally spaced levels is typical (3–11 allowed).</div></div>
+      <div><label for="l_rep">Replicates per level</label><input id="l_rep" type="number" min="1" value="3"><div class="help">How many times each level is measured.</div></div>
+      <div><label for="l_vt">Volume per test (µL)</label><input id="l_vt" type="number" min="0" step="any" value="100"><div class="help">Sample volume the analyzer needs per measurement, including cup dead volume if shared.</div></div>
+      <div><label for="l_dead">Dead volume per level (µL)</label><input id="l_dead" type="number" min="0" step="any" value="50"><div class="help">Extra volume for the sample cup / tube.</div></div>
+    </div>
+    <div id="l_out"></div>
+    <details class="explain" open>
+      <summary>How it works</summary>
+      <ol>
+        <li><b>Volume per level</b> = replicates × volume per test + dead volume.</li>
+        <li><b>Levels:</b> equally spaced mixtures of the low and high pools. Level k of n has a high-pool fraction of k ÷ (n − 1) (0%, 25%, 50%, 75%, 100% for 5 levels).</li>
+        <li><b>Volumes:</b> high-pool µL = volume per level × fraction, rounded to a whole µL; low-pool µL = volume per level − high-pool µL.</li>
+        <li><b>Expected concentration</b> = (high µL × high conc + low µL × low conc) ÷ volume per level, using the actual rounded volumes.</li>
+        <li><b>Pool needed</b> = sum of each pool's µL across all levels, plus 10% extra for pipetting loss.</li>
+      </ol>
+      <div class="sub2">Warnings</div>
+      <ul>
+        <li>Any pipetted volume below your pipette limit → increase the volume per level.</li>
+        <li>High pool not above low pool → levels would not span a range.</li>
+      </ul>
+      <div class="sub2">Limits</div>
+      <ul>
+        <li>Mixing assumes the pools are well mixed and share the same matrix. Prepare the pools from patient or QC material per your validation protocol (e.g. CLSI EP06).</li>
+        <li>Measure the actual high and low pools; expected values are only as good as those assigned concentrations.</li>
+        <li>This tool prepares the dilutions only; it does not evaluate linearity statistics.</li>
       </ul>
     </details>
   </section>
@@ -251,6 +286,26 @@ function c1v1(){
   $("k_out").innerHTML=h;
 }
 
+function lin(){
+  const lo=num("l_lo"), hi=num("l_hi"), n=Math.round(num("l_n")), rep=num("l_rep"), vt=num("l_vt"), dead=num("l_dead")||0;
+  const vl=rep*vt+dead;
+  if(!isFinite(lo)||!isFinite(hi)||!(n>=3&&n<=11)||!(vl>0)){$("l_out").innerHTML=msg("bad","Enter both concentrations, 3–11 levels and a positive volume.");return}
+  if(!(hi>lo)){$("l_out").innerHTML=msg("bad","High pool concentration must be greater than the low pool.");return}
+  let rows="",sumH=0,sumL=0,small=false;
+  for(let i=0;i<n;i++){
+    const H=Math.round(vl*i/(n-1)), L=vl-H, conc=(H*hi+L*lo)/vl;
+    sumH+=H;sumL+=L;
+    if((H>0&&H<minP())||(L>0&&L<minP())) small=true;
+    const lab=i===0?"Low pool":i===n-1?"High pool":"";
+    rows+=`<tr><td>Level ${i+1}${lab?` <small>(${lab})</small>`:""}</td><td>${fmt(100*H/vl)}%</td><td>${vol(L)}</td><td>${vol(H)}</td><td>${vol(vl)}</td><td>${fmt(conc)} ${unit()}</td></tr>`;
+  }
+  let h=`<div class="out">${stat(vol(vl),"Volume per level")}${stat(vol(sumL*1.1),"Low pool needed (+10%)")}${stat(vol(sumH*1.1),"High pool needed (+10%)")}${stat(fmt((hi-lo)/(n-1))+" "+unit(),"Step between levels")}</div>`;
+  h+=`<table><tr><th>Level</th><th>High fraction</th><th>Low pool</th><th>High pool</th><th>Total</th><th>Expected conc.</th></tr>${rows}</table>`;
+  h+=`<div class="hint">Pipette the low pool first, then the high pool, mix each level well (gentle vortex or inversion), and run all levels in the same run.</div>`;
+  if(small) h+=msg("warn",`Some pipetted volumes are below your ${fmt(minP())} µL pipette limit — increase the volume per level (replicates, volume per test or dead volume).`);
+  $("l_out").innerHTML=h;
+}
+
 // Typical values only — analyzers/reagents differ. Edit to match your lab's validated limits.
 const TESTS={
  "Glucose":["mg/dL",500,"0.9% saline"],"Creatinine":["mg/dL",20,"0.9% saline"],
@@ -270,12 +325,12 @@ $("tname").addEventListener("change",()=>{
   $("tinfo").innerHTML=`<b>${key}</b>: unit ${t[0]}, upper linearity limit ${t[1]}, typical diluent ${t[2]}. <i>Typical values — verify against your analyzer's validated limits.</i>`;
   fns[document.querySelector(".panel.on").id]();
 });
-const fns={single,serial,over,c1v1};
+const fns={single,serial,over,lin,c1v1};
 document.querySelectorAll("input,select").forEach(e=>e.addEventListener("input",()=>{fns[document.querySelector(".panel.on").id]()}));
 $("tabs").onclick=e=>{const t=e.target.dataset.t;if(!t)return;
   document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));
   document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("on",p.id===t));fns[t]()};
-single();serial();over();c1v1();
+single();serial();over();lin();c1v1();
 </script>
 </body>
 </html>
