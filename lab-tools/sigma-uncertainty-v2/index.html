@@ -1,0 +1,1041 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sigma - Uncertainty Calculator V.2</title>
+<style>
+:root{--bg:#f5f7fa;--card:#fff;--ink:#1b2430;--mut:#667085;--line:#d9dee7;--pri:#1f3a5f;--inp:#fffbe8;--onpri:#fff;
+--s6:#2e9e5b;--s5:#8cc152;--s4:#f2c230;--s3:#f08c3a;--s0:#e5484d;--q1:#6366f1;--q2:#f59e0b;--q3:#e5484d;
+--t0:#4f8ef7;--t1:#f0a030;--t2:#38b27a}
+:root[data-theme="dark"]{--bg:#10151c;--card:#18202a;--ink:#e6ebf2;--mut:#93a0b3;--line:#2c3746;--pri:#7fb0ff;--inp:#2a2810;--onpri:#10151c;color-scheme:dark}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10151c;--card:#18202a;--ink:#e6ebf2;--mut:#93a0b3;--line:#2c3746;--pri:#7fb0ff;--inp:#2a2810;--onpri:#10151c;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,-apple-system,"Sarabun","Noto Sans Thai",sans-serif}
+header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:16px;border-bottom:1px solid var(--line);background:var(--card)}
+h1{margin:0;font-size:20px;color:var(--pri)} header p{margin:2px 0 0;color:var(--mut)}
+main{padding:16px;max-width:1500px;margin:auto}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tabs button,.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 14px;border-radius:8px;cursor:pointer;font:inherit}
+.tabs button.on{background:var(--pri);color:var(--onpri);border-color:var(--pri)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.seg button{border:0;border-right:1px solid var(--line);background:var(--card);color:var(--ink);padding:6px 16px;cursor:pointer;font:inherit}
+.seg button:last-child{border-right:0}.seg button.on{background:var(--pri);color:var(--onpri);font-weight:600}
+.infobar{display:flex;gap:6px 18px;flex-wrap:wrap;margin:0 0 10px;padding:6px 12px;background:var(--card);border:1px solid var(--line);border-radius:8px;font-size:13px}
+.infobar b{color:var(--pri)}.infobar i{color:var(--mut);font-style:normal}
+.infoform{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-bottom:14px;padding:12px;background:var(--card);border:1px solid var(--line);border-radius:10px}
+.infoform label{display:block;font-size:12px;color:var(--mut)}.infoform input{width:100%;margin-top:2px;font:inherit;color:var(--ink);background:color-mix(in srgb,var(--inp) 75%,var(--card));border:1px solid var(--line);border-radius:6px;padding:6px 8px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;align-items:center}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.card b{display:block;font-size:22px}.card span{color:var(--mut);font-size:12px}.card .cls{color:#111;font-size:12px}
+.wrap{overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+table{border-collapse:collapse;width:max-content;min-width:100%}
+th,td{border-bottom:1px solid var(--line);padding:4px 6px;text-align:right;white-space:nowrap}
+th{position:sticky;top:0;background:var(--pri);color:var(--onpri);font-weight:600;font-size:12px;text-align:center}
+td:first-child,th:first-child{text-align:left}
+td.l,th.l{text-align:left}
+tr.g0 td{background:color-mix(in srgb,var(--t0) 11%,var(--card))}
+tr.g1 td{background:color-mix(in srgb,var(--t1) 13%,var(--card))}
+tr.g2 td{background:color-mix(in srgb,var(--t2) 12%,var(--card))}
+tr.first td{border-top:2px solid var(--mut)}
+td input,td select{font:inherit;color:var(--ink);background:color-mix(in srgb,var(--inp) 75%,var(--card));border:1px solid var(--line);border-radius:5px;padding:3px 5px}
+td input{width:70px;text-align:right} td input.w2{width:110px;text-align:left} td input.wl{width:54px;text-align:left}
+td select{max-width:160px} td input:disabled{opacity:.4}
+td.out{font-variant-numeric:tabular-nums}
+.cls{font-weight:600;border-radius:6px;padding:2px 8px;color:#111;display:inline-block}
+.s6{background:var(--s6)}.s5{background:var(--s5)}.s4{background:var(--s4)}.s3{background:var(--s3)}.s0{background:var(--s0)}
+.q1{background:var(--q1);color:#fff}.q2{background:var(--q2)}.q3{background:var(--q3)}
+.del{border:0;background:none;color:var(--s0);cursor:pointer;font-size:16px}.del[data-add]{color:var(--pri);font-size:12px;font-weight:700}
+section{margin-top:20px} h2{font-size:16px;color:var(--pri);margin:0 0 8px}
+.chart{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px;overflow:auto}
+.doc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
+.doc code{background:var(--bg);padding:1px 5px;border-radius:4px}.doc li{margin:3px 0}
+a{color:var(--pri)} .note{color:var(--mut);font-size:12px}
+.chartbar{display:flex;justify-content:flex-end;gap:6px;margin-bottom:4px}.btn.sm{padding:2px 10px;font-size:12px}
+.pg{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 26px;margin:0 0 20px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.pg-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;border-bottom:3px solid var(--pri);padding-bottom:10px;margin-bottom:14px}
+.pg-kicker{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.pg-head h2{font-size:22px;margin:2px 0 0;color:var(--pri)}.pg-sub{font-size:12px;color:var(--mut)}
+.pg-meta{display:grid;grid-template-columns:auto auto;gap:2px 18px;font-size:12px}.pg-meta b{color:var(--pri)}
+.pg-foot{display:flex;justify-content:space-between;gap:12px;margin-top:14px;padding-top:8px;border-top:1px solid var(--line);font-size:11px;color:var(--mut)}
+.op-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.op-chart{border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--card);overflow:auto}
+.op-guide{margin-top:10px;padding:8px 12px;border-left:4px solid var(--pri);background:color-mix(in srgb,var(--pri) 7%,var(--card));border-radius:0 8px 8px 0;font-size:12px}
+.pg table{font-size:12px}
+.tpg-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:18px;align-items:start}
+@media(max-width:1000px){.tpg-grid{grid-template-columns:1fr}}
+.ptable td,.ptable th{padding:5px 8px}.ptable tr:nth-child(even) td{background:color-mix(in srgb,var(--pri) 5%,var(--card))}
+.ptable tr.prow-hi td{background:color-mix(in srgb,var(--pri) 14%,var(--card))}
+.ptable tr.psec td{background:var(--pri);color:var(--onpri);font-size:11px;font-weight:600;letter-spacing:.03em;padding:2px 8px}
+.tpg .pg-head{border-bottom-width:4px}.tpg-side{display:flex;flex-direction:column;gap:10px}
+.pg-h3{font-size:14px;color:var(--pri);margin:14px 0 6px}
+.bars2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.bars2 svg{min-width:0!important}
+@media(max-width:900px){.bars2{grid-template-columns:1fr}}
+.qg-guide{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-top:10px}
+.qg-guide div{border:1px solid var(--line);border-left:5px solid var(--pri);border-radius:8px;padding:8px 10px;font-size:12px}
+.print-only{display:none}
+@page{size:A4 landscape;margin:10mm}
+body.exportmode header,body.exportmode #tabs,body.exportmode #tools,body.exportmode #groupBar,body.exportmode #infoBar{display:none}
+.exp-bar{position:sticky;top:0;z-index:5;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.exp-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:4px 0}.exp-row select,.exp-row input[type=number]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:3px 6px}
+.exp-det{flex:1 1 100%}.exp-det summary{cursor:pointer;color:var(--pri)}.exp-grp{margin:6px 0}.exp-chk{display:inline-block;margin:2px 10px 2px 0;font-size:12px;white-space:nowrap}
+.abbr{margin-top:12px;padding:6px 10px;border:1px dashed var(--line);border-radius:8px;font-size:11px;color:var(--mut);line-height:1.5}.abbr b{color:var(--pri)}
+@media print{.screen-only{display:none!important}.print-only{display:block!important}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}@page{size:A4 landscape;margin:10mm}
+header,.infoform,.tabs,.seg,.bar,.chartbar,#tools,#infoBar,#groupBar,.del,.btn,.exp-bar{display:none!important}
+.wrap{overflow:visible;border:0}body{background:#fff;color:#111}main{padding:0;max-width:none}.pg{box-shadow:none;border:0;border-radius:0;padding:0;margin:0}.pg+.pg{page-break-before:always}.pg table{font-size:9px}.pg th,.pg td{padding:2px 4px}tr{page-break-inside:avoid}.op-chart{overflow:visible;border:0}.op-chart svg{min-width:0!important}
+.tpg{break-inside:avoid;page-break-inside:avoid}.tpg-grid{grid-template-columns:minmax(0,5fr) minmax(0,6fr)!important}.tpg-grid>div{min-width:0}
+body.portrait .pg table{width:100%!important;min-width:0}body.portrait .pg th,body.portrait .pg td{white-space:normal;padding:2px 3px;font-size:8px}
+body.portrait .pg .cards{grid-template-columns:repeat(4,1fr);gap:6px}body.portrait .pg .card{padding:4px 8px}body.portrait .pg .card b{font-size:16px}
+body.portrait .bars2{grid-template-columns:1fr!important}body.portrait .op-chart{padding:4px}body.portrait .pg-head h2{font-size:18px}
+body.portrait .tpg .ptable td,body.portrait .tpg .ptable th{font-size:11px;padding:3px 8px}body.portrait .tpg .ptable tr.psec td{font-size:10px}body.portrait .tpg .pg-meta{max-width:none;width:100%;justify-content:flex-start}
+body.portrait .pg-h3{font-size:12px}body.portrait .op-guide,body.portrait .abbr{font-size:9px}body.portrait .qg-guide{grid-template-columns:1fr 1fr 1fr}.tpg .pg-head{margin-bottom:6px;padding-bottom:6px}.tpg .pg-head h2{font-size:18px}
+.tpg .cards{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;grid-template-columns:none;gap:6px;margin-bottom:6px}.tpg .card{padding:3px 8px}.tpg .card b{font-size:15px}.tpg .card span,.tpg .card small{font-size:10px}
+.tpg .ptable td,.tpg .ptable th{padding:0 7px;font-size:9.5px;line-height:1.25}.tpg .pg-meta{display:flex;flex-wrap:wrap;gap:0 14px;font-size:9px;max-width:55%;justify-content:flex-end}.tpg .pg-kicker{font-size:9px}.tpg .pg-sub{font-size:10px}.tpg .ptable tr.psec td{padding:1px 7px;font-size:9px}.tpg .cls{padding:0 6px}
+.tpg .op-guide{font-size:10px;padding:4px 8px;margin-top:6px}.tpg .note{font-size:9px;margin:4px 0}.tpg .pg-foot{margin-top:6px;padding-top:4px;font-size:9px}.tpg .pg-h3{font-size:12px}.tpg .abbr{font-size:8px;line-height:1.3;padding:3px 7px;margin-top:4px}}
+</style>
+</head>
+<body>
+<header><div><h1>Measurement Uncertainty &amp; Sigma Metric</h1>
+<p>Biochemistry / CBC — top-down MU (ISO 15189, ISO/TS 20914) · TEa อ้างอิง Westgard QC (CLIA 2025, Ricos desirable)</p></div><button class="btn" id="themeBtn" type="button" aria-label="Toggle Dark mode / Normal mode"></button></header>
+<main>
+<div class="tabs" id="tabs"></div>
+<div class="bar" id="tools">
+  <button class="btn" id="btnImport">⬆ Import CSV / Excel</button><input type="file" id="fileIn" accept=".csv,.txt,.xlsx" hidden>
+  <label class="note"><input type="checkbox" id="appendChk"> เพิ่มต่อท้าย (ไม่แทนที่ข้อมูลเดิม)</label>
+  <button class="btn" id="btnTplX" title="ไฟล์ Excel เปล่าสำหรับกรอกข้อมูล แล้วกด Import กลับเข้ามา">⬇ Template (Excel)</button><button class="btn" id="btnTplC" title="ไฟล์ CSV เปล่าสำหรับกรอกข้อมูล แล้วกด Import กลับเข้ามา">⬇ Template (CSV)</button>
+  <button class="btn" id="btnCsv">⬇ Export CSV</button><button class="btn" id="btnXlsx">⬇ Export Excel (.xlsx)</button><button class="btn" id="btnPdf" title="โหมดเตรียมพิมพ์ PDF แบบ 1 เทส / หน้า">📄 Export mode (PDF)</button>
+  <span class="note" id="status"></span></div>
+<div id="infoBar"></div>
+<div id="groupBar"></div>
+<div id="view"></div>
+</main>
+<script>
+/* io.js — dependency-free CSV / XLSX import & export helpers (inlined into index.html by build_web.py).
+   Also loadable in Node for tests: const io = require("./io.js") */
+(function(root){
+const enc=new TextEncoder(),dec=new TextDecoder();
+const concat=a=>{const n=a.reduce((x,y)=>x+y.length,0),o=new Uint8Array(n);let p=0;for(const y of a){o.set(y,p);p+=y.length}return o};
+
+/* ---------------- ZIP (store) writer ---------------- */
+const crcT=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+function crc32(u8){let c=0xFFFFFFFF;for(let i=0;i<u8.length;i++)c=crcT[(c^u8[i])&255]^(c>>>8);return(c^0xFFFFFFFF)>>>0}
+function zipStore(files){
+  const parts=[],cd=[];let off=0;
+  for(const f of files){
+    const name=enc.encode(f.name),data=f.data,crc=crc32(data);
+    const lh=new Uint8Array(30+name.length),dv=new DataView(lh.buffer);
+    dv.setUint32(0,0x04034b50,true);dv.setUint16(4,20,true);dv.setUint16(6,0x0800,true);dv.setUint16(12,0x21,true);
+    dv.setUint32(14,crc,true);dv.setUint32(18,data.length,true);dv.setUint32(22,data.length,true);dv.setUint16(26,name.length,true);
+    lh.set(name,30);parts.push(lh,data);
+    const ch=new Uint8Array(46+name.length),cv=new DataView(ch.buffer);
+    cv.setUint32(0,0x02014b50,true);cv.setUint16(4,20,true);cv.setUint16(6,20,true);cv.setUint16(8,0x0800,true);cv.setUint16(14,0x21,true);
+    cv.setUint32(16,crc,true);cv.setUint32(20,data.length,true);cv.setUint32(24,data.length,true);cv.setUint16(28,name.length,true);cv.setUint32(42,off,true);
+    ch.set(name,46);cd.push(ch);off+=lh.length+data.length;
+  }
+  const cdSize=cd.reduce((a,b)=>a+b.length,0),end=new Uint8Array(22),ev=new DataView(end.buffer);
+  ev.setUint32(0,0x06054b50,true);ev.setUint16(8,files.length,true);ev.setUint16(10,files.length,true);ev.setUint32(12,cdSize,true);ev.setUint32(16,off,true);
+  return concat([...parts,...cd,end]);
+}
+
+/* ---------------- XLSX writer ---------------- */
+const xe=s=>String(s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const colL=i=>{let s="";i++;while(i>0){const m=(i-1)%26;s=String.fromCharCode(65+m)+s;i=Math.floor((i-1)/26)}return s};
+const NS='xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"';
+function sheetXml(rows,header,dv){
+  const widths=[];
+  rows.forEach(r=>r.forEach((v,j)=>{const l=v==null?0:String(v).length;widths[j]=Math.min(60,Math.max(widths[j]||8,l+2))}));
+  let x=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet ${NS}>`;
+  if(header)x+='<sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>';
+  x+="<cols>"+widths.map((w,j)=>`<col min="${j+1}" max="${j+1}" width="${w}" customWidth="1"/>`).join("")+"</cols><sheetData>";
+  rows.forEach((r,i)=>{
+    x+=`<row r="${i+1}">`;
+    r.forEach((v,j)=>{
+      if(v===null||v===undefined||v==="")return;
+      const ref=colL(j)+(i+1),s=header&&i===0?' s="1"':"";
+      if(typeof v==="number"&&isFinite(v))x+=`<c r="${ref}"${s}><v>${v}</v></c>`;
+      else x+=`<c r="${ref}"${s} t="inlineStr"><is><t xml:space="preserve">${xe(v)}</t></is></c>`;
+    });
+    x+="</row>";
+  });
+  x+="</sheetData>";
+  if(dv&&dv.length)x+=`<dataValidations count="${dv.length}">`+dv.map(d=>`<dataValidation type="list" allowBlank="1" showErrorMessage="1" sqref="${d.sqref}"><formula1>${xe(d.list)}</formula1></dataValidation>`).join("")+"</dataValidations>";
+  return x+"</worksheet>";
+}
+function makeXlsx(sheets){
+  const E=s=>enc.encode(s),H='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+  const names=sheets.map((s,i)=>(s.name||"Sheet"+(i+1)).replace(/[\[\]:*?\/\\]/g,"_").slice(0,31));
+  const files=[
+    {name:"[Content_Types].xml",data:E(H+'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>'+sheets.map((_,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join("")+"</Types>")},
+    {name:"_rels/.rels",data:E(H+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>')},
+    {name:"xl/workbook.xml",data:E(H+`<workbook ${NS} xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>`+names.map((n,i)=>`<sheet name="${xe(n)}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join("")+"</sheets></workbook>")},
+    {name:"xl/_rels/workbook.xml.rels",data:E(H+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+sheets.map((_,i)=>`<Relationship Id="rId${i+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join("")+`<Relationship Id="rId${sheets.length+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`)},
+    {name:"xl/styles.xml",data:E(H+`<styleSheet ${NS}><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF1F3A5F"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`)},
+  ];
+  sheets.forEach((s,i)=>files.push({name:`xl/worksheets/sheet${i+1}.xml`,data:E(sheetXml(s.rows,s.header!==false,s.dv))}));
+  return zipStore(files);
+}
+
+/* ---------------- ZIP / XLSX reader ---------------- */
+async function inflateRaw(u8){
+  const ds=new DecompressionStream("deflate-raw"),w=ds.writable.getWriter();w.write(u8);w.close();
+  return new Uint8Array(await new Response(ds.readable).arrayBuffer());
+}
+async function readZip(u8){
+  const dv=new DataView(u8.buffer,u8.byteOffset,u8.byteLength);
+  let e=u8.length-22;while(e>=0&&dv.getUint32(e,true)!==0x06054b50)e--;
+  if(e<0)throw new Error("ไม่ใช่ไฟล์ .xlsx (zip)");
+  const n=dv.getUint16(e+10,true);let p=dv.getUint32(e+16,true);const files={};
+  for(let i=0;i<n;i++){
+    if(dv.getUint32(p,true)!==0x02014b50)break;
+    const method=dv.getUint16(p+10,true),csz=dv.getUint32(p+20,true),nl=dv.getUint16(p+28,true),el=dv.getUint16(p+30,true),cl=dv.getUint16(p+32,true),lo=dv.getUint32(p+42,true);
+    const name=dec.decode(u8.subarray(p+46,p+46+nl));
+    const ds=lo+30+dv.getUint16(lo+26,true)+dv.getUint16(lo+28,true),raw=u8.subarray(ds,ds+csz);
+    files[name]=method===0?raw:await inflateRaw(raw);
+    p+=46+nl+el+cl;
+  }
+  return files;
+}
+const unx=s=>s.replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&quot;/g,'"').replace(/&apos;/g,"'").replace(/&#(\d+);/g,(m,d)=>String.fromCodePoint(+d)).replace(/&#x([0-9a-f]+);/gi,(m,d)=>String.fromCodePoint(parseInt(d,16))).replace(/&amp;/g,"&");
+const attrs=s=>{const o={};String(s).replace(/([\w:.-]+)="([^"]*)"/g,(m,k,v)=>{o[k]=unx(v);return m});return o};
+const textOf=s=>{let o="";String(s).replace(/<t(?:\s[^>]*)?>([\s\S]*?)<\/t>/g,(m,t)=>{o+=unx(t);return m});return o};
+const colIdx=l=>{let n=0;for(const ch of l)n=n*26+ch.charCodeAt(0)-64;return n-1};
+async function readXlsx(u8){
+  const f=await readZip(u8),txt=n=>f[n]?dec.decode(f[n]):"";
+  const shared=[];txt("xl/sharedStrings.xml").replace(/<si(?:\s[^>]*)?>([\s\S]*?)<\/si>/g,(m,s)=>{shared.push(textOf(s));return m});
+  const rels={};txt("xl/_rels/workbook.xml.rels").replace(/<Relationship\s([^>]*?)\/?>/g,(m,a)=>{const o=attrs(a);rels[o.Id]=o.Target;return m});
+  const out=[];
+  txt("xl/workbook.xml").replace(/<sheet\s([^>]*?)\/?>/g,(m,a)=>{
+    const o=attrs(a),t=rels[o["r:id"]];if(!t)return m;
+    const path=t.startsWith("/")?t.slice(1):"xl/"+t.replace(/^\.\//,"");
+    const x=txt(path),rows=[];
+    x.replace(/<c\s([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g,(mm,a2,inner)=>{
+      const c=attrs(a2),m2=/^([A-Z]+)(\d+)$/.exec(c.r||"");if(!m2||inner==null)return mm;
+      let v;
+      if(c.t==="s"){const mv=/<v>([\s\S]*?)<\/v>/.exec(inner);v=mv?shared[+mv[1]]:""}
+      else if(c.t==="inlineStr")v=textOf(inner);
+      else{const mv=/<v>([\s\S]*?)<\/v>/.exec(inner);if(!mv)return mm;v=c.t==="str"||c.t==="e"||c.t==="b"?unx(mv[1]):Number(mv[1])}
+      const ri=+m2[2]-1;(rows[ri]=rows[ri]||[])[colIdx(m2[1])]=v;return mm;
+    });
+    for(let i=0;i<rows.length;i++)rows[i]=rows[i]||[];
+    out.push({name:o.name,rows});return m;
+  });
+  return out;
+}
+
+/* ---------------- CSV ---------------- */
+function parseCsv(text){
+  text=text.replace(/^﻿/,"");
+  const first=text.split(/\r?\n/)[0]||"",cnt=c=>(first.match(new RegExp(c==="\t"?"\\t":"\\"+c,"g"))||[]).length;
+  const d=[",",";","\t"].sort((a,b)=>cnt(b)-cnt(a))[0];
+  const rows=[];let row=[],cur="",q=false;
+  for(let i=0;i<text.length;i++){
+    const ch=text[i];
+    if(q){if(ch==='"'){if(text[i+1]==='"'){cur+='"';i++}else q=false}else cur+=ch}
+    else if(ch==='"')q=true;
+    else if(ch===d){row.push(cur);cur=""}
+    else if(ch==="\n"||ch==="\r"){if(ch==="\r"&&text[i+1]==="\n")i++;row.push(cur);rows.push(row);row=[];cur=""}
+    else cur+=ch;
+  }
+  if(cur!==""||row.length){row.push(cur);rows.push(row)}
+  return rows.filter(r=>r.some(c=>String(c).trim()!==""));
+}
+const csvCell=v=>`"${String(v??"").replace(/"/g,'""')}"`;
+const toCsv=rows=>"﻿"+rows.map(r=>r.map(csvCell).join(",")).join("\n");
+
+/* ---------------- table -> rows mapping ---------------- */
+const norm=s=>String(s??"").toLowerCase().replace(/[^a-z0-9]/g,"");
+function roleOf(h){
+  const n=norm(h);
+  if(["test","analyte","testname"].includes(n))return"test";
+  if(["group","department"].includes(n))return"group";
+  if(["level","qclevel"].includes(n))return"level";
+  if(n==="mean")return"mean";
+  if(n==="sd")return"sd";
+  if(["eqabiaslist","eqabiaslistcomma","biaslist","bias","biaspct","eqabias"].includes(n))return"biaslist";
+  if(/^eqabias\d$/.test(n)||/^bias\d$/.test(n))return"bias#";
+  if(n==="uref")return"uref";if(n==="ucal")return"ucal";if(n==="k")return"k";
+  if(n==="teasource")return"src";
+  if(n==="customtea")return"custom";
+  if(n==="customteasource")return"csrc";
+  if(n==="hospital")return"hospital";if(n==="lab")return"lab";if(n==="eqa")return"eqa";
+  return null;
+}
+function matchPreset(name,presets){
+  const n=norm(name);if(!n)return null;
+  let p=presets.find(x=>norm(x.test)===n);if(p)return p;
+  const alias={bun:"bunureanitrogen",urea:"bunureanitrogen",ureanitrogen:"bunureanitrogen",tbil:"bilirubintotal",totalbilirubin:"bilirubintotal",
+    cholesterol:"cholesteroltotal",totalcholesterol:"cholesteroltotal",hdl:"hdlcholesterol",ldl:"ldlcholesteroldirect",ldlcholesterol:"ldlcholesteroldirect",
+    alp:"alkalinephosphatase",tp:"totalprotein",calcium:"calciumtotal",ca:"calciumtotal",hgb:"hemoglobin",hb:"hemoglobin",hct:"hematocrit",plt:"platelet",
+    platelets:"platelet",wbc:"wbc",rbc:"rbc",na:"sodium",k:"potassium",cl:"chloride",mg:"magnesium",phos:"phosphorus",phosphate:"phosphorus",ua:"uricacid",
+    uricacid:"uricacid",tg:"triglycerides",glu:"glucose",crea:"creatinine",hba1c:"hba1c"};
+  const a=alias[n];if(a){p=presets.find(x=>norm(x.test)===a);if(p)return p}
+  return presets.find(x=>n.length>=3&&(norm(x.test).startsWith(n)||n.startsWith(norm(x.test))))||null;
+}
+function srcOf(v,SRC){
+  const n=norm(v);if(!n)return null;
+  if(n.includes("clia"))return SRC.CLIA;if(n.includes("ricos")||n.includes("biolog"))return SRC.RICOS;if(n.includes("custom"))return SRC.CUSTOM;
+  return null;
+}
+const cellStr=v=>v==null?"":typeof v==="number"?String(v):String(v).trim();
+function importTables(tables,presets,SRC){
+  const res={rows:{Biochemistry:[],CBC:[]},info:{},skipped:[],used:[],count:0,empty:0};
+  for(const t of tables){
+    const rows=t.rows||[];
+    // lab info sheets (Info / Lab_Info): label | value
+    if(/^(info|lab_?info)$/i.test(t.name||"")){
+      rows.forEach(r=>{
+        const l=norm(r[0]),v=cellStr(r[1]);if(!v)return;
+        if(l.includes("hospital")||String(r[0]).includes("โรงพยาบาล"))res.info.hospital=v;
+        else if(l.includes("eqa")&&l.includes("biochem")){(res.info.eqa=res.info.eqa||{}).Biochemistry=v}
+        else if(l.includes("eqa")&&l.includes("cbc")){(res.info.eqa=res.info.eqa||{}).CBC=v}
+        else if(l.startsWith("lab"))res.info.lab=v;
+      });
+      continue;
+    }
+    let hi=-1,map=null;
+    for(let i=0;i<Math.min(rows.length,25)&&hi<0;i++){
+      const m={},bi=[];
+      (rows[i]||[]).forEach((h,j)=>{const r=roleOf(h);if(!r)return;if(r==="bias#")bi.push(j);else if(!(r in m))m[r]=j});
+      if("test" in m&&"mean" in m&&"sd" in m){hi=i;map=m;map.bi=bi}
+    }
+    if(hi<0)continue;
+    let n=0;
+    for(let i=hi+1;i<rows.length;i++){
+      const r=rows[i]||[],g=k=>k in map?r[map[k]]:undefined,name=cellStr(g("test"));
+      if(!name)continue;
+      const p=matchPreset(name,presets);
+      if(!p){if(cellStr(g("mean"))!==""&&!res.skipped.includes(name))res.skipped.push(name);continue}
+      if(cellStr(g("mean"))===""&&cellStr(g("sd"))===""){res.empty++;continue}
+      let grp=cellStr(g("group"));grp=["Biochemistry","CBC"].find(x=>norm(x)===norm(grp))||p.group;
+      let bias=cellStr(g("biaslist"));
+      if(!bias&&map.bi.length)bias=map.bi.map(j=>cellStr(r[j])).filter(x=>x!==""&&isFinite(parseFloat(x))).join(", ");
+      const row={test:p.test,level:cellStr(g("level"))||"L1",mean:cellStr(g("mean")),sd:cellStr(g("sd")),bias,
+        uref:cellStr(g("uref"))||0,ucal:cellStr(g("ucal"))||0,k:cellStr(g("k"))||2,
+        src:srcOf(g("src"),SRC)||((p.clia_pct||p.clia_abs)?SRC.CLIA:SRC.RICOS),custom:cellStr(g("custom")),csrc:cellStr(g("csrc"))};
+      res.rows[grp].push(row);n++;res.count++;
+      if(n===1){
+        if(cellStr(g("hospital")))res.info.hospital=cellStr(g("hospital"));
+        if(cellStr(g("lab")))res.info.lab=cellStr(g("lab"));
+        if(cellStr(g("eqa"))){(res.info.eqa=res.info.eqa||{})[grp]=cellStr(g("eqa"))}
+      }
+    }
+    if(n)res.used.push(`${t.name}: ${n}`);
+  }
+  return res;
+}
+
+const api={crc32,zipStore,makeXlsx,readZip,readXlsx,parseCsv,toCsv,importTables,matchPreset,norm};
+if(typeof module!=="undefined"&&module.exports)module.exports=api;else root.IO=api;
+})(typeof globalThis!=="undefined"?globalThis:this);
+
+const IO=globalThis.IO;
+const PRESETS=[{"group": "Biochemistry", "test": "Glucose", "unit": "mg/dL", "clia_pct": 8, "clia_abs": 6, "clia_text": "±6 mg/dL or ±8% (greater)", "ric": {"CVI": 5.6, "CVg": 7.5, "I": 2.8, "B": 2.34, "TE": 6.96}, "ex_levels": [[100.0, 2.0], [200.0, 4.0]]}, {"group": "Biochemistry", "test": "Creatinine", "unit": "mg/dL", "clia_pct": 10, "clia_abs": 0.2, "clia_text": "±0.2 mg/dL or ±10% (greater)", "ric": {"CVI": 5.95, "CVg": 14.7, "I": 2.98, "B": 3.96, "TE": 8.87}, "ex_levels": [[1.0, 0.03], [2.0, 0.06]]}, {"group": "Biochemistry", "test": "BUN (Urea nitrogen)", "unit": "mg/dL", "clia_pct": 9, "clia_abs": 2, "clia_text": "±2 mg/dL or ±9% (greater)", "ric": {"CVI": 12.1, "CVg": 18.7, "I": 6.05, "B": 5.57, "TE": 15.55}, "ex_levels": [[20.0, 0.5], [40.0, 1.0]]}, {"group": "Biochemistry", "test": "Cholesterol, total", "unit": "mg/dL", "clia_pct": 10, "clia_abs": 0, "clia_text": "±10%", "ric": {"CVI": 5.95, "CVg": 15.3, "I": 2.98, "B": 4.1, "TE": 9.01}, "ex_levels": [[200.0, 4.0], [400.0, 8.0]]}, {"group": "Biochemistry", "test": "Triglycerides", "unit": "mg/dL", "clia_pct": 15, "clia_abs": 0, "clia_text": "±15%", "ric": {"CVI": 19.9, "CVg": 32.7, "I": 9.95, "B": 9.57, "TE": 25.99}, "ex_levels": [[150.0, 3.0], [300.0, 6.0]]}, {"group": "Biochemistry", "test": "HDL cholesterol", "unit": "mg/dL", "clia_pct": 20, "clia_abs": 6, "clia_text": "±20% or ±6 mg/dL (greater)", "ric": {"CVI": 7.3, "CVg": 21.2, "I": 3.65, "B": 5.61, "TE": 11.63}, "ex_levels": [[50.0, 1.2], [100.0, 2.4]]}, {"group": "Biochemistry", "test": "LDL cholesterol (direct)", "unit": "mg/dL", "clia_pct": 20, "clia_abs": 0, "clia_text": "±20%", "ric": {"CVI": 7.8, "CVg": 20.4, "I": 3.9, "B": 5.46, "TE": 11.9}, "ex_levels": [[100.0, 2.5], [200.0, 5.0]]}, {"group": "Biochemistry", "test": "Total protein", "unit": "g/dL", "clia_pct": 8, "clia_abs": 0, "clia_text": "±8%", "ric": {"CVI": 2.75, "CVg": 4.7, "I": 1.38, "B": 1.36, "TE": 3.63}, "ex_levels": [[5.2, 0.08], [9.1, 0.14]]}, {"group": "Biochemistry", "test": "Albumin", "unit": "g/dL", "clia_pct": 8, "clia_abs": 0, "clia_text": "±8%", "ric": {"CVI": 3.2, "CVg": 4.75, "I": 1.6, "B": 1.43, "TE": 4.07}, "ex_levels": [[3.2, 0.056], [4.8, 0.084]]}, {"group": "Biochemistry", "test": "ALT", "unit": "U/L", "clia_pct": 15, "clia_abs": 6, "clia_text": "±15% or ±6 U/L (greater)", "ric": {"CVI": 19.4, "CVg": 41.6, "I": 9.7, "B": 11.48, "TE": 27.48}, "ex_levels": [[40.0, 1.2], [80.0, 2.4]]}, {"group": "Biochemistry", "test": "AST", "unit": "U/L", "clia_pct": 15, "clia_abs": 6, "clia_text": "±15% or ±6 U/L (greater)", "ric": {"CVI": 12.3, "CVg": 23.1, "I": 6.15, "B": 6.54, "TE": 16.69}, "ex_levels": [[40.0, 1.2], [80.0, 2.4]]}, {"group": "Biochemistry", "test": "Alkaline phosphatase", "unit": "U/L", "clia_pct": 20, "clia_abs": 0, "clia_text": "±20%", "ric": {"CVI": 6.45, "CVg": 26.1, "I": 3.23, "B": 6.72, "TE": 12.04}, "ex_levels": [[100.0, 2.5], [200.0, 5.0]]}, {"group": "Biochemistry", "test": "Bilirubin, total", "unit": "mg/dL", "clia_pct": 20, "clia_abs": 0.4, "clia_text": "±20% or ±0.4 mg/dL (greater)", "ric": {"CVI": 21.8, "CVg": 28.4, "I": 10.9, "B": 8.95, "TE": 26.94}, "ex_levels": [[1.0, 0.03], [2.0, 0.06]]}, {"group": "Biochemistry", "test": "Sodium", "unit": "mmol/L", "clia_pct": 0, "clia_abs": 4, "clia_text": "±4 mmol/L", "ric": {"CVI": 0.6, "CVg": 0.7, "I": 0.3, "B": 0.23, "TE": 0.73}, "ex_levels": [[133.0, 0.95], [154.0, 1.1]]}, {"group": "Biochemistry", "test": "Potassium", "unit": "mmol/L", "clia_pct": 0, "clia_abs": 0.3, "clia_text": "±0.3 mmol/L", "ric": {"CVI": 4.6, "CVg": 5.6, "I": 2.3, "B": 1.81, "TE": 5.61}, "ex_levels": [[3.2, 0.048], [6.0, 0.09]]}, {"group": "Biochemistry", "test": "Chloride", "unit": "mmol/L", "clia_pct": 5, "clia_abs": 0, "clia_text": "±5%", "ric": {"CVI": 1.2, "CVg": 1.5, "I": 0.6, "B": 0.5, "TE": 1.5}, "ex_levels": [[95.0, 0.95], [110.0, 1.1]]}, {"group": "Biochemistry", "test": "Calcium, total", "unit": "mg/dL", "clia_pct": 0, "clia_abs": 1.0, "clia_text": "±1.0 mg/dL", "ric": {"CVI": 2.1, "CVg": 2.5, "I": 1.05, "B": 0.82, "TE": 2.55}, "ex_levels": [[7.65, 0.128], [11.7, 0.195]]}, {"group": "Biochemistry", "test": "Magnesium", "unit": "mg/dL", "clia_pct": 15, "clia_abs": 0, "clia_text": "±15%", "ric": {"CVI": 3.6, "CVg": 6.4, "I": 1.8, "B": 1.8, "TE": 4.8}, "ex_levels": [[1.6, 0.04], [3.2, 0.08]]}, {"group": "Biochemistry", "test": "Phosphorus", "unit": "mg/dL", "clia_pct": 10, "clia_abs": 0.3, "clia_text": "±0.3 mg/dL or ±10% (greater)", "ric": {"CVI": 8.15, "CVg": 10.8, "I": 4.08, "B": 3.38, "TE": 10.11}, "ex_levels": [[4.0, 0.08], [8.0, 0.16]]}, {"group": "Biochemistry", "test": "Uric acid", "unit": "mg/dL", "clia_pct": 10, "clia_abs": 0, "clia_text": "±10%", "ric": {"CVI": 8.6, "CVg": 17.5, "I": 4.3, "B": 4.87, "TE": 11.97}, "ex_levels": [[5.0, 0.1], [10.0, 0.2]]}, {"group": "Biochemistry", "test": "CK", "unit": "U/L", "clia_pct": 20, "clia_abs": 0, "clia_text": "±20%", "ric": {"CVI": 22.8, "CVg": 40.0, "I": 11.4, "B": 11.5, "TE": 30.3}, "ex_levels": [[150.0, 3.5], [300.0, 7.0]]}, {"group": "Biochemistry", "test": "LDH", "unit": "U/L", "clia_pct": 15, "clia_abs": 0, "clia_text": "±15%", "ric": {"CVI": 8.6, "CVg": 14.7, "I": 4.3, "B": 4.3, "TE": 11.4}, "ex_levels": [[200.0, 4.0], [400.0, 8.0]]}, {"group": "Biochemistry", "test": "Amylase", "unit": "U/L", "clia_pct": 20, "clia_abs": 0, "clia_text": "±20%", "ric": {"CVI": 8.7, "CVg": 28.3, "I": 4.4, "B": 7.4, "TE": 14.6}, "ex_levels": [[100.0, 2.5], [200.0, 5.0]]}, {"group": "Biochemistry", "test": "GGT", "unit": "U/L", "clia_pct": 15, "clia_abs": 5, "clia_text": "±15% or ±5 U/L (greater)", "ric": {"CVI": 13.4, "CVg": 42.15, "I": 6.7, "B": 11.06, "TE": 22.11}, "ex_levels": [[50.0, 1.5], [100.0, 3.0]]}, {"group": "Biochemistry", "test": "HbA1c", "unit": "%", "clia_pct": 8, "clia_abs": 0, "clia_text": "±8%", "ric": {"CVI": 1.9, "CVg": 5.7, "I": 0.9, "B": 1.5, "TE": 3.0}, "ex_levels": [[5.2, 0.096], [10.4, 0.192]]}, {"group": "CBC", "test": "WBC", "unit": "x10^3/µL", "clia_pct": 10, "clia_abs": 0, "clia_text": "±10%", "ric": {"CVI": 11.4, "CVg": 21.3, "I": 5.73, "B": 6.05, "TE": 15.49}, "ex_levels": [[2.8, 0.08], [7.0, 0.2], [11.2, 0.32]]}, {"group": "CBC", "test": "RBC", "unit": "x10^6/µL", "clia_pct": 4, "clia_abs": 0, "clia_text": "±4%", "ric": {"CVI": 3.2, "CVg": 6.3, "I": 1.6, "B": 1.7, "TE": 4.4}, "ex_levels": [[2.25, 0.035], [4.5, 0.07], [5.4, 0.084]]}, {"group": "CBC", "test": "Hemoglobin", "unit": "g/dL", "clia_pct": 4, "clia_abs": 0, "clia_text": "±4%", "ric": {"CVI": 2.85, "CVg": 6.8, "I": 1.43, "B": 1.84, "TE": 4.19}, "ex_levels": [[7.0, 0.1], [14.0, 0.2], [16.8, 0.24]]}, {"group": "CBC", "test": "Hematocrit", "unit": "%", "clia_pct": 4, "clia_abs": 0, "clia_text": "±4%", "ric": {"CVI": 2.7, "CVg": 6.41, "I": 1.35, "B": 1.74, "TE": 3.97}, "ex_levels": [[21.0, 0.3], [42.0, 0.6], [50.4, 0.72]]}, {"group": "CBC", "test": "Platelet", "unit": "x10^3/µL", "clia_pct": 25, "clia_abs": 0, "clia_text": "±25%", "ric": {"CVI": 9.1, "CVg": 21.9, "I": 4.6, "B": 5.9, "TE": 13.4}, "ex_levels": [[100.0, 3.2], [250.0, 8.0], [400.0, 12.8]]}, {"group": "CBC", "test": "MCV", "unit": "fL", "clia_pct": 0, "clia_abs": 0, "clia_text": "— (ไม่มีใน CLIA)", "ric": {"CVI": 1.4, "CVg": 4.85, "I": 0.7, "B": 1.26, "TE": 2.42}, "ex_levels": [[76.5, 0.68], [90.0, 0.8], [99.0, 0.88]]}, {"group": "CBC", "test": "MCH", "unit": "pg", "clia_pct": 0, "clia_abs": 0, "clia_text": "— (ไม่มีใน CLIA)", "ric": {"CVI": 1.4, "CVg": 5.2, "I": 0.7, "B": 1.35, "TE": 2.5}, "ex_levels": [[25.5, 0.34], [30.0, 0.4], [33.0, 0.44]]}, {"group": "CBC", "test": "MCHC", "unit": "g/dL", "clia_pct": 0, "clia_abs": 0, "clia_text": "— (ไม่มีใน CLIA)", "ric": {"CVI": 1.06, "CVg": 1.2, "I": 0.53, "B": 0.4, "TE": 1.27}, "ex_levels": [[29.7, 0.36], [33.0, 0.4], [34.6, 0.419]]}];
+(function(){
+  const root=document.documentElement,btn=document.getElementById("themeBtn"),mq=matchMedia("(prefers-color-scheme:dark)");
+  let t=null;try{t=localStorage.getItem("mu-sigma-theme")}catch(e){}
+  if(t==="dark"||t==="light")root.dataset.theme=t;
+  const isDark=()=>root.dataset.theme?root.dataset.theme==="dark":mq.matches;
+  const paint=()=>{btn.textContent=isDark()?"☀️ Normal mode":"🌙 Dark mode"};
+  btn.onclick=()=>{const n=isDark()?"light":"dark";root.dataset.theme=n;try{localStorage.setItem("mu-sigma-theme",n)}catch(e){}paint()};
+  paint();
+})();
+const SRC={CLIA:"CLIA 2025",RICOS:"Ricos Desirable",CUSTOM:"Custom"};
+const GROUPS=["Biochemistry","CBC"];
+const PAGES=["Key-in Uncertainty","Uncertainty","Key-in Sigma","Sigma & OPSpecs","QGI","Report","อ้างอิง TEa","วิธีคำนวณ & คำอธิบาย"];
+const CALC_PAGES=PAGES.slice(0,5);
+const KEY="mu-sigma-v3";
+const byName=n=>PRESETS.find(p=>p.test===n);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const $=id=>document.getElementById(id);
+
+let state={tab:"Key-in Uncertainty",group:"Biochemistry",rows:{Biochemistry:[],CBC:[]},info:{hospital:"",lab:"",eqa:{Biochemistry:"",CBC:""}}};
+try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.rows)state=Object.assign(state,s)}catch(e){}
+if(!PAGES.includes(state.tab))state.tab="Key-in Uncertainty";
+if(!GROUPS.includes(state.group))state.group="Biochemistry";
+state.info=Object.assign({hospital:"",lab:""},state.info||{});state.info.eqa=Object.assign({Biochemistry:"",CBC:""},state.info.eqa||{});
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}};
+
+/* ---------- data model ---------- */
+function newRow(group,test,level){
+  const p=test?byName(test):PRESETS.find(x=>x.group===group);
+  return{test:p.test,level:level||"L1",mean:"",sd:"",bias:"",uref:0,ucal:0,src:(p.clia_pct||p.clia_abs)?SRC.CLIA:SRC.RICOS,custom:"",csrc:"",k:2};
+}
+function exampleRows(group){
+  const out=[];
+  PRESETS.filter(p=>p.group===group).forEach(p=>p.ex_levels.forEach(([m,sd],i)=>{
+    const r=newRow(group,p.test,"L"+(i+1));r.mean=m;r.sd=sd;
+    r.bias=[0,0,0].map(()=>+((Math.random()*2-1)*Math.max(p.ric.I,.5)*.6).toFixed(2)).join(", ");
+    out.push(r)}));
+  return out;
+}
+const num=v=>{const x=parseFloat(v);return isFinite(x)?x:NaN};
+function calc(r){
+  const p=byName(r.test);const mean=num(r.mean),sd=num(r.sd);
+  if(!p||!(mean>0)||!(sd>=0))return null;
+  const cv=sd/mean*100;
+  const bs=String(r.bias||"").split(/[,;\s]+/).map(num).filter(isFinite);
+  const meanBias=bs.length?bs.reduce((a,b)=>a+b,0)/bs.length:0;
+  const rms=bs.length?Math.sqrt(bs.reduce((a,b)=>a+b*b,0)/bs.length):0;
+  const uref=num(r.uref)||0,ucal=num(r.ucal)||0,k=num(r.k)||2;
+  const ubias=Math.hypot(rms,uref);
+  const uc=Math.sqrt(cv*cv+ubias*ubias+ucal*ucal);
+  const U=k*uc,Uabs=U/100*mean;
+  let pct=0,abs=0;
+  if(r.src===SRC.CUSTOM)pct=num(r.custom)||0;
+  else if(r.src===SRC.CLIA){pct=p.clia_pct||0;abs=p.clia_abs||0}
+  else pct=p.ric.TE;
+  const tea=Math.max(pct,abs/mean*100);
+  const sigma=cv>0&&tea>0?(tea-Math.abs(meanBias))/cv:null;
+  const qgi=sigma!=null?Math.abs(meanBias)/(1.5*cv):null;
+  return{cv,meanBias,rms,uref,ubias,ucal,uc,k,U,Uabs,tea,sigma,qgi,nb:bs.length,unit:p.unit,mean};
+}
+function cls(s){
+  if(s==null)return["","",""];
+  if(s>=6)return["World class","s6","1:3s, N=2, R=1"];
+  if(s>=5)return["Excellent","s5","1:3s/2:2s/R:4s, N=2, R=1"];
+  if(s>=4)return["Good","s4","1:2.5s/2:2s/R:4s/4:1s/10x, N=4, R=2"];
+  if(s>=3)return["Marginal","s3","1:2s/2:2s/R:4s/4:1s/8x/10x, N=6, R=2"];
+  return["Unacceptable","s0","ไม่ผ่าน: ต้องปรับปรุงวิธี"];
+}
+function qgiInfo(q,s){
+  if(q==null)return null;
+  const need=s<4?"ต้องปรับปรุง (σ<4)":s<6?"ควรติดตาม (σ 4–6)":"ไม่จำเป็น (σ≥6)";
+  if(q<0.8)return{cls:"q1",name:"Imprecision",need,act:"ลด imprecision: ตรวจ maintenance/probe/pipette, reagent & QC lot, ความถี่ calibration, ลด SD ของ IQC"};
+  if(q<=1.2)return{cls:"q2",name:"Imprecision + Inaccuracy",need,act:"ปรับปรุงทั้ง precision และ bias"};
+  return{cls:"q3",name:"Inaccuracy (bias)",need,act:"ลด bias: recalibrate, ตรวจ calibrator/traceability, เทียบกับ reference หรือกลุ่ม EQA"};
+}
+const f2=(v,d=2)=>v==null||!isFinite(v)?"":v.toFixed(d);
+const fmtU=(m,u,unit)=>`${+m.toFixed(3)} ± ${u.toFixed(Math.abs(u)<1?3:2)} ${unit}`;
+const chip=s=>s==null?"":`<span class="cls ${cls(s)[1]}">${cls(s)[0]}</span>`;
+
+/* rows of current group with test-group colour index */
+function view(group){
+  let gi=-1,prev=null;
+  return state.rows[group].map((r,i)=>{
+    const first=r.test!==prev;if(first)gi++;prev=r.test;
+    return{r,i,first,g:gi%3,c:calc(r)};
+  });
+}
+const trc=v=>`class="g${v.g}${v.first?" first":""}"`;
+const TIPS={"QGI":"QGI = Quality Goal Index : |Bias%| / (1.5 × CV%) — &lt;0.8 imprecision · 0.8–1.2 ทั้งสอง · &gt;1.2 inaccuracy (bias)","TEa eff %":"TEa eff % = Effective TEa : ค่า TEa (%) ที่ใช้จริงของ level นี้ = max(TEa %, TEa abs / Mean × 100) — ใช้ในสูตร Sigma และแกน normalize ของ OPSpecs","TEa eff % (แหล่ง)":"TEa eff % = Effective TEa : ค่า TEa (%) ที่ใช้จริงของ level นี้ = max(TEa %, TEa abs / Mean × 100) — ใช้ในสูตร Sigma และแกน normalize ของ OPSpecs"};
+const table=(heads,body)=>`<div class="wrap"><table><tr>${heads.map(h=>TIPS[h]?`<th title="${TIPS[h]}" style="cursor:help">${h} ⓘ</th>`:`<th>${h}</th>`).join("")}</tr>${body}</table></div>`;
+const cards=a=>`<div class="cards">${a.map(([l,v])=>`<div class="card"><b>${v}</b><span>${l}</span></div>`).join("")}</div>`;
+const mean_=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:null;
+function byTest(vs){const m=new Map();vs.forEach(v=>{if(!m.has(v.r.test))m.set(v.r.test,[]);m.get(v.r.test).push(v)});return[...m.entries()]}
+
+/* ---------- charts ---------- */
+function barChart(items,o){
+  if(!items.length)return'<span class="note">กรอก Mean และ SD ในหน้า Key-in เพื่อแสดงกราฟ</span>';
+  const W=780,rowH=24,L=210,R=40,T=26,H=T+items.length*rowH+20,max=o.max,x=v=>L+(Math.min(v,max)/max)*(W-L-R);
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="min-width:560px;max-width:${W}px" role="img" aria-label="${esc(o.aria)}">`;
+  (o.lines||[]).forEach(v=>{s+=`<line x1="${x(v)}" x2="${x(v)}" y1="${T-8}" y2="${H-14}" stroke="var(--mut)" stroke-dasharray="4 3"/><text x="${x(v)}" y="${T-12}" text-anchor="middle" font-size="11" fill="var(--mut)">${o.lineLabel?o.lineLabel(v):v}</text>`});
+  items.forEach((it,i)=>{const y=T+i*rowH,w=Math.max(2,x(Math.max(it.value,0))-L);
+    s+=`<text x="${L-8}" y="${y+14}" text-anchor="end" font-size="12" fill="var(--ink)">${esc(it.label)}</text><rect x="${L}" y="${y+3}" width="${w}" height="${rowH-8}" rx="3" fill="${it.color}"/><text x="${L+w+5}" y="${y+14}" font-size="11" fill="var(--ink)">${f2(it.value)}</text>`});
+  return s+"</svg>";
+}
+let opLabels=false;
+function opSvg(pts,group,legend,labels,legW,bottom){
+  if(!pts.length)return'<span class="note">ยังไม่มีข้อมูล — กรอก Mean และ SD ในหน้า Key-in</span>';
+  const PW=820,PH0=560,m={l:60,r:20,t:20,b:50},XM=70,YM=100;
+  const classes=[["World class","s6","--s6"],["Excellent","s5","--s5"],["Good","s4","--s4"],["Marginal","s3","--s3"],["Unacceptable","s0","--s0"]];
+  /* right-hand legend: tests grouped per colour */
+  const groups=classes.map(([name,cc,v])=>{
+    const mp=new Map();pts.filter(p=>p.cc===cc).forEach(p=>{const i=p.label.lastIndexOf(" "),t=p.label.slice(0,i),l=p.label.slice(i+1);if(!mp.has(t))mp.set(t,[]);mp.get(t).push(l)});
+    return{name,cc,v,items:[...mp.entries()].map(([t,l])=>`${t} (${l.join(", ")})`),n:pts.filter(p=>p.cc===cc).length};
+  }).filter(g=>g.n);
+  const LW=legend&&!bottom?(legW||360):0,LH=legend&&!bottom?groups.reduce((a,g)=>a+26+g.items.length*14,20):0;
+  const cols=[[],[]],ch=[0,0];
+  if(legend&&bottom)groups.forEach(g=>{const bh=20+g.items.length*15+8,k=ch[0]<=ch[1]?0:1;cols[k].push({g,y:ch[k]});ch[k]+=bh});
+  const LB=legend&&bottom?Math.max(...ch)+16:0;
+  const W=PW+LW,H=Math.max(PH0,LH+20)+LB,PH=PH0-m.t-m.b;
+  const px=v=>m.l+v/XM*(PW-m.l-m.r),py=v=>PH0-m.b-v/YM*PH;
+  const col={s6:"--s6",s5:"--s5",s4:"--s4",s3:"--s3",s0:"--s0"},lineCol=[["6","--s6"],["5","--s5"],["4","--s4"],["3","--s3"],["2","--s0"]];
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="min-width:${legend&&!bottom?(legW?640:900):600}px;max-width:${W}px" role="img" aria-label="Normalized OPSpecs chart ${group}">`;
+  s+=`<polygon points="${px(0)},${py(0)} ${px(0)},${py(100)} ${px(100/6)},${py(0)}" fill="var(--s6)" opacity=".1"/>`;
+  for(let v=0;v<=XM;v+=10)s+=`<line x1="${px(v)}" x2="${px(v)}" y1="${py(0)}" y2="${py(YM)}" stroke="var(--line)"/><text x="${px(v)}" y="${PH0-m.b+16}" text-anchor="middle" font-size="11" fill="var(--mut)">${v}</text>`;
+  for(let v=0;v<=YM;v+=20)s+=`<line x1="${px(0)}" x2="${px(XM)}" y1="${py(v)}" y2="${py(v)}" stroke="var(--line)"/><text x="${m.l-8}" y="${py(v)+4}" text-anchor="end" font-size="11" fill="var(--mut)">${v}</text>`;
+  s+=`<line x1="${px(100/3)}" x2="${px(100/3)}" y1="${py(0)}" y2="${py(YM)}" stroke="var(--mut)" stroke-dasharray="5 4"/><line x1="${px(0)}" x2="${px(XM)}" y1="${py(100/3)}" y2="${py(100/3)}" stroke="var(--mut)" stroke-dasharray="5 4"/><text x="${px(100/3)+4}" y="${py(YM)+12}" font-size="10" fill="var(--mut)">33% TEa</text>`;
+  lineCol.forEach(([sg,c])=>{const x1=Math.min(XM,100/sg),y1=100-sg*x1;
+    s+=`<line x1="${px(0)}" y1="${py(100)}" x2="${px(x1)}" y2="${py(y1)}" stroke="var(${c})" stroke-width="2"/><text x="${px(x1)+4}" y="${py(y1)-4}" font-size="11" font-weight="700" fill="var(${c})">σ${sg}</text>`});
+  pts.forEach(p=>{const x=px(Math.min(p.x,XM)),y=py(Math.min(p.y,YM));
+    s+=`<circle cx="${x}" cy="${y}" r="6" fill="var(${col[p.cc]})" stroke="var(--card)" stroke-width="1.5"><title>${esc(p.label)} · σ=${f2(p.sg)} (${p.name})</title></circle>`;
+    if(labels)s+=`<text x="${x+8}" y="${y-6}" font-size="11" font-weight="600" fill="var(--ink)">${esc(p.short||p.label)}</text>`});
+  s+=`<text x="${(m.l+PW-m.r)/2}" y="${PH0-8}" text-anchor="middle" font-size="12" fill="var(--ink)">Normalized CV (CV% / TEa × 100)</text><text transform="translate(14 ${(m.t+PH0-m.b)/2}) rotate(-90)" text-anchor="middle" font-size="12" fill="var(--ink)">Normalized Bias (|Bias%| / TEa × 100)</text>`;
+  if(legend&&bottom){
+    cols.forEach((col,ci)=>col.forEach(({g,y})=>{
+      const x0=m.l+ci*390,yy=PH0+14+y;
+      s+=`<circle cx="${x0+6}" cy="${yy}" r="6" fill="var(${g.v})"/><text x="${x0+20}" y="${yy+4}" font-size="13" font-weight="700" fill="var(${g.v})">${g.name} (${g.n})</text>`;
+      g.items.forEach((it,ii)=>{s+=`<text x="${x0+20}" y="${yy+22+ii*15}" font-size="12" fill="var(--ink)">${esc(it)}</text>`});
+    }));
+  }
+  if(legend&&!bottom){
+    let y=m.t+8;const x0=PW+10;
+    groups.forEach(g=>{
+      s+=`<circle cx="${x0+6}" cy="${y}" r="6" fill="var(${g.v})"/><text x="${x0+20}" y="${y+4}" font-size="12" font-weight="700" fill="var(${g.v})">${g.name} (${g.n})</text>`;y+=18;
+      g.items.forEach(t=>{s+=`<text x="${x0+20}" y="${y+4}" font-size="11" fill="var(--ink)">${esc(t)}</text>`;y+=14});y+=8;
+    });
+  }
+  return s+"</svg>";
+}
+
+/* ---------- navigation ---------- */
+function renderTabs(){
+  $("tabs").innerHTML=PAGES.map(x=>`<button class="${x===state.tab?"on":""}" data-t="${x}">${x}</button>`).join("");
+  $("tabs").querySelectorAll("button").forEach(b=>b.onclick=()=>{state.tab=b.dataset.t;save();show()});
+  const showG=CALC_PAGES.includes(state.tab);
+  $("groupBar").innerHTML=showG?`<div class="seg">${GROUPS.map(g=>`<button class="${g===state.group?"on":""}" data-g="${g}">${g}</button>`).join("")}</div>`:"";
+  $("groupBar").querySelectorAll("button").forEach(b=>b.onclick=()=>{state.group=b.dataset.g;save();show()});
+}
+function infoBar(){
+  const i=state.info,g=state.group,show=CALC_PAGES.includes(state.tab);
+  const part=(l,v)=>`<span><b>${l}:</b> ${v?esc(v):"<i>—</i>"}</span>`;
+  $("infoBar").innerHTML=(i.hospital||i.lab||i.eqa[g]||show)?`<div class="infobar">${part("รพ.",i.hospital)}${part("Lab",i.lab)}${show?part("EQA ("+g+")",i.eqa[g]):part("EQA Biochem",i.eqa.Biochemistry)+part("EQA CBC",i.eqa.CBC)}</div>`:"";
+}
+function show(){
+  renderTabs();infoBar();
+  ({"Key-in Uncertainty":()=>pageKeyin("unc"),"Uncertainty":pageUncertainty,"Key-in Sigma":()=>pageKeyin("sig"),"Sigma & OPSpecs":pageSigma,"QGI":pageQGI,"Report":pageReport,"อ้างอิง TEa":pageRef,"วิธีคำนวณ & คำอธิบาย":pageMethod})[state.tab]();
+  bindDl();
+}
+
+/* ---------- abbreviations used in the uncertainty section ---------- */
+const UNC_ABBR=[
+ ["u<sub>Rw</sub>","ความไม่แน่นอนจากความแม่น (within-lab reproducibility) = CV% จาก IQC ระยะยาว"],
+ ["RMS bias","ค่ากำลังสองเฉลี่ยของ bias จาก EQA/PT = √(Σbias²/n)"],
+ ["u<sub>ref</sub>","ความไม่แน่นอนของค่าเป้าหมาย (assigned value) ของ EQA"],
+ ["u<sub>bias</sub>","ความไม่แน่นอนเนื่องจาก bias = √(RMS bias² + u<sub>ref</sub>²)"],
+ ["u<sub>cal</sub>","ความไม่แน่นอนของ calibrator"],
+ ["u<sub>c</sub>","ความไม่แน่นอนมาตรฐานรวม (combined standard uncertainty) = √(u<sub>Rw</sub>² + u<sub>bias</sub>² + u<sub>cal</sub>²)"],
+ ["k","coverage factor (ปกติ 2 ≈ ความเชื่อมั่น 95%)"],
+ ["U","ความไม่แน่นอนขยาย (expanded uncertainty) = k × u<sub>c</sub> ; U (abs) = U% × Mean / 100"],
+ ["Mean ± U","รูปแบบการรายงานผลพร้อมความไม่แน่นอน"],
+ ["IQC / EQA","การควบคุมคุณภาพภายใน / การประเมินคุณภาพภายนอก"]];
+const uncAbbrHtml=()=>`<div class="abbr"><b>ตัวย่อ (Uncertainty)</b> — ${UNC_ABBR.map(([a,b])=>`<b>${a}</b> = ${b}`).join(" · ")}</div>`;
+
+/* ---------- 1) Key-in pages (Uncertainty / Sigma) ---------- */
+function infoForm(g){
+  return`<div class="infoform">
+    <label>โรงพยาบาล (รพ.)<input id="inHosp" value="${esc(state.info.hospital)}" placeholder="เช่น โรงพยาบาล..."></label>
+    <label>Lab / ห้องปฏิบัติการ<input id="inLab" value="${esc(state.info.lab)}" placeholder="เช่น ห้องปฏิบัติการเคมีคลินิก"></label>
+    <label>ชื่อ EQA/PT ที่ใช้ (${g})<input id="inEqa" value="${esc(state.info.eqa[g])}" placeholder="เช่น โปรแกรม EQA / ผู้จัด / รอบ"></label></div>`;
+}
+function bindInfoForm(g){
+  const b=(id,fn)=>$(id).addEventListener("input",e=>{fn(e.target.value);save();infoBar()});
+  b("inHosp",v=>state.info.hospital=v);b("inLab",v=>state.info.lab=v);b("inEqa",v=>state.info.eqa[g]=v);
+}
+function pageKeyin(kind){
+  const g=state.group,rows=state.rows[g],isU=kind==="unc";
+  const opts=PRESETS.filter(p=>p.group===g).map(p=>p.test);
+  const heads=isU
+    ?["Test","Level","Mean","SD","CV % (u_Rw)","EQA bias % (หลายรอบ, คั่นด้วย comma)","Mean bias %","RMS bias %","u_ref %","u_cal %","k","u_c %","U %","Result (Mean ± U)",""]
+    :["Test","Level","Mean","SD","CV %","EQA bias % (หลายรอบ, คั่นด้วย comma)","Mean bias %","CLIA criterion (TV ±)","Ricos TE %","TEa source","Custom TEa %","Custom TEa source (ที่มา)","TEa eff %","Sigma","Class",""];
+  const inp=(f,v,st)=>`<td><input data-f="${f}" inputmode="decimal" value="${esc(v)}" ${st?`style="${st}"`:""}></td>`;
+  const out=k=>`<td class="out" data-o="${k}"></td>`;
+  const body=view(g).map(v=>{const r=v.r,i=v.i;
+    const common=`<td><select data-f="test">${opts.map(o=>`<option ${o===r.test?"selected":""}>${esc(o)}</option>`).join("")}</select></td>
+    <td><input class="wl" data-f="level" value="${esc(r.level)}"></td>${inp("mean",r.mean)}${inp("sd",r.sd)}${out("cv")}
+    <td><input class="w2" data-f="bias" value="${esc(r.bias)}"></td>${out("mb")}`;
+    const rest=isU
+      ?`${out("rms")}${inp("uref",r.uref,"width:54px")}${inp("ucal",r.ucal,"width:54px")}${inp("k",r.k,"width:40px")}${out("uc")}${out("U")}<td class="out l" data-o="res"></td>`
+      :`<td class="out l" data-o="clia"></td>${out("ric")}<td><select data-f="src">${Object.values(SRC).map(o=>`<option ${o===r.src?"selected":""}>${o}</option>`).join("")}</select></td>
+    ${inp("custom",r.custom,"width:54px")}<td><input class="w2" data-f="csrc" placeholder="เช่น EQA/ผู้ผลิต/เอกสาร" value="${esc(r.csrc||"")}" style="width:170px"></td>${out("tea")}${out("sg")}${out("cl")}`;
+    return`<tr data-i="${i}" ${trc(v)}>${common}${rest}<td><button class="del" title="เพิ่ม level ของ test นี้" data-add>+L</button><button class="del" data-del title="ลบแถว">✕</button></td></tr>`}).join("");
+  const page=isU?"Key-in Uncertainty":"Key-in Sigma";
+  $("view").innerHTML=`<p class="note"><b>${page}</b> — ${isU?"กรอกข้อมูลที่ใช้คิด Measurement Uncertainty (Mean, SD, EQA bias, u_ref, u_cal, k)":"กรอกข้อมูลที่ใช้คิด Sigma (Mean, SD, EQA bias, แหล่ง TEa) · TEa eff = Effective TEa (TEa ที่ใช้จริง) = max(TEa%, TEa abs/Mean×100) — ดูคำอธิบายในแท็บ “วิธีคำนวณ & คำอธิบาย”"} · Mean/SD/Bias ใช้ร่วมกับอีกหน้าเดียวกัน กรอกครั้งเดียวได้ผลทั้งสองหน้า · ต้องการคีย์ใน Excel? กด <b>⬇ Template</b> ด้านบน แล้ว <b>Import</b> กลับเข้ามา</p>
+    ${infoForm(g)}<div class="bar"><button class="btn" id="addRow">+ เพิ่มแถว (test ใหม่)</button><button class="btn" id="loadEx">โหลดข้อมูลตัวอย่าง</button>
+    <button class="btn" id="clearAll">ล้างทั้งหมด</button>
+    <span class="note">${g}: QC ${g==="CBC"?3:2} level ต่อ test เป็นค่าเริ่มต้น · กด <b>+L</b> เพื่อเพิ่ม level · ข้อมูลบันทึกในเบราว์เซอร์อัตโนมัติ</span></div>`+table(heads,body)+(isU?uncAbbrHtml():"");
+  bindInfoForm(g);
+  $("addRow").onclick=()=>{rows.push(newRow(g));save();pageKeyin(kind)};
+  $("loadEx").onclick=()=>{state.rows[g]=exampleRows(g);save();pageKeyin(kind)};
+  $("clearAll").onclick=()=>{if(confirm("ล้างข้อมูลทั้งหมดในกลุ่มนี้?")){state.rows[g]=[];save();pageKeyin(kind)}};
+  $("view").querySelectorAll("tr[data-i]").forEach(tr=>{
+    const i=+tr.dataset.i;
+    tr.querySelectorAll("[data-f]").forEach(el=>el.addEventListener(el.tagName==="SELECT"?"change":"input",()=>{
+      rows[i][el.dataset.f]=el.value;
+      if(el.dataset.f==="test"){const p=byName(el.value);rows[i].src=(p.clia_pct||p.clia_abs)?SRC.CLIA:SRC.RICOS;save();pageKeyin(kind);return}
+      if(el.dataset.f==="src"){save();pageKeyin(kind);return}
+      save();keyinOut(tr,kind)}));
+    tr.querySelector("[data-add]").onclick=()=>{
+      let last=i;while(last+1<rows.length&&rows[last+1].test===rows[i].test)last++;
+      const n=rows.filter(x=>x.test===rows[i].test).length+1,s=rows[i];
+      const nr=newRow(g,s.test,"L"+n);Object.assign(nr,{src:s.src,custom:s.custom,csrc:s.csrc,uref:s.uref,ucal:s.ucal,k:s.k});
+      rows.splice(last+1,0,nr);save();pageKeyin(kind)};
+    tr.querySelector("[data-del]").onclick=()=>{rows.splice(i,1);save();pageKeyin(kind)};
+    keyinOut(tr,kind);
+  });
+}
+function keyinOut(tr,kind){
+  const r=state.rows[state.group][+tr.dataset.i],c=calc(r),p=byName(r.test),q=s=>tr.querySelector(`[data-o="${s}"]`),set=(k,v)=>{const e=q(k);if(e)e.textContent=v};
+  set("cv",c?f2(c.cv):"");set("mb",c?f2(c.meanBias):"");
+  if(kind==="unc"){set("rms",c?f2(c.rms):"");set("uc",c?f2(c.uc):"");set("U",c?f2(c.U):"");set("res",c?fmtU(c.mean,c.Uabs,c.unit):"")}
+  else{
+    set("clia",p.clia_pct||p.clia_abs?p.clia_text:"— (ไม่มีใน CLIA)");set("ric",p.ric.TE);set("tea",c?f2(c.tea):"");set("sg",c&&c.sigma!=null?f2(c.sigma):"");
+    q("cl").innerHTML=c?chip(c.sigma):"";
+    const cu=r.src!==SRC.CUSTOM;tr.querySelector('[data-f="custom"]').disabled=cu;tr.querySelector('[data-f="csrc"]').disabled=cu;
+  }
+}
+
+/* ---------- 2) Uncertainty ---------- */
+function pageUncertainty(){
+  const g=state.group,vs=view(g),ok=vs.filter(v=>v.c);
+  const maxv=ok.reduce((a,v)=>!a||v.c.U>a.c.U?v:a,null),minv=ok.reduce((a,v)=>!a||v.c.U<a.c.U?v:a,null);
+  const lab=v=>v.r.test+(v.r.level?" "+v.r.level:"");
+  const sumRows=byTest(ok).map(([t,a],ti)=>{const Us=a.map(v=>v.c.U),worst=a.reduce((x,v)=>v.c.U>x.c.U?v:x);
+    return`<tr class="g${ti%3}"><td>${esc(t)}</td><td>${a.length}</td><td>${f2(Math.min(...Us))} – ${f2(Math.max(...Us))}</td>
+    <td class="l">${a.map(v=>`${esc(v.r.level)}: ${fmtU(v.c.mean,v.c.Uabs,v.c.unit)}`).join(" · ")}</td><td class="l">${esc(worst.r.level)} (U=${f2(worst.c.U)}%)</td></tr>`}).join("");
+  const body=ok.map(v=>{const c=v.c;return`<tr ${trc(v)}><td>${esc(v.r.test)}</td><td>${esc(v.r.level)}</td><td>${esc(c.unit)}</td><td>${+c.mean.toFixed(3)}</td>
+    <td>${f2(c.cv)}</td><td>${f2(c.rms)}</td><td>${f2(c.uref)}</td><td>${f2(c.ubias)}</td><td>${f2(c.ucal)}</td><td><b>${f2(c.uc)}</b></td><td>${c.k}</td>
+    <td><b>${f2(c.U)}</b></td><td>${f2(c.Uabs,3)}</td><td class="l">${fmtU(c.mean,c.Uabs,c.unit)}</td></tr>`}).join("");
+  $("view").innerHTML=`<p class="note">Top-down: u<sub>c</sub> = √(u<sub>Rw</sub>² + u<sub>bias</sub>² + u<sub>cal</sub>²), U = k·u<sub>c</sub> · u<sub>Rw</sub> = CV จาก IQC · u<sub>bias</sub> = √(RMS bias² + u<sub>ref</sub>²)</p>`+
+  cards([["จำนวน level ที่คำนวณได้",ok.length],["U% เฉลี่ย",ok.length?f2(mean_(ok.map(v=>v.c.U)))+" %":"-"],
+    ["U% สูงสุด",maxv?`${f2(maxv.c.U)} %<br><small>${esc(lab(maxv))}</small>`:"-"],["U% ต่ำสุด",minv?`${f2(minv.c.U)} %<br><small>${esc(lab(minv))}</small>`:"-"]])+
+  `<section><h2>ตารางสรุป Uncertainty รายเทส — ${g}</h2>${table(["Test","จำนวน level","U % (min – max)","Result: Mean ± U ของแต่ละ level","Level ที่ U สูงสุด"],sumRows)}</section>
+   <section><h2>รายละเอียดการคำนวณ (ทุก level)</h2>${table(["Test","Level","Unit","Mean","u_Rw = CV %","RMS bias %","u_ref %","u_bias %","u_cal %","u_c %","k","U %","U (abs)","Result (Mean ± U)"],body)}</section>
+   ${uncAbbrHtml()}
+   <section><h2>Expanded uncertainty U% (k แต่ละแถว)</h2>${chartBox("c_unc","uncertainty_"+g,barChart(ok.map(v=>({label:lab(v),value:v.c.U,color:`var(--t${v.g})`})),{max:Math.max(10,...ok.map(v=>v.c.U))*1.05,aria:"U% chart"}))}</section>`;
+}
+
+/* ---------- 3) Sigma & OPSpecs ---------- */
+function pageSigma(){
+  const g=state.group,vs=view(g),ok=vs.filter(v=>v.c&&v.c.sigma!=null),lab=v=>v.r.test+(v.r.level?" "+v.r.level:"");
+  const counts=["World class","Excellent","Good","Marginal","Unacceptable"].map(n=>[n,ok.filter(v=>cls(v.c.sigma)[0]===n).length]);
+  const skipped=vs.filter(v=>v.c&&v.c.sigma==null).length;
+  const sumRows=byTest(ok).map(([t,a],ti)=>{const w=a.reduce((x,v)=>v.c.sigma<x.c.sigma?v:x);
+    return`<tr class="g${ti%3}"><td>${esc(t)}</td><td>${a.length}</td><td class="l">${a.map(v=>`${esc(v.r.level)}: ${f2(v.c.sigma)}`).join(" · ")}</td>
+    <td><b>${f2(w.c.sigma)}</b> (${esc(w.r.level)})</td><td>${chip(w.c.sigma)}</td><td class="l">${cls(w.c.sigma)[2]}</td></tr>`}).join("");
+  const body=ok.map(v=>{const c=v.c;return`<tr ${trc(v)}><td>${esc(v.r.test)}</td><td>${esc(v.r.level)}</td><td>${+c.mean.toFixed(3)}</td><td>${f2(c.cv)}</td>
+    <td>${f2(c.meanBias)}</td><td>${esc(v.r.src)}${v.r.src===SRC.CUSTOM&&v.r.csrc?` <small>(${esc(v.r.csrc)})</small>`:""}</td><td>${f2(c.tea)}</td>
+    <td><b>${f2(c.sigma)}</b></td><td>${chip(c.sigma)}</td><td class="l">${cls(c.sigma)[2]}</td></tr>`}).join("");
+  const pts=ok.filter(v=>v.c.tea>0).map(v=>({label:lab(v),x:v.c.cv/v.c.tea*100,y:Math.abs(v.c.meanBias)/v.c.tea*100,sg:v.c.sigma,cc:cls(v.c.sigma)[1],name:cls(v.c.sigma)[0]}));
+  const sc={s6:"--s6",s5:"--s5",s4:"--s4",s3:"--s3",s0:"--s0"};
+  $("view").innerHTML=`<p class="note">Sigma = (TEa<sub>eff</sub>% − |Bias%|) / CV% · TEa<sub>eff</sub> (Effective TEa = TEa ที่ใช้จริง) = max(TEa%, TEa<sub>abs</sub>/Mean×100) · Bias = ค่าเฉลี่ย bias จาก EQA${skipped?` · <b>${skipped} แถวไม่มี TEa (เลือกแหล่ง TEa อื่น)</b>`:""}</p>`+
+  cards([["Level ที่คำนวณได้",ok.length],["Sigma เฉลี่ย",ok.length?f2(mean_(ok.map(v=>v.c.sigma))):"-"],["σ ≥ 4",`${ok.filter(v=>v.c.sigma>=4).length} / ${ok.length}`],...counts.map(([n,k])=>[n,k])])+
+  `<section><h2>สรุปผล Sigma รายเทส (ตัดสินจาก level ที่ต่ำสุด) — ${g}</h2>${table(["Test","จำนวน level","Sigma แต่ละ level","Sigma ต่ำสุด","Class","Suggested QC rule"],sumRows)}</section>
+   <section><h2>รายละเอียด Sigma (ทุก level)</h2>${table(["Test","Level","Mean","CV %","Mean bias %","TEa source","TEa eff %","Sigma","Class","Suggested QC rule"],body)}</section>
+   <section><h2>Sigma ของแต่ละ level</h2>${chartBox("c_sig","sigma_"+g,barChart(ok.map(v=>({label:lab(v),value:v.c.sigma,color:`var(${sc[cls(v.c.sigma)[1]]})`})),{max:8,lines:[3,4,5,6],lineLabel:v=>"σ"+v,aria:"Sigma chart"}))}</section>
+   <section><h2>Normalized OPSpecs chart — ${g}</h2><div class="bar"><label><input type="checkbox" id="opl" ${opLabels?"checked":""}> แสดงชื่อบนจุดด้วย</label>
+   <span class="note">x = CV/TEa×100 · y = |Bias|/TEa×100 · เส้น σ: y = 100 − σ·x · จุดใต้เส้น σ สูงกว่า = คุณภาพดีกว่า · รายชื่อเทสจัดกลุ่มตามสีอยู่ทางขวา</span></div>${chartBox("c_ops","opspecs_"+g,opSvg(pts,g,true,opLabels))}</section>`;
+  $("opl").onchange=e=>{opLabels=e.target.checked;pageSigma()};
+}
+
+/* ---------- 4) QGI ---------- */
+function pageQGI(){
+  const g=state.group,vs=view(g),ok=vs.filter(v=>v.c&&v.c.qgi!=null),lab=v=>v.r.test+(v.r.level?" "+v.r.level:"");
+  const need=ok.filter(v=>v.c.sigma<6),n=c=>need.filter(v=>qgiInfo(v.c.qgi,v.c.sigma).cls===c).length;
+  const body=ok.map(v=>{const c=v.c,q=qgiInfo(c.qgi,c.sigma);return`<tr ${trc(v)}><td>${esc(v.r.test)}</td><td>${esc(v.r.level)}</td><td>${f2(c.cv)}</td><td>${f2(Math.abs(c.meanBias))}</td>
+    <td>${f2(c.sigma)} ${chip(c.sigma)}</td><td><b>${f2(c.qgi,3)}</b></td><td><span class="cls ${q.cls}">${q.name}</span></td><td class="l">${q.need}</td><td class="l">${q.act}</td></tr>`}).join("");
+  const sumRows=byTest(ok).map(([t,a],ti)=>{const w=a.reduce((x,v)=>v.c.sigma<x.c.sigma?v:x),q=qgiInfo(w.c.qgi,w.c.sigma);
+    return`<tr class="g${ti%3}"><td>${esc(t)}</td><td class="l">${a.map(v=>`${esc(v.r.level)}: ${f2(v.c.qgi,2)}`).join(" · ")}</td><td>${esc(w.r.level)} (σ=${f2(w.c.sigma)})</td><td><span class="cls ${q.cls}">${q.name}</span></td><td class="l">${q.need}</td></tr>`}).join("");
+  const qc={q1:"--q1",q2:"--q2",q3:"--q3"};
+  $("view").innerHTML=`<p class="note">QGI (Quality Goal Index) = |Bias%| / (1.5 × CV%) · &lt;0.8 → ปัญหา imprecision · 0.8–1.2 → ทั้งสองอย่าง · &gt;1.2 → ปัญหา inaccuracy (bias) · ใช้วินิจฉัยสาเหตุเมื่อ Sigma ไม่ถึงเป้า (ตัดสินจาก level ที่ Sigma ต่ำสุด)</p>`+
+  cards([["Level ที่คำนวณได้",ok.length],["Imprecision (σ<6)",n("q1")],["Imprecision + Inaccuracy (σ<6)",n("q2")],["Inaccuracy (σ<6)",n("q3")]])+
+  `<section><h2>สรุป QGI รายเทส — ${g}</h2>${table(["Test","QGI แต่ละ level","Level ที่ Sigma ต่ำสุด","สาเหตุหลัก (ตาม level นั้น)","ต้องแก้ไขหรือไม่"],sumRows)}</section>
+   <section><h2>รายละเอียด QGI (ทุก level)</h2>${table(["Test","Level","CV %","|Bias| %","Sigma","QGI","แปลผล","ความจำเป็น","แนวทางแก้ไข"],body)}</section>
+   <section><h2>QGI ของแต่ละ level</h2>${chartBox("c_qgi","qgi_"+g,barChart(ok.map(v=>({label:lab(v),value:v.c.qgi,color:`var(${qc[qgiInfo(v.c.qgi,v.c.sigma).cls]})`})),{max:Math.max(2,...ok.map(v=>v.c.qgi))*1.05,lines:[0.8,1.2],aria:"QGI chart"}))}</section>`;
+}
+
+/* ---------- reference / method ---------- */
+function pageRef(){
+  const r=PRESETS.map(p=>`<tr><td>${p.group}</td><td class="l">${esc(p.test)}</td><td>${esc(p.unit)}</td><td class="l">${esc(p.clia_text)}</td>
+  <td>${p.ric.CVI}</td><td>${p.ric.CVg}</td><td>${p.ric.I}</td><td>${p.ric.B}</td><td><b>${p.ric.TE}</b></td></tr>`).join("");
+  $("view").innerHTML=`<div class="doc" style="margin-bottom:12px"><b>แหล่งอ้างอิง TEa (Westgard QC)</b><ul>
+  <li><a href="https://www.westgard.com/clia-and-quality-regulation-requirements/quality-requirements/2024-clia-requirements.html" target="_blank" rel="noopener">CLIA 2025 Acceptance Limits for Proficiency Testing</a> — final rule มีผล 1 ม.ค. 2025 (TV = target value)</li>
+  <li><a href="https://www.westgard.com/clia-and-quality-regulation-requirements/quality-requirements/biodatabase1.html" target="_blank" rel="noopener">Desirable Biological Variation Database specifications</a> (Ricos 2014) — <code>I = 0.5·CVI</code>, <code>B = 0.25·√(CVI²+CVg²)</code>, <code>TE = 1.65·I + B</code></li></ul>
+  <p class="note">ตรวจสอบค่ากับเอกสารต้นฉบับ/ผู้จัด PT ของห้องปฏิบัติการก่อนใช้งานจริง · Westgard ระบุว่าฐานข้อมูล Ricos ไม่ได้ปรับปรุงแล้ว (ฐานข้อมูลใหม่อยู่ที่ EFLM) · MCV/MCH/MCHC ไม่มีเกณฑ์ใน CLIA</p></div>`+
+  table(["Group","Test","Unit","CLIA 2025 criterion (TV ±)","CVI %","CVg %","I %","B %","Ricos TE %"],r);
+}
+function pageMethod(){
+  $("view").innerHTML=`<div class="doc"><h2>วิธีคำนวณ (top-down)</h2><ol>
+  <li><b>u<sub>Rw</sub> (%)</b> = CV% = SD / Mean × 100 จาก IQC สะสมระยะยาว (ควรครอบคลุมการเปลี่ยน lot reagent/calibrator, ผู้ปฏิบัติงาน)</li>
+  <li><b>Bias%</b> จาก EQA/PT แต่ละรอบ = (ค่าที่แล็บวัด − ค่าเป้าหมาย)/ค่าเป้าหมาย × 100 ; Mean bias (signed) ใช้ใน Sigma/QGI ; RMS bias = √(Σbias²/n) ใช้ใน MU</li>
+  <li><b>u<sub>bias</sub></b> = √(RMS bias² + u<sub>ref</sub>²) — u<sub>ref</sub> คือความไม่แน่นอนของค่าเป้าหมาย EQA (ใส่ 0 หากไม่ทราบ)</li>
+  <li><b>u<sub>c</sub></b> = √(u<sub>Rw</sub>² + u<sub>bias</sub>² + u<sub>cal</sub>²) ; ใส่ u<sub>cal</sub> เมื่อยังไม่ได้รวมความไม่แน่นอนของ calibrator ไว้ใน CV</li>
+  <li><b>U</b> = k × u<sub>c</sub> (k = 2 ≈ 95%) ; U(abs) = U% × Mean / 100 ; รายงาน “Mean ± U”</li>
+  <li><b>TEa eff%</b> = max(TEa%, TEa<sub>abs</sub>/Mean×100) รองรับเกณฑ์ “…หรือ … (greater)” และ Na/K/Ca ที่เป็นหน่วยสัมบูรณ์ (ผลขึ้นกับระดับ Mean ของ level นั้น)</li>
+  <li><b>Sigma</b> = (TEa eff% − |Mean bias%|) / CV%</li>
+  <li><b>OPSpecs (normalized)</b>: x = CV/TEa×100, y = |Bias|/TEa×100 ; เส้น σ: y = 100 − σ·x</li>
+  <li><b>QGI</b> = |Mean bias%| / (1.5 × CV%) — ดูคำอธิบายละเอียดด้านล่าง</li></ol>
+  <h2>การแปลผล Sigma</h2><p>σ ≥ 6 World class · 5–6 Excellent · 4–5 Good · 3–4 Marginal · &lt; 3 Unacceptable</p></div>
+
+  <div class="doc" style="margin-top:14px"><h2>คำอธิบาย TEa eff (Effective Total Allowable Error)</h2>
+  <p><b>TEa eff คืออะไร</b> — ค่า TEa (เป็น %) ที่ <u>ใช้จริง</u> ในการคำนวณของแต่ละ level ย่อมาจาก <i>Effective Total Allowable Error</i></p>
+  <p><b>ทำไมต้องมี</b> — เกณฑ์ TEa บางตัวระบุเป็น “% หรือค่าสัมบูรณ์ แล้วแต่ว่าอันไหนมากกว่า” เช่น Glucose ±6 mg/dL หรือ ±8% ดังนั้น TEa เป็น % จึงเปลี่ยนไปตามความเข้มข้นของ level ส่วน Na, K, Ca ที่ CLIA ให้เป็นหน่วยสัมบูรณ์อย่างเดียว (เช่น Na ±4 mmol/L) ก็ต้องแปลงเป็น % ก่อนใช้</p>
+  <p><b>สูตร</b> &nbsp; <code>TEa eff % = max( TEa %, TEa abs / Mean × 100 )</code></p>
+  <table style="width:100%;margin:8px 0"><tr><th class="l">ตัวอย่าง</th><th class="l">เกณฑ์</th><th class="l">การคำนวณ</th><th class="l">TEa eff</th></tr>
+  <tr><td class="l">Glucose, Mean = 100 mg/dL</td><td class="l">±6 mg/dL หรือ ±8%</td><td class="l">6/100×100 = 6% เทียบกับ 8%</td><td class="l"><b>8%</b> (ใช้ %)</td></tr>
+  <tr><td class="l">Glucose, Mean = 50 mg/dL</td><td class="l">±6 mg/dL หรือ ±8%</td><td class="l">6/50×100 = 12% เทียบกับ 8%</td><td class="l"><b>12%</b> (ใช้ค่าสัมบูรณ์)</td></tr>
+  <tr><td class="l">Sodium, Mean = 140 mmol/L</td><td class="l">±4 mmol/L</td><td class="l">4/140×100</td><td class="l"><b>2.86%</b></td></tr>
+  <tr><td class="l">WBC (CLIA ±10%)</td><td class="l">±10%</td><td class="l">ไม่มีค่าสัมบูรณ์</td><td class="l"><b>10%</b></td></tr></table>
+  <p><b>นำไปใช้ที่ไหน</b> — ในสูตร Sigma = (TEa eff − |Bias|)/CV และเป็นตัวหารของกราฟ OPSpecs (x = CV/TEa eff, y = |Bias|/TEa eff) · เกณฑ์ Ricos และ Custom เป็น % ล้วน จึงได้ TEa eff = TEa ที่ตั้งไว้</p>
+  <p class="note">เพราะ TEa eff ขึ้นกับ Mean ของแต่ละ level แต่ละ level ของเทสเดียวกันจึงอาจได้ TEa eff และ Sigma ต่างกัน</p></div>
+
+  <div class="doc" style="margin-top:14px"><h2>คำอธิบาย QGI (Quality Goal Index)</h2>
+  <p><b>QGI คืออะไร</b> — ดัชนีที่ใช้วินิจฉัยว่า <u>เมื่อ Sigma ไม่ถึงเป้า สาเหตุหลักมาจาก imprecision (CV สูง) หรือ inaccuracy (bias สูง)</u> โดยเทียบขนาดของ bias กับ imprecision ของวิธีตรวจ จึงช่วยตัดสินใจว่าควรแก้ที่ส่วนใด</p>
+  <p><b>สูตร</b> &nbsp; <code>QGI = |Bias%| / (1.5 × CV%)</code> &nbsp; (Bias = ค่าเฉลี่ย bias จาก EQA/PT แบบมีเครื่องหมาย ใช้ค่าสัมบูรณ์, CV = SD/Mean×100 จาก IQC ของ level เดียวกัน)</p>
+  <table style="width:100%;margin:8px 0"><tr><th class="l">ค่า QGI</th><th class="l">แปลผล</th><th class="l">ความหมาย</th><th class="l">แนวทางแก้ไข</th></tr>
+  <tr><td class="l"><span class="cls q1">&lt; 0.8</span></td><td class="l">Imprecision</td><td class="l" style="white-space:normal">bias น้อยเมื่อเทียบกับ CV — ปัญหาอยู่ที่ความแม่น้อย/ผลแกว่ง</td><td class="l" style="white-space:normal">ตรวจ maintenance, probe/pipette, อายุ reagent และ lot ของ QC, ความถี่ calibration, สภาพแวดล้อม/อุณหภูมิ, ผู้ปฏิบัติงาน เพื่อลด SD</td></tr>
+  <tr><td class="l"><span class="cls q2">0.8 – 1.2</span></td><td class="l">Imprecision + Inaccuracy</td><td class="l" style="white-space:normal">ทั้ง bias และ CV มีส่วนเท่าๆ กัน</td><td class="l" style="white-space:normal">ปรับปรุงทั้งสองด้าน — เริ่มจาก precision แล้วตามด้วยการ calibrate/ตรวจ traceability</td></tr>
+  <tr><td class="l"><span class="cls q3">&gt; 1.2</span></td><td class="l">Inaccuracy (bias)</td><td class="l" style="white-space:normal">bias เป็นสาเหตุหลัก</td><td class="l" style="white-space:normal">recalibrate, ตรวจ calibrator/traceability และ lot, เทียบกับ reference หรือกลุ่มเพื่อน EQA, พิจารณาปรับ factor/ใช้ method อื่น</td></tr></table>
+  <p><b>เมื่อไรควรใช้</b> — ใช้เมื่อ Sigma ต่ำกว่าเป้า (ที่ σ &lt; 4 ต้องปรับปรุง · σ 4–6 ควรติดตาม · σ ≥ 6 ไม่จำเป็นต้องแก้) หน้า QGI จึงแสดงคอลัมน์ “ความจำเป็น” และสรุปรายเทสจาก level ที่ Sigma ต่ำสุด</p>
+  <p><b>ตัวอย่าง</b> — CV = 3.0%, Bias = 2.0% → QGI = 2.0 / (1.5 × 3.0) = 0.44 (&lt; 0.8) → ปัญหาหลักคือ imprecision ; ถ้า CV = 1.5%, Bias = 3.0% → QGI = 3.0 / (1.5 × 1.5) = 1.33 (&gt; 1.2) → ปัญหาหลักคือ bias</p>
+  <p><b>ข้อควรระวัง</b> — QGI เป็นเครื่องมือชี้แนวทางแก้ไข ไม่ใช่เกณฑ์ผ่าน/ไม่ผ่าน (ใช้ Sigma ตัดสิน) · ถ้า bias มาจาก EQA เพียงไม่กี่รอบ ค่า bias และ QGI จะมีความไม่แน่นอนสูง · ควรคำนวณแยกทุก level ของ IQC</p></div>
+
+  <div class="doc" style="margin-top:14px"><h2>คำอธิบายคำศัพท์</h2><ul>
+  <li><b>IQC</b> — Internal Quality Control : การควบคุมคุณภาพภายในห้องปฏิบัติการ ใช้คำนวณ Mean/SD/CV</li>
+  <li><b>EQA / PT</b> — External Quality Assessment / Proficiency Testing : การประเมินคุณภาพภายนอก ใช้คำนวณ bias เทียบกับค่าเป้าหมาย</li>
+  <li><b>CV%</b> — สัมประสิทธิ์การกระจาย (SD/Mean×100) สะท้อน imprecision</li>
+  <li><b>Bias%</b> — ความคลาดเคลื่อนเชิงระบบเทียบกับค่าเป้าหมาย สะท้อน inaccuracy</li>
+  <li><b>TEa</b> — Total Allowable Error : ความคลาดเคลื่อนรวมที่ยอมรับได้ (อ้างอิง CLIA 2025 หรือ Ricos desirable)</li>
+  <li><b>TEa eff</b> — Effective TEa : TEa (%) ที่ใช้จริงของแต่ละ level = max(TEa %, TEa abs/Mean×100) (ดูคำอธิบายด้านบน)</li>
+  <li><b>Sigma</b> — จำนวน SD ของ imprecision ที่พอดีกับช่วง TEa หลังหัก bias ; ยิ่งสูงยิ่งดี (σ ≥ 6 = World class)</li>
+  <li><b>Measurement Uncertainty (U)</b> — ช่วงที่ค่าจริงน่าจะอยู่ (ที่ความเชื่อมั่น ≈ 95% เมื่อ k = 2) ; u<sub>c</sub> = ความไม่แน่นอนมาตรฐานรวม</li>
+  <li><b>u<sub>Rw</sub></b> — ความไม่แน่นอนจากความแม่น (within-lab reproducibility) = CV% จาก IQC ระยะยาว</li>
+  <li><b>RMS bias</b> — ค่ากำลังสองเฉลี่ยของ bias จาก EQA/PT = √(Σbias²/n)</li>
+  <li><b>u<sub>ref</sub></b> — ความไม่แน่นอนของค่าเป้าหมาย (assigned value) ของ EQA</li>
+  <li><b>u<sub>bias</sub></b> — ความไม่แน่นอนเนื่องจาก bias = √(RMS bias² + u<sub>ref</sub>²)</li>
+  <li><b>u<sub>cal</sub></b> — ความไม่แน่นอนของ calibrator</li>
+  <li><b>u<sub>c</sub></b> — ความไม่แน่นอนมาตรฐานรวม (combined standard uncertainty) = √(u<sub>Rw</sub>² + u<sub>bias</sub>² + u<sub>cal</sub>²)</li>
+  <li><b>k</b> — coverage factor (ปกติ 2)</li>
+  <li><b>OPSpecs chart</b> — แผนภูมิ normalized (x = CV/TEa, y = Bias/TEa) แสดงตำแหน่งของแต่ละ test เทียบเส้น σ ; จุดที่อยู่ใกล้มุมซ้ายล่างดีที่สุด</li>
+  <li><b>level</b> — ระดับของสาร QC (เช่น normal / abnormal) ; Biochemistry ใช้ 2 level, CBC ใช้ 3 level เป็นค่าเริ่มต้น</li></ul>
+  <p class="note">ควรตัดสินใจจาก level ที่ตัดสินใจทางคลินิก (medical decision level) หรือ level ที่ Sigma ต่ำสุด</p></div>`;
+}
+
+/* ---------- report (2-section, print / save as PDF) ---------- */
+const REPORTS=["Sigma & OPSpecs","Uncertainty","QGI"];
+function barsSplit(items,opts){
+  if(!items.length)return'<span class="note">ยังไม่มีข้อมูล</span>';
+  if(items.length<=20)return barChart(items,opts);
+  const h=Math.ceil(items.length/2);
+  return`<div class="bars2">${barChart(items.slice(0,h),opts)}${barChart(items.slice(h),opts)}</div>`;
+}
+function pageReport(opts){
+  const keepFn=opts&&opts.keep?opts.keep:()=>true;
+  const type=opts&&REPORTS.includes(opts.type)?opts.type:(REPORTS.includes(state.reportType)?state.reportType:REPORTS[0]);
+  const rv=state.reportView==="test"?"test":"group";
+  const portrait=!!(opts&&opts.portrait);
+  const today=new Date().toLocaleDateString("th-TH",{year:"numeric",month:"long",day:"numeric"});
+  const i=state.info;
+  const head=(title,sub,g,kick)=>`<div class="pg-head"><div><div class="pg-kicker">Measurement Uncertainty &amp; Sigma Metric · ${kick||type}</div><h2>${title}</h2><div class="pg-sub">${sub}</div></div>
+    <div class="pg-meta"><div><b>รพ.</b> ${esc(i.hospital)||"—"}</div><div><b>Lab</b> ${esc(i.lab)||"—"}</div><div><b>EQA</b> ${esc(i.eqa[g])||"—"}</div><div><b>วันที่</b> ${today}</div></div></div>`;
+  const foot=(note,label)=>`<div class="pg-foot"><span>${note}</span><span>${label}</span></div>`;
+  const lab=v=>v.r.test+(v.r.level?" "+v.r.level:"");
+  const abbr=(full,unc)=>`<div class="abbr"><b>ตัวย่อ</b> — <b>TEa eff</b> = Effective Total Allowable Error : ค่า TEa (%) ที่ใช้จริงของ level นั้น = max(TEa %, TEa abs / Mean × 100)${full?` · <b>TEa</b> = Total Allowable Error · <b>CV</b> = สัมประสิทธิ์การกระจาย (SD/Mean×100) · <b>σ</b> = Sigma metric = (TEa eff − |Bias|)/CV · <b>QGI</b> = Quality Goal Index = |Bias|/(1.5×CV) ${unc?"":" · <b>U</b> = Expanded uncertainty = k·u<sub>c</sub> · <b>IQC/EQA</b> = การควบคุมคุณภาพภายใน/ภายนอก"}`:""}</div>`;
+  const pages=[];
+
+  const repSigma=(g,vs)=>{
+    const sg=vs.filter(v=>v.c.sigma!=null),skipped=vs.length-sg.length;
+    const body=sg.map(v=>{const c=v.c;return`<tr ${trc(v)}><td>${esc(v.r.test)}</td><td>${esc(v.r.level)}</td><td>${+c.mean.toFixed(3)} ${esc(c.unit)}</td><td>${f2(c.cv)}</td><td>${f2(c.meanBias)}</td>
+      <td>${f2(c.tea)}<br><small>${esc(v.r.src)}${v.r.src===SRC.CUSTOM&&v.r.csrc?": "+esc(v.r.csrc):""}</small></td><td><b>${f2(c.sigma)}</b></td><td>${chip(c.sigma)}</td><td class="l">${cls(c.sigma)[2]}</td></tr>`}).join("");
+    const fn="TEa: CLIA 2025 / Ricos desirable (Westgard QC) · Sigma = (TEa<sub>eff</sub>% − |Bias%|)/CV%";
+    pages.push(`<section class="pg">${head("ผลการคำนวณ Sigma — "+g,"Sigma และ QC rule ที่แนะนำของทุก level",g)}
+      ${cards([["จำนวน level",sg.length],["Sigma เฉลี่ย",sg.length?f2(mean_(sg.map(v=>v.c.sigma))):"-"],["σ ≥ 4",`${sg.filter(v=>v.c.sigma>=4).length} / ${sg.length}`],["σ < 3",sg.filter(v=>v.c.sigma<3).length]])}
+      ${sg.length?table(["Test","Level","Mean","CV %","Bias %","TEa eff % (แหล่ง)","Sigma","Class","Suggested QC rule"],body):'<p class="note">ยังไม่มีข้อมูล</p>'}
+      ${skipped?`<p class="note">${skipped} แถวไม่มี TEa จึงไม่คำนวณ Sigma</p>`:""}${abbr(false)}${foot(fn,g+" · ผลการคำนวณ")}</section>`);
+    const pts=sg.filter(v=>v.c.tea>0).map(v=>({label:lab(v),x:v.c.cv/v.c.tea*100,y:Math.abs(v.c.meanBias)/v.c.tea*100,sg:v.c.sigma,cc:cls(v.c.sigma)[1],name:cls(v.c.sigma)[0]}));
+    const chips=[["World class",6],["Excellent",5],["Good",4],["Marginal",3],["Unacceptable",0]].map(([n,x])=>`<span class="cls ${cls(x)[1]}">${n}: ${sg.filter(v=>cls(v.c.sigma)[0]===n).length}</span>`).join(" ");
+    pages.push(`<section class="pg opg">${head("Normalized OPSpecs chart — "+g,"ตำแหน่งของแต่ละ test/level เทียบเส้น Sigma",g)}
+      <div class="op-chips">${chips}</div><div class="op-chart">${opSvg(pts,g,true,false,undefined,portrait)}</div>
+      <div class="op-guide"><b>วิธีอ่านกราฟ</b> — แกน x = CV/TEa×100 · แกน y = |Bias|/TEa×100 · เส้น σ: y = 100 − σ·x · จุดที่อยู่ใต้/ซ้ายของเส้น σ สูงกว่าคือคุณภาพดีกว่า (พื้นที่แรเงาเขียว = σ ≥ 6) · เส้นประ = 33% TEa</div>
+      ${foot(fn,g+" · OPSpecs chart")}</section>`);
+  };
+
+  const repUnc=(g,vs)=>{
+    const maxv=vs.reduce((a,v)=>!a||v.c.U>a.c.U?v:a,null),minv=vs.reduce((a,v)=>!a||v.c.U<a.c.U?v:a,null);
+    const sum=byTest(vs).map(([t,a],ti)=>{const Us=a.map(v=>v.c.U),w=a.reduce((x,v)=>v.c.U>x.c.U?v:x);
+      return`<tr class="g${ti%3}"><td>${esc(t)}</td><td>${a.length}</td><td>${f2(Math.min(...Us))} – ${f2(Math.max(...Us))}</td>
+      <td class="l">${a.map(v=>`${esc(v.r.level)}: ${fmtU(v.c.mean,v.c.Uabs,v.c.unit)}`).join(" · ")}</td><td class="l">${esc(w.r.level)} (U=${f2(w.c.U)}%)</td></tr>`}).join("");
+    const det=vs.map(v=>{const c=v.c;return`<tr ${trc(v)}><td>${esc(v.r.test)}</td><td>${esc(v.r.level)}</td><td>${esc(c.unit)}</td><td>${+c.mean.toFixed(3)}</td>
+      <td>${f2(c.cv)}</td><td>${f2(c.rms)}</td><td>${f2(c.uref)}</td><td>${f2(c.ubias)}</td><td>${f2(c.ucal)}</td><td><b>${f2(c.uc)}</b></td><td>${c.k}</td>
+      <td><b>${f2(c.U)}</b></td><td>${f2(c.Uabs,3)}</td><td class="l">${fmtU(c.mean,c.Uabs,c.unit)}</td></tr>`}).join("");
+    const fn="u<sub>c</sub> = √(u<sub>Rw</sub>² + u<sub>bias</sub>² + u<sub>cal</sub>²) · U = k·u<sub>c</sub> · u<sub>bias</sub> = √(RMS bias² + u<sub>ref</sub>²)";
+    pages.push(`<section class="pg">${head("รายงาน Measurement Uncertainty — "+g,"Top-down (ISO 15189 / ISO/TS 20914) ของทุก level",g)}
+      ${cards([["จำนวน level",vs.length],["U% เฉลี่ย",vs.length?f2(mean_(vs.map(v=>v.c.U)))+" %":"-"],["U% สูงสุด",maxv?`${f2(maxv.c.U)} %<br><small>${esc(lab(maxv))}</small>`:"-"],["U% ต่ำสุด",minv?`${f2(minv.c.U)} %<br><small>${esc(lab(minv))}</small>`:"-"]])}
+      ${vs.length?`<h3 class="pg-h3">สรุปรายเทส</h3>${table(["Test","จำนวน level","U % (min – max)","Result: Mean ± U ของแต่ละ level","Level ที่ U สูงสุด"],sum)}
+      <h3 class="pg-h3">รายละเอียดการคำนวณ</h3>${table(["Test","Level","Unit","Mean","u_Rw = CV %","RMS bias %","u_ref %","u_bias %","u_cal %","u_c %","k","U %","U (abs)","Result (Mean ± U)"],det)}`:'<p class="note">ยังไม่มีข้อมูล</p>'}
+      <div class="op-guide"><b>สูตรที่ใช้</b> — u<sub>Rw</sub> = CV% = SD/Mean×100 (IQC สะสม) · u<sub>bias</sub> = √(RMS bias² + u<sub>ref</sub>²) (RMS bias จาก EQA/PT) · u<sub>c</sub> = √(u<sub>Rw</sub>² + u<sub>bias</sub>² + u<sub>cal</sub>²) · U = k × u<sub>c</sub> (k = 2 ≈ 95%) · U(abs) = U% × Mean/100</div>
+      ${uncAbbrHtml()}${foot(fn,g+" · ตาราง Uncertainty")}</section>`);
+    const items=vs.map(v=>({label:lab(v),value:v.c.U,color:`var(--t${v.g})`}));
+    pages.push(`<section class="pg opg">${head("กราฟ Expanded uncertainty U% — "+g,"U% (k ตามที่กำหนดในแต่ละแถว) ของทุก level",g)}
+      <div class="op-chips"><span class="cls q1">เฉลี่ย ${vs.length?f2(mean_(vs.map(v=>v.c.U))):"-"} %</span><span class="cls q2">สูงสุด ${maxv?f2(maxv.c.U):"-"} %</span><span class="cls s6">ต่ำสุด ${minv?f2(minv.c.U):"-"} %</span></div>
+      <div class="op-chart">${barsSplit(items,{max:Math.max(10,...vs.map(v=>v.c.U))*1.05,aria:"U% chart"})}</div>
+      <div class="op-guide"><b>วิธีอ่านกราฟ</b> — ความยาวแท่ง = U% ของแต่ละ level (ยิ่งยาวยิ่งไม่แน่นอนมาก) · สีแท่งสลับตามเทสเพื่อแยกแต่ละเทส · U ที่สูงมักมาจาก CV หรือ bias จาก EQA ที่สูง ดูรายละเอียด u<sub>Rw</sub>, u<sub>bias</sub>, u<sub>cal</sub> ในหน้าตาราง</div>
+      ${foot(fn,g+" · กราฟ U%")}</section>`);
+  };
+
+  const repQgi=(g,vs)=>{
+    const ok=vs.filter(v=>v.c.qgi!=null),need=ok.filter(v=>v.c.sigma<6),n=c=>need.filter(v=>qgiInfo(v.c.qgi,v.c.sigma).cls===c).length;
+    const sum=byTest(ok).map(([t,a],ti)=>{const w=a.reduce((x,v)=>v.c.sigma<x.c.sigma?v:x),q=qgiInfo(w.c.qgi,w.c.sigma);
+      return`<tr class="g${ti%3}"><td>${esc(t)}</td><td class="l">${a.map(v=>`${esc(v.r.level)}: ${f2(v.c.qgi,2)}`).join(" · ")}</td><td>${esc(w.r.level)} (σ=${f2(w.c.sigma)})</td><td><span class="cls ${q.cls}">${q.name}</span></td><td class="l">${q.need}</td></tr>`}).join("");
+    const det=ok.map(v=>{const c=v.c,q=qgiInfo(c.qgi,c.sigma);return`<tr ${trc(v)}><td>${esc(v.r.test)}</td><td>${esc(v.r.level)}</td><td>${f2(c.cv)}</td><td>${f2(Math.abs(c.meanBias))}</td>
+      <td>${f2(c.sigma)} ${chip(c.sigma)}</td><td><b>${f2(c.qgi,3)}</b></td><td><span class="cls ${q.cls}">${q.name}</span></td><td class="l">${q.need}</td><td class="l" style="white-space:normal;min-width:260px">${q.act}</td></tr>`}).join("");
+    const fn="QGI = |Bias%| / (1.5 × CV%) · &lt;0.8 imprecision · 0.8–1.2 ทั้งสอง · &gt;1.2 inaccuracy (bias)";
+    pages.push(`<section class="pg">${head("รายงาน QGI (Quality Goal Index) — "+g,"วินิจฉัยสาเหตุเมื่อ Sigma ไม่ถึงเป้า ของทุก level",g)}
+      ${cards([["จำนวน level",ok.length],["Imprecision (σ<6)",n("q1")],["Imprecision + Inaccuracy (σ<6)",n("q2")],["Inaccuracy (σ<6)",n("q3")]])}
+      ${ok.length?`<h3 class="pg-h3">สรุปรายเทส (ตัดสินจาก level ที่ Sigma ต่ำสุด)</h3>${table(["Test","QGI แต่ละ level","Level ที่ Sigma ต่ำสุด","สาเหตุหลัก","ความจำเป็น"],sum)}
+      <h3 class="pg-h3">รายละเอียด QGI</h3>${table(["Test","Level","CV %","|Bias| %","Sigma","QGI","แปลผล","ความจำเป็น","แนวทางแก้ไข"],det)}`:'<p class="note">ยังไม่มีข้อมูล</p>'}
+      ${foot(fn,g+" · ตาราง QGI")}</section>`);
+    const items=ok.map(v=>({label:lab(v),value:v.c.qgi,color:`var(${{q1:"--q1",q2:"--q2",q3:"--q3"}[qgiInfo(v.c.qgi,v.c.sigma).cls]})`}));
+    pages.push(`<section class="pg opg">${head("กราฟ QGI (Quality Goal Index) — "+g,"เส้นประ = เกณฑ์ 0.8 และ 1.2",g)}
+      <div class="op-chips"><span class="cls q1">Imprecision: ${ok.filter(v=>v.c.qgi<0.8).length}</span><span class="cls q2">ทั้งสอง: ${ok.filter(v=>v.c.qgi>=0.8&&v.c.qgi<=1.2).length}</span><span class="cls q3">Inaccuracy: ${ok.filter(v=>v.c.qgi>1.2).length}</span></div>
+      <div class="op-chart">${barsSplit(items,{max:Math.max(2,...ok.map(v=>v.c.qgi))*1.05,lines:[0.8,1.2],aria:"QGI chart"})}</div>
+      <div class="qg-guide">
+        <div style="border-left-color:var(--q1)"><b>QGI &lt; 0.8 — Imprecision</b><br>ตรวจ maintenance, probe/pipette, reagent & QC lot, ความถี่ calibration เพื่อลด SD</div>
+        <div style="border-left-color:var(--q2)"><b>0.8 – 1.2 — ทั้งสองอย่าง</b><br>ปรับปรุงทั้ง precision และ bias เริ่มจาก precision</div>
+        <div style="border-left-color:var(--q3)"><b>QGI &gt; 1.2 — Inaccuracy (bias)</b><br>recalibrate, ตรวจ calibrator/traceability, เทียบกับ reference หรือกลุ่ม EQA</div></div>
+      ${foot(fn,g+" · กราฟ QGI")}</section>`);
+  };
+
+
+  const tpages=[];
+  let tnum=0;const ttotal=GROUPS.reduce((n,g)=>n+byTest(view(g).filter(v=>v.c&&v.c.sigma!=null)).filter(([tt,aa])=>keepFn(g,tt,aa)).length,0);
+  const PARTS=Object.assign({data:true,tea:true,sigma:true,qgi:true,unc:true,chart:true},opts&&opts.parts);
+  const repTest=(g,vs)=>{
+    byTest(vs.filter(v=>v.c.sigma!=null)).forEach(([test,a])=>{
+      if(!keepFn(g,test,a))return;
+      tnum++;
+      const p=byName(test),w=a.reduce((x,v)=>v.c.sigma<x.c.sigma?v:x),q=qgiInfo(w.c.qgi,w.c.sigma),wu=a.reduce((x,v)=>v.c.U>x.c.U?v:x);
+      const teaParts=v=>{const r=v.r;if(r.src===SRC.CUSTOM)return[num(r.custom)||0,0];if(r.src===SRC.CLIA)return[p.clia_pct||0,p.clia_abs||0];return[p.ric.TE,0]};
+      const lv=v=>`<th>${esc(v.r.level)}</th>`;
+      const row=(label,fn,cls_)=>`<tr${cls_?` class="${cls_}"`:""}><td class="l">${label}</td>${a.map(v=>`<td>${fn(v)}</td>`).join("")}</tr>`;
+      const sec=(title)=>`<tr class="psec"><td colspan="${a.length+1}" class="l">${title}</td></tr>`;
+      const R={};  // row builders
+      R.mean=()=>row("Mean ("+esc(p.unit)+")",v=>+v.c.mean.toFixed(3));
+      R.cv=()=>row("CV % (u<sub>Rw</sub>)",v=>f2(v.c.cv));
+      R.bias=()=>row("Mean bias % (signed)",v=>f2(v.c.meanBias));
+      R.tea=()=>row("<b>TEa eff %</b>",v=>`<b>${f2(v.c.tea)}</b>`);
+      const blocks=[];
+      if(PARTS.data)blocks.push(sec("ข้อมูล IQC / EQA")+R.mean()+row("SD",v=>esc(v.r.sd))+R.cv()+row("EQA bias % (รอบที่ได้)",v=>`<small>${esc(v.r.bias)||"—"}</small>`)+R.bias());
+      if(PARTS.tea)blocks.push(sec("TEa (ความคลาดเคลื่อนรวมที่ยอมรับได้)")+row("แหล่ง TEa",v=>`${esc(v.r.src)}${v.r.src===SRC.CUSTOM&&v.r.csrc?` <small>(${esc(v.r.csrc)})</small>`:""}`)+row("TEa % / TEa abs ("+esc(p.unit)+")",v=>`${f2(teaParts(v)[0])} / ${teaParts(v)[1]?+teaParts(v)[1]:"—"}`)+R.tea());
+      if(PARTS.sigma)blocks.push(sec("Sigma")+(PARTS.data?"":R.cv()+R.bias())+(PARTS.tea?"":R.tea())+row("<b>Sigma</b>",v=>`<b style="font-size:15px">${f2(v.c.sigma)}</b>`,"prow-hi")+row("Class",v=>chip(v.c.sigma))+row("QC rule ที่แนะนำ",v=>`<small>${cls(v.c.sigma)[2]}</small>`));
+      if(PARTS.qgi)blocks.push(sec("QGI — Quality Goal Index")+(PARTS.data||PARTS.sigma?"":R.cv()+row("|Bias| %",v=>f2(Math.abs(v.c.meanBias))))+row("QGI",v=>`${f2(v.c.qgi,2)} <small>${qgiInfo(v.c.qgi,v.c.sigma).name}</small>`)+row("ความจำเป็น",v=>`<small>${qgiInfo(v.c.qgi,v.c.sigma).need}</small>`));
+      if(PARTS.unc)blocks.push(sec("Measurement Uncertainty (k = "+esc(a[0].c.k)+")")+(PARTS.data?"":R.mean()+R.cv())+(PARTS.data?row("u<sub>bias</sub> % / u<sub>c</sub> %",v=>`${f2(v.c.ubias)} / ${f2(v.c.uc)}`):row("RMS bias % / u<sub>ref</sub> %",v=>`${f2(v.c.rms)} / ${f2(v.c.uref)}`)+row("u<sub>bias</sub> % / u<sub>cal</sub> %",v=>`${f2(v.c.ubias)} / ${f2(v.c.ucal)}`)+row("u<sub>c</sub> %",v=>f2(v.c.uc)))+row("<b>U %</b>",v=>`<b>${f2(v.c.U)}</b>`,"prow-hi")+row("Result (Mean ± U)",v=>`<small>${fmtU(v.c.mean,v.c.Uabs,v.c.unit)}</small>`));
+      const hasTable=blocks.length>0;
+      const onlyChart=!hasTable&&PARTS.chart;
+      const params=hasTable?`<div class="wrap"><table class="ptable"><tr><th class="l">Parameter</th>${a.map(lv).join("")}</tr>${blocks.join("")}</table></div>`:"";
+      const pts=a.filter(v=>v.c.tea>0).map(v=>({label:test+" "+v.r.level,short:v.r.level,x:v.c.cv/v.c.tea*100,y:Math.abs(v.c.meanBias)/v.c.tea*100,sg:v.c.sigma,cc:cls(v.c.sigma)[1],name:cls(v.c.sigma)[0]}));
+      const crit=`CLIA 2025: ${p.clia_pct||p.clia_abs?esc(p.clia_text):"ไม่มีเกณฑ์"} · Ricos desirable TE: ${p.ric.TE}%`;
+      const cardList=[];
+      if(PARTS.sigma){cardList.push(["Sigma ต่ำสุด",`${f2(w.c.sigma)}<br><small>${esc(w.r.level)}</small>`]);cardList.push(["Class",chip(w.c.sigma)||"-"])}
+      if(PARTS.qgi)cardList.push(["QGI — Quality Goal Index (level ที่ Sigma ต่ำสุด)",f2(w.c.qgi,2)]);
+      if(PARTS.unc)cardList.push(["U % สูงสุด",`${f2(wu.c.U)}<br><small>${esc(wu.r.level)}</small>`]);
+      cardList.push(["จำนวน level",a.length]);
+      const bits=[];
+      if(PARTS.sigma)bits.push(`Sigma ต่ำสุดที่ level ${esc(w.r.level)} = <b>${f2(w.c.sigma)}</b> (${cls(w.c.sigma)[0]}) → QC rule ที่แนะนำ: <b>${cls(w.c.sigma)[2]}</b>`);
+      if(PARTS.qgi)bits.push(`QGI ${f2(w.c.qgi,2)} → <b>${q.name}</b> (${q.need})${w.c.sigma<6?` · แนวทาง: ${q.act}`:""}`);
+      if(PARTS.unc)bits.push(`U% สูงสุด <b>${f2(wu.c.U)}%</b> ที่ level ${esc(wu.r.level)} → ${fmtU(wu.c.mean,wu.c.Uabs,wu.c.unit)}`);
+      const summary=bits.length?`<div class="op-guide"><b>สรุป</b> — ${bits.join(" · ")}</div>`:"";
+      const chartBlock=PARTS.chart?`<div${onlyChart?' style="max-width:70%;margin:0 auto"':""}><h3 class="pg-h3" style="margin-top:0">Normalized OPSpecs chart — ${esc(test)}</h3><div class="op-chart">${opSvg(pts,g,true,true,250)}</div>
+          <p class="note">x = CV/TEa eff×100 · y = |Bias|/TEa eff×100 · เส้น σ: y = 100 − σ·x · จุดใต้/ซ้ายเส้น σ สูงกว่า = ดีกว่า</p>${hasTable?summary:""}</div>`:"";
+      const leftBlock=hasTable?`<div>${params}${PARTS.tea||PARTS.sigma?`<p class="note" style="margin-top:8px">เกณฑ์ TEa — ${crit}</p>`:""}${PARTS.chart?"":summary}</div>`:"";
+      const single=!(hasTable&&PARTS.chart);
+      const kick="รายงานรายเทส · "+[PARTS.data&&"ข้อมูล IQC/EQA",PARTS.tea&&"TEa",PARTS.sigma&&"Sigma",PARTS.qgi&&"QGI (Quality Goal Index)",PARTS.unc&&"Uncertainty",PARTS.chart&&"OPSpecs"].filter(Boolean).join(" · ");
+      const fn=[(PARTS.sigma||PARTS.tea)&&"Sigma = (TEa<sub>eff</sub>% − |Bias%|)/CV% · TEa eff = max(TEa%, TEa abs/Mean×100)",PARTS.qgi&&"QGI = |Bias|/(1.5·CV)",PARTS.unc&&"U = k·√(u<sub>Rw</sub>² + u<sub>bias</sub>² + u<sub>cal</sub>²)"].filter(Boolean).join(" · ")||"Normalized OPSpecs";
+      tpages.push(`<section class="pg tpg">${head(esc(test),`${g} · หน่วย ${esc(p.unit)} · ${a.length} level`,g,kick)}
+        ${cards(cardList)}
+        <div class="tpg-grid"${single?' style="grid-template-columns:1fr!important"':""}>${leftBlock}${chartBlock}</div>
+        ${PARTS.tea||PARTS.sigma?abbr(true,PARTS.unc):(PARTS.qgi?`<div class="abbr"><b>ตัวย่อ</b> — <b>QGI</b> = Quality Goal Index = |Bias%| / (1.5 × CV%) · &lt;0.8 imprecision · 0.8–1.2 ทั้งสอง · &gt;1.2 inaccuracy (bias) · <b>CV</b> = สัมประสิทธิ์การกระจาย (SD/Mean×100) · <b>Bias</b> = ความคลาดเคลื่อนเชิงระบบจาก EQA/PT · <b>σ</b> = Sigma metric</div>`:"")}${PARTS.unc?uncAbbrHtml():""}${foot(fn,`${g} · ${esc(test)} · หน้า ${tnum} / ${ttotal}`)}</section>`);
+    });
+  };
+  GROUPS.forEach(g=>{
+    if(opts&&opts.groups&&!opts.groups.includes(g))return;
+    const vs=view(g).filter(v=>v.c);
+    (type==="Uncertainty"?repUnc:type==="QGI"?repQgi:repSigma)(g,vs);
+    repTest(g,vs);
+  });
+  if(opts&&opts.collect)return opts.mode==="group"?pages:tpages;
+  $("view").innerHTML=`<div class="screen-only"><div class="seg" style="margin-right:10px">${[["group","รายงานตามกลุ่ม"],["test","รายเทส (1 เทส / หน้า)"]].map(([v,l])=>`<button class="${v===rv?"on":""}" data-v="${v}">${l}</button>`).join("")}</div>${rv==="group"?`<div class="seg">${REPORTS.map(r=>`<button class="${r===type?"on":""}" data-r="${r}">รายงาน ${r}</button>`).join("")}</div>`:""}
+    <div class="bar"><span class="note">ดูรายงานบนหน้าจอ — ต้องการพิมพ์ / บันทึกเป็น PDF ให้กดปุ่ม <b>📄 Export mode (PDF)</b> ด้านบน</span></div>`+(rv==="test"?tpages:pages).join("")+`</div><div class="print-only">${tpages.join("")}</div>`;
+  document.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{state.reportType=b.dataset.r;save();pageReport()});
+  document.querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>{state.reportView=b.dataset.v;save();pageReport()});
+}
+
+/* ---------- export / import / images ---------- */
+const rnd=(v,d=3)=>v==null||!isFinite(v)?"":+v.toFixed(d);
+const asNum=v=>{const t=String(v??"").trim();return t!==""&&/^-?\d*\.?\d+(e-?\d+)?$/i.test(t)?parseFloat(t):v};
+function download(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+const stamp=()=>new Date().toISOString().slice(0,10);
+function exportRows(){const out=[];GROUPS.forEach(g=>state.rows[g].forEach(r=>out.push({g,r,c:calc(r)})));return out}
+function exportCsv(){
+  const i=state.info;
+  const rows=[["Hospital","Lab","EQA","Group","Test","Level","Unit","Mean","SD","EQA_bias_list","u_ref","u_cal","k","TEa_source","Custom_TEa%","Custom_TEa_source","CV%","MeanBias%","RMSBias%","u_bias%","u_c%","U%","U_abs","TEa_eff%","Sigma","Class","QGI","QGI_interpretation","QC_rule"]];
+  exportRows().forEach(({g,r,c})=>{const q=c&&qgiInfo(c.qgi,c.sigma);
+    rows.push([i.hospital,i.lab,i.eqa[g],g,r.test,r.level,byName(r.test).unit,r.mean,r.sd,r.bias,r.uref,r.ucal,r.k,r.src,r.custom,r.csrc,
+      c?rnd(c.cv):"",c?rnd(c.meanBias):"",c?rnd(c.rms):"",c?rnd(c.ubias):"",c?rnd(c.uc):"",c?rnd(c.U):"",c?rnd(c.Uabs,4):"",c?rnd(c.tea):"",c?rnd(c.sigma):"",c&&c.sigma!=null?cls(c.sigma)[0]:"",c?rnd(c.qgi):"",q?q.name:"",c&&c.sigma!=null?cls(c.sigma)[2]:""])});
+  download(new Blob([IO.toCsv(rows)],{type:"text/csv;charset=utf-8"}),`mu_sigma_${stamp()}.csv`);
+  setStatus(`Export CSV แล้ว (${rows.length-1} แถว)`);
+}
+function buildXlsx(){
+  const i=state.info,all=exportRows(),ok=all.filter(x=>x.c);
+  const data=[["Group","Test","Level","Mean","SD","EQA bias list","u_ref","u_cal","k","TEa source","Custom TEa %","Custom TEa source"]];
+  all.forEach(({g,r})=>data.push([g,r.test,r.level,asNum(r.mean),asNum(r.sd),r.bias,asNum(r.uref),asNum(r.ucal),asNum(r.k),r.src,asNum(r.custom),r.csrc]));
+  const unc=[["Group","Test","Level","Unit","Mean","u_Rw = CV %","RMS bias %","u_ref %","u_bias %","u_cal %","u_c %","k","U %","U (abs)","Result (Mean ± U)"]];
+  const sig=[["Group","Test","Level","Mean","CV %","Mean bias %","TEa source","TEa eff %","Sigma","Class","Suggested QC rule"]];
+  const qg=[["Group","Test","Level","CV %","|Bias| %","Sigma","QGI","Interpretation","ความจำเป็น","แนวทางแก้ไข"]];
+  ok.forEach(({g,r,c})=>{
+    unc.push([g,r.test,r.level,c.unit,rnd(c.mean),rnd(c.cv),rnd(c.rms),rnd(c.uref),rnd(c.ubias),rnd(c.ucal),rnd(c.uc),c.k,rnd(c.U),rnd(c.Uabs,4),fmtU(c.mean,c.Uabs,c.unit)]);
+    if(c.sigma!=null){const q=qgiInfo(c.qgi,c.sigma);
+      sig.push([g,r.test,r.level,rnd(c.mean),rnd(c.cv),rnd(c.meanBias),r.src+(r.src===SRC.CUSTOM&&r.csrc?" ("+r.csrc+")":""),rnd(c.tea),rnd(c.sigma),cls(c.sigma)[0],cls(c.sigma)[2]]);
+      qg.push([g,r.test,r.level,rnd(c.cv),rnd(Math.abs(c.meanBias)),rnd(c.sigma),rnd(c.qgi),q.name,q.need,q.act])}});
+  return IO.makeXlsx([{name:"Info",header:false,rows:[["Hospital",i.hospital],["Lab",i.lab],["EQA Biochemistry",i.eqa.Biochemistry],["EQA CBC",i.eqa.CBC],["Generated",new Date().toISOString()]]},
+    {name:"Data",rows:data},{name:"Uncertainty",rows:unc},{name:"Sigma",rows:sig},{name:"QGI",rows:qg}]);
+}
+function exportXlsx(){
+  download(new Blob([buildXlsx()],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}),`mu_sigma_${stamp()}.xlsx`);
+  setStatus("Export Excel แล้ว (ชีต: Info, Data, Uncertainty, Sigma, QGI)");
+}
+function setStatus(t){const e=$("status");if(e)e.textContent=t}
+async function doImport(file){
+  try{
+    let tables;
+    if(/\.xlsx$/i.test(file.name))tables=await IO.readXlsx(new Uint8Array(await file.arrayBuffer()));
+    else if(/\.xls$/i.test(file.name))throw new Error("ไฟล์ .xls แบบเก่าไม่รองรับ — บันทึกเป็น .xlsx หรือ .csv ก่อน");
+    else tables=[{name:"CSV",rows:IO.parseCsv(await file.text())}];
+    const res=IO.importTables(tables,PRESETS,SRC);
+    if(!res.count){setStatus("ไม่พบข้อมูลที่นำเข้าได้ — ไฟล์ต้องมีคอลัมน์ Test, Mean, SD"+(res.skipped.length?` (ไม่รู้จัก: ${res.skipped.slice(0,5).join(", ")})`:""));return}
+    const append=$("appendChk").checked,touched=GROUPS.filter(g=>res.rows[g].length);
+    if(!append&&touched.some(g=>state.rows[g].length)&&!confirm(`แทนที่ข้อมูลเดิมของ ${touched.join(" และ ")} ด้วยข้อมูลที่นำเข้า ${res.count} แถว?\n(ยกเลิกแล้วติ๊ก “เพิ่มต่อท้าย” หากต้องการเก็บข้อมูลเดิม)`))return;
+    touched.forEach(g=>{state.rows[g]=append?state.rows[g].concat(res.rows[g]):res.rows[g]});
+    const inf=res.info;if(inf.hospital)state.info.hospital=inf.hospital;if(inf.lab)state.info.lab=inf.lab;
+    if(inf.eqa)Object.keys(inf.eqa).forEach(k=>{if(GROUPS.includes(k))state.info.eqa[k]=inf.eqa[k]});
+    if(touched.length&&!touched.includes(state.group))state.group=touched[0];
+    save();show();
+    setStatus(`นำเข้า ${res.count} แถว (${res.used.join(", ")})`+(res.skipped.length?` · ข้ามเทสที่ไม่รู้จัก: ${res.skipped.slice(0,6).join(", ")}`:"")+(res.empty?` · ข้าม ${res.empty} แถวที่ Mean/SD ว่าง`:""));
+  }catch(e){setStatus("นำเข้าไม่สำเร็จ: "+e.message)}
+}
+function svgData(svg){
+  const cs=getComputedStyle(document.documentElement),vb=svg.viewBox.baseVal,c=svg.cloneNode(true);
+  c.setAttribute("xmlns","http://www.w3.org/2000/svg");c.setAttribute("width",vb.width);c.setAttribute("height",vb.height);c.removeAttribute("style");
+  c.setAttribute("font-family","system-ui,-apple-system,Sarabun,Arial,sans-serif");
+  c.insertAdjacentHTML("afterbegin",`<rect width="100%" height="100%" fill="${cs.getPropertyValue("--card").trim()||"#fff"}"/>`);
+  const str=new XMLSerializer().serializeToString(c).replace(/var\((--[\w-]+)\)/g,(m,v)=>cs.getPropertyValue(v).trim()||"#888");
+  return{str,w:vb.width,h:vb.height};
+}
+function exportImage(svg,fmt,name){
+  const{str,w,h}=svgData(svg);
+  if(fmt==="svg"){download(new Blob([str],{type:"image/svg+xml"}),name+".svg");return}
+  const img=new Image(),sc=2;
+  img.onload=()=>{const cv=document.createElement("canvas");cv.width=w*sc;cv.height=h*sc;const x=cv.getContext("2d");x.scale(sc,sc);x.drawImage(img,0,0,w,h);
+    cv.toBlob(b=>download(b,name+".png"),"image/png")};
+  img.onerror=()=>setStatus("สร้างรูปไม่สำเร็จ");
+  img.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(str);
+}
+function chartBox(id,name,svgHtml){
+  return`<div class="chartbar"><button class="btn sm" data-dl="${id}|png|${name}">⬇ PNG</button><button class="btn sm" data-dl="${id}|svg|${name}">⬇ SVG</button></div><div class="chart" id="${id}">${svgHtml}</div>`;
+}
+function bindDl(){
+  document.querySelectorAll("[data-dl]").forEach(b=>b.onclick=()=>{
+    const[id,fmt,name]=b.dataset.dl.split("|"),svg=$(id).querySelector("svg");
+    if(!svg){setStatus("ยังไม่มีกราฟให้ดาวน์โหลด");return}
+    exportImage(svg,fmt,`${name}_${stamp()}`);
+  });
+}
+/* ---------- Export mode (per-parameter pages, chrome-free) ---------- */
+const EXP_PARTS=[["data","ข้อมูล IQC/EQA"],["tea","TEa"],["sigma","Sigma"],["qgi","QGI (Quality Goal Index)"],["unc","Uncertainty"],["chart","OPSpecs chart"]];
+const expState={group:"all",maxSigma:"",sel:new Set(),layout:"test",type:REPORTS[0],parts:{data:true,tea:true,sigma:true,qgi:true,unc:true,chart:true}};
+function expList(){
+  const out=[];GROUPS.forEach(g=>byTest(view(g).filter(v=>v.c&&v.c.sigma!=null)).forEach(([test,a])=>out.push({g,test,worst:Math.min(...a.map(v=>v.c.sigma))})));
+  return out;
+}
+function expKeep(g,test,a){
+  if(expState.group!=="all"&&expState.group!==g)return false;
+  if(!expState.sel.has(g+"|"+test))return false;
+  const w=Math.min(...a.map(v=>v.c.sigma)),m=parseFloat(expState.maxSigma);
+  return !(isFinite(m)&&!(w<m));
+}
+function expRender(){
+  const grp=expState.layout==="group";
+  let po=document.getElementById("pageOrient");if(!po){po=document.createElement("style");po.id="pageOrient";document.head.appendChild(po)}
+  const pp=expState.parts,onlyUQ=!grp&&!pp.chart&&!pp.data&&!pp.tea&&!pp.sigma&&(pp.unc||pp.qgi);
+  const portrait=grp||onlyUQ;
+  po.textContent=`@page{size:A4 ${portrait?"portrait":"landscape"};margin:10mm}`;document.body.classList.toggle("portrait",portrait);
+  const pages=grp?pageReport({collect:true,mode:"group",portrait:true,type:expState.type,groups:expState.group==="all"?GROUPS:[expState.group]}):pageReport({collect:true,keep:expKeep,parts:expState.parts});
+  const noPart=!grp&&!Object.values(expState.parts).some(Boolean);
+  $("expPages").innerHTML=noPart?'<p class="note" style="padding:20px">ยังไม่ได้ติ๊กส่วนที่จะพิมพ์</p>':pages.length?pages.join(""):'<p class="note" style="padding:20px">ไม่มีเทสที่ตรงกับตัวกรอง</p>';
+  $("expCount").textContent=grp?`${pages.length} หน้า (รวมทุก parameter · รายงาน ${expState.type})`:`${pages.length} หน้า (1 เทส / หน้า · A4 ${portrait?"แนวตั้ง":"แนวนอน"})`;
+  document.querySelectorAll(".exp-test-only").forEach(e=>e.style.display=grp?"none":"");
+  $("expTypeWrap").style.display=grp?"":"none";
+}
+function enterExport(){
+  const list=expList();
+  expState.group="all";expState.maxSigma="";expState.layout="test";EXP_PARTS.forEach(([k])=>expState.parts[k]=true);expState.sel=new Set(list.map(x=>x.g+"|"+x.test));
+  document.body.classList.add("exportmode");
+  const checks=GROUPS.map(g=>`<div class="exp-grp"><b>${g}</b> ${list.filter(x=>x.g===g).map(x=>`<label class="exp-chk"><input type="checkbox" data-k="${esc(x.g+"|"+x.test)}" checked> ${esc(x.test)}</label>`).join("")}</div>`).join("");
+  $("view").innerHTML=`<div class="exp-bar">
+    <div class="exp-row"><b>📄 Export mode</b><span class="note">รายเทส = A4 แนวนอน (เฉพาะ Uncertainty และ/หรือ QGI = แนวตั้ง) · รวมทุก parameter = A4 แนวตั้ง — เลือกรูปแบบด้านล่าง แล้วกดพิมพ์ → “Save as PDF” (ถ้าหน้าต่างพิมพ์ไม่ตั้งทิศกระดาษให้เอง ให้เลือก Layout/Orientation ตามรูปแบบ)</span>
+      <span style="flex:1"></span><span class="note" id="expCount"></span>
+      <button class="btn" id="expPrint">🖨 พิมพ์ / Save as PDF</button><button class="btn" id="expExit">✕ ออกจาก Export mode</button></div>
+    <div class="exp-row"><label>รูปแบบ <select id="expLayout"><option value="test">รายเทส — 1 parameter / หน้า (ตาราง + กราฟ)</option><option value="group">รวมทุก parameter (ตามกลุ่ม)</option></select></label>
+      <label id="expTypeWrap" style="display:none">ประเภทรายงาน <select id="expType">${REPORTS.map(r=>`<option>${r}</option>`).join("")}</select></label></div>
+    <div class="exp-row exp-test-only"><b>ส่วนที่จะพิมพ์ (ติ๊กเลือก)</b>${EXP_PARTS.map(([k,l])=>`<label class="exp-chk"><input type="checkbox" data-p="${k}" checked> ${l}</label>`).join("")}
+      <span class="note">ชุดด่วน:</span><button class="btn sm" data-preset="all">ทั้งหมด</button><button class="btn sm" data-preset="unc">เฉพาะ Uncertainty</button><button class="btn sm" data-preset="sigma">Sigma + chart</button><button class="btn sm" data-preset="qgi">เฉพาะ QGI</button></div>
+    <div class="exp-row"><label>กลุ่ม <select id="expGroup"><option value="all">ทั้งหมด</option>${GROUPS.map(g=>`<option>${g}</option>`).join("")}</select></label>
+      <label class="exp-test-only">เฉพาะ Sigma ต่ำสุด &lt; <input id="expSig" type="number" step="0.5" placeholder="ทั้งหมด" style="width:80px"></label>
+      <button class="btn sm exp-test-only" id="expAll">เลือกทุกเทส</button><button class="btn sm exp-test-only" id="expNone">ล้างที่เลือก</button>
+      <details class="exp-det exp-test-only"><summary>เลือกเทสที่จะพิมพ์</summary>${checks}</details></div></div>
+    <div id="expPages" class="exp-pages"></div>`;
+  $("expPrint").onclick=()=>window.print();
+  $("expExit").onclick=exitExport;
+  const PRESETS_P={all:["data","tea","sigma","qgi","unc","chart"],unc:["unc"],sigma:["sigma","chart"],qgi:["qgi"]};
+  const syncParts=()=>document.querySelectorAll("[data-p]").forEach(c=>{c.checked=!!expState.parts[c.dataset.p]});
+  document.querySelectorAll("[data-p]").forEach(c=>c.onchange=()=>{expState.parts[c.dataset.p]=c.checked;expRender()});
+  document.querySelectorAll("[data-preset]").forEach(b=>b.onclick=()=>{const on=PRESETS_P[b.dataset.preset];EXP_PARTS.forEach(([k])=>expState.parts[k]=on.includes(k));syncParts();expRender()});
+  $("expGroup").onchange=e=>{expState.group=e.target.value;expRender()};
+  $("expLayout").onchange=e=>{expState.layout=e.target.value;expRender()};
+  $("expType").onchange=e=>{expState.type=e.target.value;expRender()};
+  $("expSig").oninput=e=>{expState.maxSigma=e.target.value;expRender()};
+  const setAll=on=>{document.querySelectorAll("[data-k]").forEach(c=>{c.checked=on;on?expState.sel.add(c.dataset.k):expState.sel.delete(c.dataset.k)});expRender()};
+  $("expAll").onclick=()=>setAll(true);$("expNone").onclick=()=>setAll(false);
+  document.querySelectorAll("[data-k]").forEach(c=>c.onchange=()=>{c.checked?expState.sel.add(c.dataset.k):expState.sel.delete(c.dataset.k);expRender()});
+  expRender();window.scrollTo(0,0);
+}
+function exitExport(){document.body.classList.remove("exportmode","portrait");const po=document.getElementById("pageOrient");if(po)po.remove();show()}
+
+function templateRows(){
+  const rows=[];
+  GROUPS.forEach(g=>PRESETS.filter(p=>p.group===g).forEach(p=>{
+    const n=(g==="CBC"?3:2),src=(p.clia_pct||p.clia_abs)?SRC.CLIA:SRC.RICOS;
+    for(let k=1;k<=n;k++)rows.push([g,p.test,"L"+k,"","","",0,0,2,src,"",""]);
+  }));
+  return rows;
+}
+const TPL_HEAD=["Group","Test","Level","Mean","SD","EQA bias list","u_ref","u_cal","k","TEa source","Custom TEa %","Custom TEa source"];
+function downloadTemplate(kind){
+  const rows=templateRows();
+  if(kind==="csv"){
+    const map={"EQA bias list":"EQA_bias_list","TEa source":"TEa_source","Custom TEa %":"Custom_TEa%","Custom TEa source":"Custom_TEa_source"};
+    const head=["Hospital","Lab","EQA",...TPL_HEAD.map(h=>map[h]||h)];
+    download(new Blob([IO.toCsv([head,...rows.map(r=>["","","",...r])])],{type:"text/csv;charset=utf-8"}),"template_mu_sigma.csv");
+  }else{
+    const tests=PRESETS.map(p=>[p.group,p.test,p.unit,p.clia_text,p.ric.TE]);
+    const guide=[["Column","คำอธิบาย"],["Group","Biochemistry หรือ CBC (เว้นว่างได้ ระบบจะดูจากชื่อ Test)"],["Test","ชื่อเทส ต้องตรงกับชีต Test list (เลือกจาก dropdown)"],
+      ["Level","ชื่อ level ของ QC เช่น L1, L2, L3 — เพิ่มแถวใหม่ได้โดยคัดลอกแถวเดิมแล้วเปลี่ยน Level"],["Mean","ค่าเฉลี่ย IQC ของ level นั้น (จำเป็น)"],["SD","SD ของ IQC (จำเป็น)"],
+      ["EQA bias list","Bias % จาก EQA/PT หลายรอบ คั่นด้วย comma เช่น 1.2, -0.8, 0.5 (เว้นว่างได้ = bias 0)"],["u_ref","ความไม่แน่นอนของค่าเป้าหมาย EQA (%) ไม่ทราบใส่ 0"],
+      ["u_cal","ความไม่แน่นอนของ calibrator (%) ไม่ทราบใส่ 0"],["k","coverage factor ปกติ 2"],["TEa source","CLIA 2025 / Ricos Desirable / Custom"],
+      ["Custom TEa %","ใส่เมื่อ TEa source = Custom"],["Custom TEa source","ระบุที่มาของ TEa แบบ Custom"],
+      ["หมายเหตุ","แถวที่ Mean และ SD ว่างจะถูกข้ามตอน Import · ข้อมูล รพ./Lab/EQA กรอกในชีต Info · เสร็จแล้วบันทึกไฟล์และกดปุ่ม Import ในเว็บ"]];
+    const dv=[{sqref:"B2:B600",list:`'Test list'!$B$2:$B$${tests.length+1}`},{sqref:"J2:J600",list:`"${SRC.CLIA},${SRC.RICOS},${SRC.CUSTOM}"`},{sqref:"A2:A600",list:'"Biochemistry,CBC"'}];
+    const bytes=IO.makeXlsx([
+      {name:"Info",header:false,rows:[["Hospital",""],["Lab",""],["EQA Biochemistry",""],["EQA CBC",""],["","(กรอกในคอลัมน์ B)"]]},
+      {name:"Data",rows:[TPL_HEAD,...rows],dv},
+      {name:"คำแนะนำ",rows:guide},
+      {name:"Test list",rows:[["Group","Test","Unit","CLIA 2025 criterion","Ricos TE %"],...tests]}]);
+    download(new Blob([bytes],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}),"template_mu_sigma.xlsx");
+  }
+  setStatus(`ดาวน์โหลด template (${kind==="csv"?"CSV":"Excel"}) แล้ว — กรอก Mean, SD, Bias แล้วกด Import`);
+}
+function initTools(){
+  $("btnTplX").onclick=()=>downloadTemplate("xlsx");$("btnTplC").onclick=()=>downloadTemplate("csv");
+  $("btnImport").onclick=()=>$("fileIn").click();
+  $("fileIn").onchange=e=>{const f=e.target.files[0];if(f)doImport(f);e.target.value=""};
+  $("btnCsv").onclick=exportCsv;$("btnXlsx").onclick=exportXlsx;
+  $("btnPdf").onclick=enterExport;
+}
+
+if(!state.rows.Biochemistry.length&&!state.rows.CBC.length){GROUPS.forEach(g=>state.rows[g]=exampleRows(g))}
+initTools();
+show();
+</script>
+</body>
+</html>
