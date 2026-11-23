@@ -338,7 +338,7 @@
         "notes": "All conditions in a rule are combined with AND; a fired rule flags the sample for re-exam and shows its message. Rules apply to all samples (no include/exclude filters). Turbidity level names are not confirmed.",
         "attachments": [
             {
-                "name": "⭐ Re-exam Rule update for EU series | Rule Table",
+                "name": "⭐ EU-8600 Urine hub | Rule Table",
                 "type": "Interactive HTML",
                 "url": "re-exam-rule-eu-series.html"
             }
