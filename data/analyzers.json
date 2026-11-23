@@ -315,14 +315,19 @@
         ]
     },
     {
-        "id": "eu8600_urine_hub",
-        "name": "EU-8600 Urine hub",
+        "id": "eu_series",
+        "group": "EU-8600 Urine hub",
+        "name": "Re-exam Rule update for EU series",
         "type": "Urinalysis Analyzer",
         "manufacturer": "EU Series (Urine Analyzer)",
-        "description": "Hub for the EU-8600 urine analyzer: Germ mode bacteria detection summary and the EU series re-exam rule set (40 rules, rule file 2026-09-19).",
+        "description": "Urine re-exam rule set for the EU series (EU8600 rule file, 2026-09-19): 40 rules grouped by purpose, with RBC/WBC and other sediment conditions shown in real counts (cells/HPF or LPF) and dipstick results as grades.",
         "parameters": [
-            "Germ mode - measure layers 1-4, predict layers 5-30 from distribution curves",
-            "Re-exam rules - strip vs sediment mismatch, RBC morphology, casts vs protein, appearance/SG/ketone, positive flags, particle detected"
+            "Strip vs sediment mismatch - BLD/RBC and LEU/WBC deviation rules",
+            "RBC morphology / interference - dysmorphic, acanthocyte, humped RBC, Vitamin C",
+            "Protein vs casts - hyaline and pathological casts with negative protein, Precise PRO",
+            "Appearance / SG / ketone - turbidity, low SG, ketone",
+            "Positive / above-reference flags - LEU, BLD, RBC, WBC, HYAC, CRYS",
+            "Particle detected - non-squamous epithelial, macrophage, cast types"
         ],
         "troubleshooting": [
             "Too many re-exam flags: review the broad rules 24-30 (positive / above-reference)",
@@ -333,19 +338,35 @@
         "notes": "All conditions in a rule are combined with AND; a fired rule flags the sample for re-exam and shows its message. Rules apply to all samples (no include/exclude filters). Turbidity level names are not confirmed.",
         "attachments": [
             {
-                "name": "⭐ EU-8600 Urine hub",
+                "name": "⭐ Re-exam Rule update for EU series | Rule Table",
                 "type": "Interactive HTML",
-                "url": "eu-8600-urine-hub/index.html"
-            },
+                "url": "re-exam-rule-eu-series.html"
+            }
+        ]
+    },
+    {
+        "id": "eu8600_germ_mode",
+        "group": "EU-8600 Urine hub",
+        "name": "Germ mode bacteria detection",
+        "type": "Urinalysis Analyzer",
+        "manufacturer": "EU Series (Urine Analyzer)",
+        "description": "Bact EU8600 Germ mode: how bacteria are counted (measure layers 1-4, predict layers 5-30), the R&D re-test of four samples, and agreement with culture and a Sysmex analyzer.",
+        "parameters": [
+            "Settling principle - bacteria settle slower than other formed elements",
+            "40 layers in the 1 mm chamber; bacteria found in layers 1-30",
+            "60 segmented + 4 layer-scan images per sample",
+            "Above 488/uL one extra 40x image is shown (display only)",
+            "Normal mode: segmented-image count x 2.68 per uL"
+        ],
+        "troubleshooting": [
+            "Bacteria may be missed if imaging happens before they settle - Germ mode predicts layers 5-30 from a distribution-curve library"
+        ],
+        "notes": "Summary of the uploaded 22-page file; every number comes from that file.",
+        "attachments": [
             {
-                "name": "Germ Mode Summary",
+                "name": "⭐ Germ Mode Summary",
                 "type": "Interactive HTML",
-                "url": "eu-8600-urine-hub/germ-mode.html"
-            },
-            {
-                "name": "Re-exam Rule Table",
-                "type": "Interactive HTML",
-                "url": "eu-8600-urine-hub/re-exam-rule.html"
+                "url": "germ-mode-eu8600.html"
             }
         ]
     },

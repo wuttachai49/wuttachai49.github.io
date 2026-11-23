@@ -305,3 +305,6 @@ footer {
     .card-actions { width: 100%; }
     .open-link { text-align: center; }
 }
+
+/* Analyzer subgroup heading (e.g. EU-8600 Urine hub) */
+.card-grid .subgroup { margin: 14px 0 -2px; padding-left: 10px; border-left: 4px solid var(--primary); font-size: 1.15rem; color: var(--text); }
