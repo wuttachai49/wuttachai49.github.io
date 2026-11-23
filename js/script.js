@@ -69,14 +69,8 @@ const cardHtml = (title, meta, desc, extra, attachments) => `
 const statusClass = (s) => String(s || '').toLowerCase().replace(/\s+/g, '-');
 
 function displayAnalyzers(list) {
-    // Entries sharing a "group" are shown together under a subgroup heading
-    const seen = new Set();
-    renderCards('analyzers-container', list, 'No analyzers found.', a => {
-        const card = cardHtml(a.name, esc(a.type) + ' · ' + esc(a.manufacturer), a.description, '', a.attachments);
-        if (!a.group || seen.has(a.group)) return card;
-        seen.add(a.group);
-        return `<h3 class="subgroup">${esc(a.group)}</h3>` + card;
-    });
+    renderCards('analyzers-container', list, 'No analyzers found.', a =>
+        cardHtml(a.name, esc(a.type) + ' · ' + esc(a.manufacturer), a.description, '', a.attachments));
 }
 
 function displayKnowledge(list) {
