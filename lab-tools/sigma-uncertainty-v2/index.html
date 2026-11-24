@@ -5,14 +5,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sigma - Uncertainty Calculator V.2</title>
 <style>
-:root{--bg:#f5f7fa;--card:#fff;--ink:#1b2430;--mut:#667085;--line:#d9dee7;--pri:#1f3a5f;--inp:#fffbe8;--onpri:#fff;
---s6:#2e9e5b;--s5:#8cc152;--s4:#f2c230;--s3:#f08c3a;--s0:#e5484d;--q1:#6366f1;--q2:#f59e0b;--q3:#e5484d;
---t0:#4f8ef7;--t1:#f0a030;--t2:#38b27a}
-:root[data-theme="dark"]{--bg:#10151c;--card:#18202a;--ink:#e6ebf2;--mut:#93a0b3;--line:#2c3746;--pri:#7fb0ff;--inp:#2a2810;--onpri:#10151c;color-scheme:dark}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10151c;--card:#18202a;--ink:#e6ebf2;--mut:#93a0b3;--line:#2c3746;--pri:#7fb0ff;--inp:#2a2810;--onpri:#10151c;color-scheme:dark}}
+:root{--bg:#eef2f1;--card:#ffffff;--ink:#1d2b2f;--mut:#5f7279;--line:#d3dcdf;--pri:#0f766e;--inp:#eef8f5;--onpri:#ffffff;
+--hdr:linear-gradient(135deg,#e3f3ee 0%,#e4eff8 100%);--acc:#2b6cb0;--warn:#b7791f;
+--s6:#2e9e5b;--s5:#8cc152;--s4:#f2c230;--s3:#f08c3a;--s0:#e5484d;--q1:#2b7bd0;--q2:#f59e0b;--q3:#e5484d;
+--t0:#3b82c4;--t1:#7d8f98;--t2:#2e9e72}
+:root[data-theme="dark"]{--bg:#0e1a1c;--card:#152528;--ink:#e3efee;--mut:#8ea5a9;--line:#294246;--pri:#5fd0b8;--inp:#12302e;--onpri:#08201c;
+--hdr:linear-gradient(135deg,#12322e 0%,#102a3a 100%);--acc:#6fb0f0;--warn:#f2b53a;color-scheme:dark}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1a1c;--card:#152528;--ink:#e3efee;--mut:#8ea5a9;--line:#294246;--pri:#5fd0b8;--inp:#12302e;--onpri:#08201c;
+--hdr:linear-gradient(135deg,#12322e 0%,#102a3a 100%);--acc:#6fb0f0;--warn:#f2b53a;color-scheme:dark}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,-apple-system,"Sarabun","Noto Sans Thai",sans-serif}
-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:16px;border-bottom:1px solid var(--line);background:var(--card)}
+header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:16px;border-bottom:1px solid var(--line);background:var(--hdr)}
 h1{margin:0;font-size:20px;color:var(--pri)} header p{margin:2px 0 0;color:var(--mut)}
 main{padding:16px;max-width:1500px;margin:auto}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
@@ -75,14 +78,27 @@ a{color:var(--pri)} .note{color:var(--mut);font-size:12px}
 .qg-guide{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-top:10px}
 .qg-guide div{border:1px solid var(--line);border-left:5px solid var(--pri);border-radius:8px;padding:8px 10px;font-size:12px}
 .print-only{display:none}
+.warn-box{border-left:6px solid #e8a317;background:color-mix(in srgb,#f2b53a 11%,var(--card));box-shadow:0 1px 6px rgba(232,163,23,.18)}
+.warn-box h2{color:var(--warn)}.warn-box li::marker{color:#e8a317}.warn-box li{margin:5px 0}
+.credit{max-width:1500px;margin:10px auto 0;padding:20px 16px 34px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:center;gap:14px;text-align:center;color:var(--mut)}
+.credit .by{font-size:13px;letter-spacing:.2em;text-transform:uppercase}.credit .by b{color:var(--pri);font-weight:800;letter-spacing:.24em}
+.credit small{display:block;margin-top:2px;font-size:11px;letter-spacing:.04em;opacity:.8}
+.credit .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,#0f766e,#2b6cb0,#9aa9b1);flex:0 0 auto}
+.pg-foot .by{letter-spacing:.16em;text-transform:uppercase;font-weight:600;white-space:nowrap}.pg-foot .by b{color:var(--pri);letter-spacing:.2em}
+.g-step{display:flex;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:10px}
+.g-num{flex:0 0 36px;height:36px;border-radius:50%;background:var(--pri);color:var(--onpri);display:grid;place-items:center;font-weight:700}
+.g-body h3{margin:0 0 4px;font-size:15px;color:var(--pri)}.g-body ul{margin:4px 0;padding-left:20px}.g-act{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap}
+.gt{width:100%;margin-top:8px}.gt th,.gt td{white-space:normal;text-align:left;vertical-align:top;font-size:12.5px;padding:6px 8px}.gt th{position:static}
+.g-flow{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:10px}.g-flow span{background:color-mix(in srgb,var(--pri) 12%,var(--card));border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:12px}.g-flow i{color:var(--mut);font-style:normal}
 @page{size:A4 landscape;margin:10mm}
 body.exportmode header,body.exportmode #tabs,body.exportmode #tools,body.exportmode #groupBar,body.exportmode #infoBar{display:none}
 .exp-bar{position:sticky;top:0;z-index:5;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
 .exp-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:4px 0}.exp-row select,.exp-row input[type=number]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:3px 6px}
 .exp-det{flex:1 1 100%}.exp-det summary{cursor:pointer;color:var(--pri)}.exp-grp{margin:6px 0}.exp-chk{display:inline-block;margin:2px 10px 2px 0;font-size:12px;white-space:nowrap}
 .abbr{margin-top:12px;padding:6px 10px;border:1px dashed var(--line);border-radius:8px;font-size:11px;color:var(--mut);line-height:1.5}.abbr b{color:var(--pri)}
-@media print{.screen-only{display:none!important}.print-only{display:block!important}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}@page{size:A4 landscape;margin:10mm}
-header,.infoform,.tabs,.seg,.bar,.chartbar,#tools,#infoBar,#groupBar,.del,.btn,.exp-bar{display:none!important}
+@media print{:root,:root[data-theme="dark"],:root:not([data-theme="light"]){--bg:#fff;--card:#fff;--ink:#111;--mut:#555;--line:#cfd6d9;--pri:#0f766e;--inp:#fff;--onpri:#fff;color-scheme:light}
+.screen-only{display:none!important}.print-only{display:block!important}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}@page{size:A4 landscape;margin:10mm}
+header,.infoform,.tabs,.seg,.bar,.chartbar,#tools,#infoBar,#groupBar,.del,.btn,.exp-bar,.credit{display:none!important}
 .wrap{overflow:visible;border:0}body{background:#fff;color:#111}main{padding:0;max-width:none}.pg{box-shadow:none;border:0;border-radius:0;padding:0;margin:0}.pg+.pg{page-break-before:always}.pg table{font-size:9px}.pg th,.pg td{padding:2px 4px}tr{page-break-inside:avoid}.op-chart{overflow:visible;border:0}.op-chart svg{min-width:0!important}
 .tpg{break-inside:avoid;page-break-inside:avoid}.tpg-grid{grid-template-columns:minmax(0,5fr) minmax(0,6fr)!important}.tpg-grid>div{min-width:0}
 body.portrait .pg table{width:100%!important;min-width:0}body.portrait .pg th,body.portrait .pg td{white-space:normal;padding:2px 3px;font-size:8px}
@@ -110,6 +126,7 @@ body.portrait .pg-h3{font-size:12px}body.portrait .op-guide,body.portrait .abbr{
 <div id="groupBar"></div>
 <div id="view"></div>
 </main>
+<footer class="credit"><span class="dot"></span><div><div class="by">By <b>PANTONE LAB</b></div><small>Sigma - Uncertainty Calculator V.2</small></div><span class="dot"></span></footer>
 <script>
 /* io.js — dependency-free CSV / XLSX import & export helpers (inlined into index.html by build_web.py).
    Also loadable in Node for tests: const io = require("./io.js") */
@@ -259,6 +276,8 @@ function roleOf(h){
   if(n==="customtea")return"custom";
   if(n==="customteasource")return"csrc";
   if(n==="hospital")return"hospital";if(n==="lab")return"lab";if(n==="eqa")return"eqa";
+  if(["analyzer","analyzername"].includes(n))return"analyzer";
+  if(["sn","serial","serialno","serialnumber"].includes(n))return"sn";
   return null;
 }
 function matchPreset(name,presets){
@@ -289,6 +308,10 @@ function importTables(tables,presets,SRC){
         if(l.includes("hospital")||String(r[0]).includes("โรงพยาบาล"))res.info.hospital=v;
         else if(l.includes("eqa")&&l.includes("biochem")){(res.info.eqa=res.info.eqa||{}).Biochemistry=v}
         else if(l.includes("eqa")&&l.includes("cbc")){(res.info.eqa=res.info.eqa||{}).CBC=v}
+        else if(l.includes("analyzer")&&l.includes("biochem")){(res.info.analyzer=res.info.analyzer||{}).Biochemistry=v}
+        else if(l.includes("analyzer")&&l.includes("cbc")){(res.info.analyzer=res.info.analyzer||{}).CBC=v}
+        else if(l.startsWith("sn")&&l.includes("biochem")){(res.info.sn=res.info.sn||{}).Biochemistry=v}
+        else if(l.startsWith("sn")&&l.includes("cbc")){(res.info.sn=res.info.sn||{}).CBC=v}
         else if(l.startsWith("lab"))res.info.lab=v;
       });
       continue;
@@ -318,6 +341,8 @@ function importTables(tables,presets,SRC){
         if(cellStr(g("hospital")))res.info.hospital=cellStr(g("hospital"));
         if(cellStr(g("lab")))res.info.lab=cellStr(g("lab"));
         if(cellStr(g("eqa"))){(res.info.eqa=res.info.eqa||{})[grp]=cellStr(g("eqa"))}
+        if(cellStr(g("analyzer"))){(res.info.analyzer=res.info.analyzer||{})[grp]=cellStr(g("analyzer"))}
+        if(cellStr(g("sn"))){(res.info.sn=res.info.sn||{})[grp]=cellStr(g("sn"))}
       }
     }
     if(n)res.used.push(`${t.name}: ${n}`);
@@ -342,18 +367,19 @@ const PRESETS=[{"group": "Biochemistry", "test": "Glucose", "unit": "mg/dL", "cl
 })();
 const SRC={CLIA:"CLIA 2025",RICOS:"Ricos Desirable",CUSTOM:"Custom"};
 const GROUPS=["Biochemistry","CBC"];
-const PAGES=["Key-in Uncertainty","Uncertainty","Key-in Sigma","Sigma & OPSpecs","QGI","Report","อ้างอิง TEa","วิธีคำนวณ & คำอธิบาย"];
-const CALC_PAGES=PAGES.slice(0,5);
+const PAGES=["📖 คู่มือการใช้งาน","Key-in Uncertainty","Uncertainty","Key-in Sigma","Sigma & OPSpecs","QGI","Report","อ้างอิง TEa","วิธีคำนวณ & คำอธิบาย"];
+const CALC_PAGES=["Key-in Uncertainty","Uncertainty","Key-in Sigma","Sigma & OPSpecs","QGI"];
 const KEY="mu-sigma-v3";
 const byName=n=>PRESETS.find(p=>p.test===n);
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const $=id=>document.getElementById(id);
 
-let state={tab:"Key-in Uncertainty",group:"Biochemistry",rows:{Biochemistry:[],CBC:[]},info:{hospital:"",lab:"",eqa:{Biochemistry:"",CBC:""}}};
+let state={tab:"Key-in Uncertainty",group:"Biochemistry",rows:{Biochemistry:[],CBC:[]},info:{hospital:"",lab:"",eqa:{Biochemistry:"",CBC:""},analyzer:{Biochemistry:"",CBC:""},sn:{Biochemistry:"",CBC:""}}};
 try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.rows)state=Object.assign(state,s)}catch(e){}
 if(!PAGES.includes(state.tab))state.tab="Key-in Uncertainty";
 if(!GROUPS.includes(state.group))state.group="Biochemistry";
 state.info=Object.assign({hospital:"",lab:""},state.info||{});state.info.eqa=Object.assign({Biochemistry:"",CBC:""},state.info.eqa||{});
+state.info.analyzer=Object.assign({Biochemistry:"",CBC:""},state.info.analyzer||{});state.info.sn=Object.assign({Biochemistry:"",CBC:""},state.info.sn||{});
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}};
 
 /* ---------- data model ---------- */
@@ -490,11 +516,11 @@ function renderTabs(){
 function infoBar(){
   const i=state.info,g=state.group,show=CALC_PAGES.includes(state.tab);
   const part=(l,v)=>`<span><b>${l}:</b> ${v?esc(v):"<i>—</i>"}</span>`;
-  $("infoBar").innerHTML=(i.hospital||i.lab||i.eqa[g]||show)?`<div class="infobar">${part("รพ.",i.hospital)}${part("Lab",i.lab)}${show?part("EQA ("+g+")",i.eqa[g]):part("EQA Biochem",i.eqa.Biochemistry)+part("EQA CBC",i.eqa.CBC)}</div>`:"";
+  $("infoBar").innerHTML=(i.hospital||i.lab||i.eqa[g]||show)?`<div class="infobar">${part("รพ.",i.hospital)}${part("Lab",i.lab)}${show?part("EQA ("+g+")",i.eqa[g])+part("Analyzer",i.analyzer[g])+part("S/N",i.sn[g]):part("EQA Biochem",i.eqa.Biochemistry)+part("EQA CBC",i.eqa.CBC)}</div>`:"";
 }
 function show(){
   renderTabs();infoBar();
-  ({"Key-in Uncertainty":()=>pageKeyin("unc"),"Uncertainty":pageUncertainty,"Key-in Sigma":()=>pageKeyin("sig"),"Sigma & OPSpecs":pageSigma,"QGI":pageQGI,"Report":pageReport,"อ้างอิง TEa":pageRef,"วิธีคำนวณ & คำอธิบาย":pageMethod})[state.tab]();
+  ({"📖 คู่มือการใช้งาน":pageGuide,"Key-in Uncertainty":()=>pageKeyin("unc"),"Uncertainty":pageUncertainty,"Key-in Sigma":()=>pageKeyin("sig"),"Sigma & OPSpecs":pageSigma,"QGI":pageQGI,"Report":pageReport,"อ้างอิง TEa":pageRef,"วิธีคำนวณ & คำอธิบาย":pageMethod})[state.tab]();
   bindDl();
 }
 
@@ -517,11 +543,13 @@ function infoForm(g){
   return`<div class="infoform">
     <label>โรงพยาบาล (รพ.)<input id="inHosp" value="${esc(state.info.hospital)}" placeholder="เช่น โรงพยาบาล..."></label>
     <label>Lab / ห้องปฏิบัติการ<input id="inLab" value="${esc(state.info.lab)}" placeholder="เช่น ห้องปฏิบัติการเคมีคลินิก"></label>
-    <label>ชื่อ EQA/PT ที่ใช้ (${g})<input id="inEqa" value="${esc(state.info.eqa[g])}" placeholder="เช่น โปรแกรม EQA / ผู้จัด / รอบ"></label></div>`;
+    <label>ชื่อ EQA/PT ที่ใช้ (${g})<input id="inEqa" value="${esc(state.info.eqa[g])}" placeholder="เช่น โปรแกรม EQA / ผู้จัด / รอบ"></label>
+    <label>ชื่อ Analyzer (${g})<input id="inAn" value="${esc(state.info.analyzer[g])}" placeholder="เช่น ชื่อ / รุ่นเครื่อง"></label>
+    <label>S/N เครื่อง (${g})<input id="inSn" value="${esc(state.info.sn[g])}" placeholder="Serial number"></label></div>`;
 }
 function bindInfoForm(g){
   const b=(id,fn)=>$(id).addEventListener("input",e=>{fn(e.target.value);save();infoBar()});
-  b("inHosp",v=>state.info.hospital=v);b("inLab",v=>state.info.lab=v);b("inEqa",v=>state.info.eqa[g]=v);
+  b("inHosp",v=>state.info.hospital=v);b("inLab",v=>state.info.lab=v);b("inEqa",v=>state.info.eqa[g]=v);b("inAn",v=>state.info.analyzer[g]=v);b("inSn",v=>state.info.sn[g]=v);
 }
 function pageKeyin(kind){
   const g=state.group,rows=state.rows[g],isU=kind==="unc";
@@ -635,6 +663,105 @@ function pageQGI(){
    <section><h2>QGI ของแต่ละ level</h2>${chartBox("c_qgi","qgi_"+g,barChart(ok.map(v=>({label:lab(v),value:v.c.qgi,color:`var(${qc[qgiInfo(v.c.qgi,v.c.sigma).cls]})`})),{max:Math.max(2,...ok.map(v=>v.c.qgi))*1.05,lines:[0.8,1.2],aria:"QGI chart"}))}</section>`;
 }
 
+/* ---------- usage guide ---------- */
+function pageGuide(){
+  const go=(tab,label)=>`<button class="btn sm" data-go="${tab}">${label} →</button>`;
+  const steps=[
+    ["เตรียมข้อมูลและล้างข้อมูลตัวอย่าง",
+     `เปิดครั้งแรกจะมี <b>ข้อมูลตัวอย่าง (ค่าสมมติ)</b> ใส่ไว้ให้ดูตัวอย่างการทำงาน ก่อนกรอกข้อมูลจริงให้กดล้างข้อมูลตัวอย่างก่อน ข้อมูลทั้งหมดถูกเก็บในเบราว์เซอร์ของเครื่องนี้เท่านั้น (ไม่ส่งออกไปที่ใด)
+      <div class="g-act"><button class="btn sm" id="gClear">🗑 ล้างข้อมูลตัวอย่างทั้ง Biochemistry และ CBC</button></div>`],
+    ["กรอกข้อมูลทั่วไป: รพ. / Lab / EQA / Analyzer / S/N",
+     `ไปที่หน้า <b>Key-in</b> (Uncertainty หรือ Sigma) กรอกกรอบด้านบน: โรงพยาบาล, Lab, ชื่อ EQA/PT, ชื่อ Analyzer และ S/N ของเครื่อง <u>แยกตามกลุ่ม</u> (Biochemistry / CBC ใช้เครื่องและ EQA คนละชุด — เลือกกลุ่มด้วยปุ่มสลับด้านบนตาราง) ข้อมูลนี้จะแสดงที่หัวรายงานทุกหน้า
+      <div class="g-act">${go("Key-in Uncertainty","ไปหน้า Key-in")}</div>`],
+    ["Key-in ข้อมูล IQC ต่อ level",
+     `แต่ละเทสมี QC เริ่มต้น <b>Biochemistry 2 level</b> และ <b>CBC 3 level</b> (1 แถว = 1 level) กรอก <b>Mean</b> และ <b>SD</b> ของ IQC สะสมระยะยาว ระบบคำนวณ CV% ให้ทันที · ต้องการเพิ่ม level กด <b>+L</b> · เพิ่มเทสใหม่กด <b>+ เพิ่มแถว</b> · ลบแถวกด ✕
+      <br><span class="note">ทางลัด: กรอกใน Excel ก็ได้ — กด <b>⬇ Template (Excel/CSV)</b> ที่แถบเครื่องมือด้านบน กรอกแล้วกด <b>⬆ Import CSV / Excel</b> ติ๊ก “เพิ่มต่อท้าย” ถ้าไม่ต้องการแทนที่ข้อมูลเดิม</span>`],
+    ["กรอกข้อมูลสำหรับ Uncertainty (หน้า Key-in Uncertainty)",
+     `กรอก <b>EQA bias %</b> จากหลายรอบ คั่นด้วย comma เช่น <code>1.2, -0.8, 0.5</code> · <b>u<sub>ref</sub></b> = ความไม่แน่นอนของค่าเป้าหมาย EQA (ไม่ทราบใส่ 0) · <b>u<sub>cal</sub></b> = ความไม่แน่นอนของ calibrator (ถ้ายังไม่รวมใน CV) · <b>k</b> = coverage factor (ปกติ 2) — เห็น u<sub>c</sub>, U% และ Mean ± U ทันทีในแถวเดียวกัน
+      <div class="g-act">${go("Key-in Uncertainty","Key-in Uncertainty")}</div>`],
+    ["เลือกแหล่ง TEa สำหรับ Sigma (หน้า Key-in Sigma)",
+     `เลือก <b>TEa source</b>: <b>CLIA 2025</b> หรือ <b>Ricos Desirable</b> (ตารางแสดงเกณฑ์ของทั้งสองแหล่งให้เทียบ) หรือ <b>Custom</b> (ใส่ TEa % และระบุที่มาในช่อง “Custom TEa source”) · ระบบคำนวณ <b>TEa eff</b> (TEa ที่ใช้จริงของแต่ละ level) และ Sigma ให้ทันที · MCV/MCH/MCHC ไม่มีเกณฑ์ใน CLIA จึงใช้ Ricos
+      <div class="g-act">${go("Key-in Sigma","Key-in Sigma")}</div>`],
+    ["ดูผลการคำนวณ",
+     `<ul><li><b>Uncertainty</b> — ตารางสรุปรายเทส ตารางรายละเอียด (u<sub>Rw</sub>, u<sub>bias</sub>, u<sub>cal</sub>, u<sub>c</sub>, U%) และกราฟ U%</li>
+      <li><b>Sigma &amp; OPSpecs</b> — Sigma รายเทส (ตัดสินจาก level ที่ต่ำสุด), QC rule ที่แนะนำ, กราฟ Sigma และ Normalized OPSpecs chart (รายชื่อเทสแยกสีทางขวา)</li>
+      <li><b>QGI</b> — ถ้า Sigma ไม่ถึงเป้า ใช้ดูว่าสาเหตุมาจาก imprecision หรือ bias พร้อมแนวทางแก้ไข</li></ul>
+      <div class="g-act">${go("Uncertainty","Uncertainty")} ${go("Sigma & OPSpecs","Sigma & OPSpecs")} ${go("QGI","QGI")}</div>`],
+    ["ดูรายงานบนหน้าจอ",
+     `หน้า <b>Report</b> เลือกมุมมอง <b>รายงานตามกลุ่ม</b> (Sigma &amp; OPSpecs / Uncertainty / QGI) หรือ <b>รายเทส (1 เทส / หน้า)</b> เพื่อตรวจก่อนพิมพ์
+      <div class="g-act">${go("Report","ไปหน้า Report")}</div>`],
+    ["พิมพ์ / บันทึกเป็น PDF ด้วย Export mode",
+     `กด <b>📄 Export mode (PDF)</b> ที่แถบเครื่องมือด้านบน แล้วเลือก<br>
+      • <b>รายเทส — 1 parameter / หน้า</b> (แนวนอน): <u>ติ๊กเลือกส่วนที่จะพิมพ์</u> ได้ (ข้อมูล IQC/EQA, TEa, Sigma, QGI, Uncertainty, OPSpecs chart) หรือใช้ชุดด่วน “เฉพาะ Uncertainty / Sigma + chart / เฉพาะ QGI” · เฉพาะ Uncertainty และ/หรือ QGI จะเป็นแนวตั้ง<br>
+      • <b>รวมทุก parameter (ตามกลุ่ม)</b> (แนวตั้ง): เลือกประเภทรายงานและกลุ่ม<br>
+      เลือกเทสที่จะพิมพ์ / กรอง Sigma ต่ำกว่าค่าที่กำหนดได้ → กด <b>🖨 พิมพ์ / Save as PDF</b> (ถ้าหน้าต่างพิมพ์ไม่ตั้งทิศกระดาษเอง ให้เลือก Landscape / Portrait ตามที่แถบบอก)
+      <div class="g-act"><button class="btn sm" data-scroll="gReport">ดูสรุปรายงานทั้งหมดที่สร้างได้ ↓</button></div>`],
+    ["Export ข้อมูล / นำเข้ากลับ / ดาวน์โหลดรูปกราฟ",
+     `<b>⬇ Export CSV / Excel (.xlsx)</b> ได้ข้อมูลที่กรอกพร้อมผลคำนวณ (ไฟล์ Excel มีชีต Data ที่ Import กลับได้) · ใต้กราฟแต่ละอันมีปุ่ม <b>⬇ PNG / ⬇ SVG</b> สำหรับนำไปใส่เอกสาร
+      <div class="g-act"><button class="btn sm" data-scroll="gExport">ดูสรุป Export / Import ทั้งหมด ↓</button></div>`]
+  ];
+  $("view").innerHTML=`<div class="doc"><h2>📖 คู่มือการใช้งาน — Sigma &amp; Uncertainty Calculator</h2>
+    <p>เครื่องมือช่วยคำนวณ <b>Measurement Uncertainty</b> (top-down), <b>Sigma metric</b>, <b>QGI</b> และ <b>OPSpecs chart</b> สำหรับเทสกลุ่ม Biochemistry และ CBC พร้อมออกรายงาน PDF / Excel</p>
+    <div class="g-flow"><span>1 ข้อมูลทั่วไป</span><i>→</i><span>2 Key-in IQC / EQA</span><i>→</i><span>3 เลือก TEa</span><i>→</i><span>4 ดูผล Uncertainty · Sigma · QGI</span><i>→</i><span>5 Report</span><i>→</i><span>6 Export mode (PDF)</span></div></div>
+    ${steps.map(([title,body],i)=>`<div class="g-step"><div class="g-num">${i+1}</div><div class="g-body"><h3>${title}</h3><div>${body}</div></div></div>`).join("")}
+    <div class="doc" id="gExport" style="margin-top:14px"><h2>สรุปการ Export และนำเข้าข้อมูลทั้งหมด</h2>
+      <table class="gt"><tr><th>ปุ่ม / ที่อยู่</th><th>ได้อะไร</th><th>เนื้อหา</th><th>ใช้ทำอะไร</th></tr>
+      <tr><td><b>⬇ Export CSV</b><br>แถบเครื่องมือด้านบน</td><td><code>mu_sigma_วันที่.csv</code></td>
+        <td>ทุกแถวที่มีชื่อเทส (ทั้ง 2 กลุ่ม): รพ./Lab/EQA/Analyzer/S/N, Group, Test, Level, Unit, Mean, SD, EQA bias, u<sub>ref</sub>, u<sub>cal</sub>, k, TEa source และที่มา Custom + <b>ผลคำนวณ</b> (CV, Mean bias, RMS bias, u<sub>bias</sub>, u<sub>c</sub>, U%, U abs, TEa eff, Sigma, Class, QGI พร้อมแปลผล, QC rule)</td>
+        <td>เก็บสำรอง / เปิดใน Excel / ส่งต่อ · <b>Import กลับเข้าเว็บได้</b></td></tr>
+      <tr><td><b>⬇ Export Excel (.xlsx)</b><br>แถบเครื่องมือด้านบน</td><td><code>mu_sigma_วันที่.xlsx</code></td>
+        <td>5 ชีต: <b>Info</b> (รพ./Lab/EQA/Analyzer/S/N), <b>Data</b> (ข้อมูลที่กรอก), <b>Uncertainty</b>, <b>Sigma</b>, <b>QGI</b> (ผลคำนวณ) — เป็นค่าตัวเลข ไม่มีสูตร หัวตารางสีน้ำเงิน</td>
+        <td>ส่งต่อ / เปิดดู · ชีต Info + Data <b>Import กลับได้</b></td></tr>
+      <tr><td><b>⬇ Template (Excel)</b></td><td><code>template_mu_sigma.xlsx</code></td>
+        <td>ชีต Info · <b>Data</b> (เตรียมแถวทุกเทสไว้แล้ว Biochemistry 2 level / CBC 3 level, มี dropdown เลือก Test, TEa source, Group) · คำแนะนำ · Test list</td>
+        <td>คีย์ข้อมูลใน Excel แล้ว <b>Import</b> — แถวที่ Mean และ SD ว่างจะถูกข้ามอัตโนมัติ</td></tr>
+      <tr><td><b>⬇ Template (CSV)</b></td><td><code>template_mu_sigma.csv</code></td>
+        <td>ตารางเดียวกับ Template Excel พร้อมคอลัมน์ Hospital, Lab, EQA, Analyzer, S/N</td><td>เหมือนด้านบน แต่เป็น CSV</td></tr>
+      <tr><td><b>⬇ PNG / ⬇ SVG</b><br>ใต้กราฟแต่ละอัน</td><td>รูป PNG (ความละเอียด 2 เท่า) หรือ SVG (เวกเตอร์)</td>
+        <td>กราฟ U%, Sigma, OPSpecs (มีรายชื่อเทสแยกสีทางขวา) และ QGI ของกลุ่มที่เลือก</td><td>ใส่ในเอกสาร / สไลด์ / รายงาน</td></tr>
+      <tr><td><b>📄 Export mode (PDF)</b></td><td>ไฟล์ PDF ผ่านหน้าต่างพิมพ์ (Save as PDF)</td>
+        <td>รายงานแบบต่างๆ — ดูตารางรายงานด้านล่าง</td><td>รายงานสำหรับส่ง / เก็บเอกสาร</td></tr>
+      <tr><td><b>⬆ Import CSV / Excel</b></td><td>— (นำข้อมูลเข้าเว็บ)</td>
+        <td>รับ <code>.csv</code> และ <code>.xlsx</code> (ไม่รองรับ .xls เก่า) · คอลัมน์ที่ต้องมี: <b>Test, Mean, SD</b> · คอลัมน์เสริมที่รู้จัก: Group, Level, EQA bias list (หรือ EQA bias 1–4), u<sub>ref</sub>, u<sub>cal</sub>, k, TEa source, Custom TEa %, Custom TEa source, Hospital, Lab, EQA, Analyzer, S/N · รู้จักชื่อย่อ เช่น Hb, Plt, BUN, ALP, TG</td>
+        <td>ติ๊ก “เพิ่มต่อท้าย” ถ้าไม่ต้องการแทนที่ข้อมูลเดิม · เทสที่ไม่รู้จักถูกข้ามและแจ้งชื่อให้ทราบ</td></tr></table></div>
+
+    <div class="doc" id="gReport" style="margin-top:14px"><h2>สรุปรายงานที่ webapp สร้างได้ทั้งหมด</h2>
+      <p>รายงานดูบนจอได้ที่แท็บ <b>Report</b> และสั่งพิมพ์ / บันทึกเป็น PDF ได้ที่ <b>Export mode</b> (เลือกทิศกระดาษให้อัตโนมัติ: A4 แนวนอนหรือแนวตั้งตามรูปแบบ)</p>
+      <table class="gt"><tr><th>รายงาน</th><th>ทางเข้า</th><th>เนื้อหา</th><th>รูปแบบหน้า</th></tr>
+      <tr><td><b>1) หน้าผลบนจอ</b></td><td>แท็บ Uncertainty / Sigma &amp; OPSpecs / QGI</td>
+        <td>ตารางสรุป + รายละเอียด + กราฟของกลุ่มที่เลือก (ดาวน์โหลดกราฟเป็นรูปได้)</td><td>ดูบนจอ</td></tr>
+      <tr><td><b>2) รายงาน Sigma &amp; OPSpecs</b><br>(ตามกลุ่ม)</td><td>Report › รายงานตามกลุ่ม › Sigma &amp; OPSpecs</td>
+        <td>ตารางผล Sigma (Test, Level, Mean, CV, Bias, TEa eff, Sigma, Class, QC rule) + หน้า Normalized OPSpecs chart (รายชื่อเทสแยกสี) + กรอบอธิบายตัวย่อ TEa eff</td><td>ต่อกลุ่ม: หน้าตาราง + หน้ากราฟ</td></tr>
+      <tr><td><b>3) รายงาน Uncertainty</b><br>(ตามกลุ่ม)</td><td>Report › รายงานตามกลุ่ม › Uncertainty</td>
+        <td>การ์ดสรุป U% เฉลี่ย/สูงสุด/ต่ำสุด · ตารางสรุปรายเทส (Mean ± U ทุก level) · ตารางรายละเอียด (u<sub>Rw</sub>, RMS bias, u<sub>ref</sub>, u<sub>bias</sub>, u<sub>cal</sub>, u<sub>c</sub>, k, U%, U abs) · สูตรและตัวย่อ + กราฟ U%</td><td>ต่อกลุ่ม: หน้าตาราง + หน้ากราฟ</td></tr>
+      <tr><td><b>4) รายงาน QGI</b><br>(ตามกลุ่ม)</td><td>Report › รายงานตามกลุ่ม › QGI</td>
+        <td>การ์ดนับสาเหตุ (Imprecision / ทั้งสอง / Inaccuracy) · ตารางสรุปรายเทส · ตารางรายละเอียดพร้อมแนวทางแก้ไข + กราฟ QGI (เส้น 0.8 / 1.2) และกล่องอธิบาย</td><td>ต่อกลุ่ม: หน้าตาราง + หน้ากราฟ</td></tr>
+      <tr><td><b>5) รายงานรายเทส</b><br>(1 parameter / หน้า)</td><td>Report › รายเทส (ดูบนจอ) · Export mode › รายเทส (พิมพ์)</td>
+        <td>หน้าละ 1 เทส รวมตารางพารามิเตอร์ (ข้อมูล IQC/EQA, TEa, Sigma, QGI, Uncertainty) + OPSpecs chart ของเทสนั้น + กรอบสรุป + คำอธิบายตัวย่อ · ใน Export mode <b>ติ๊กเลือกส่วนที่จะพิมพ์</b> ได้ 6 ส่วน และมีชุดด่วน “ทั้งหมด / เฉพาะ Uncertainty / Sigma + chart / เฉพาะ QGI” · เลือกกลุ่ม เลือกเทส หรือกรองเฉพาะเทสที่ Sigma ต่ำสุด &lt; ค่าที่กำหนดได้</td>
+        <td>1 เทส = 1 หน้า (จำนวนหน้า = จำนวนเทสที่เลือก) · <b>แนวนอน</b> (แนวตั้งเมื่อเลือกเฉพาะ Uncertainty และ/หรือ QGI)</td></tr>
+      <tr><td><b>6) รายงานรวมทุก parameter</b></td><td>Export mode › รวมทุก parameter (ตามกลุ่ม)</td>
+        <td>รายงานข้อ 2–4 (เลือกประเภท Sigma &amp; OPSpecs / Uncertainty / QGI และกลุ่ม) ปรับเลย์เอาต์สำหรับพิมพ์: ตารางแบ่งบรรทัดให้พอดีกว้างหน้ากระดาษ กราฟมีรายชื่อไว้ใต้กราฟ</td>
+        <td><b>แนวตั้ง</b> · ตารางยาวไหลต่อหน้าถัดไปอัตโนมัติ</td></tr></table>
+      <h3 style="margin:14px 0 6px;color:var(--pri)">เลือกใช้แบบไหนดี</h3>
+      <ul><li>ส่ง Sigma + กราฟของแต่ละเทสให้หัวหน้า/ผู้ตรวจประเมิน → Export mode › รายเทส › ชุด <b>Sigma + chart</b></li>
+        <li>ทำรายงาน Measurement Uncertainty ทั้งแล็บ → Export mode › <b>รวมทุก parameter</b> › Uncertainty (หรือ รายเทส › เฉพาะ Uncertainty)</li>
+        <li>ติดตามเฉพาะเทสที่ยังไม่ผ่านเกณฑ์ → รายเทส + กรอง <b>Sigma ต่ำสุด &lt; 4</b> + ติ๊ก Sigma, QGI, OPSpecs chart</li>
+        <li>วิเคราะห์สาเหตุที่ Sigma ต่ำ → รายงาน QGI (หรือ รายเทส › เฉพาะ QGI)</li>
+        <li>เก็บข้อมูลดิบ / ส่งต่อให้คนอื่นแก้ไข → Export Excel หรือ CSV (Import กลับได้)</li></ul></div>
+
+    <div class="doc warn-box"><h2>⚠️ ข้อควรระวัง</h2><ul>
+      <li><b>ข้อมูลเก็บในเบราว์เซอร์เครื่องนี้</b> (localStorage) — ล้างข้อมูลเบราว์เซอร์หรือเปลี่ยนเครื่องข้อมูลจะหาย ควร <b>Export CSV/Excel</b> เก็บไว้เป็นระยะ แล้ว Import กลับเมื่อต้องการ</li>
+      <li>คำนวณแยกทุก level ของ IQC และตัดสินใจจาก level ที่ตัดสินใจทางคลินิก (medical decision level) หรือ level ที่ Sigma ต่ำสุด</li>
+      <li>ตรวจสอบค่า TEa กับเอกสารต้นฉบับ/ผู้จัด PT ที่ห้องปฏิบัติการใช้ก่อนนำไปใช้จริง (ดูแท็บ “อ้างอิง TEa” สำหรับที่มา)</li>
+      <li>เครื่องมือนี้เป็นตัวช่วยวางแผนคุณภาพ — ให้เป็นไปตาม SOP ของห้องปฏิบัติการ</li>
+      <li>ความหมายของตัวย่อ (TEa eff, u<sub>c</sub>, QGI ฯลฯ) ดูแท็บ “วิธีคำนวณ &amp; คำอธิบาย”</li></ul>
+      <div class="g-act">${go("อ้างอิง TEa","อ้างอิง TEa")} ${go("วิธีคำนวณ & คำอธิบาย","วิธีคำนวณ & คำอธิบาย")}</div></div>`;
+  document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{state.tab=b.dataset.go;save();show();window.scrollTo(0,0)});
+  document.querySelectorAll("[data-scroll]").forEach(b=>b.onclick=()=>$(b.dataset.scroll).scrollIntoView({behavior:"smooth",block:"start"}));
+  const gc=$("gClear");
+  if(gc)gc.onclick=()=>{if(confirm("ล้างข้อมูลทั้งหมด (Biochemistry และ CBC)? ข้อมูล รพ./Lab/EQA/Analyzer ที่กรอกไว้จะไม่ถูกลบ")){GROUPS.forEach(g=>state.rows[g]=[]);save();gc.textContent="✓ ล้างข้อมูลแล้ว — ไปกรอกข้อมูลจริงที่หน้า Key-in"}};
+}
+
 /* ---------- reference / method ---------- */
 function pageRef(){
   const r=PRESETS.map(p=>`<tr><td>${p.group}</td><td class="l">${esc(p.test)}</td><td>${esc(p.unit)}</td><td class="l">${esc(p.clia_text)}</td>
@@ -718,8 +845,8 @@ function pageReport(opts){
   const today=new Date().toLocaleDateString("th-TH",{year:"numeric",month:"long",day:"numeric"});
   const i=state.info;
   const head=(title,sub,g,kick)=>`<div class="pg-head"><div><div class="pg-kicker">Measurement Uncertainty &amp; Sigma Metric · ${kick||type}</div><h2>${title}</h2><div class="pg-sub">${sub}</div></div>
-    <div class="pg-meta"><div><b>รพ.</b> ${esc(i.hospital)||"—"}</div><div><b>Lab</b> ${esc(i.lab)||"—"}</div><div><b>EQA</b> ${esc(i.eqa[g])||"—"}</div><div><b>วันที่</b> ${today}</div></div></div>`;
-  const foot=(note,label)=>`<div class="pg-foot"><span>${note}</span><span>${label}</span></div>`;
+    <div class="pg-meta"><div><b>รพ.</b> ${esc(i.hospital)||"—"}</div><div><b>Lab</b> ${esc(i.lab)||"—"}</div><div><b>EQA</b> ${esc(i.eqa[g])||"—"}</div><div><b>Analyzer</b> ${esc(i.analyzer[g])||"—"}</div><div><b>S/N</b> ${esc(i.sn[g])||"—"}</div><div><b>วันที่</b> ${today}</div></div></div>`;
+  const foot=(note,label)=>`<div class="pg-foot"><span>${note}</span><span class="by">By <b>PANTONE LAB</b></span><span>${label}</span></div>`;
   const lab=v=>v.r.test+(v.r.level?" "+v.r.level:"");
   const abbr=(full,unc)=>`<div class="abbr"><b>ตัวย่อ</b> — <b>TEa eff</b> = Effective Total Allowable Error : ค่า TEa (%) ที่ใช้จริงของ level นั้น = max(TEa %, TEa abs / Mean × 100)${full?` · <b>TEa</b> = Total Allowable Error · <b>CV</b> = สัมประสิทธิ์การกระจาย (SD/Mean×100) · <b>σ</b> = Sigma metric = (TEa eff − |Bias|)/CV · <b>QGI</b> = Quality Goal Index = |Bias|/(1.5×CV) ${unc?"":" · <b>U</b> = Expanded uncertainty = k·u<sub>c</sub> · <b>IQC/EQA</b> = การควบคุมคุณภาพภายใน/ภายนอก"}`:""}</div>`;
   const pages=[];
@@ -859,9 +986,9 @@ const stamp=()=>new Date().toISOString().slice(0,10);
 function exportRows(){const out=[];GROUPS.forEach(g=>state.rows[g].forEach(r=>out.push({g,r,c:calc(r)})));return out}
 function exportCsv(){
   const i=state.info;
-  const rows=[["Hospital","Lab","EQA","Group","Test","Level","Unit","Mean","SD","EQA_bias_list","u_ref","u_cal","k","TEa_source","Custom_TEa%","Custom_TEa_source","CV%","MeanBias%","RMSBias%","u_bias%","u_c%","U%","U_abs","TEa_eff%","Sigma","Class","QGI","QGI_interpretation","QC_rule"]];
+  const rows=[["Hospital","Lab","EQA","Analyzer","S/N","Group","Test","Level","Unit","Mean","SD","EQA_bias_list","u_ref","u_cal","k","TEa_source","Custom_TEa%","Custom_TEa_source","CV%","MeanBias%","RMSBias%","u_bias%","u_c%","U%","U_abs","TEa_eff%","Sigma","Class","QGI","QGI_interpretation","QC_rule"]];
   exportRows().forEach(({g,r,c})=>{const q=c&&qgiInfo(c.qgi,c.sigma);
-    rows.push([i.hospital,i.lab,i.eqa[g],g,r.test,r.level,byName(r.test).unit,r.mean,r.sd,r.bias,r.uref,r.ucal,r.k,r.src,r.custom,r.csrc,
+    rows.push([i.hospital,i.lab,i.eqa[g],i.analyzer[g],i.sn[g],g,r.test,r.level,byName(r.test).unit,r.mean,r.sd,r.bias,r.uref,r.ucal,r.k,r.src,r.custom,r.csrc,
       c?rnd(c.cv):"",c?rnd(c.meanBias):"",c?rnd(c.rms):"",c?rnd(c.ubias):"",c?rnd(c.uc):"",c?rnd(c.U):"",c?rnd(c.Uabs,4):"",c?rnd(c.tea):"",c?rnd(c.sigma):"",c&&c.sigma!=null?cls(c.sigma)[0]:"",c?rnd(c.qgi):"",q?q.name:"",c&&c.sigma!=null?cls(c.sigma)[2]:""])});
   download(new Blob([IO.toCsv(rows)],{type:"text/csv;charset=utf-8"}),`mu_sigma_${stamp()}.csv`);
   setStatus(`Export CSV แล้ว (${rows.length-1} แถว)`);
@@ -878,7 +1005,7 @@ function buildXlsx(){
     if(c.sigma!=null){const q=qgiInfo(c.qgi,c.sigma);
       sig.push([g,r.test,r.level,rnd(c.mean),rnd(c.cv),rnd(c.meanBias),r.src+(r.src===SRC.CUSTOM&&r.csrc?" ("+r.csrc+")":""),rnd(c.tea),rnd(c.sigma),cls(c.sigma)[0],cls(c.sigma)[2]]);
       qg.push([g,r.test,r.level,rnd(c.cv),rnd(Math.abs(c.meanBias)),rnd(c.sigma),rnd(c.qgi),q.name,q.need,q.act])}});
-  return IO.makeXlsx([{name:"Info",header:false,rows:[["Hospital",i.hospital],["Lab",i.lab],["EQA Biochemistry",i.eqa.Biochemistry],["EQA CBC",i.eqa.CBC],["Generated",new Date().toISOString()]]},
+  return IO.makeXlsx([{name:"Info",header:false,rows:[["Hospital",i.hospital],["Lab",i.lab],["EQA Biochemistry",i.eqa.Biochemistry],["EQA CBC",i.eqa.CBC],["Analyzer Biochemistry",i.analyzer.Biochemistry],["S/N Biochemistry",i.sn.Biochemistry],["Analyzer CBC",i.analyzer.CBC],["S/N CBC",i.sn.CBC],["Generated",new Date().toISOString()]]},
     {name:"Data",rows:data},{name:"Uncertainty",rows:unc},{name:"Sigma",rows:sig},{name:"QGI",rows:qg}]);
 }
 function exportXlsx(){
@@ -899,6 +1026,8 @@ async function doImport(file){
     touched.forEach(g=>{state.rows[g]=append?state.rows[g].concat(res.rows[g]):res.rows[g]});
     const inf=res.info;if(inf.hospital)state.info.hospital=inf.hospital;if(inf.lab)state.info.lab=inf.lab;
     if(inf.eqa)Object.keys(inf.eqa).forEach(k=>{if(GROUPS.includes(k))state.info.eqa[k]=inf.eqa[k]});
+    if(inf.analyzer)Object.keys(inf.analyzer).forEach(k=>{if(GROUPS.includes(k))state.info.analyzer[k]=inf.analyzer[k]});
+    if(inf.sn)Object.keys(inf.sn).forEach(k=>{if(GROUPS.includes(k))state.info.sn[k]=inf.sn[k]});
     if(touched.length&&!touched.includes(state.group))state.group=touched[0];
     save();show();
     setStatus(`นำเข้า ${res.count} แถว (${res.used.join(", ")})`+(res.skipped.length?` · ข้ามเทสที่ไม่รู้จัก: ${res.skipped.slice(0,6).join(", ")}`:"")+(res.empty?` · ข้าม ${res.empty} แถวที่ Mean/SD ว่าง`:""));
@@ -1005,8 +1134,8 @@ function downloadTemplate(kind){
   const rows=templateRows();
   if(kind==="csv"){
     const map={"EQA bias list":"EQA_bias_list","TEa source":"TEa_source","Custom TEa %":"Custom_TEa%","Custom TEa source":"Custom_TEa_source"};
-    const head=["Hospital","Lab","EQA",...TPL_HEAD.map(h=>map[h]||h)];
-    download(new Blob([IO.toCsv([head,...rows.map(r=>["","","",...r])])],{type:"text/csv;charset=utf-8"}),"template_mu_sigma.csv");
+    const head=["Hospital","Lab","EQA","Analyzer","S/N",...TPL_HEAD.map(h=>map[h]||h)];
+    download(new Blob([IO.toCsv([head,...rows.map(r=>["","","","","",...r])])],{type:"text/csv;charset=utf-8"}),"template_mu_sigma.csv");
   }else{
     const tests=PRESETS.map(p=>[p.group,p.test,p.unit,p.clia_text,p.ric.TE]);
     const guide=[["Column","คำอธิบาย"],["Group","Biochemistry หรือ CBC (เว้นว่างได้ ระบบจะดูจากชื่อ Test)"],["Test","ชื่อเทส ต้องตรงกับชีต Test list (เลือกจาก dropdown)"],
@@ -1017,7 +1146,7 @@ function downloadTemplate(kind){
       ["หมายเหตุ","แถวที่ Mean และ SD ว่างจะถูกข้ามตอน Import · ข้อมูล รพ./Lab/EQA กรอกในชีต Info · เสร็จแล้วบันทึกไฟล์และกดปุ่ม Import ในเว็บ"]];
     const dv=[{sqref:"B2:B600",list:`'Test list'!$B$2:$B$${tests.length+1}`},{sqref:"J2:J600",list:`"${SRC.CLIA},${SRC.RICOS},${SRC.CUSTOM}"`},{sqref:"A2:A600",list:'"Biochemistry,CBC"'}];
     const bytes=IO.makeXlsx([
-      {name:"Info",header:false,rows:[["Hospital",""],["Lab",""],["EQA Biochemistry",""],["EQA CBC",""],["","(กรอกในคอลัมน์ B)"]]},
+      {name:"Info",header:false,rows:[["Hospital",""],["Lab",""],["EQA Biochemistry",""],["EQA CBC",""],["Analyzer Biochemistry",""],["S/N Biochemistry",""],["Analyzer CBC",""],["S/N CBC",""],["","(กรอกในคอลัมน์ B)"]]},
       {name:"Data",rows:[TPL_HEAD,...rows],dv},
       {name:"คำแนะนำ",rows:guide},
       {name:"Test list",rows:[["Group","Test","Unit","CLIA 2025 criterion","Ricos TE %"],...tests]}]);
