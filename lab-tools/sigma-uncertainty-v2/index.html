@@ -6,13 +6,13 @@
 <title>Sigma - Uncertainty Calculator V.2</title>
 <style>
 :root{--bg:#eef2f1;--card:#ffffff;--ink:#1d2b2f;--mut:#5f7279;--line:#d3dcdf;--pri:#0f766e;--inp:#eef8f5;--onpri:#ffffff;
---hdr:linear-gradient(135deg,#e3f3ee 0%,#e4eff8 100%);--acc:#2b6cb0;--warn:#b7791f;
+--hdr:linear-gradient(135deg,#e3f3ee 0%,#e4eff8 100%);--acc:#2b6cb0;--warn:#b7791f;--ok:#15803d;--bad:#c4302b;
 --s6:#2e9e5b;--s5:#8cc152;--s4:#f2c230;--s3:#f08c3a;--s0:#e5484d;--q1:#2b7bd0;--q2:#f59e0b;--q3:#e5484d;
 --t0:#3b82c4;--t1:#7d8f98;--t2:#2e9e72}
 :root[data-theme="dark"]{--bg:#0e1a1c;--card:#152528;--ink:#e3efee;--mut:#8ea5a9;--line:#294246;--pri:#5fd0b8;--inp:#12302e;--onpri:#08201c;
---hdr:linear-gradient(135deg,#12322e 0%,#102a3a 100%);--acc:#6fb0f0;--warn:#f2b53a;color-scheme:dark}
+--hdr:linear-gradient(135deg,#12322e 0%,#102a3a 100%);--acc:#6fb0f0;--warn:#f2b53a;--ok:#5fd08a;--bad:#ff8f8f;color-scheme:dark}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1a1c;--card:#152528;--ink:#e3efee;--mut:#8ea5a9;--line:#294246;--pri:#5fd0b8;--inp:#12302e;--onpri:#08201c;
---hdr:linear-gradient(135deg,#12322e 0%,#102a3a 100%);--acc:#6fb0f0;--warn:#f2b53a;color-scheme:dark}}
+--hdr:linear-gradient(135deg,#12322e 0%,#102a3a 100%);--acc:#6fb0f0;--warn:#f2b53a;--ok:#5fd08a;--bad:#ff8f8f;color-scheme:dark}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,-apple-system,"Sarabun","Noto Sans Thai",sans-serif}
 header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:16px;border-bottom:1px solid var(--line);background:var(--hdr)}
@@ -78,6 +78,25 @@ a{color:var(--pri)} .note{color:var(--mut);font-size:12px}
 .qg-guide{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-top:10px}
 .qg-guide div{border:1px solid var(--line);border-left:5px solid var(--pri);border-radius:8px;padding:8px 10px;font-size:12px}
 .print-only{display:none}
+.need{font-weight:700}.need-ok{color:var(--ok)}.need-fix{color:var(--bad)}.need-watch{color:var(--warn)}
+.reflist{list-style:none;margin:6px 0;padding:0}.reflist li{margin:7px 0}.reflist a,.url{word-break:break-all;font-size:12px}.url{color:var(--mut)}
+.pg-ref{font-size:9.5px;color:var(--mut);margin-top:6px;word-break:break-all;line-height:1.35}.pg-ref b{color:var(--pri)}
+.qct-mine{margin-top:6px;padding:8px 12px;border:1px solid var(--pri);border-left-width:6px;border-radius:10px;background:color-mix(in srgb,var(--pri) 8%,var(--card));font-size:13px}
+.abbr-list ul{list-style:none;margin:5px 0 0;padding:0}.abbr-list li{margin:2px 0}
+.iqc-box{grid-column:1/-1}.iqc-box summary{cursor:pointer;color:var(--pri);font-size:12.5px}.iqc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-top:6px}
+.iqc-lv{display:flex;gap:6px;align-items:end;flex-wrap:wrap}.iqc-lv b{flex:0 0 100%;font-size:12px;color:var(--mut)}.iqc-lv input{flex:1 1 90px;min-width:0}
+.dsname{font:inherit;font-weight:600;color:var(--ink);background:color-mix(in srgb,var(--pri) 9%,var(--card));border:2px solid var(--pri);border-radius:10px;padding:8px 12px;min-width:360px;box-shadow:0 0 0 3px color-mix(in srgb,var(--pri) 14%,transparent)}
+.dsname::placeholder{font-weight:400;color:var(--mut)}.dsname:focus{outline:none;box-shadow:0 0 0 4px color-mix(in srgb,var(--pri) 30%,transparent)}
+#inDs,#expName{border:2px solid var(--pri)!important;background:color-mix(in srgb,var(--pri) 9%,var(--card))!important;font-weight:600}
+.pg-iqc{font-size:12px;color:var(--mut);margin:-6px 0 10px}.pg-iqc b{color:var(--pri)}
+.pg-sign{display:flex;gap:40px;margin-top:8px;font-size:11px;color:var(--mut)}.pg-sign b{color:var(--pri)}
+.settings{display:flex;gap:8px 20px;flex-wrap:wrap;align-items:center;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--pri);border-radius:10px;padding:8px 12px;margin:0 0 10px;font-size:12.5px}
+.settings select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:3px 6px}
+small.warn{color:var(--warn);font-weight:600}
+.eqa-test{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-bottom:8px}.eqa-test summary{cursor:pointer}
+.eqa-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px;margin:8px 0}.eqa-meta label{font-size:12px;color:var(--mut)}
+.eqa-meta input{width:100%;margin-top:2px;font:inherit;color:var(--ink);background:color-mix(in srgb,var(--inp) 75%,var(--card));border:1px solid var(--line);border-radius:6px;padding:5px 8px}
+.eqa-test td input{width:100px;text-align:right}
 .warn-box{border-left:6px solid #e8a317;background:color-mix(in srgb,#f2b53a 11%,var(--card));box-shadow:0 1px 6px rgba(232,163,23,.18)}
 .warn-box h2{color:var(--warn)}.warn-box li::marker{color:#e8a317}.warn-box li{margin:5px 0}
 .credit{max-width:1500px;margin:10px auto 0;padding:20px 16px 34px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:center;gap:14px;text-align:center;color:var(--mut)}
@@ -98,9 +117,9 @@ body.exportmode header,body.exportmode #tabs,body.exportmode #tools,body.exportm
 .abbr{margin-top:12px;padding:6px 10px;border:1px dashed var(--line);border-radius:8px;font-size:11px;color:var(--mut);line-height:1.5}.abbr b{color:var(--pri)}
 @media print{:root,:root[data-theme="dark"],:root:not([data-theme="light"]){--bg:#fff;--card:#fff;--ink:#111;--mut:#555;--line:#cfd6d9;--pri:#0f766e;--inp:#fff;--onpri:#fff;color-scheme:light}
 .screen-only{display:none!important}.print-only{display:block!important}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}@page{size:A4 landscape;margin:10mm}
-header,.infoform,.tabs,.seg,.bar,.chartbar,#tools,#infoBar,#groupBar,.del,.btn,.exp-bar,.credit{display:none!important}
+header,.infoform,.settings,.dsname,.qct-mine,.tabs,.seg,.bar,.chartbar,#tools,#infoBar,#groupBar,.del,.btn,.exp-bar,.credit{display:none!important}
 .wrap{overflow:visible;border:0}body{background:#fff;color:#111}main{padding:0;max-width:none}.pg{box-shadow:none;border:0;border-radius:0;padding:0;margin:0}.pg+.pg{page-break-before:always}.pg table{font-size:9px}.pg th,.pg td{padding:2px 4px}tr{page-break-inside:avoid}.op-chart{overflow:visible;border:0}.op-chart svg{min-width:0!important}
-.tpg{break-inside:avoid;page-break-inside:avoid}.tpg-grid{grid-template-columns:minmax(0,5fr) minmax(0,6fr)!important}.tpg-grid>div{min-width:0}
+.tpg{break-inside:avoid;page-break-inside:avoid}.tpg-grid{grid-template-columns:minmax(0,11fr) minmax(0,9fr)!important}.tpg-grid>div{min-width:0}
 body.portrait .pg table{width:100%!important;min-width:0}body.portrait .pg th,body.portrait .pg td{white-space:normal;padding:2px 3px;font-size:8px}
 body.portrait .pg .cards{grid-template-columns:repeat(4,1fr);gap:6px}body.portrait .pg .card{padding:4px 8px}body.portrait .pg .card b{font-size:16px}
 body.portrait .bars2{grid-template-columns:1fr!important}body.portrait .op-chart{padding:4px}body.portrait .pg-head h2{font-size:18px}
@@ -108,7 +127,12 @@ body.portrait .tpg .ptable td,body.portrait .tpg .ptable th{font-size:11px;paddi
 body.portrait .pg-h3{font-size:12px}body.portrait .op-guide,body.portrait .abbr{font-size:9px}body.portrait .qg-guide{grid-template-columns:1fr 1fr 1fr}.tpg .pg-head{margin-bottom:6px;padding-bottom:6px}.tpg .pg-head h2{font-size:18px}
 .tpg .cards{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;grid-template-columns:none;gap:6px;margin-bottom:6px}.tpg .card{padding:3px 8px}.tpg .card b{font-size:15px}.tpg .card span,.tpg .card small{font-size:10px}
 .tpg .ptable td,.tpg .ptable th{padding:0 7px;font-size:9.5px;line-height:1.25}.tpg .pg-meta{display:flex;flex-wrap:wrap;gap:0 14px;font-size:9px;max-width:55%;justify-content:flex-end}.tpg .pg-kicker{font-size:9px}.tpg .pg-sub{font-size:10px}.tpg .ptable tr.psec td{padding:1px 7px;font-size:9px}.tpg .cls{padding:0 6px}
-.tpg .op-guide{font-size:10px;padding:4px 8px;margin-top:6px}.tpg .note{font-size:9px;margin:4px 0}.tpg .pg-foot{margin-top:6px;padding-top:4px;font-size:9px}.tpg .pg-h3{font-size:12px}.tpg .abbr{font-size:8px;line-height:1.3;padding:3px 7px;margin-top:4px}}
+.tpg .op-guide{font-size:10px;padding:4px 8px;margin-top:6px}.tpg .note{font-size:9px;margin:4px 0}.tpg .pg-foot{margin-top:6px;padding-top:4px;font-size:9px}.tpg .pg-h3{font-size:12px}.tpg .abbr{font-size:8px;line-height:1.3;padding:3px 7px;margin-top:4px}.tpg .pg-ref{font-size:6.5px;line-height:1.25;margin-top:2px}.tpg .pg-iqc{font-size:8.5px;margin:-2px 0 3px}.tpg .pg-sign{font-size:8.5px;margin-top:2px;gap:24px}
+.tpg .pg-head{margin-bottom:4px;padding-bottom:4px}.tpg .pg-head h2{font-size:16px}.tpg .pg-kicker{font-size:8px;letter-spacing:.04em}.tpg .pg-sub{font-size:9px}
+.tpg .pg-meta{font-size:8.5px;max-width:66%;gap:0 12px}
+.tpg .cards{margin-bottom:4px}.tpg .card{padding:2px 8px}.tpg .card b{font-size:14px}.tpg .card b br{display:none}.tpg .card small{display:inline;margin-left:4px;font-size:9px}.tpg .card span{font-size:9px}
+.tpg .ptable td,.tpg .ptable th{line-height:1.15}.tpg .ptable small{font-size:7.5px;line-height:1.1}.tpg .ptable td,.tpg .ptable th{padding:0 7px;font-size:9px}.tpg .ptable tr.psec td{padding:0 7px;font-size:8px}
+.tpg .abbr{font-size:7.5px;line-height:1.25;padding:2px 6px;margin-top:3px}.tpg .abbr-list{display:flex;gap:8px;align-items:flex-start}.tpg .abbr-list>b{flex:0 0 auto;white-space:nowrap}.tpg .abbr-list ul{flex:1;columns:3;column-gap:12px;margin:0}.tpg .abbr-list li{margin:0 0 1px;break-inside:avoid}.tpg .pg-foot{font-size:8px;margin-top:4px;padding-top:3px}.tpg .op-guide{font-size:9.5px;margin-top:6px}}
 </style>
 </head>
 <body>
@@ -117,6 +141,7 @@ body.portrait .pg-h3{font-size:12px}body.portrait .op-guide,body.portrait .abbr{
 <main>
 <div class="tabs" id="tabs"></div>
 <div class="bar" id="tools">
+  <input id="dsName" class="dsname" placeholder="📁 ชื่อชุดข้อมูล / ชื่อไฟล์ เช่น BC-6200 unit 1" title="ใช้ตั้งชื่อไฟล์ตอน Export CSV / Excel / PDF และแสดงในรายงาน">
   <button class="btn" id="btnImport">⬆ Import CSV / Excel</button><input type="file" id="fileIn" accept=".csv,.txt,.xlsx" hidden>
   <label class="note"><input type="checkbox" id="appendChk"> เพิ่มต่อท้าย (ไม่แทนที่ข้อมูลเดิม)</label>
   <button class="btn" id="btnTplX" title="ไฟล์ Excel เปล่าสำหรับกรอกข้อมูล แล้วกด Import กลับเข้ามา">⬇ Template (Excel)</button><button class="btn" id="btnTplC" title="ไฟล์ CSV เปล่าสำหรับกรอกข้อมูล แล้วกด Import กลับเข้ามา">⬇ Template (CSV)</button>
@@ -127,7 +152,7 @@ body.portrait .pg-h3{font-size:12px}body.portrait .op-guide,body.portrait .abbr{
 <div id="groupBar"></div>
 <div id="view"></div>
 </main>
-<footer class="credit"><span class="dot"></span><div><div class="by">By <b>PANTONE LAB</b></div><small>Sigma - Uncertainty Calculator V.2</small></div><span class="dot"></span></footer>
+<footer class="credit"><span class="dot"></span><div><div class="by">By <b>PANTONE LAB</b></div><small>Sigma - Uncertainty Calculator V. 2.1</small></div><span class="dot"></span></footer>
 <script>
 /* io.js — dependency-free CSV / XLSX import & export helpers (inlined into index.html by build_web.py).
    Also loadable in Node for tests: const io = require("./io.js") */
@@ -171,7 +196,8 @@ function sheetXml(rows,header,dv){
     r.forEach((v,j)=>{
       if(v===null||v===undefined||v==="")return;
       const ref=colL(j)+(i+1),s=header&&i===0?' s="1"':"";
-      if(typeof v==="number"&&isFinite(v))x+=`<c r="${ref}"${s}><v>${v}</v></c>`;
+      if(v&&typeof v==="object"&&v.f!==undefined)x+=`<c r="${ref}"${s}><f>${xe(v.f)}</f></c>`;
+      else if(typeof v==="number"&&isFinite(v))x+=`<c r="${ref}"${s}><v>${v}</v></c>`;
       else x+=`<c r="${ref}"${s} t="inlineStr"><is><t xml:space="preserve">${xe(v)}</t></is></c>`;
     });
     x+="</row>";
@@ -270,15 +296,29 @@ function roleOf(h){
   if(["level","qclevel"].includes(n))return"level";
   if(n==="mean")return"mean";
   if(n==="sd")return"sd";
+  if(["cvlist","cvmonthlylist","cvmonthly","monthlycv","cvmonthlyvalues"].includes(n))return"cvlist";
   if(["eqabiaslist","eqabiaslistcomma","biaslist","bias","biaspct","eqabias"].includes(n))return"biaslist";
   if(/^eqabias\d$/.test(n)||/^bias\d$/.test(n))return"bias#";
   if(n==="uref")return"uref";if(n==="ucal")return"ucal";if(n==="k")return"k";
   if(n==="teasource")return"src";
   if(n==="customtea")return"custom";
   if(n==="customteasource")return"csrc";
+  if(["methodology","method"].includes(n))return"method";
+  if(["eqathistest","eqatest","eqaprogramtest","eqaprogramthistest"].includes(n))return"eqatest";
+  if(n==="dataset")return"dataset";if(n==="period")return"period";
   if(n==="hospital")return"hospital";if(n==="lab")return"lab";if(n==="eqa")return"eqa";
   if(["analyzer","analyzername"].includes(n))return"analyzer";
   if(["sn","serial","serialno","serialnumber"].includes(n))return"sn";
+  return null;
+}
+function eqaRole(h){
+  const n=norm(h);
+  if(["test","analyte","testname"].includes(n))return"test";
+  if(["group","department"].includes(n))return"group";
+  if(["trial","sample","sampletrial","round","eqatrial","samplerun"].includes(n))return"trial";
+  if(["labresult","labvalue","result"].includes(n))return"lab";
+  if(["groupmean","peermean","consensusmean","assignedvalue","targetvalue"].includes(n))return"gm";
+  if(["groupsd","peersd","consensussd"].includes(n))return"gsd";
   return null;
 }
 function matchPreset(name,presets){
@@ -294,34 +334,143 @@ function matchPreset(name,presets){
 }
 function srcOf(v,SRC){
   const n=norm(v);if(!n)return null;
+  if(n.includes("clia")&&SRC.MAX&&n.includes("max"))return SRC.MAX;
+  if(n.includes("clia")&&SRC.MIN&&n.includes("min"))return SRC.MIN;
   if(n.includes("clia"))return SRC.CLIA;if(n.includes("ricos")||n.includes("biolog"))return SRC.RICOS;if(n.includes("custom"))return SRC.CUSTOM;
   return null;
 }
 const cellStr=v=>v==null?"":typeof v==="number"?String(v):String(v).trim();
+const grpOf=l=>l.includes("biochem")?"Biochemistry":l.includes("cbc")?"CBC":null;
+
+/* label | value rows of an Info / Lab_Info sheet */
+function applyInfo(res,label,v){
+  const raw=String(label??""),l=norm(raw);
+  if(!v||!l)return;
+  const I=res.info,g=grpOf(l),setG=k=>{if(g){(I[k]=I[k]||{})[g]=v}};
+  if(l.includes("hospital")||raw.includes("โรงพยาบาล"))I.hospital=v;
+  else if(l==="dataset"||raw.includes("ชื่อชุดข้อมูล"))I.dataset=v;
+  else if(l==="period"||l.includes("evaluationperiod")||raw.includes("ช่วงเวลา"))I.period=v;
+  else if(l.includes("preparedby")||raw.includes("ผู้จัดทำ"))I.preparedBy=v;
+  else if(l.includes("approvedby")||raw.includes("อนุมัติ"))I.approvedBy=v;
+  else if(l.includes("biasmethod")){res.opts.biasMethod=/signed|มีเครื่องหมาย/i.test(v)?"signed":"abs"}
+  else if(l.includes("cvmethod")){res.opts.cvMethod=/pool/i.test(v)?"pooled":"avg"}
+  else if(l.includes("decisionbasis")||l.includes("decision")){res.opts.decide=/avg|average|เฉลี่ย/i.test(v)?"avg":"min"}
+  else if(l.includes("qcruleset")){res.opts.rules=/old|เดิม/i.test(v)?"old":"wg"}
+  else if(l.startsWith("iqc")&&g){
+    const q=((I.iqc=I.iqc||{})[g]=I.iqc[g]||{name:"",lot:["","",""],exp:["","",""]});
+    if(l.endsWith("name"))q.name=v;
+    else{const mm=/l(\d)(lot|exp)/.exec(l.replace(g==="CBC"?"cbc":"biochemistry",""));if(mm&&+mm[1]>=1&&+mm[1]<=3)q[mm[2]][+mm[1]-1]=v}
+  }
+  else if(l.includes("eqa")&&g)setG("eqa");
+  else if(l.includes("analyzer")&&g)setG("analyzer");
+  else if((l.startsWith("sn")||l.includes("serial"))&&g)setG("sn");
+  else if(l.startsWith("lab"))I.lab=v;
+}
+
+/* the lab's own "Sigma CBC template" (sheets Raw Data + Performance): monthly %CV per level + EQA trials per test */
+function importUserTemplate(res,tables,presets,SRC){
+  const rawT=tables.find(t=>/^raw\s*data$/i.test((t.name||"").trim()));
+  if(!rawT)return false;
+  const R=rawT.rows||[],starts=[];
+  R.forEach((r,i)=>{if(r&&typeof r[1]==="string"&&/precision\s*iqc/i.test(r[1]))starts.push(i)});
+  if(!starts.length)return false;
+  const touched=new Set();let used=0;
+  starts.forEach((b0,bi)=>{
+    const b1=bi+1<starts.length?starts[bi+1]:R.length,title=String(R[b0][1]),name=title.split(":").slice(1).join(":").trim()||title,p=matchPreset(name,presets);
+    if(!p){if(!res.skipped.includes(name))res.skipped.push(name);return}
+    let eqaProg="";
+    for(let i=b0;i<Math.min(b0+3,b1);i++){const c=R[i]&&R[i][6];if(typeof c==="string"&&/eqa/i.test(c))eqaProg=c.split(/[;:]/).pop().trim()}
+    let hr=-1;
+    for(let i=b0;i<Math.min(b0+6,b1);i++){const r=R[i]||[];if(typeof r[2]==="string"&&/^level/i.test(r[2].trim())){hr=i;break}}
+    if(hr<0)return;
+    const labels=[2,3,4].map(c=>String(R[hr][c]||"").replace(/^level[\s\-_]*/i,"").trim()||("L"+(c-1))),cvs=[[],[],[]],trials=[];
+    for(let i=hr+1;i<b1;i++){
+      const r=R[i]||[];if(typeof r[1]==="string"&&/average/i.test(r[1]))break;
+      [2,3,4].forEach((c,k)=>{if(typeof r[c]==="number"&&isFinite(r[c]))cvs[k].push(r[c])});
+      const lab=r[7],gm=r[8],sdi=r[9];
+      if(typeof lab==="number"||typeof gm==="number"){
+        let gsd="";if(typeof lab==="number"&&typeof gm==="number"&&typeof sdi==="number"&&sdi!==0)gsd=String(+Math.abs((lab-gm)/sdi).toPrecision(4));
+        trials.push({t:cellStr(r[6]),lab:cellStr(lab),gm:cellStr(gm),gsd});
+      }
+    }
+    if(!cvs.some(a=>a.length)&&!trials.length)return;
+    const g=p.group;touched.add(g);
+    cvs.forEach((a,k)=>{if(a.length){res.rows[g].push({test:p.test,level:labels[k],mean:"",sd:"",cvlist:a.join(", "),bias:"",uref:0,ucal:0,k:2,
+      src:(p.clia_pct||p.clia_abs)?SRC.CLIA:SRC.RICOS,custom:"",csrc:""});res.count++}});
+    if(trials.length)res.eqa[g+"|"+p.test]=trials;
+    if(eqaProg)(res.meta[g+"|"+p.test]=res.meta[g+"|"+p.test]||{}).eqa=eqaProg;
+    used++;
+  });
+  if(!used)return false;
+  const g0=[...touched][0]||"CBC";
+  // TEa (defined / calculated, bigger one is used in the lab's file) and its reference, from the Performance sheet
+  const perf=tables.find(t=>/^performance$/i.test((t.name||"").trim()));
+  if(perf){
+    const P=perf.rows||[],tea={},ref={};
+    P.forEach(r=>{
+      if(!r||typeof r[1]!=="string")return;
+      const p=matchPreset(r[1].replace(/\s+/g," ").trim(),presets);if(!p)return;
+      const j=typeof r[9]==="number"?r[9]:0,kk=typeof r[10]==="number"?r[10]:0;
+      if((typeof r[9]==="number"||typeof r[10]==="number")&&Math.max(j,kk)>0)tea[p.test]=Math.max(j,kk);
+      if(typeof r[13]==="string"&&r[13].trim())ref[p.test]=r[13].trim();
+    });
+    Object.keys(res.rows).forEach(g=>res.rows[g].forEach(row=>{
+      if(tea[row.test]!=null&&!row.custom){row.src=SRC.CUSTOM;row.custom=String(tea[row.test]);row.csrc="ตามไฟล์ template"+(ref[row.test]?" ("+ref[row.test]+")":"")}
+    }));
+    // header information
+    for(let i=0;i<Math.min(P.length,14);i++){
+      const r=P[i]||[],lab=typeof r[3]==="string"?r[3]:"",nextVal=(from)=>{for(let c=from+1;c<r.length;c++){if(r[c]!=null&&String(r[c]).trim()!=="")return cellStr(r[c])}return""};
+      if(/หน่วยงาน/.test(lab)){const v=nextVal(3);if(v)res.info.lab=v}
+      else if(/analyzer/i.test(lab)){const v=nextVal(3);if(v){(res.info.analyzer=res.info.analyzer||{})[g0]=v}}
+      else if(/eqa/i.test(lab)){const v=nextVal(3);if(v){(res.info.eqa=res.info.eqa||{})[g0]=v}}
+      const sn=r.findIndex(c=>typeof c==="string"&&/^s\/?n$/i.test(c.trim()));
+      if(sn>=0){const v=nextVal(sn);if(v){(res.info.sn=res.info.sn||{})[g0]=v}}
+      if(/iqc/i.test(lab)&&/name/i.test(lab)){
+        const q=((res.info.iqc=res.info.iqc||{})[g0]=res.info.iqc[g0]||{name:"",lot:["","",""],exp:["","",""]});
+        q.name=cellStr((P[i+1]||[])[3]);
+        for(let k=0;k<3;k++){const rr=P[i+1+k]||[];q.lot[k]=[6,8,10].map(c=>cellStr(rr[c])).filter(Boolean).join(", ");q.exp[k]=[7,9,11].map(c=>cellStr(rr[c])).filter(Boolean).join(", ")}
+      }
+    }
+  }
+  res.used.push(`Raw Data (template ของแล็บ): ${used} เทส`);
+  return true;
+}
+
 function importTables(tables,presets,SRC){
-  const res={rows:{Biochemistry:[],CBC:[]},info:{},skipped:[],used:[],count:0,empty:0};
+  const res={rows:{Biochemistry:[],CBC:[]},info:{},opts:{},eqa:{},meta:{},skipped:[],used:[],count:0,empty:0};
+  importUserTemplate(res,tables,presets,SRC);
   for(const t of tables){
     const rows=t.rows||[];
+    if(/^raw\s*data$/i.test((t.name||"").trim())&&res.used.some(u=>u.startsWith("Raw Data")))continue;
     // lab info sheets (Info / Lab_Info): label | value
     if(/^(info|lab_?info)$/i.test(t.name||"")){
-      rows.forEach(r=>{
-        const l=norm(r[0]),v=cellStr(r[1]);if(!v)return;
-        if(l.includes("hospital")||String(r[0]).includes("โรงพยาบาล"))res.info.hospital=v;
-        else if(l.includes("eqa")&&l.includes("biochem")){(res.info.eqa=res.info.eqa||{}).Biochemistry=v}
-        else if(l.includes("eqa")&&l.includes("cbc")){(res.info.eqa=res.info.eqa||{}).CBC=v}
-        else if(l.includes("analyzer")&&l.includes("biochem")){(res.info.analyzer=res.info.analyzer||{}).Biochemistry=v}
-        else if(l.includes("analyzer")&&l.includes("cbc")){(res.info.analyzer=res.info.analyzer||{}).CBC=v}
-        else if(l.startsWith("sn")&&l.includes("biochem")){(res.info.sn=res.info.sn||{}).Biochemistry=v}
-        else if(l.startsWith("sn")&&l.includes("cbc")){(res.info.sn=res.info.sn||{}).CBC=v}
-        else if(l.startsWith("lab"))res.info.lab=v;
-      });
+      rows.forEach(r=>applyInfo(res,r[0],cellStr(r[1])));
+      continue;
+    }
+    // EQA trials sheet: Group | Test | Trial | Lab result | Group mean | Group SD
+    let ehi=-1,emap=null;
+    for(let i=0;i<Math.min(rows.length,25)&&ehi<0;i++){
+      const m={};(rows[i]||[]).forEach((h,j)=>{const r=eqaRole(h);if(r&&!(r in m))m[r]=j});
+      if("test" in m&&"lab" in m&&"gm" in m){ehi=i;emap=m}
+    }
+    if(ehi>=0){
+      let n=0;
+      for(let i=ehi+1;i<rows.length;i++){
+        const r=rows[i]||[],g=k=>k in emap?r[emap[k]]:undefined,name=cellStr(g("test"));
+        if(!name)continue;
+        const p=matchPreset(name,presets);if(!p){if(cellStr(g("lab"))!==""&&!res.skipped.includes(name))res.skipped.push(name);continue}
+        if(cellStr(g("lab"))===""&&cellStr(g("gm"))==="")continue;
+        let grp=cellStr(g("group"));grp=["Biochemistry","CBC"].find(x=>norm(x)===norm(grp))||p.group;
+        (res.eqa[grp+"|"+p.test]=res.eqa[grp+"|"+p.test]||[]).push({t:cellStr(g("trial")),lab:cellStr(g("lab")),gm:cellStr(g("gm")),gsd:cellStr(g("gsd"))});n++;
+      }
+      if(n)res.used.push(`${t.name} (EQA): ${n} รอบ`);
       continue;
     }
     let hi=-1,map=null;
     for(let i=0;i<Math.min(rows.length,25)&&hi<0;i++){
       const m={},bi=[];
       (rows[i]||[]).forEach((h,j)=>{const r=roleOf(h);if(!r)return;if(r==="bias#")bi.push(j);else if(!(r in m))m[r]=j});
-      if("test" in m&&"mean" in m&&"sd" in m){hi=i;map=m;map.bi=bi}
+      if("test" in m&&("mean" in m||"cvlist" in m)&&("sd" in m||"cvlist" in m)){hi=i;map=m;map.bi=bi}
     }
     if(hi<0)continue;
     let n=0;
@@ -329,18 +478,20 @@ function importTables(tables,presets,SRC){
       const r=rows[i]||[],g=k=>k in map?r[map[k]]:undefined,name=cellStr(g("test"));
       if(!name)continue;
       const p=matchPreset(name,presets);
-      if(!p){if(cellStr(g("mean"))!==""&&!res.skipped.includes(name))res.skipped.push(name);continue}
-      if(cellStr(g("mean"))===""&&cellStr(g("sd"))===""){res.empty++;continue}
+      if(!p){if((cellStr(g("mean"))!==""||cellStr(g("cvlist"))!=="")&&!res.skipped.includes(name))res.skipped.push(name);continue}
+      if(cellStr(g("mean"))===""&&cellStr(g("sd"))===""&&cellStr(g("cvlist"))===""){res.empty++;continue}
       let grp=cellStr(g("group"));grp=["Biochemistry","CBC"].find(x=>norm(x)===norm(grp))||p.group;
       let bias=cellStr(g("biaslist"));
       if(!bias&&map.bi.length)bias=map.bi.map(j=>cellStr(r[j])).filter(x=>x!==""&&isFinite(parseFloat(x))).join(", ");
-      const row={test:p.test,level:cellStr(g("level"))||"L1",mean:cellStr(g("mean")),sd:cellStr(g("sd")),bias,
+      const row={test:p.test,level:cellStr(g("level"))||"L1",mean:cellStr(g("mean")),sd:cellStr(g("sd")),cvlist:cellStr(g("cvlist")),bias,
         uref:cellStr(g("uref"))||0,ucal:cellStr(g("ucal"))||0,k:cellStr(g("k"))||2,
         src:srcOf(g("src"),SRC)||((p.clia_pct||p.clia_abs)?SRC.CLIA:SRC.RICOS),custom:cellStr(g("custom")),csrc:cellStr(g("csrc"))};
       res.rows[grp].push(row);n++;res.count++;
+      const mk=grp+"|"+p.test,mt=res.meta[mk]=res.meta[mk]||{};
+      if(cellStr(g("method"))&&!mt.method)mt.method=cellStr(g("method"));
+      if(cellStr(g("eqatest"))&&!mt.eqa)mt.eqa=cellStr(g("eqatest"));
       if(n===1){
-        if(cellStr(g("hospital")))res.info.hospital=cellStr(g("hospital"));
-        if(cellStr(g("lab")))res.info.lab=cellStr(g("lab"));
+        ["hospital","lab","dataset","period"].forEach(k=>{if(cellStr(g(k)))res.info[k]=cellStr(g(k))});
         if(cellStr(g("eqa"))){(res.info.eqa=res.info.eqa||{})[grp]=cellStr(g("eqa"))}
         if(cellStr(g("analyzer"))){(res.info.analyzer=res.info.analyzer||{})[grp]=cellStr(g("analyzer"))}
         if(cellStr(g("sn"))){(res.info.sn=res.info.sn||{})[grp]=cellStr(g("sn"))}
@@ -348,6 +499,7 @@ function importTables(tables,presets,SRC){
     }
     if(n)res.used.push(`${t.name}: ${n}`);
   }
+  Object.keys(res.meta).forEach(k=>{if(!res.meta[k].method&&!res.meta[k].eqa)delete res.meta[k]});
   return res;
 }
 
@@ -366,21 +518,24 @@ const PRESETS=[{"group": "Biochemistry", "test": "Glucose", "unit": "mg/dL", "cl
   btn.onclick=()=>{const n=isDark()?"light":"dark";root.dataset.theme=n;try{localStorage.setItem("mu-sigma-theme",n)}catch(e){}paint()};
   paint();
 })();
-const SRC={CLIA:"CLIA 2025",RICOS:"Ricos Desirable",CUSTOM:"Custom"};
+const SRC={CLIA:"CLIA 2025",RICOS:"Ricos Desirable",CUSTOM:"Custom",MAX:"Max (CLIA/Ricos)",MIN:"Min (CLIA/Ricos)"};
 const GROUPS=["Biochemistry","CBC"];
-const PAGES=["📖 คู่มือการใช้งาน","Key-in Uncertainty","Uncertainty","Key-in Sigma","Sigma & OPSpecs","QGI","Report","อ้างอิง TEa","วิธีคำนวณ & คำอธิบาย"];
-const CALC_PAGES=["Key-in Uncertainty","Uncertainty","Key-in Sigma","Sigma & OPSpecs","QGI"];
+const PAGES=["📖 คู่มือการใช้งาน","Key-in Uncertainty","Key-in EQA","Uncertainty","Key-in Sigma","Sigma & OPSpecs","QGI","แผนผัง QC rule","Report","อ้างอิง TEa","วิธีคำนวณ & คำอธิบาย"];
+const CALC_PAGES=["Key-in Uncertainty","Key-in EQA","Uncertainty","Key-in Sigma","Sigma & OPSpecs","QGI"];
 const KEY="mu-sigma-v3";
 const byName=n=>PRESETS.find(p=>p.test===n);
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const $=id=>document.getElementById(id);
 
-let state={tab:"Key-in Uncertainty",group:"Biochemistry",rows:{Biochemistry:[],CBC:[]},info:{hospital:"",lab:"",eqa:{Biochemistry:"",CBC:""},analyzer:{Biochemistry:"",CBC:""},sn:{Biochemistry:"",CBC:""}}};
+let state={tab:"Key-in Uncertainty",group:"Biochemistry",rows:{Biochemistry:[],CBC:[]},info:{hospital:"",lab:"",eqa:{Biochemistry:"",CBC:""},analyzer:{Biochemistry:"",CBC:""},sn:{Biochemistry:"",CBC:""},dataset:"",period:"",preparedBy:"",approvedBy:"",iqc:{Biochemistry:{name:"",lot:["","",""],exp:["","",""]},CBC:{name:"",lot:["","",""],exp:["","",""]}}},opts:{biasMethod:"abs",cvMethod:"avg",decide:"min",rules:"wg"},eqa:{},meta:{}};
 try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.rows)state=Object.assign(state,s)}catch(e){}
 if(!PAGES.includes(state.tab))state.tab="Key-in Uncertainty";
 if(!GROUPS.includes(state.group))state.group="Biochemistry";
 state.info=Object.assign({hospital:"",lab:""},state.info||{});state.info.eqa=Object.assign({Biochemistry:"",CBC:""},state.info.eqa||{});
 state.info.analyzer=Object.assign({Biochemistry:"",CBC:""},state.info.analyzer||{});state.info.sn=Object.assign({Biochemistry:"",CBC:""},state.info.sn||{});
+state.opts=Object.assign({biasMethod:"abs",cvMethod:"avg",decide:"min",rules:"wg"},state.opts||{});state.eqa=state.eqa||{};state.meta=state.meta||{};
+["dataset","period","preparedBy","approvedBy"].forEach(k=>{if(typeof state.info[k]!=="string")state.info[k]=""});
+state.info.iqc=state.info.iqc||{};GROUPS.forEach(g=>{state.info.iqc[g]=Object.assign({name:"",lot:["","",""],exp:["","",""]},state.info.iqc[g]||{})});
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}};
 
 /* ---------- data model ---------- */
@@ -390,53 +545,112 @@ function newRow(group,test,level){
 }
 function seeded(str){let h=2166136261;for(const c of str)h=Math.imul(h^c.charCodeAt(0),16777619);
   return()=>{h+=0x6D2B79F5;let x=Math.imul(h^h>>>15,1|h);x^=x+Math.imul(x^x>>>7,61|x);return((x^x>>>14)>>>0)/4294967296}}
+function exampleTrials(p){
+  const rng=seeded(p.test+"|eqa"),gm0=p.ex_levels[0][0],out=[];
+  for(let k=1;k<=6;k++){
+    const b=(rng()*2-1)*Math.max(p.ric.I,.5)*.6,gm=+(gm0*(1+(rng()-.5)*.2)).toPrecision(4),lab=+(gm*(1+b/100)).toPrecision(4);
+    out.push({t:"EQA-"+k,lab:String(lab),gm:String(gm),gsd:String(+(gm*0.04).toPrecision(3))});
+  }
+  return out;
+}
+const trialBias=x=>{const lab=parseFloat(x.lab),gm=parseFloat(x.gm);return isFinite(lab)&&gm>0?(lab-gm)/gm*100:null};
+function exampleEqa(group){PRESETS.filter(p=>p.group===group).forEach(p=>{state.eqa[p.group+"|"+p.test]=exampleTrials(p)})}
 function exampleRows(group){
   const out=[];
-  PRESETS.filter(p=>p.group===group).forEach(p=>p.ex_levels.forEach(([m,sd],i)=>{
-    const r=newRow(group,p.test,"L"+(i+1));r.mean=m;r.sd=sd;
-    const rng=seeded(p.test+"|"+r.level);
-    r.bias=[0,0,0].map(()=>+((rng()*2-1)*Math.max(p.ric.I,.5)*.6).toFixed(2)).join(", ");
-    out.push(r)}));
+  PRESETS.filter(p=>p.group===group).forEach(p=>{
+    const bl=exampleTrials(p).map(trialBias).filter(x=>x!=null).map(x=>+x.toFixed(2)).join(", ");
+    p.ex_levels.forEach(([m,sd],i)=>{
+      const r=newRow(group,p.test,"L"+(i+1));r.mean=m;r.sd=sd;r.bias=bl;out.push(r)});
+  });
   return out;
 }
 const num=v=>{const x=parseFloat(v);return isFinite(x)?x:NaN};
+const parseList=s=>String(s||"").split(/[,;\s]+/).map(num).filter(isFinite);
+const eqaKey=(g,tst)=>g+"|"+tst;
+function eqaBiasList(g,tst){const out=[];(state.eqa[eqaKey(g,tst)]||[]).forEach(x=>{const b=trialBias(x);if(b!=null)out.push(b)});return out}
+const biasTxt=()=>state.opts.biasMethod==="signed"?"|ค่าเฉลี่ยแบบมีเครื่องหมาย|":"ค่าเฉลี่ยของ |bias|";
+const decName=()=>state.opts.decide==="avg"?"Average":"Min";
 function calc(r){
-  const p=byName(r.test);const mean=num(r.mean),sd=num(r.sd);
-  if(!p||!(mean>0)||!(sd>=0))return null;
-  const cv=sd/mean*100;
-  const bs=String(r.bias||"").split(/[,;\s]+/).map(num).filter(isFinite);
-  const meanBias=bs.length?bs.reduce((a,b)=>a+b,0)/bs.length:0;
+  const p=byName(r.test);if(!p)return null;
+  let mean=num(r.mean);const sd=num(r.sd),cvs=parseList(r.cvlist).filter(x=>x>=0);
+  if(!(mean>0)){if(cvs.length)mean=null;else return null}
+  let cv,cvSrc;
+  if(cvs.length){
+    cv=state.opts.cvMethod==="pooled"?Math.sqrt(cvs.reduce((a,b)=>a+b*b,0)/cvs.length):cvs.reduce((a,b)=>a+b,0)/cvs.length;
+    cvSrc="%CV รายเดือน "+cvs.length+" ค่า ("+(state.opts.cvMethod==="pooled"?"pooled":"เฉลี่ย")+")";
+  }else if(mean>0&&sd>=0){cv=sd/mean*100;cvSrc="SD / Mean"}
+  else return null;
+  let bs=eqaBiasList(p.group,p.test),biasSrc="Key-in EQA "+bs.length+" รอบ";
+  if(!bs.length){bs=parseList(r.bias);biasSrc=bs.length?"กรอกเอง "+bs.length+" ค่า":"ไม่มีข้อมูล bias"}
+  const meanSigned=bs.length?bs.reduce((a,b)=>a+b,0)/bs.length:0,meanAbs=bs.length?bs.reduce((a,b)=>a+Math.abs(b),0)/bs.length:0;
+  const meanBias=state.opts.biasMethod==="signed"?meanSigned:meanAbs;
   const rms=bs.length?Math.sqrt(bs.reduce((a,b)=>a+b*b,0)/bs.length):0;
   const uref=num(r.uref)||0,ucal=num(r.ucal)||0,k=num(r.k)||2;
   const ubias=Math.hypot(rms,uref);
   const uc=Math.sqrt(cv*cv+ubias*ubias+ucal*ucal);
-  const U=k*uc,Uabs=U/100*mean;
-  let pct=0,abs=0;
-  if(r.src===SRC.CUSTOM)pct=num(r.custom)||0;
-  else if(r.src===SRC.CLIA){pct=p.clia_pct||0;abs=p.clia_abs||0}
-  else pct=p.ric.TE;
-  const tea=Math.max(pct,abs/mean*100);
+  const U=k*uc,Uabs=mean?U/100*mean:null;
+  const teaOf=src=>{let pct=0,abs=0;
+    if(src===SRC.CUSTOM)pct=num(r.custom)||0;
+    else if(src===SRC.CLIA){pct=p.clia_pct||0;abs=p.clia_abs||0}
+    else pct=p.ric.TE;
+    return{pct,abs,eff:Math.max(pct,mean&&abs?abs/mean*100:0)}};
+  let T;
+  if(r.src===SRC.MAX||r.src===SRC.MIN){
+    const cands=[(p.clia_pct||p.clia_abs)?teaOf(SRC.CLIA):null,teaOf(SRC.RICOS)].filter(x=>x&&x.eff>0);
+    T=cands.length?cands.reduce((x,y)=>(r.src===SRC.MAX?y.eff>x.eff:y.eff<x.eff)?y:x):{pct:0,abs:0,eff:0};
+  }else T=teaOf(r.src);
+  const tea=T.eff;
   const sigma=cv>0&&tea>0?(tea-Math.abs(meanBias))/cv:null;
   const qgi=sigma!=null?Math.abs(meanBias)/(1.5*cv):null;
-  return{cv,meanBias,rms,uref,ubias,ucal,uc,k,U,Uabs,tea,sigma,qgi,nb:bs.length,unit:p.unit,mean};
+  return{cv,cvSrc,sd:mean?cv*mean/100:null,meanBias,meanSigned,meanAbs,biasSrc,rms,uref,ubias,ucal,uc,k,U,Uabs,tea,teaPct:T.pct,teaAbs:T.abs,sigma,qgi,nb:bs.length,unit:p.unit,mean};
 }
-function cls(s){
+/* decisive level of a test: Min (worst level) or Average (average CV / TEa / bias over the levels) */
+function decisive(a){
+  const mn=a.reduce((x,y)=>y.c.sigma<x.c.sigma?y:x);
+  if(state.opts.decide!=="avg"||a.length<2)return mn;
+  const m=kk=>mean_(a.map(v=>v.c[kk])),cv=m("cv"),tea=m("tea"),b=mean_(a.map(v=>Math.abs(v.c.meanBias)));
+  if(!(cv>0&&tea>0))return mn;
+  const sigma=(tea-b)/cv;
+  return{r:{test:mn.r.test,level:"Average"},c:Object.assign({},mn.c,{cv,tea,meanBias:b,sigma,qgi:b/(1.5*cv),U:m("U"),Uabs:null,mean:null}),avg:true};
+}
+/* Westgard Sigma Rules (J.O. & S.A. Westgard, 2014): rule set by Sigma band and number of control levels per run */
+const WG2={6:["1:3s","N=2, R=1","กฎเดียว ง่ายที่สุด"],5:["1:3s/2:2s/R:4s","N=2, R=1","multirule 3 กฎ"],
+  4:["1:3s/2:2s/R:4s/4:1s","N=4, R=1 (หรือ N=2, R=2)","เพิ่ม 4:1s"],0:["1:3s/2:2s/R:4s/4:1s/8:x","N=4, R=2 (หรือ N=2, R=4)","QC สูงสุด เพิ่ม 8:x"]};
+const WG3={6:["1:3s","N=3, R=1","กฎเดียว วัด 1 ค่าต่อแต่ละ level"],5:["1:3s/2of3:2s/R:4s","N=3, R=1","เพิ่ม 2of3:2s และ R:4s"],
+  4:["1:3s/2of3:2s/R:4s/3:1s","N=3, R=1","เพิ่ม 3:1s"],0:["1:3s/2of3:2s/R:4s/3:1s/6:x","N=6, R=1 (หรือ N=3, R=2)","QC สูงสุด เพิ่ม 6:x ทำ N รวม 6"]};
+const qcBand=s=>s>=6?6:s>=5?5:s>=4?4:0;
+function levelCount(test){const p=byName(test);if(!p)return 2;const n=state.rows[p.group].filter(r=>r.test===test).length;return n>=3?3:2}
+function oldRule(s){
+  if(s>=6)return"1:3s, N=2, R=1";if(s>=5)return"1:3s/2:2s/R:4s, N=2, R=1";
+  if(s>=4)return"1:2.5s/2:2s/R:4s/4:1s/10x, N=4, R=2";if(s>=3)return"1:2s/2:2s/R:4s/4:1s/8x/10x, N=6, R=2";
+  return"ไม่ผ่าน: ต้องปรับปรุงวิธี";
+}
+function qcRule(s,test){
+  if(s==null)return"";
+  if(state.opts.rules==="old")return oldRule(s);
+  const set=(test?levelCount(test):2)>=3?WG3:WG2,r=set[qcBand(s)];
+  return`${r[0]}, ${r[1]}`+(s<3?" · ⚠ σ<3 ควรปรับปรุงวิธี (QC อย่างเดียวชดเชยไม่ได้)":"");
+}
+function cls(s,test){
   if(s==null)return["","",""];
-  if(s>=6)return["World class","s6","1:3s, N=2, R=1"];
-  if(s>=5)return["Excellent","s5","1:3s/2:2s/R:4s, N=2, R=1"];
-  if(s>=4)return["Good","s4","1:2.5s/2:2s/R:4s/4:1s/10x, N=4, R=2"];
-  if(s>=3)return["Marginal","s3","1:2s/2:2s/R:4s/4:1s/8x/10x, N=6, R=2"];
-  return["Unacceptable","s0","ไม่ผ่าน: ต้องปรับปรุงวิธี"];
+  const rule=qcRule(s,test);
+  if(s>=6)return["World class","s6",rule];
+  if(s>=5)return["Excellent","s5",rule];
+  if(s>=4)return["Good","s4",rule];
+  if(s>=3)return["Marginal","s3",rule];
+  return["Unacceptable","s0",rule];
 }
+const needHtml=q=>`<span class="need ${q.needCls}">${q.need}</span>`;
 function qgiInfo(q,s){
   if(q==null)return null;
-  const need=s<4?"ต้องปรับปรุง (σ<4)":s<6?"ควรติดตาม (σ 4–6)":"ไม่จำเป็น (σ≥6)";
-  if(q<0.8)return{cls:"q1",name:"Imprecision",need,act:"ลด imprecision: ตรวจ maintenance/probe/pipette, reagent & QC lot, ความถี่ calibration, ลด SD ของ IQC"};
-  if(q<=1.2)return{cls:"q2",name:"Imprecision + Inaccuracy",need,act:"ปรับปรุงทั้ง precision และ bias"};
-  return{cls:"q3",name:"Inaccuracy (bias)",need,act:"ลด bias: recalibrate, ตรวจ calibrator/traceability, เทียบกับ reference หรือกลุ่ม EQA"};
+  const need=s<4?"ต้องปรับปรุง (σ<4)":s<6?"ควรติดตาม (σ 4–6)":"ไม่จำเป็น (σ≥6)",needCls=s<4?"need-fix":s<6?"need-watch":"need-ok";
+  if(q<0.8)return{cls:"q1",name:"Imprecision",need,needCls,act:"ลด imprecision: ตรวจ maintenance/probe/pipette, reagent & QC lot, ความถี่ calibration, ลด SD ของ IQC"};
+  if(q<=1.2)return{cls:"q2",name:"Imprecision + Inaccuracy",need,needCls,act:"ปรับปรุงทั้ง precision และ bias"};
+  return{cls:"q3",name:"Inaccuracy (bias)",need,needCls,act:"ลด bias: recalibrate, ตรวจ calibrator/traceability, เทียบกับ reference หรือกลุ่ม EQA"};
 }
 const f2=(v,d=2)=>v==null||!isFinite(v)?"":v.toFixed(d);
-const fmtU=(m,u,unit)=>`${+m.toFixed(3)} ± ${u.toFixed(Math.abs(u)<1?3:2)} ${unit}`;
+const fmtU=(m,u,unit)=>m==null||u==null?"—":`${+m.toFixed(3)} ± ${u.toFixed(Math.abs(u)<1?3:2)} ${unit}`;
+const fm=m=>m==null||!isFinite(m)?"—":+m.toFixed(3);
 const chip=s=>s==null?"":`<span class="cls ${cls(s)[1]}">${cls(s)[0]}</span>`;
 
 /* rows of current group with test-group colour index */
@@ -520,11 +734,11 @@ function renderTabs(){
 function infoBar(){
   const i=state.info,g=state.group,show=CALC_PAGES.includes(state.tab);
   const part=(l,v)=>`<span><b>${l}:</b> ${v?esc(v):"<i>—</i>"}</span>`;
-  $("infoBar").innerHTML=(i.hospital||i.lab||i.eqa[g]||show)?`<div class="infobar">${part("รพ.",i.hospital)}${part("Lab",i.lab)}${show?part("EQA ("+g+")",i.eqa[g])+part("Analyzer",i.analyzer[g])+part("S/N",i.sn[g]):part("EQA Biochem",i.eqa.Biochemistry)+part("EQA CBC",i.eqa.CBC)}</div>`:"";
+  $("infoBar").innerHTML=(i.hospital||i.lab||i.eqa[g]||i.dataset||show)?`<div class="infobar">${i.dataset?part("ชุดข้อมูล",i.dataset):""}${i.period?part("ช่วงประเมิน",i.period):""}${part("รพ.",i.hospital)}${part("Lab",i.lab)}${show?part("EQA ("+g+")",i.eqa[g])+part("Analyzer",i.analyzer[g])+part("S/N",i.sn[g]):part("EQA Biochem",i.eqa.Biochemistry)+part("EQA CBC",i.eqa.CBC)}</div>`:"";
 }
 function show(){
   renderTabs();infoBar();
-  ({"📖 คู่มือการใช้งาน":pageGuide,"Key-in Uncertainty":()=>pageKeyin("unc"),"Uncertainty":pageUncertainty,"Key-in Sigma":()=>pageKeyin("sig"),"Sigma & OPSpecs":pageSigma,"QGI":pageQGI,"Report":pageReport,"อ้างอิง TEa":pageRef,"วิธีคำนวณ & คำอธิบาย":pageMethod})[state.tab]();
+  ({"📖 คู่มือการใช้งาน":pageGuide,"Key-in Uncertainty":()=>pageKeyin("unc"),"Key-in EQA":pageEqa,"Uncertainty":pageUncertainty,"Key-in Sigma":()=>pageKeyin("sig"),"Sigma & OPSpecs":pageSigma,"QGI":pageQGI,"แผนผัง QC rule":pageQcTree,"Report":pageReport,"อ้างอิง TEa":pageRef,"วิธีคำนวณ & คำอธิบาย":pageMethod})[state.tab]();
   bindDl();
 }
 
@@ -540,7 +754,8 @@ const UNC_ABBR=[
  ["U","ความไม่แน่นอนขยาย (expanded uncertainty) = k × u<sub>c</sub> ; U (abs) = U% × Mean / 100"],
  ["Mean ± U","รูปแบบการรายงานผลพร้อมความไม่แน่นอน"],
  ["IQC / EQA","การควบคุมคุณภาพภายใน / การประเมินคุณภาพภายนอก"]];
-const uncAbbrHtml=()=>`<div class="abbr"><b>ตัวย่อ (Uncertainty)</b> — ${UNC_ABBR.map(([a,b])=>`<b>${a}</b> = ${b}`).join(" · ")}</div>`;
+const abbrBox=(title,items)=>`<div class="abbr abbr-list"><b>${title}</b><ul>${items.map(([a,b])=>`<li><b>${a}</b> = ${b}</li>`).join("")}</ul></div>`;
+const uncAbbrHtml=()=>abbrBox("ตัวย่อ (Uncertainty)",UNC_ABBR);
 
 /* ---------- 1) Key-in pages (Uncertainty / Sigma) ---------- */
 function infoForm(g){
@@ -549,24 +764,65 @@ function infoForm(g){
     <label>Lab / ห้องปฏิบัติการ<input id="inLab" value="${esc(state.info.lab)}" placeholder="เช่น ห้องปฏิบัติการเคมีคลินิก"></label>
     <label>ชื่อ EQA/PT ที่ใช้ (${g})<input id="inEqa" value="${esc(state.info.eqa[g])}" placeholder="เช่น โปรแกรม EQA / ผู้จัด / รอบ"></label>
     <label>ชื่อ Analyzer (${g})<input id="inAn" value="${esc(state.info.analyzer[g])}" placeholder="เช่น ชื่อ / รุ่นเครื่อง"></label>
-    <label>S/N เครื่อง (${g})<input id="inSn" value="${esc(state.info.sn[g])}" placeholder="Serial number"></label></div>`;
+    <label>S/N เครื่อง (${g})<input id="inSn" value="${esc(state.info.sn[g])}" placeholder="Serial number"></label>
+    <label>ชื่อชุดข้อมูล (ใช้ตั้งชื่อไฟล์ตอน Export)<input id="inDs" value="${esc(state.info.dataset)}" placeholder="เช่น BC-6200 unit 1"></label>
+    <label>ช่วงเวลาที่ประเมิน<input id="inPer" value="${esc(state.info.period)}" placeholder="เช่น ต.ค. 2568 – มี.ค. 2569"></label>
+    <label>ผู้จัดทำ<input id="inPrep" value="${esc(state.info.preparedBy)}" placeholder="ชื่อ-สกุล"></label>
+    <label>ผู้ตรวจสอบ / อนุมัติ<input id="inAppr" value="${esc(state.info.approvedBy)}" placeholder="ชื่อ-สกุล"></label>
+    <details class="iqc-box"><summary>ข้อมูล IQC ของ ${g} (ชื่อ material, Lot, วันหมดอายุ ต่อ level)</summary>
+      <div class="iqc-grid"><label>ชื่อ IQC material<input id="inIqcName" value="${esc(state.info.iqc[g].name)}" placeholder="เช่น ชื่อ / ผู้ผลิต"></label>
+      ${Array.from({length:g==="CBC"?3:2},(_,k)=>`<div class="iqc-lv"><b>Level ${k+1}</b><input id="inLot${k}" value="${esc(state.info.iqc[g].lot[k])}" placeholder="Lot No."><input id="inExp${k}" value="${esc(state.info.iqc[g].exp[k])}" placeholder="Exp."></div>`).join("")}</div>
+      <p class="note">ถ้ามีหลาย Lot ในช่วงที่ประเมิน ให้คั่นด้วย comma</p></details></div>`;
 }
 function bindInfoForm(g){
   const b=(id,fn)=>$(id).addEventListener("input",e=>{fn(e.target.value);save();infoBar()});
   b("inHosp",v=>state.info.hospital=v);b("inLab",v=>state.info.lab=v);b("inEqa",v=>state.info.eqa[g]=v);b("inAn",v=>state.info.analyzer[g]=v);b("inSn",v=>state.info.sn[g]=v);
+  b("inDs",v=>{state.info.dataset=v;const d=$("dsName");if(d)d.value=v});b("inPer",v=>state.info.period=v);b("inPrep",v=>state.info.preparedBy=v);b("inAppr",v=>state.info.approvedBy=v);
+  b("inIqcName",v=>state.info.iqc[g].name=v);for(let k=0;k<3;k++){if($("inLot"+k))b("inLot"+k,v=>state.info.iqc[g].lot[k]=v);if($("inExp"+k))b("inExp"+k,v=>state.info.iqc[g].exp[k]=v)}
+}
+function settingsBar(parts){
+  const sel=(id,label,opts,cur)=>`<label>${label} <select id="${id}">${opts.map(([v,l])=>`<option value="${v}" ${v===cur?"selected":""}>${l}</option>`).join("")}</select></label>`;
+  return`<div class="settings"><b>⚙ วิธีคำนวณ</b>`+
+    (parts.includes("bias")?sel("optBias","Bias ที่ใช้ใน Sigma / QGI",[["abs","เฉลี่ยของ |bias| (Absolute)"],["signed","|ค่าเฉลี่ยแบบมีเครื่องหมาย| (Signed)"]],state.opts.biasMethod):"")+
+    (parts.includes("cv")?sel("optCv","รวม %CV รายเดือนด้วย",[["avg","%CV เฉลี่ยรายเดือน"],["pooled","Pooled CV (RMS) — √(ΣCV²/n) เน้นเดือนที่ CV สูง"]],state.opts.cvMethod):"")+
+    (parts.includes("rules")?sel("optRules","ชุดกฎ QC ที่แนะนำ",[["wg","Westgard Sigma Rules (อ้างอิง Westgard QC)"],["old","ตารางเดิมของ webapp"]],state.opts.rules):"")+
+    (parts.includes("dec")?sel("optDec","สรุป Sigma / QC rule ตัดสินจาก",[["min","Min — level ที่แย่สุด"],["avg","Average — CV เฉลี่ยทุก level"]],state.opts.decide):"")+
+    (parts.includes("bias")?`<span class="note" style="flex:1 1 100%">${state.opts.biasMethod==="signed"
+      ?"<b>|ค่าเฉลี่ยแบบมีเครื่องหมาย| (Signed)</b> = ค่าสัมบูรณ์ของค่าเฉลี่ย %bias ที่ยังมีเครื่องหมาย (บวกลบหักล้างกันได้) เช่น +2, −2, +2, −2 → <b>0</b> · สะท้อน bias เชิงระบบสุทธิ แต่อาจซ่อนความคลาดเคลื่อนรายรอบที่แกว่งบวกลบ จึงได้ Sigma สูงกว่าหรือเท่ากับแบบ Absolute"
+      :"<b>เฉลี่ยของ |bias| (Absolute)</b> = ค่าเฉลี่ยของขนาด %bias แต่ละรอบ ไม่สนเครื่องหมาย (บวกลบไม่หักล้างกัน) เช่น +2, −2, +2, −2 → <b>2</b> · อนุรักษ์กว่า ได้ Sigma ต่ำกว่าหรือเท่ากับแบบ Signed และตรงกับวิธีใน template เดิมของแล็บ"} · Uncertainty ใช้ RMS bias ตามมาตรฐานเสมอ ไม่ขึ้นกับตัวเลือกนี้</span>`:"")+
+    (parts.includes("cv")?`<span class="note" style="flex:1 1 100%">${state.opts.cvMethod==="pooled"
+      ?"<b>Pooled CV (RMS)</b> = √(ΣCV² / n) — รวม %CV รายเดือนแบบกำลังสอง เดือนที่ CV สูงมีน้ำหนักมากกว่าค่าเฉลี่ยธรรมดา เหมาะเมื่อ CV แต่ละเดือนต่างกันมาก (ตัวอย่าง CV 2, 4, 6 → เฉลี่ย 4.00 แต่ pooled 4.32) จึงได้ Sigma ต่ำกว่า (เข้มงวดกว่า) เล็กน้อย"
+      :"<b>%CV เฉลี่ยรายเดือน</b> = ค่าเฉลี่ยเลขคณิตของ %CV แต่ละเดือน (วิธีเดียวกับ template เดิมของแล็บ) · ต้องการให้เดือนที่ CV สูงมีน้ำหนักมากขึ้น เลือก Pooled CV (RMS)"}</span>`:"")+`</div>`;
+}
+function bindSettings(){
+  const b=(id,k)=>{const e=$(id);if(e)e.onchange=()=>{state.opts[k]=e.value;save();show()}};
+  b("optBias","biasMethod");b("optCv","cvMethod");b("optDec","decide");b("optRules","rules");
+}
+function biasCell(r){
+  const p=byName(r.test),bs=eqaBiasList(p.group,p.test);
+  return bs.length
+    ?`<td><input class="w2" disabled title="คำนวณจากตาราง Key-in EQA (แก้ที่แท็บ Key-in EQA)" value="${esc("EQA "+bs.length+" รอบ: "+bs.map(x=>x.toFixed(2)).join(", "))}" style="width:200px"></td>`
+    :`<td><input class="w2" data-f="bias" value="${esc(r.bias)}" placeholder="หรือกรอกที่แท็บ Key-in EQA" style="width:150px"></td>`;
+}
+function teaWarn(r,p,c){
+  const w=[];
+  if(r.src===SRC.CLIA&&!(p.clia_pct||p.clia_abs))w.push("ไม่มีเกณฑ์ CLIA ของเทสนี้");
+  if(r.src===SRC.CUSTOM&&!(r.csrc||"").trim())w.push("ระบุที่มาของ Custom TEa");
+  if(c&&!(c.tea>0)&&!w.length)w.push("ไม่มี TEa (เกณฑ์หน่วยสัมบูรณ์ต้องมี Mean)");
+  return w;
 }
 function pageKeyin(kind){
   const g=state.group,rows=state.rows[g],isU=kind==="unc";
   const opts=PRESETS.filter(p=>p.group===g).map(p=>p.test);
   const heads=isU
-    ?["Test","Level","Mean","SD","CV % (u_Rw)","EQA bias % (หลายรอบ, คั่นด้วย comma)","Mean bias %","RMS bias %","u_ref %","u_cal %","k","u_c %","U %","Result (Mean ± U)",""]
-    :["Test","Level","Mean","SD","CV %","EQA bias % (หลายรอบ, คั่นด้วย comma)","Mean bias %","CLIA criterion (TV ±)","Ricos TE %","TEa source","Custom TEa %","Custom TEa source (ที่มา)","TEa eff %","Sigma","Class",""];
+    ?["Test","Level","Mean","SD","%CV รายเดือน (comma)","CV % (u_Rw)","EQA bias % (จาก Key-in EQA หรือกรอกเอง)","Bias % (ที่ใช้)","RMS bias %","u_ref %","u_cal %","k","u_c %","U %","Result (Mean ± U)",""]
+    :["Test","Level","Mean","SD","%CV รายเดือน (comma)","CV %","EQA bias % (จาก Key-in EQA หรือกรอกเอง)","Bias % (ที่ใช้)","CLIA criterion (TV ±)","Ricos TE %","TEa source","Custom TEa %","Custom TEa source (ที่มา)","TEa eff %","Sigma","Class",""];
   const inp=(f,v,st)=>`<td><input data-f="${f}" inputmode="decimal" value="${esc(v)}" ${st?`style="${st}"`:""}></td>`;
   const out=k=>`<td class="out" data-o="${k}"></td>`;
   const body=view(g).map(v=>{const r=v.r,i=v.i;
     const common=`<td><select data-f="test">${opts.map(o=>`<option ${o===r.test?"selected":""}>${esc(o)}</option>`).join("")}</select></td>
-    <td><input class="wl" data-f="level" value="${esc(r.level)}"></td>${inp("mean",r.mean)}${inp("sd",r.sd)}${out("cv")}
-    <td><input class="w2" data-f="bias" value="${esc(r.bias)}"></td>${out("mb")}`;
+    <td><input class="wl" data-f="level" value="${esc(r.level)}"></td>${inp("mean",r.mean)}${inp("sd",r.sd)}<td><input class="w2" data-f="cvlist" placeholder="เช่น 2.1, 1.8, 2.4" value="${esc(r.cvlist||"")}" style="width:150px"></td>${out("cv")}
+    ${biasCell(r)}${out("mb")}`;
     const rest=isU
       ?`${out("rms")}${inp("uref",r.uref,"width:54px")}${inp("ucal",r.ucal,"width:54px")}${inp("k",r.k,"width:40px")}${out("uc")}${out("U")}<td class="out l" data-o="res"></td>`
       :`<td class="out l" data-o="clia"></td>${out("ric")}<td><select data-f="src">${Object.values(SRC).map(o=>`<option ${o===r.src?"selected":""}>${o}</option>`).join("")}</select></td>
@@ -574,13 +830,13 @@ function pageKeyin(kind){
     return`<tr data-i="${i}" ${trc(v)}>${common}${rest}<td><button class="del" title="เพิ่ม level ของ test นี้" data-add>+L</button><button class="del" data-del title="ลบแถว">✕</button></td></tr>`}).join("");
   const page=isU?"Key-in Uncertainty":"Key-in Sigma";
   $("view").innerHTML=`<p class="note"><b>${page}</b> — ${isU?"กรอกข้อมูลที่ใช้คิด Measurement Uncertainty (Mean, SD, EQA bias, u_ref, u_cal, k)":"กรอกข้อมูลที่ใช้คิด Sigma (Mean, SD, EQA bias, แหล่ง TEa) · TEa eff = Effective TEa (TEa ที่ใช้จริง) = max(TEa%, TEa abs/Mean×100) — ดูคำอธิบายในแท็บ “วิธีคำนวณ & คำอธิบาย”"} · Mean/SD/Bias ใช้ร่วมกับอีกหน้าเดียวกัน กรอกครั้งเดียวได้ผลทั้งสองหน้า · ต้องการคีย์ใน Excel? กด <b>⬇ Template</b> ด้านบน แล้ว <b>Import</b> กลับเข้ามา</p>
-    ${infoForm(g)}<div class="bar"><button class="btn" id="addRow">+ เพิ่มแถว (test ใหม่)</button><button class="btn" id="loadEx">โหลดข้อมูลตัวอย่าง</button>
+    ${infoForm(g)}${settingsBar(isU?["bias","cv"]:["bias","cv","dec","rules"])}<div class="bar"><button class="btn" id="addRow">+ เพิ่มแถว (test ใหม่)</button><button class="btn" id="loadEx">โหลดข้อมูลตัวอย่าง</button>
     <button class="btn" id="clearAll">ล้างทั้งหมด</button>
     <span class="note">${g}: QC ${g==="CBC"?3:2} level ต่อ test เป็นค่าเริ่มต้น · กด <b>+L</b> เพื่อเพิ่ม level · ข้อมูลบันทึกในเบราว์เซอร์อัตโนมัติ</span></div>`+table(heads,body)+(isU?uncAbbrHtml():"");
-  bindInfoForm(g);
+  bindInfoForm(g);bindSettings();
   $("addRow").onclick=()=>{rows.push(newRow(g));save();pageKeyin(kind)};
-  $("loadEx").onclick=()=>{if(rows.length&&!confirm("แทนที่ข้อมูลของ "+g+" ด้วยข้อมูลตัวอย่าง?\nข้อมูลที่กรอกไว้ในกลุ่มนี้จะหาย (ควร Export สำรองก่อน)"))return;state.rows[g]=exampleRows(g);save();pageKeyin(kind)};
-  $("clearAll").onclick=()=>{if(confirm("ล้างข้อมูลทั้งหมดในกลุ่มนี้?")){state.rows[g]=[];save();pageKeyin(kind)}};
+  $("loadEx").onclick=()=>{if(rows.length&&!confirm("แทนที่ข้อมูลของ "+g+" ด้วยข้อมูลตัวอย่าง?\nข้อมูลที่กรอกไว้ในกลุ่มนี้จะหาย (ควร Export สำรองก่อน)"))return;state.rows[g]=exampleRows(g);exampleEqa(g);save();pageKeyin(kind)};
+  $("clearAll").onclick=()=>{if(confirm("ล้างข้อมูลทั้งหมดในกลุ่มนี้?")){state.rows[g]=[];Object.keys(state.eqa).filter(k=>k.startsWith(g+"|")).forEach(k=>delete state.eqa[k]);save();pageKeyin(kind)}};
   $("view").querySelectorAll("tr[data-i]").forEach(tr=>{
     const i=+tr.dataset.i;
     tr.querySelectorAll("[data-f]").forEach(el=>el.addEventListener(el.tagName==="SELECT"?"change":"input",()=>{
@@ -599,13 +855,65 @@ function pageKeyin(kind){
 }
 function keyinOut(tr,kind){
   const r=state.rows[state.group][+tr.dataset.i],c=calc(r),p=byName(r.test),q=s=>tr.querySelector(`[data-o="${s}"]`),set=(k,v)=>{const e=q(k);if(e)e.textContent=v};
-  set("cv",c?f2(c.cv):"");set("mb",c?f2(c.meanBias):"");
+  set("cv",c?f2(c.cv):"");{const e=q("cv");if(e)e.title=c?"CV จาก: "+c.cvSrc:""}set("mb",c?f2(c.meanBias):"");{const e=q("mb");if(e)e.title=c?"Bias จาก: "+c.biasSrc+" · เฉลี่ยมีเครื่องหมาย "+f2(c.meanSigned)+"% · เฉลี่ย |bias| "+f2(c.meanAbs)+"%":""}
   if(kind==="unc"){set("rms",c?f2(c.rms):"");set("uc",c?f2(c.uc):"");set("U",c?f2(c.U):"");set("res",c?fmtU(c.mean,c.Uabs,c.unit):"")}
   else{
-    set("clia",p.clia_pct||p.clia_abs?p.clia_text:"— (ไม่มีใน CLIA)");set("ric",p.ric.TE);set("tea",c?f2(c.tea):"");set("sg",c&&c.sigma!=null?f2(c.sigma):"");
+    set("clia",p.clia_pct||p.clia_abs?p.clia_text:"— (ไม่มีใน CLIA)");set("ric",p.ric.TE);{const w=teaWarn(r,p,c);q("tea").innerHTML=(c?f2(c.tea):"")+(w.length?`<br><small class="warn">⚠ ${w.join(" · ")}</small>`:"")}set("sg",c&&c.sigma!=null?f2(c.sigma):"");
     q("cl").innerHTML=c?chip(c.sigma):"";
     const cu=r.src!==SRC.CUSTOM;tr.querySelector('[data-f="custom"]').disabled=cu;tr.querySelector('[data-f="csrc"]').disabled=cu;
   }
+}
+
+/* ---------- Key-in EQA (trial-by-trial, per test) ---------- */
+const eqaOpen=new Set();
+function eqaStats(g,tst){
+  const bs=eqaBiasList(g,tst);
+  return{n:bs.length,meanAbs:bs.length?mean_(bs.map(Math.abs)):null,meanSigned:bs.length?mean_(bs):null,rms:bs.length?Math.sqrt(mean_(bs.map(b=>b*b))):null};
+}
+const eqaSummary=(g,tst)=>{const s=eqaStats(g,tst);return s.n?`${s.n} รอบ · เฉลี่ย |bias| ${f2(s.meanAbs)}% · เฉลี่ยมีเครื่องหมาย ${f2(s.meanSigned)}% · RMS ${f2(s.rms)}%`:"ยังไม่มีข้อมูล"};
+function pageEqa(){
+  const g=state.group,tests=[...new Set(state.rows[g].map(r=>r.test))];
+  const panels=tests.map(tst=>{
+    const k=eqaKey(g,tst),tr=state.eqa[k]||[],m=state.meta[k]||{};
+    return`<details class="eqa-test" data-k="${esc(k)}" ${eqaOpen.has(k)?"open":""}><summary><b>${esc(tst)}</b> <span class="note" data-sum>${eqaSummary(g,tst)}</span></summary>
+      <div class="eqa-meta"><label>Methodology (ถ้ามี)<input data-m="method" value="${esc(m.method||"")}" placeholder="เช่น Impedance / Flow cytometry"></label>
+        <label>โปรแกรม EQA ของเทสนี้ (ถ้าต่างจากของกลุ่ม)<input data-m="eqa" value="${esc(m.eqa||"")}" placeholder="เว้นว่าง = ใช้ชื่อ EQA ของกลุ่ม"></label></div>
+      <div class="wrap"><table><tr><th>รอบ / Sample</th><th>Lab result</th><th>Group mean</th><th>Group SD (ถ้ามี)</th><th>% Bias</th><th>SDI</th><th></th></tr>
+      ${tr.map((x,i)=>`<tr data-i="${i}"><td><input class="wl" style="width:90px" data-e="t" value="${esc(x.t)}"></td>
+        <td><input data-e="lab" inputmode="decimal" value="${esc(x.lab)}"></td><td><input data-e="gm" inputmode="decimal" value="${esc(x.gm)}"></td><td><input data-e="gsd" inputmode="decimal" value="${esc(x.gsd||"")}"></td>
+        <td class="out" data-o="b"></td><td class="out" data-o="s"></td><td><button class="del" data-del title="ลบรอบนี้">✕</button></td></tr>`).join("")}</table></div>
+      <div class="bar" style="margin-top:8px"><button class="btn sm" data-add="1">+ 1 รอบ</button><button class="btn sm" data-add="6">+ 6 รอบ</button><button class="btn sm" data-clr>ล้างรอบของเทสนี้</button></div></details>`}).join("");
+  $("view").innerHTML=`<p class="note"><b>Key-in EQA</b> — กรอกผลเข้าร่วม EQA/PT <u>รายเทสรายรอบ</u>: Lab result, Group mean (และ Group SD ถ้ามี) ระบบคำนวณ <b>%Bias = (Lab − Group mean) / Group mean × 100</b> และ <b>SDI = (Lab − Group mean) / Group SD</b> ให้อัตโนมัติ · เมื่อเทสมีข้อมูลที่นี่ หน้า Key-in จะใช้ bias จากตารางนี้แทนช่อง bias ที่กรอกเอง (ใช้กับทุก level ของเทสนั้น) · Bias ที่ใช้คิด Sigma เลือกวิธีได้ด้านล่าง</p>
+    ${infoForm(g)}${settingsBar(["bias"])}
+    <div class="bar"><button class="btn sm" id="eqaOpenAll">เปิดทุกเทส</button><button class="btn sm" id="eqaCloseAll">ปิดทุกเทส</button><span class="note">${g}: ${tests.length} เทส</span></div>
+    ${panels||'<p class="note">ยังไม่มีเทส — เพิ่มข้อมูลในหน้า Key-in ก่อน</p>'}`;
+  bindInfoForm(g);bindSettings();
+  $("eqaOpenAll").onclick=()=>{tests.forEach(x=>eqaOpen.add(eqaKey(g,x)));pageEqa()};
+  $("eqaCloseAll").onclick=()=>{eqaOpen.clear();pageEqa()};
+  document.querySelectorAll(".eqa-test").forEach(det=>{
+    const k=det.dataset.k,tst=k.slice(g.length+1);
+    det.addEventListener("toggle",()=>{det.open?eqaOpen.add(k):eqaOpen.delete(k)});
+    det.querySelectorAll("[data-m]").forEach(el=>el.addEventListener("input",()=>{const mm=state.meta[k]=state.meta[k]||{};mm[el.dataset.m]=el.value;save()}));
+    const refresh=()=>{
+      (state.eqa[k]||[]).forEach((x,i)=>{
+        const tr=det.querySelector(`tr[data-i="${i}"]`);if(!tr)return;
+        const b=trialBias(x),sd=parseFloat(x.gsd),lab=parseFloat(x.lab),gm=parseFloat(x.gm);
+        tr.querySelector('[data-o="b"]').textContent=b==null?"":f2(b);
+        tr.querySelector('[data-o="s"]').textContent=isFinite(lab)&&isFinite(gm)&&sd>0?f2((lab-gm)/sd):"";
+      });
+      det.querySelector("[data-sum]").textContent=eqaSummary(g,tst);
+    };
+    det.querySelectorAll("tr[data-i]").forEach(tr=>{
+      const i=+tr.dataset.i;
+      tr.querySelectorAll("[data-e]").forEach(el=>el.addEventListener("input",()=>{state.eqa[k][i][el.dataset.e]=el.value;save();refresh()}));
+      tr.querySelector("[data-del]").onclick=()=>{state.eqa[k].splice(i,1);eqaOpen.add(k);save();pageEqa()};
+    });
+    det.querySelectorAll("[data-add]").forEach(b=>b.onclick=()=>{
+      const arr=state.eqa[k]=state.eqa[k]||[],n=+b.dataset.add;
+      for(let j=0;j<n;j++)arr.push({t:"",lab:"",gm:"",gsd:""});eqaOpen.add(k);save();pageEqa()});
+    det.querySelector("[data-clr]").onclick=()=>{delete state.eqa[k];eqaOpen.add(k);save();pageEqa()};
+    refresh();
+  });
 }
 
 /* ---------- 2) Uncertainty ---------- */
@@ -616,7 +924,7 @@ function pageUncertainty(){
   const sumRows=byTest(ok).map(([t,a],ti)=>{const Us=a.map(v=>v.c.U),worst=a.reduce((x,v)=>v.c.U>x.c.U?v:x);
     return`<tr class="g${ti%3}"><td>${esc(t)}</td><td>${a.length}</td><td>${f2(Math.min(...Us))} – ${f2(Math.max(...Us))}</td>
     <td class="l">${a.map(v=>`${esc(v.r.level)}: ${fmtU(v.c.mean,v.c.Uabs,v.c.unit)}`).join(" · ")}</td><td class="l">${esc(worst.r.level)} (U=${f2(worst.c.U)}%)</td></tr>`}).join("");
-  const body=ok.map(v=>{const c=v.c;return`<tr ${trc(v)}><td>${esc(v.r.test)}</td><td>${esc(v.r.level)}</td><td>${esc(c.unit)}</td><td>${+c.mean.toFixed(3)}</td>
+  const body=ok.map(v=>{const c=v.c;return`<tr ${trc(v)}><td>${esc(v.r.test)}</td><td>${esc(v.r.level)}</td><td>${esc(c.unit)}</td><td>${fm(c.mean)}</td>
     <td>${f2(c.cv)}</td><td>${f2(c.rms)}</td><td>${f2(c.uref)}</td><td>${f2(c.ubias)}</td><td>${f2(c.ucal)}</td><td><b>${f2(c.uc)}</b></td><td>${c.k}</td>
     <td><b>${f2(c.U)}</b></td><td>${f2(c.Uabs,3)}</td><td class="l">${fmtU(c.mean,c.Uabs,c.unit)}</td></tr>`}).join("");
   $("view").innerHTML=`<p class="note">Top-down: u<sub>c</sub> = √(u<sub>Rw</sub>² + u<sub>bias</sub>² + u<sub>cal</sub>²), U = k·u<sub>c</sub> · u<sub>Rw</sub> = CV จาก IQC · u<sub>bias</sub> = √(RMS bias² + u<sub>ref</sub>²)</p>`+
@@ -633,22 +941,22 @@ function pageSigma(){
   const g=state.group,vs=view(g),ok=vs.filter(v=>v.c&&v.c.sigma!=null),lab=v=>v.r.test+(v.r.level?" "+v.r.level:"");
   const counts=["World class","Excellent","Good","Marginal","Unacceptable"].map(n=>[n,ok.filter(v=>cls(v.c.sigma)[0]===n).length]);
   const skipped=vs.filter(v=>v.c&&v.c.sigma==null).length;
-  const sumRows=byTest(ok).map(([t,a],ti)=>{const w=a.reduce((x,v)=>v.c.sigma<x.c.sigma?v:x);
+  const sumRows=byTest(ok).map(([t,a],ti)=>{const w=decisive(a);
     return`<tr class="g${ti%3}"><td>${esc(t)}</td><td>${a.length}</td><td class="l">${a.map(v=>`${esc(v.r.level)}: ${f2(v.c.sigma)}`).join(" · ")}</td>
-    <td><b>${f2(w.c.sigma)}</b> (${esc(w.r.level)})</td><td>${chip(w.c.sigma)}</td><td class="l">${cls(w.c.sigma)[2]}</td></tr>`}).join("");
-  const body=ok.map(v=>{const c=v.c;return`<tr ${trc(v)}><td>${esc(v.r.test)}</td><td>${esc(v.r.level)}</td><td>${+c.mean.toFixed(3)}</td><td>${f2(c.cv)}</td>
+    <td><b>${f2(w.c.sigma)}</b> (${esc(w.r.level)})</td><td>${chip(w.c.sigma)}</td><td class="l">${cls(w.c.sigma,w.r.test)[2]}</td></tr>`}).join("");
+  const body=ok.map(v=>{const c=v.c;return`<tr ${trc(v)}><td>${esc(v.r.test)}</td><td>${esc(v.r.level)}</td><td>${fm(c.mean)}</td><td>${f2(c.cv)}</td>
     <td>${f2(c.meanBias)}</td><td>${esc(v.r.src)}${v.r.src===SRC.CUSTOM&&v.r.csrc?` <small>(${esc(v.r.csrc)})</small>`:""}</td><td>${f2(c.tea)}</td>
-    <td><b>${f2(c.sigma)}</b></td><td>${chip(c.sigma)}</td><td class="l">${cls(c.sigma)[2]}</td></tr>`}).join("");
+    <td><b>${f2(c.sigma)}</b></td><td>${chip(c.sigma)}</td><td class="l">${cls(c.sigma,v.r.test)[2]}</td></tr>`}).join("");
   const pts=ok.filter(v=>v.c.tea>0).map(v=>({label:lab(v),x:v.c.cv/v.c.tea*100,y:Math.abs(v.c.meanBias)/v.c.tea*100,sg:v.c.sigma,cc:cls(v.c.sigma)[1],name:cls(v.c.sigma)[0]}));
   const sc={s6:"--s6",s5:"--s5",s4:"--s4",s3:"--s3",s0:"--s0"};
-  $("view").innerHTML=`<p class="note">Sigma = (TEa<sub>eff</sub>% − |Bias%|) / CV% · TEa<sub>eff</sub> (Effective TEa = TEa ที่ใช้จริง) = max(TEa%, TEa<sub>abs</sub>/Mean×100) · Bias = ค่าเฉลี่ย bias จาก EQA${skipped?` · <b>${skipped} แถวไม่มี TEa (เลือกแหล่ง TEa อื่น)</b>`:""}</p>`+
+  $("view").innerHTML=settingsBar(["bias","cv","dec","rules"])+`<p class="note">Sigma = (TEa<sub>eff</sub>% − |Bias%|) / CV% · TEa<sub>eff</sub> (Effective TEa = TEa ที่ใช้จริง) = max(TEa%, TEa<sub>abs</sub>/Mean×100) · Bias = ${biasTxt()} จาก EQA · สรุป/QC rule ตัดสินจาก <b>${decName()}</b>${skipped?` · <b>${skipped} แถวไม่มี TEa (เลือกแหล่ง TEa อื่น)</b>`:""}</p>`+
   cards([["Level ที่คำนวณได้",ok.length],["Sigma เฉลี่ย",ok.length?f2(mean_(ok.map(v=>v.c.sigma))):"-"],["σ ≥ 4",`${ok.filter(v=>v.c.sigma>=4).length} / ${ok.length}`],...counts.map(([n,k])=>[n,k])])+
-  `<section><h2>สรุปผล Sigma รายเทส (ตัดสินจาก level ที่ต่ำสุด) — ${g}</h2>${table(["Test","จำนวน level","Sigma แต่ละ level","Sigma ต่ำสุด","Class","Suggested QC rule"],sumRows)}</section>
-   <section><h2>รายละเอียด Sigma (ทุก level)</h2>${table(["Test","Level","Mean","CV %","Mean bias %","TEa source","TEa eff %","Sigma","Class","Suggested QC rule"],body)}</section>
+  `<section><h2>สรุปผล Sigma รายเทส (ตัดสินจาก ${decName()}) — ${g}</h2>${table(["Test","จำนวน level","Sigma แต่ละ level","Sigma ("+decName()+")","Class","Suggested QC rule"],sumRows)}</section>
+   <section><h2>รายละเอียด Sigma (ทุก level)</h2>${table(["Test","Level","Mean","CV %","Bias % (ที่ใช้)","TEa source","TEa eff %","Sigma","Class","Suggested QC rule"],body)}</section>
    <section><h2>Sigma ของแต่ละ level</h2>${chartBox("c_sig","sigma_"+g,barChart(ok.map(v=>({label:lab(v),value:v.c.sigma,color:`var(${sc[cls(v.c.sigma)[1]]})`})),{max:8,lines:[3,4,5,6],lineLabel:v=>"σ"+v,aria:"Sigma chart"}))}</section>
    <section><h2>Normalized OPSpecs chart — ${g}</h2><div class="bar"><label><input type="checkbox" id="opl" ${opLabels?"checked":""}> แสดงชื่อบนจุดด้วย</label>
    <span class="note">x = CV/TEa×100 · y = |Bias|/TEa×100 · เส้น σ: y = 100 − σ·x · จุดใต้เส้น σ สูงกว่า = คุณภาพดีกว่า · รายชื่อเทสจัดกลุ่มตามสีอยู่ทางขวา</span></div>${chartBox("c_ops","opspecs_"+g,opSvg(pts,g,true,opLabels))}</section>`;
-  $("opl").onchange=e=>{opLabels=e.target.checked;pageSigma()};
+  $("opl").onchange=e=>{opLabels=e.target.checked;pageSigma()};bindSettings();
 }
 
 /* ---------- 4) QGI ---------- */
@@ -656,15 +964,125 @@ function pageQGI(){
   const g=state.group,vs=view(g),ok=vs.filter(v=>v.c&&v.c.qgi!=null),lab=v=>v.r.test+(v.r.level?" "+v.r.level:"");
   const need=ok.filter(v=>v.c.sigma<6),n=c=>need.filter(v=>qgiInfo(v.c.qgi,v.c.sigma).cls===c).length;
   const body=ok.map(v=>{const c=v.c,q=qgiInfo(c.qgi,c.sigma);return`<tr ${trc(v)}><td>${esc(v.r.test)}</td><td>${esc(v.r.level)}</td><td>${f2(c.cv)}</td><td>${f2(Math.abs(c.meanBias))}</td>
-    <td>${f2(c.sigma)} ${chip(c.sigma)}</td><td><b>${f2(c.qgi,3)}</b></td><td><span class="cls ${q.cls}">${q.name}</span></td><td class="l">${q.need}</td><td class="l">${q.act}</td></tr>`}).join("");
-  const sumRows=byTest(ok).map(([t,a],ti)=>{const w=a.reduce((x,v)=>v.c.sigma<x.c.sigma?v:x),q=qgiInfo(w.c.qgi,w.c.sigma);
-    return`<tr class="g${ti%3}"><td>${esc(t)}</td><td class="l">${a.map(v=>`${esc(v.r.level)}: ${f2(v.c.qgi,2)}`).join(" · ")}</td><td>${esc(w.r.level)} (σ=${f2(w.c.sigma)})</td><td><span class="cls ${q.cls}">${q.name}</span></td><td class="l">${q.need}</td></tr>`}).join("");
+    <td>${f2(c.sigma)} ${chip(c.sigma)}</td><td><b>${f2(c.qgi,3)}</b></td><td><span class="cls ${q.cls}">${q.name}</span></td><td class="l">${needHtml(q)}</td><td class="l">${q.act}</td></tr>`}).join("");
+  const sumRows=byTest(ok).map(([t,a],ti)=>{const w=decisive(a),q=qgiInfo(w.c.qgi,w.c.sigma);
+    return`<tr class="g${ti%3}"><td>${esc(t)}</td><td class="l">${a.map(v=>`${esc(v.r.level)}: ${f2(v.c.qgi,2)}`).join(" · ")}</td><td>${esc(w.r.level)} (σ=${f2(w.c.sigma)})</td><td><span class="cls ${q.cls}">${q.name}</span></td><td class="l">${needHtml(q)}</td></tr>`}).join("");
   const qc={q1:"--q1",q2:"--q2",q3:"--q3"};
-  $("view").innerHTML=`<p class="note">QGI (Quality Goal Index) = |Bias%| / (1.5 × CV%) · &lt;0.8 → ปัญหา imprecision · 0.8–1.2 → ทั้งสองอย่าง · &gt;1.2 → ปัญหา inaccuracy (bias) · ใช้วินิจฉัยสาเหตุเมื่อ Sigma ไม่ถึงเป้า (ตัดสินจาก level ที่ Sigma ต่ำสุด)</p>`+
+  $("view").innerHTML=settingsBar(["bias","dec"])+`<p class="note">QGI (Quality Goal Index) = |Bias%| / (1.5 × CV%) · &lt;0.8 → ปัญหา imprecision · 0.8–1.2 → ทั้งสองอย่าง · &gt;1.2 → ปัญหา inaccuracy (bias) · ใช้วินิจฉัยสาเหตุเมื่อ Sigma ไม่ถึงเป้า (ตัดสินจาก ${decName()})</p>`+
   cards([["Level ที่คำนวณได้",ok.length],["Imprecision (σ<6)",n("q1")],["Imprecision + Inaccuracy (σ<6)",n("q2")],["Inaccuracy (σ<6)",n("q3")]])+
-  `<section><h2>สรุป QGI รายเทส — ${g}</h2>${table(["Test","QGI แต่ละ level","Level ที่ Sigma ต่ำสุด","สาเหตุหลัก (ตาม level นั้น)","ต้องแก้ไขหรือไม่"],sumRows)}</section>
+  `<section><h2>สรุป QGI รายเทส — ${g}</h2>${table(["Test","QGI แต่ละ level","Level ที่ Sigma ("+decName()+")","สาเหตุหลัก (ตาม level นั้น)","ต้องแก้ไขหรือไม่"],sumRows)}</section>
    <section><h2>รายละเอียด QGI (ทุก level)</h2>${table(["Test","Level","CV %","|Bias| %","Sigma","QGI","แปลผล","ความจำเป็น","แนวทางแก้ไข"],body)}</section>
    <section><h2>QGI ของแต่ละ level</h2>${chartBox("c_qgi","qgi_"+g,barChart(ok.map(v=>({label:lab(v),value:v.c.qgi,color:`var(${qc[qgiInfo(v.c.qgi,v.c.sigma).cls]})`})),{max:Math.max(2,...ok.map(v=>v.c.qgi))*1.05,lines:[0.8,1.2],aria:"QGI chart"}))}</section>`;
+  bindSettings();
+}
+
+/* ---------- references (Westgard QC) ---------- */
+const REFS={
+  clia:{s:"TEa CLIA 2025",l:"CLIA 2025 Acceptance Limits for Proficiency Testing — Westgard QC (เกณฑ์ TEa)",u:"https://www.westgard.com/clia-and-quality-regulation-requirements/quality-requirements/2024-clia-requirements.html"},
+  ricos:{s:"TEa Ricos",l:"Desirable Biological Variation Database specifications (Ricos) — Westgard QC (เกณฑ์ TEa)",u:"https://www.westgard.com/clia-and-quality-regulation-requirements/quality-requirements/biodatabase1.html"},
+  rules:{s:"Sigma Rules",l:"Westgard Sigma Rules — J.O. Westgard, S.A. Westgard (ชุดกฎ QC ตามค่า Sigma, 2 level และ 3 level)",u:"https://www.westgard.com/lessons/westgard-rules/westgard-rules/westgard-sigma-rules.html"},
+  best:{s:"Best Practices",l:"Best Practices for “Westgard Rules” — J.O. Westgard (กฎเดี่ยวและ 3 level ตามช่วง Sigma)",u:"https://www.westgard.com/lessons/westgard-rules/westgard-rules/lesson74.html"},
+  role:{s:"Role of a Rule",l:"What’s the Role of a Rule? — S. Westgard (บทบาทของกฎ rejection / warning)",u:"https://www.westgard.com/lessons/westgard-rules/westgard-rules/the-role-of-rules.html"},
+  grid:{s:"QC Selection Grids",l:"QC Selection Grids — Westgard QC (การเลือกกฎและ N ตามคุณภาพของวิธี)",u:"https://westgard.com/lessons/quality-management/lesson10.html"}};
+const refBox=(keys,title)=>`<div class="doc refbox" style="margin-top:14px"><h2>${title||"แหล่งอ้างอิง (Westgard QC)"}</h2><ul class="reflist">${keys.map(k=>`<li><b>${REFS[k].l}</b><br><a href="${REFS[k].u}" target="_blank" rel="noopener">${REFS[k].u}</a></li>`).join("")}</ul>
+  <p class="note">เนื้อหาบนเว็บ Westgard อาจมีการปรับปรุง — ควรตรวจสอบฉบับล่าสุดจากลิงก์ก่อนนำไปใช้ในเอกสารคุณภาพของห้องปฏิบัติการ</p></div>`;
+
+/* ---------- QC rule decision tree (Westgard Sigma Rules) ---------- */
+const WG_URL={rules:"https://www.westgard.com/lessons/westgard-rules/westgard-rules/westgard-sigma-rules.html",
+  best:"https://www.westgard.com/lessons/westgard-rules/westgard-rules/lesson74.html",
+  role:"https://www.westgard.com/lessons/westgard-rules/westgard-rules/the-role-of-rules.html",
+  grid:"https://westgard.com/lessons/quality-management/lesson10.html"};
+let qcSel="";
+function qcTreeSvg(hl){ // hl = {nl:2|3, band:6|5|4|0}
+  const W=1040,H=690,cl={6:"--s6",5:"--s5",4:"--s4",0:"--s3"};
+  const esc2=s=>esc(s);
+  const box=(x,y,w,h,title,lines,o={})=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="${o.fill||"var(--card)"}" fill-opacity="${o.fo??1}" stroke="${o.stroke||"var(--line)"}" stroke-width="${o.sw||1.5}"/>`+
+    `<text x="${x+w/2}" y="${y+(lines.length?20:h/2+5)}" text-anchor="middle" font-size="${o.fs||13}" font-weight="700" fill="var(--ink)">${esc2(title)}</text>`+
+    lines.map((l,i)=>`<text x="${x+w/2}" y="${y+38+i*16}" text-anchor="middle" font-size="12" fill="var(--ink)">${esc2(l)}</text>`).join("");
+  const arrow=(x1,y1,x2,y2,lab,lx,ly,on)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${on?"var(--pri)":"var(--mut)"}" stroke-width="${on?3:1.6}" marker-end="url(#ah${on?"on":""})"/>`+(lab?`<text x="${lx}" y="${ly}" font-size="11" fill="var(--mut)">${lab}</text>`:"");
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="min-width:760px;max-width:${W}px" role="img" aria-label="Westgard Sigma Rules decision tree">
+    <defs><marker id="ah" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--mut)"/></marker>
+    <marker id="ahon" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="11" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="var(--pri)"/></marker></defs>`;
+  s+=box(300,8,440,46,"คำนวณ Sigma = (TEa − |Bias|) / CV",["ใช้ Sigma ของ level ที่ตัดสิน (Min หรือ Average)"],{fill:"var(--pri)",fo:.12,stroke:"var(--pri)",sw:2});
+  s+=arrow(520,54,520,78);
+  s+=box(360,78,320,44,"QC ต่อ run ใช้กี่ level?",[],{fill:"var(--pri)",fo:.08,stroke:"var(--pri)",sw:2});
+  const cols=[{nl:2,cx:150,leafX:272,leafW:238,head:"2 level (N = 2, 4, 8)",set:WG2},{nl:3,cx:660,leafX:782,leafW:250,head:"3 level (N = 3, 6) เช่น CBC / Hematology",set:WG3}];
+  const rows=[6,5,4],y0=240,dy=112;
+  cols.forEach(c=>{
+    const act=hl&&hl.nl===c.nl;
+    s+=`<polyline points="${c.nl===2?"520,122 520,138 "+c.cx+",138 "+c.cx+",156":"520,122 520,138 "+c.cx+",138 "+c.cx+",156"}" fill="none" stroke="${act?"var(--pri)":"var(--mut)"}" stroke-width="${act?3:1.6}" marker-end="url(#ah${act?"on":""})"/>`;
+    s+=box(c.cx-125,156,250,38,c.head,[],{fill:"var(--pri)",fo:act?.18:.06,stroke:"var(--pri)",sw:act?3:1.5,fs:12.5});
+    s+=arrow(c.cx,194,c.cx,y0-36,"",0,0,act);
+    rows.forEach((b,i)=>{
+      const cy=y0+i*dy,onPath=act&&hl.band!=null&&(hl.band===6?i===0:hl.band===5?i<=1:true),isLeaf=act&&hl.band===b;
+      const reached=act&&(hl.band===0?true:b>=hl.band);
+      s+=`<polygon points="${c.cx},${cy-36} ${c.cx+66},${cy} ${c.cx},${cy+36} ${c.cx-66},${cy}" fill="var(--card)" stroke="${reached?"var(--pri)":"var(--line)"}" stroke-width="${reached?3:1.5}"/>`+
+        `<text x="${c.cx}" y="${cy+5}" text-anchor="middle" font-size="14" font-weight="700" fill="var(--ink)">σ ≥ ${b} ?</text>`;
+      s+=arrow(c.cx+66,cy,c.leafX,cy,"ใช่",c.cx+72,cy-7,isLeaf);
+      const r=c.set[b],lf=isLeaf;
+      s+=box(c.leafX,cy-38,c.leafW,76,r[0],[r[1],r[2]],{fill:`var(${cl[b]})`,fo:lf?.38:.16,stroke:lf?"var(--pri)":`var(${cl[b]})`,sw:lf?4:1.5});
+      if(i<2||true){const ny=i<2?y0+(i+1)*dy-36:y0+3*dy-24;const on=act&&(hl.band<b||hl.band===0);s+=arrow(c.cx,cy+36,c.cx,ny,"ไม่ใช่",c.cx+8,cy+55,on)}
+    });
+    const by=y0+3*dy-24,r0=c.set[0],lf0=act&&hl.band===0;
+    s+=box(c.cx-(c.nl===2?125:135),by,c.nl===2?250:270,76,"σ < 4: "+r0[0],[r0[1],r0[2]],{fill:"var(--s3)",fo:lf0?.38:.16,stroke:lf0?"var(--pri)":"var(--s3)",sw:lf0?4:1.5,fs:12.5});
+  });
+  s+=box(40,640,960,42,"σ < 3 : Westgard ไม่มีชุดกฎแนะนำ — “ถ้าวิธีมี performance ไม่ดี ไม่มี QC ใดชดเชยได้” → ปรับปรุงวิธี (ดู QGI) และใช้ QC สูงสุดระหว่างรอปรับปรุง",[],{fill:"var(--s0)",fo:.14,stroke:"var(--s0)",sw:1.8,fs:12.5});
+  return s+"</svg>";
+}
+function pageQcTree(){
+  const items=[];
+  GROUPS.forEach(g=>byTest(view(g).filter(v=>v.c&&v.c.sigma!=null)).forEach(([tst,a])=>{items.push({g,tst,d:decisive(a),n:levelCount(tst),a})}));
+  if(!items.find(x=>x.tst===qcSel))qcSel=items.length?items[0].tst:"";
+  const cur=items.find(x=>x.tst===qcSel),hl=cur?{nl:cur.n,band:qcBand(cur.d.c.sigma)}:null;
+  const setRow=(set,b,lab,note)=>`<tr><td><b>${lab}</b></td><td class="l"><b>${set[b][0]}</b></td><td class="l">${set[b][1]}</td><td class="l">${note}</td></tr>`;
+  const ref=(u,l)=>`<a href="${u}" target="_blank" rel="noopener">${l}</a>`;
+  const mine=cur?(()=>{const c=cls(cur.d.c.sigma,cur.tst),set=cur.n>=3?WG3:WG2,r=set[qcBand(cur.d.c.sigma)];
+    return`<div class="qct-mine"><span class="cls ${c[1]}">${c[0]}</span> <b>${esc(cur.tst)}</b> (${cur.g}) · Sigma (${decName()}) = <b>${f2(cur.d.c.sigma)}</b> · QC ${cur.n} level ต่อ run →
+      <b>${state.opts.rules==="old"?oldRule(cur.d.c.sigma):`${r[0]}, ${r[1]}`}</b>${state.opts.rules==="old"?' <span class="note">(แสดงตามตารางเดิม — แผนผังด้านล่างเป็นของ Westgard)</span>':""}</div>`})():"";
+  $("view").innerHTML=settingsBar(["dec","rules"])+`<div class="doc"><h2>🌳 แผนผังตัดสินใจเลือกกฎ IQC ตามค่า Sigma</h2>
+    <p>ใช้ <b>Sigma ของเทส</b> และ <b>จำนวน control level ต่อ run</b> เลือกชุดกฎ (rejection rules) จำนวนค่า control ต่อ run (<b>N</b>) และจำนวน run ที่ประเมินรวมกัน (<b>R</b>) — ยิ่ง Sigma สูงยิ่งใช้กฎน้อยและ control น้อย ยิ่งต่ำยิ่งต้องเพิ่มกฎและเพิ่ม N
+    อ้างอิง: ${ref(WG_URL.rules,"Westgard Sigma Rules (J.O. &amp; S.A. Westgard, 2014)")} · ${ref(WG_URL.best,"Best Practices for “Westgard Rules”")} · ${ref(WG_URL.role,"What’s the Role of a Rule?")} · ${ref(WG_URL.grid,"QC Selection Grids")} (Westgard QC)</p>
+    <div class="bar"><label><b>ดูเทสของคุณบนแผนผัง:</b> <select id="qcTest">${items.map(x=>`<option value="${esc(x.tst)}" ${x.tst===qcSel?"selected":""}>${esc(x.tst)} (${x.g}) · σ ${f2(x.d.c.sigma)}</option>`).join("")||"<option>— ยังไม่มีข้อมูล —</option>"}</select></label></div>
+    ${mine}</div>
+    <section><h2>แผนผังตัดสินใจ</h2>${chartBox("c_qct","qc_rule_decision_tree",qcTreeSvg(hl))}
+    <p class="note">เส้นและกล่องสีเขียวเข้ม = เส้นทางของเทสที่เลือก · สี leaf ตามระดับ Sigma</p></section>
+    <div class="doc" style="margin-top:14px"><h2>ชุดกฎตาม Westgard Sigma Rules</h2>
+      <h3 class="pg-h3">QC 2 level ต่อ run (control เป็นจำนวนคู่ N = 2, 4)</h3>
+      <table class="gt"><tr><th>Sigma</th><th>ชุดกฎ</th><th>N / R</th><th>หมายเหตุ</th></tr>
+      ${setRow(WG2,6,"≥ 6","<b>กฎเดียว</b> 1:3s วัด 2 ค่าต่อ run (1 ค่าต่อ level)")}${setRow(WG2,5,"5","3 กฎ — เพิ่ม 2:2s และ R:4s")}
+      ${setRow(WG2,4,"4","เพิ่ม 4:1s — Westgard แนะนำ N=4 (2 level × 2 ซ้ำ) หรือ N=2 สองรอบแล้วตรวจกฎ 4:1s ข้ามรอบ")}${setRow(WG2,0,"&lt; 4","multirule + 8:x — N=4 ใน 2 run หรือ N=2 ใน 4 run")}</table>
+      <h3 class="pg-h3">QC 3 level ต่อ run (เช่น CBC / Hematology, Coagulation, Blood gas — control เป็นจำนวนทวีคูณของ 3, N = 3, 6)</h3>
+      <table class="gt"><tr><th>Sigma</th><th>ชุดกฎ</th><th>N / R</th><th>หมายเหตุ</th></tr>
+      ${setRow(WG3,6,"≥ 6","<b>กฎเดียว</b> 1:3s วัด 1 ค่าต่อแต่ละ level")}${setRow(WG3,5,"5","เพิ่ม 2of3:2s (2 จาก 3 control เกิน 2SD ด้านเดียวกัน) และ R:4s")}
+      ${setRow(WG3,4,"4","เพิ่ม 3:1s")}${setRow(WG3,0,"&lt; 4","multirule + 6:x ทำ N รวม 6 (3 level × 2 ซ้ำใน 1 run หรือ 2 run × 3) · ถ้าใช้ 9:x แทน 6:x ใช้ N=3 สามรอบ")}</table>
+      <p class="note">ที่มา: ${ref(WG_URL.rules,"Westgard Sigma Rules")} (แผนภาพ Sigma scale สำหรับ 2 level และ 3 level) · หน้านี้ไม่ได้ระบุ N/R ของ 3 level สำหรับ σ 6, 5, 4 โดยตรง (ระบุ “1 ค่าต่อแต่ละ level”) ผมจึงใส่ N=3, R=1 ตามนัยของข้อความ</p></div>
+    <div class="doc" style="margin-top:14px"><h2>ทางเลือก: กฎเดี่ยวตาม Westgard “Best Practices”</h2>
+      <table class="gt"><tr><th>Sigma</th><th>แนวทาง (${ref(WG_URL.best,"Best Practices for “Westgard Rules”")})</th></tr>
+      <tr><td><b>≥ 6.0</b></td><td>QC แบบใดก็ได้ — กฎเดี่ยว ขีดจำกัด 3.5s หรือ 3.0s และ N น้อยที่สุด (ปกติ N = 2 หรือ 3)</td></tr>
+      <tr><td><b>5.5 – 6.0</b></td><td>กฎเดี่ยว ขีดจำกัด 3.0s, N = 2 หรือ 3</td></tr>
+      <tr><td><b>5.0 – 5.5</b></td><td>กฎเดี่ยว ขีดจำกัด 2.5s, N = 2 หรือ 3</td></tr>
+      <tr><td><b>4.5 – 5.0</b></td><td>กฎเดี่ยว ใช้ N = 4</td></tr>
+      <tr><td><b>≈ 4.0</b></td><td>ควรใช้ multirule, N = 4 ถึง 6</td></tr>
+      <tr><td><b>3.0 – 3.5</b></td><td>ต้องทำ QC สูงสุด — ช่วงเริ่มใช้ multirule N = 6–8 แล้วเมื่อคงที่ค่อยลดเป็นกฎเดี่ยว N = 2 หรือ 3 (monitor)</td></tr>
+      <tr><td><b>3-level (N = 3 หรือ 6)</b></td><td>ใช้ชุดกฎที่เหมาะกับทวีคูณของ 3: 1:3s/2of3:2s/R:4s/3:1s (N=3 หรือ 6, R=1) · เพิ่ม 6:x, 9:x, 12:x เมื่อต้องการ run ต่อเนื่อง</td></tr></table>
+      <p class="note">ตารางนี้เป็นทางเลือกที่ Westgard เสนอไว้ในบทความ best practices (เป็นข้อความบรรยาย ไม่ใช่ตารางตายตัว และไม่ได้ระบุขีดจำกัด/ N ครบทุกช่วง) webapp ใช้ชุดกฎจาก Sigma Rules ด้านบนเป็นค่าแนะนำหลัก</p></div>
+    <div class="doc" style="margin-top:14px"><h2>อธิบายสัญลักษณ์ของกฎ</h2><ul>
+      <li><b>1:3s</b> — control 1 ค่าเกิน ±3SD → reject</li>
+      <li><b>2:2s</b> — control 2 ค่าติดกันเกิน 2SD ด้านเดียวกัน (ข้าม level หรือข้าม run) → reject</li>
+      <li><b>R:4s</b> — ใน run เดียวกัน control ตัวหนึ่งเกิน +2SD และอีกตัวต่ำกว่า −2SD (ช่วงห่าง &gt; 4SD) → reject (ชี้ imprecision)</li>
+      <li><b>4:1s</b> — control 4 ค่าติดกันเกิน 1SD ด้านเดียวกัน → reject (ชี้ bias)</li>
+      <li><b>8:x / 6:x / 9:x / 12:x</b> — control ติดกัน 8 (6, 9, 12) ค่าอยู่ด้านเดียวกันของค่าเฉลี่ย → reject (ชี้ bias)</li>
+      <li><b>2of3:2s</b> — ใน 3 control ของ run เดียวกัน 2 ค่าเกิน 2SD ด้านเดียวกัน · <b>3:1s</b> — control 3 ค่าติดกันเกิน 1SD ด้านเดียวกัน (ใช้กับ 3 level)</li>
+      <li><b>N</b> = จำนวนค่า control ต่อ run (ที่ประเมินพร้อมกัน) · <b>R</b> = จำนวน run ที่ประเมินรวมกัน (ใช้กับกฎข้าม run เช่น 4:1s, 8:x)</li></ul></div>
+    <div class="doc warn-box" style="margin-top:14px"><h2>⚠️ ข้อควรระวัง / ข้อจำกัด</h2><ul>
+      <li><b>การแบ่งช่วง Sigma เป็น 6 / 5 / 4 / &lt;4:</b> Westgard แสดงเป็นระดับ Sigma ที่เป็นจำนวนเต็ม — webapp ใช้ชุดกฎของระดับเต็มที่ “เท่ากับหรือต่ำกว่า” (เช่น σ 5.3 ใช้ชุดของ 5, σ 4.6 ใช้ชุดของ 4) เป็นแนวทางอนุรักษ์ ซึ่งเป็นการตีความของ webapp ไม่ใช่ข้อกำหนดของ Westgard</li>
+      <li>ต้นฉบับพิมพ์ตัวเลือกของ σ &lt; 4 (2 level) ว่า “N=2, N=4” — webapp ตีความว่าเป็น N=2, <b>R=4</b></li>
+      <li>σ &lt; 3 Westgard ไม่มีชุดกฎแนะนำ — ควรปรับปรุงวิธี (ดู QGI ว่าสาเหตุมาจาก imprecision หรือ bias)</li>
+      <li>การเลือก QC จริงควรพิจารณาร่วมกับความเสี่ยงทางคลินิก ความถี่ของ run และข้อกำหนดของห้องปฏิบัติการ (ISO 15189 / CLSI C24) และยืนยันด้วย QC design หรือ power function เมื่อจำเป็น — แผนผังนี้เป็นแนวทางเบื้องต้น</li>
+      <li>ชุดกฎ “ตารางเดิมของ webapp” (ตัวเลือกในแถบ ⚙) ต่างจาก Westgard ที่ช่วง σ 4–5 และ 3–4 และไม่แยกกรณี 3 level — ค่าเริ่มต้นใหม่คือ Westgard Sigma Rules</li></ul></div>
+    ${refBox(["rules","best","role","grid"])}`;
+  const sel=$("qcTest");if(sel)sel.onchange=()=>{qcSel=sel.value;pageQcTree()};
+  bindSettings();
 }
 
 /* ---------- usage guide ---------- */
@@ -675,27 +1093,36 @@ function pageGuide(){
      `เปิดครั้งแรกจะมี <b>ข้อมูลตัวอย่าง (ค่าสมมติ)</b> ใส่ไว้ให้ดูตัวอย่างการทำงาน ก่อนกรอกข้อมูลจริงให้กดล้างข้อมูลตัวอย่างก่อน ข้อมูลทั้งหมดถูกเก็บในเบราว์เซอร์ของเครื่องนี้เท่านั้น (ไม่ส่งออกไปที่ใด) · ต้องการดูตัวอย่างอีกครั้ง กด <b>โหลดข้อมูลตัวอย่าง</b> ในหน้า Key-in (ระบบถามยืนยันก่อนแทนที่ข้อมูล และได้ค่าเหมือนเดิมทุกครั้ง) หรือโหลดไฟล์ <b>⬇ ข้อมูลตัวอย่าง</b> ไปลอง Import
       <div class="g-act"><button class="btn sm" id="gClear">🗑 ล้างข้อมูลตัวอย่างทั้ง Biochemistry และ CBC</button></div>`],
     ["กรอกข้อมูลทั่วไป: รพ. / Lab / EQA / Analyzer / S/N",
-     `ไปที่หน้า <b>Key-in</b> (Uncertainty หรือ Sigma) กรอกกรอบด้านบน: โรงพยาบาล, Lab, ชื่อ EQA/PT, ชื่อ Analyzer และ S/N ของเครื่อง <u>แยกตามกลุ่ม</u> (Biochemistry / CBC ใช้เครื่องและ EQA คนละชุด — เลือกกลุ่มด้วยปุ่มสลับด้านบนตาราง) ข้อมูลนี้จะแสดงที่หัวรายงานทุกหน้า
+     `ไปที่หน้า <b>Key-in</b> (Uncertainty หรือ Sigma) กรอกกรอบด้านบน: โรงพยาบาล, Lab, ชื่อ EQA/PT, ชื่อ Analyzer และ S/N ของเครื่อง <u>แยกตามกลุ่ม</u> (Biochemistry / CBC ใช้เครื่องและ EQA คนละชุด — เลือกกลุ่มด้วยปุ่มสลับด้านบนตาราง) ข้อมูลนี้จะแสดงที่หัวรายงานทุกหน้า<br>กรอบเดียวกันมี <b>ชื่อชุดข้อมูล</b> (เช่น “BC-6200 unit 1” — ใช้ตั้งชื่อไฟล์ตอน Export และชื่อไฟล์ PDF ช่อง “ชื่อชุดข้อมูล / ชื่อไฟล์” ที่แถบเครื่องมือด้านบนก็คือช่องเดียวกัน), <b>ช่วงเวลาที่ประเมิน</b>, <b>ผู้จัดทำ / ผู้ตรวจสอบ-อนุมัติ</b> และ <b>ข้อมูล IQC</b> (ชื่อ material, Lot, วันหมดอายุของแต่ละ level) ซึ่งจะแสดงที่หัวและท้ายรายงาน
       <div class="g-act">${go("Key-in Uncertainty","ไปหน้า Key-in")}</div>`],
     ["Key-in ข้อมูล IQC ต่อ level",
-     `แต่ละเทสมี QC เริ่มต้น <b>Biochemistry 2 level</b> และ <b>CBC 3 level</b> (1 แถว = 1 level) กรอก <b>Mean</b> และ <b>SD</b> ของ IQC สะสมระยะยาว ระบบคำนวณ CV% ให้ทันที · ต้องการเพิ่ม level กด <b>+L</b> · เพิ่มเทสใหม่กด <b>+ เพิ่มแถว</b> · ลบแถวกด ✕
+     `แต่ละเทสมี QC เริ่มต้น <b>Biochemistry 2 level</b> และ <b>CBC 3 level</b> (1 แถว = 1 level) กรอก <b>Mean</b> และ <b>SD</b> ของ IQC สะสมระยะยาว ระบบคำนวณ CV% ให้ทันที — หรือกรอก <b>%CV รายเดือน</b> (คั่นด้วย comma เช่น <code>2.1, 1.8, 2.4</code>) แทน SD ได้ (ถ้ากรอก ระบบใช้ %CV รายเดือนก่อน; ไม่มี Mean ก็ได้ถ้าเกณฑ์ TEa เป็น % แต่ U (abs) และเกณฑ์หน่วยสัมบูรณ์ต้องมี Mean) · ต้องการเพิ่ม level กด <b>+L</b> · เพิ่มเทสใหม่กด <b>+ เพิ่มแถว</b> · ลบแถวกด ✕
       <br><span class="note">ทางลัด: กรอกใน Excel ก็ได้ — กด <b>⬇ Template (Excel/CSV)</b> ที่แถบเครื่องมือด้านบน กรอกแล้วกด <b>⬆ Import CSV / Excel</b> ติ๊ก “เพิ่มต่อท้าย” ถ้าไม่ต้องการแทนที่ข้อมูลเดิม</span>`],
+    ["กรอกผล EQA รายเทสรายรอบ (แท็บ Key-in EQA)",
+     `แต่ละเทสกรอก <b>Lab result</b> และ <b>Group mean</b> (+ <b>Group SD</b> ถ้ามี) ของ EQA/PT แต่ละรอบ ระบบคำนวณ <b>%Bias = (Lab − Group mean)/Group mean × 100</b> และ <b>SDI</b> ให้เอง · ใช้กับทุก level ของเทสนั้น · ใส่ <b>Methodology</b> และ <b>ชื่อโปรแกรม EQA ของเทสนั้น</b> (ถ้าต่างจากของกลุ่ม) ได้ในกรอบเดียวกัน · ถ้าไม่มีผลรายรอบ กรอก bias เป็นรายการ (comma) ในหน้า Key-in แทนได้
+      <div class="g-act">${go("Key-in EQA","Key-in EQA")}</div>`],
+    ["ตั้งค่าวิธีคำนวณ",
+     `แถบ <b>⚙ วิธีคำนวณ</b> (หน้า Key-in / Sigma / QGI) เลือกได้ 3 อย่าง: <b>Bias ที่ใช้ใน Sigma/QGI</b> — เฉลี่ยของ |bias| (Absolute, ค่าเริ่มต้น) หรือ |ค่าเฉลี่ยแบบมีเครื่องหมาย| (Signed) · <b>รวม %CV รายเดือน</b> — %CV เฉลี่ยรายเดือน (ค่าเริ่มต้น) หรือ Pooled CV (RMS) · <b>สรุป Sigma / QC rule ตัดสินจาก</b> — Min (level ที่แย่สุด ค่าเริ่มต้น) หรือ Average (CV เฉลี่ยทุก level) · ดูตัวอย่างและเหตุผลในแท็บ “วิธีคำนวณ & คำอธิบาย”
+      <div class="g-act">${go("วิธีคำนวณ & คำอธิบาย","อ่านคำอธิบายวิธีคำนวณ")}</div>`],
     ["กรอกข้อมูลสำหรับ Uncertainty (หน้า Key-in Uncertainty)",
-     `กรอก <b>EQA bias %</b> จากหลายรอบ คั่นด้วย comma เช่น <code>1.2, -0.8, 0.5</code> · <b>u<sub>ref</sub></b> = ความไม่แน่นอนของค่าเป้าหมาย EQA (ไม่ทราบใส่ 0) · <b>u<sub>cal</sub></b> = ความไม่แน่นอนของ calibrator (ถ้ายังไม่รวมใน CV) · <b>k</b> = coverage factor (ปกติ 2) — เห็น u<sub>c</sub>, U% และ Mean ± U ทันทีในแถวเดียวกัน
+     `<b>EQA bias %</b> มาจากแท็บ Key-in EQA โดยอัตโนมัติ (หรือกรอกเป็นรายการ comma เช่น <code>1.2, -0.8, 0.5</code> เมื่อไม่มีผลรายรอบ) · <b>u<sub>ref</sub></b> = ความไม่แน่นอนของค่าเป้าหมาย EQA (ไม่ทราบใส่ 0) · <b>u<sub>cal</sub></b> = ความไม่แน่นอนของ calibrator (ถ้ายังไม่รวมใน CV) · <b>k</b> = coverage factor (ปกติ 2) — เห็น u<sub>c</sub>, U% และ Mean ± U ทันทีในแถวเดียวกัน
       <div class="g-act">${go("Key-in Uncertainty","Key-in Uncertainty")}</div>`],
     ["เลือกแหล่ง TEa สำหรับ Sigma (หน้า Key-in Sigma)",
-     `เลือก <b>TEa source</b>: <b>CLIA 2025</b> หรือ <b>Ricos Desirable</b> (ตารางแสดงเกณฑ์ของทั้งสองแหล่งให้เทียบ) หรือ <b>Custom</b> (ใส่ TEa % และระบุที่มาในช่อง “Custom TEa source”) · ระบบคำนวณ <b>TEa eff</b> (TEa ที่ใช้จริงของแต่ละ level) และ Sigma ให้ทันที · MCV/MCH/MCHC ไม่มีเกณฑ์ใน CLIA จึงใช้ Ricos
+     `เลือก <b>TEa source</b>: <b>CLIA 2025</b> หรือ <b>Ricos Desirable</b> (ตารางแสดงเกณฑ์ของทั้งสองแหล่งให้เทียบ) หรือ <b>Custom</b> (ใส่ TEa % และระบุที่มาในช่อง “Custom TEa source”) หรือ <b>Max / Min (CLIA/Ricos)</b> (ใช้ค่ามากสุด / น้อยสุดของสองแหล่ง) · ระบบเตือน ⚠ เมื่อเลือกแหล่งที่ไม่มีเกณฑ์ หรือ Custom ที่ยังไม่ระบุที่มา · ระบบคำนวณ <b>TEa eff</b> (TEa ที่ใช้จริงของแต่ละ level) และ Sigma ให้ทันที · MCV/MCH/MCHC ไม่มีเกณฑ์ใน CLIA จึงใช้ Ricos
       <div class="g-act">${go("Key-in Sigma","Key-in Sigma")}</div>`],
     ["ดูผลการคำนวณ",
      `<ul><li><b>Uncertainty</b> — ตารางสรุปรายเทส ตารางรายละเอียด (u<sub>Rw</sub>, u<sub>bias</sub>, u<sub>cal</sub>, u<sub>c</sub>, U%) และกราฟ U%</li>
       <li><b>Sigma &amp; OPSpecs</b> — Sigma รายเทส (ตัดสินจาก level ที่ต่ำสุด), QC rule ที่แนะนำ, กราฟ Sigma และ Normalized OPSpecs chart (รายชื่อเทสแยกสีทางขวา)</li>
       <li><b>QGI</b> — ถ้า Sigma ไม่ถึงเป้า ใช้ดูว่าสาเหตุมาจาก imprecision หรือ bias พร้อมแนวทางแก้ไข</li></ul>
       <div class="g-act">${go("Uncertainty","Uncertainty")} ${go("Sigma & OPSpecs","Sigma & OPSpecs")} ${go("QGI","QGI")}</div>`],
+    ["เลือกกฎ IQC ตามค่า Sigma (แท็บ แผนผัง QC rule)",
+     `แท็บ <b>แผนผัง QC rule</b> แสดงแผนผังตัดสินใจจาก <b>Westgard Sigma Rules</b>: ดู Sigma ของเทส + จำนวน control level (2 หรือ 3) → ชุดกฎ, N และ R ที่แนะนำ (เลือกเทสของคุณเพื่อไฮไลต์เส้นทางบนแผนผัง) · มีตารางชุดกฎ, ทางเลือกกฎเดี่ยวตาม Westgard best practices, คำอธิบายสัญลักษณ์ (1:3s, 2:2s, R:4s …) และข้อควรระวัง · ค่าแนะนำในตาราง/รายงาน/Export ใช้ชุดเดียวกัน (สลับไปใช้ตารางเดิมได้ในแถบ ⚙ “ชุดกฎ QC ที่แนะนำ”)
+      <div class="g-act">${go("แผนผัง QC rule","เปิดแผนผัง QC rule")}</div>`],
     ["ดูรายงานบนหน้าจอ",
      `หน้า <b>Report</b> เลือกมุมมอง <b>รายงานตามกลุ่ม</b> (Sigma &amp; OPSpecs / Uncertainty / QGI) หรือ <b>รายเทส (1 เทส / หน้า)</b> เพื่อตรวจก่อนพิมพ์
       <div class="g-act">${go("Report","ไปหน้า Report")}</div>`],
     ["พิมพ์ / บันทึกเป็น PDF ด้วย Export mode",
-     `กด <b>📄 Export mode (PDF)</b> ที่แถบเครื่องมือด้านบน แล้วเลือก<br>
+     `กด <b>📄 Export mode (PDF)</b> ที่แถบเครื่องมือด้านบน (ชื่อไฟล์ PDF = ชื่อชุดข้อมูลที่ตั้งไว้) แล้วเลือก<br>
       • <b>รายเทส — 1 parameter / หน้า</b> (แนวนอน): <u>ติ๊กเลือกส่วนที่จะพิมพ์</u> ได้ (ข้อมูล IQC/EQA, TEa, Sigma, QGI, Uncertainty, OPSpecs chart) หรือใช้ชุดด่วน “เฉพาะ Uncertainty / Sigma + chart / เฉพาะ QGI” · เฉพาะ Uncertainty และ/หรือ QGI จะเป็นแนวตั้ง<br>
       • <b>รวมทุก parameter (ตามกลุ่ม)</b> (แนวตั้ง): เลือกประเภทรายงานและกลุ่ม<br>
       เลือกเทสที่จะพิมพ์ / กรอง Sigma ต่ำกว่าค่าที่กำหนดได้ → กด <b>🖨 พิมพ์ / Save as PDF</b> (ถ้าหน้าต่างพิมพ์ไม่ตั้งทิศกระดาษเอง ให้เลือก Landscape / Portrait ตามที่แถบบอก)
@@ -711,13 +1138,13 @@ function pageGuide(){
     <div class="doc" id="gExport" style="margin-top:14px"><h2>สรุปการ Export และนำเข้าข้อมูลทั้งหมด</h2>
       <table class="gt"><tr><th>ปุ่ม / ที่อยู่</th><th>ได้อะไร</th><th>เนื้อหา</th><th>ใช้ทำอะไร</th></tr>
       <tr><td><b>⬇ Export CSV</b><br>แถบเครื่องมือด้านบน</td><td><code>mu_sigma_วันที่.csv</code></td>
-        <td>ทุกแถวที่มีชื่อเทส (ทั้ง 2 กลุ่ม): รพ./Lab/EQA/Analyzer/S/N, Group, Test, Level, Unit, Mean, SD, EQA bias, u<sub>ref</sub>, u<sub>cal</sub>, k, TEa source และที่มา Custom + <b>ผลคำนวณ</b> (CV, Mean bias, RMS bias, u<sub>bias</sub>, u<sub>c</sub>, U%, U abs, TEa eff, Sigma, Class, QGI พร้อมแปลผล, QC rule)</td>
+        <td>ทุกแถวที่มีชื่อเทส (ทั้ง 2 กลุ่ม): รพ./Lab/EQA/Analyzer/S/N/ชุดข้อมูล/ช่วงเวลา, Group, Test, Level, Unit, Mean, SD, %CV รายเดือน, EQA bias (คำนวณจาก Key-in EQA ถ้ามี), u<sub>ref</sub>, u<sub>cal</sub>, k, TEa source และที่มา Custom, Methodology, EQA ของเทส + <b>ผลคำนวณ</b> (CV, Mean bias, RMS bias, u<sub>bias</sub>, u<sub>c</sub>, U%, U abs, TEa eff, Sigma, Class, QGI พร้อมแปลผล, QC rule)</td>
         <td>เก็บสำรอง / เปิดใน Excel / ส่งต่อ · <b>Import กลับเข้าเว็บได้</b></td></tr>
       <tr><td><b>⬇ Export Excel (.xlsx)</b><br>แถบเครื่องมือด้านบน</td><td><code>mu_sigma_วันที่.xlsx</code></td>
-        <td>5 ชีต: <b>Info</b> (รพ./Lab/EQA/Analyzer/S/N), <b>Data</b> (ข้อมูลที่กรอก), <b>Uncertainty</b>, <b>Sigma</b>, <b>QGI</b> (ผลคำนวณ) — เป็นค่าตัวเลข ไม่มีสูตร หัวตารางสีน้ำเงิน</td>
-        <td>ส่งต่อ / เปิดดู · ชีต Info + Data <b>Import กลับได้</b></td></tr>
+        <td>7 ชีต: <b>Info</b> (ข้อมูลทั่วไป, IQC, ผู้จัดทำ, วิธีคำนวณที่เลือก), <b>Data</b> (ข้อมูลที่กรอก), <b>EQA</b> (ผลรายรอบ + %Bias/SDI), <b>Uncertainty</b>, <b>Sigma</b>, <b>QGI</b>, <b>Summary</b> (Sigma Min/Average/ตัวที่ใช้ตัดสินรายเทส) — เป็นค่าตัวเลข ไม่มีสูตร · ตั้งชื่อไฟล์ตาม “ชื่อชุดข้อมูล”</td>
+        <td>ส่งต่อ / เปิดดู · ชีต Info + Data + EQA <b>Import กลับได้</b></td></tr>
       <tr><td><b>⬇ Template (Excel)</b></td><td><code>template_mu_sigma.xlsx</code></td>
-        <td>ชีต Info · <b>Data</b> (เตรียมแถวทุกเทสไว้แล้ว Biochemistry 2 level / CBC 3 level, มี dropdown เลือก Test, TEa source, Group) · คำแนะนำ · Test list</td>
+        <td>ชีต Info · <b>Data</b> (เตรียมแถวทุกเทสไว้แล้ว Biochemistry 2 level / CBC 3 level, มี dropdown, ช่อง CV monthly list / Methodology / EQA ของเทส) · <b>EQA</b> (เตรียม 6 รอบต่อเทส คำนวณ %Bias และ SDI ให้ใน Excel) · คำแนะนำ · Test list</td>
         <td>คีย์ข้อมูลใน Excel แล้ว <b>Import</b> — แถวที่ Mean และ SD ว่างจะถูกข้ามอัตโนมัติ</td></tr>
       <tr><td><b>⬇ Template (CSV)</b></td><td><code>template_mu_sigma.csv</code></td>
         <td>ตารางเดียวกับ Template Excel พร้อมคอลัมน์ Hospital, Lab, EQA, Analyzer, S/N</td><td>เหมือนด้านบน แต่เป็น CSV</td></tr>
@@ -729,7 +1156,7 @@ function pageGuide(){
       <tr><td><b>📄 Export mode (PDF)</b></td><td>ไฟล์ PDF ผ่านหน้าต่างพิมพ์ (Save as PDF)</td>
         <td>รายงานแบบต่างๆ — ดูตารางรายงานด้านล่าง</td><td>รายงานสำหรับส่ง / เก็บเอกสาร</td></tr>
       <tr><td><b>⬆ Import CSV / Excel</b></td><td>— (นำข้อมูลเข้าเว็บ)</td>
-        <td>รับ <code>.csv</code> และ <code>.xlsx</code> (ไม่รองรับ .xls เก่า) · คอลัมน์ที่ต้องมี: <b>Test, Mean, SD</b> · คอลัมน์เสริมที่รู้จัก: Group, Level, EQA bias list (หรือ EQA bias 1–4), u<sub>ref</sub>, u<sub>cal</sub>, k, TEa source, Custom TEa %, Custom TEa source, Hospital, Lab, EQA, Analyzer, S/N · รู้จักชื่อย่อ เช่น Hb, Plt, BUN, ALP, TG</td>
+        <td>รับ <code>.csv</code> และ <code>.xlsx</code> (ไม่รองรับ .xls เก่า) · รับ <b>ไฟล์ “Sigma CBC template” ของแล็บ</b> (ชีต Raw Data + Performance) ได้โดยตรง — อ่าน %CV รายเดือน, ผล EQA รายรอบ, TEa พร้อมที่มา, Analyzer/EQA/IQC Lot · คอลัมน์ที่ต้องมี: <b>Test + (Mean และ SD หรือ CV monthly list)</b> หรือชีต EQA (Test, Lab result, Group mean) · คอลัมน์เสริมที่รู้จัก: Group, Level, EQA bias list (หรือ EQA bias 1–4), u<sub>ref</sub>, u<sub>cal</sub>, k, TEa source, Custom TEa %, Custom TEa source, Hospital, Lab, EQA, Analyzer, S/N · รู้จักชื่อย่อ เช่น Hb, Plt, BUN, ALP, TG</td>
         <td>ติ๊ก “เพิ่มต่อท้าย” ถ้าไม่ต้องการแทนที่ข้อมูลเดิม · เทสที่ไม่รู้จักถูกข้ามและแจ้งชื่อให้ทราบ</td></tr></table></div>
 
     <div class="doc" id="gReport" style="margin-top:14px"><h2>สรุปรายงานที่ webapp สร้างได้ทั้งหมด</h2>
@@ -766,7 +1193,7 @@ function pageGuide(){
   document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{state.tab=b.dataset.go;save();show();window.scrollTo(0,0)});
   document.querySelectorAll("[data-scroll]").forEach(b=>b.onclick=()=>$(b.dataset.scroll).scrollIntoView({behavior:"smooth",block:"start"}));
   const gc=$("gClear");
-  if(gc)gc.onclick=()=>{if(confirm("ล้างข้อมูลทั้งหมด (Biochemistry และ CBC)? ข้อมูล รพ./Lab/EQA/Analyzer ที่กรอกไว้จะไม่ถูกลบ")){GROUPS.forEach(g=>state.rows[g]=[]);save();gc.textContent="✓ ล้างข้อมูลแล้ว — ไปกรอกข้อมูลจริงที่หน้า Key-in"}};
+  if(gc)gc.onclick=()=>{if(confirm("ล้างข้อมูลทั้งหมด (Biochemistry และ CBC)? ข้อมูล รพ./Lab/EQA/Analyzer ที่กรอกไว้จะไม่ถูกลบ")){GROUPS.forEach(g=>state.rows[g]=[]);state.eqa={};state.meta={};save();gc.textContent="✓ ล้างข้อมูลแล้ว — ไปกรอกข้อมูลจริงที่หน้า Key-in"}};
 }
 
 /* ---------- reference / method ---------- */
@@ -774,8 +1201,8 @@ function pageRef(){
   const r=PRESETS.map(p=>`<tr><td>${p.group}</td><td class="l">${esc(p.test)}</td><td>${esc(p.unit)}</td><td class="l">${esc(p.clia_text)}</td>
   <td>${p.ric.CVI}</td><td>${p.ric.CVg}</td><td>${p.ric.I}</td><td>${p.ric.B}</td><td><b>${p.ric.TE}</b></td></tr>`).join("");
   $("view").innerHTML=`<div class="doc" style="margin-bottom:12px"><b>แหล่งอ้างอิง TEa (Westgard QC)</b><ul>
-  <li><a href="https://www.westgard.com/clia-and-quality-regulation-requirements/quality-requirements/2024-clia-requirements.html" target="_blank" rel="noopener">CLIA 2025 Acceptance Limits for Proficiency Testing</a> — final rule มีผล 1 ม.ค. 2025 (TV = target value)</li>
-  <li><a href="https://www.westgard.com/clia-and-quality-regulation-requirements/quality-requirements/biodatabase1.html" target="_blank" rel="noopener">Desirable Biological Variation Database specifications</a> (Ricos 2014) — <code>I = 0.5·CVI</code>, <code>B = 0.25·√(CVI²+CVg²)</code>, <code>TE = 1.65·I + B</code></li></ul>
+  <li><a href="https://www.westgard.com/clia-and-quality-regulation-requirements/quality-requirements/2024-clia-requirements.html" target="_blank" rel="noopener">CLIA 2025 Acceptance Limits for Proficiency Testing</a> — final rule มีผล 1 ม.ค. 2025 (TV = target value)<br><span class="url">https://www.westgard.com/clia-and-quality-regulation-requirements/quality-requirements/2024-clia-requirements.html</span></li>
+  <li><a href="https://www.westgard.com/clia-and-quality-regulation-requirements/quality-requirements/biodatabase1.html" target="_blank" rel="noopener">Desirable Biological Variation Database specifications</a><br><span class="url">https://www.westgard.com/clia-and-quality-regulation-requirements/quality-requirements/biodatabase1.html</span><br>(Ricos 2014) — <code>I = 0.5·CVI</code>, <code>B = 0.25·√(CVI²+CVg²)</code>, <code>TE = 1.65·I + B</code></li></ul>
   <p class="note">ตรวจสอบค่ากับเอกสารต้นฉบับ/ผู้จัด PT ของห้องปฏิบัติการก่อนใช้งานจริง · Westgard ระบุว่าฐานข้อมูล Ricos ไม่ได้ปรับปรุงแล้ว (ฐานข้อมูลใหม่อยู่ที่ EFLM) · MCV/MCH/MCHC ไม่มีเกณฑ์ใน CLIA</p></div>`+
   table(["Group","Test","Unit","CLIA 2025 criterion (TV ±)","CVI %","CVg %","I %","B %","Ricos TE %"],r);
 }
@@ -803,6 +1230,20 @@ function pageMethod(){
   <tr><td class="l">WBC (CLIA ±10%)</td><td class="l">±10%</td><td class="l">ไม่มีค่าสัมบูรณ์</td><td class="l"><b>10%</b></td></tr></table>
   <p><b>นำไปใช้ที่ไหน</b> — ในสูตร Sigma = (TEa eff − |Bias|)/CV และเป็นตัวหารของกราฟ OPSpecs (x = CV/TEa eff, y = |Bias|/TEa eff) · เกณฑ์ Ricos และ Custom เป็น % ล้วน จึงได้ TEa eff = TEa ที่ตั้งไว้</p>
   <p class="note">เพราะ TEa eff ขึ้นกับ Mean ของแต่ละ level แต่ละ level ของเทสเดียวกันจึงอาจได้ TEa eff และ Sigma ต่างกัน</p></div>
+
+  <div class="doc" style="margin-top:14px"><h2>วิธีคำนวณที่ตั้งค่าได้ (แถบ ⚙ วิธีคำนวณ)</h2>
+  <table class="gt"><tr><th>ตัวเลือก</th><th>ตัวเลือกที่มี</th><th>ความหมาย / ตัวอย่าง</th></tr>
+  <tr><td><b>Bias ที่ใช้ใน Sigma / QGI</b></td><td><b>เฉลี่ยของ |bias| (Absolute)</b> (ค่าเริ่มต้น) · |ค่าเฉลี่ยแบบมีเครื่องหมาย| (Signed)</td>
+    <td><b>Absolute</b> = ค่าเฉลี่ยของขนาด bias แต่ละรอบ ไม่สนเครื่องหมาย (วิธีเดียวกับ template เดิมของแล็บ) · <b>Signed</b> = ค่าสัมบูรณ์ของค่าเฉลี่ย bias ที่มีเครื่องหมาย บวกลบหักล้างกันได้ · ตัวอย่าง bias 6 รอบ = +2, −2, +2, −2, +2, −2 → เฉลี่ย |bias| = <b>2</b> แต่ค่าเฉลี่ยมีเครื่องหมาย = <b>0</b> (บวกลบหักล้างกัน ทำให้ Sigma สูงเกินจริง) · ส่วน Uncertainty ใช้ RMS bias ตามมาตรฐานเสมอ</td></tr>
+  <tr><td><b>รวม %CV รายเดือน</b></td><td><b>%CV เฉลี่ยรายเดือน</b> (ค่าเริ่มต้น) · <b>Pooled CV (RMS)</b></td>
+    <td><b>%CV เฉลี่ยรายเดือน</b> = ค่าเฉลี่ยเลขคณิตของ %CV แต่ละเดือน (วิธีเดียวกับ template เดิมของแล็บ) · <b>Pooled CV (RMS)</b> = √(Σ CV² / n) — ยกกำลังสอง %CV แต่ละเดือนก่อนเฉลี่ยแล้วถอดรากกลับ จึงให้น้ำหนักเดือนที่ CV สูงมากกว่า เหมาะเมื่อ CV แต่ละเดือนต่างกันมาก เพราะ imprecision ระยะยาวถูกดึงโดยเดือนที่แย่ (ตัวอย่าง CV 2, 4, 6 → เฉลี่ย 4.00 แต่ pooled 4.32 ได้ Sigma ต่ำกว่าเล็กน้อย) · ถ้าทุกเดือนใกล้เคียงกัน สองวิธีให้ค่าเกือบเท่ากัน</td></tr>
+  <tr><td><b>สรุป Sigma / QC rule ตัดสินจาก</b></td><td><b>Min</b> (ค่าเริ่มต้น) · Average</td>
+    <td>Min = Sigma ของ level ที่แย่สุด (conservative) · Average = (TEa − bias)/CV เฉลี่ยของทุก level ใช้กับสรุปรายเทส, QC rule, QGI และรายงาน ส่วน Sigma ราย level ยังแสดงครบ</td></tr>
+  <tr><td><b>ชุดกฎ QC ที่แนะนำ</b></td><td><b>Westgard Sigma Rules</b> (ค่าเริ่มต้น) · ตารางเดิมของ webapp</td>
+    <td>Westgard Sigma Rules แยกชุดกฎตาม Sigma (6 / 5 / 4 / &lt;4) และตามจำนวน control level ต่อ run (2 level หรือ 3 level เช่น CBC) — ดูแผนผังในแท็บ “แผนผัง QC rule”</td></tr>
+  <tr><td><b>แหล่ง TEa</b> (รายแถว)</td><td>CLIA 2025 · Ricos · Custom · <b>Max (CLIA/Ricos)</b> · <b>Min (CLIA/Ricos)</b></td>
+    <td>Max/Min เลือกค่า TEa eff ที่มากสุด/น้อยสุดของสองแหล่ง (ถ้าเทสไม่มีเกณฑ์ CLIA ใช้ Ricos) · ใช้ Max ระวังว่าผ่อนปรนกว่า ควรระบุเหตุผล</td></tr></table>
+  <p class="note"><b>SDI</b> (Standardized Deviation Index) = (Lab result − Group mean) / Group SD ใช้ดู bias ของแต่ละรอบเทียบกลุ่ม (|SDI| ≤ 2 ถือว่าปกติ) · วิธีที่เลือกถูกพิมพ์ไว้ท้ายรายงาน และบันทึกในชีต Info ตอน Export</p></div>
 
   <div class="doc" style="margin-top:14px"><h2>คำอธิบาย QGI (Quality Goal Index)</h2>
   <p><b>QGI คืออะไร</b> — ดัชนีที่ใช้วินิจฉัยว่า <u>เมื่อ Sigma ไม่ถึงเป้า สาเหตุหลักมาจาก imprecision (CV สูง) หรือ inaccuracy (bias สูง)</u> โดยเทียบขนาดของ bias กับ imprecision ของวิธีตรวจ จึงช่วยตัดสินใจว่าควรแก้ที่ส่วนใด</p>
@@ -832,8 +1273,10 @@ function pageMethod(){
   <li><b>u<sub>c</sub></b> — ความไม่แน่นอนมาตรฐานรวม (combined standard uncertainty) = √(u<sub>Rw</sub>² + u<sub>bias</sub>² + u<sub>cal</sub>²)</li>
   <li><b>k</b> — coverage factor (ปกติ 2)</li>
   <li><b>OPSpecs chart</b> — แผนภูมิ normalized (x = CV/TEa, y = Bias/TEa) แสดงตำแหน่งของแต่ละ test เทียบเส้น σ ; จุดที่อยู่ใกล้มุมซ้ายล่างดีที่สุด</li>
+  <li><b>SDI</b> — Standardized Deviation Index = (Lab result − Group mean)/Group SD จาก EQA/PT</li>
+  <li><b>Pooled CV</b> — รวม %CV หลายเดือนแบบ RMS = √(Σ CV²/n)</li>
   <li><b>level</b> — ระดับของสาร QC (เช่น normal / abnormal) ; Biochemistry ใช้ 2 level, CBC ใช้ 3 level เป็นค่าเริ่มต้น</li></ul>
-  <p class="note">ควรตัดสินใจจาก level ที่ตัดสินใจทางคลินิก (medical decision level) หรือ level ที่ Sigma ต่ำสุด</p></div>`;
+  <p class="note">ควรตัดสินใจจาก level ที่ตัดสินใจทางคลินิก (medical decision level) หรือ level ที่ Sigma ต่ำสุด</p></div>`+refBox(["clia","ricos","rules","best","role","grid"]);
 }
 
 /* ---------- report (2-section, print / save as PDF) ---------- */
@@ -851,28 +1294,35 @@ function pageReport(opts){
   const portrait=!!(opts&&opts.portrait);
   const today=new Date().toLocaleDateString("th-TH",{year:"numeric",month:"long",day:"numeric"});
   const i=state.info;
-  const head=(title,sub,g,kick)=>`<div class="pg-head"><div><div class="pg-kicker">Measurement Uncertainty &amp; Sigma Metric · ${kick||type}</div><h2>${title}</h2><div class="pg-sub">${sub}</div></div>
-    <div class="pg-meta"><div><b>รพ.</b> ${esc(i.hospital)||"—"}</div><div><b>Lab</b> ${esc(i.lab)||"—"}</div><div><b>EQA</b> ${esc(i.eqa[g])||"—"}</div><div><b>Analyzer</b> ${esc(i.analyzer[g])||"—"}</div><div><b>S/N</b> ${esc(i.sn[g])||"—"}</div><div><b>วันที่</b> ${today}</div></div></div>`;
-  const foot=(note,label)=>`<div class="pg-foot"><span>${note}</span><span class="by">By <b>PANTONE LAB</b></span><span>${label}</span></div>`;
+  const iqcLine=g=>{const q=i.iqc[g],lv=[0,1,2].map(k=>(q.lot[k]||q.exp[k])?`L${k+1}: ${esc(q.lot[k]||"—")}${q.exp[k]?" (Exp "+esc(q.exp[k])+")":""}`:"").filter(Boolean);
+    return q.name||lv.length?`<div class="pg-iqc"><b>IQC</b> ${esc(q.name)} ${lv.join(" · ")}</div>`:""};
+  const signLine=()=>i.preparedBy||i.approvedBy?`<div class="pg-sign"><span><b>ผู้จัดทำ</b> ${esc(i.preparedBy)||"……………………"}</span><span><b>ผู้ตรวจสอบ / อนุมัติ</b> ${esc(i.approvedBy)||"……………………"}</span></div>`:"";
+  const optsNote=()=>"วิธี: Bias = "+biasTxt()+" · %CV รายเดือน = "+(state.opts.cvMethod==="pooled"?"pooled":"เฉลี่ย")+" · สรุป = "+decName()+" · กฎ QC = "+(state.opts.rules==="old"?"ตารางเดิม":"Westgard Sigma Rules");
+  const head=(title,sub,g,kick,eqaOv)=>`<div class="pg-head"><div><div class="pg-kicker">Measurement Uncertainty &amp; Sigma Metric · ${kick||type}</div><h2>${title}</h2><div class="pg-sub">${sub}</div></div>
+    <div class="pg-meta"><div><b>รพ.</b> ${esc(i.hospital)||"—"}</div><div><b>Lab</b> ${esc(i.lab)||"—"}</div><div><b>EQA</b> ${esc(eqaOv||i.eqa[g])||"—"}</div><div><b>Analyzer</b> ${esc(i.analyzer[g])||"—"}</div><div><b>S/N</b> ${esc(i.sn[g])||"—"}</div>${i.dataset?`<div><b>ชุดข้อมูล</b> ${esc(i.dataset)}</div>`:""}${i.period?`<div><b>ช่วงประเมิน</b> ${esc(i.period)}</div>`:""}<div><b>วันที่</b> ${today}</div></div></div>${iqcLine(g)}`;
+  const refLine=keys=>keys&&keys.length?`<div class="pg-ref"><b>อ้างอิง (Westgard QC):</b> ${keys.map(k=>`${REFS[k].s} — ${REFS[k].u}`).join(" · ")}</div>`:"";
+  const foot=(note,label,refs)=>`<div class="pg-foot"><span>${note}</span><span class="by">By <b>PANTONE LAB</b></span><span>${label}</span></div>${refLine(refs)}${signLine()}`;
   const lab=v=>v.r.test+(v.r.level?" "+v.r.level:"");
-  const abbr=(full,unc)=>`<div class="abbr"><b>ตัวย่อ</b> — <b>TEa eff</b> = Effective Total Allowable Error : ค่า TEa (%) ที่ใช้จริงของ level นั้น = max(TEa %, TEa abs / Mean × 100)${full?` · <b>TEa</b> = Total Allowable Error · <b>CV</b> = สัมประสิทธิ์การกระจาย (SD/Mean×100) · <b>σ</b> = Sigma metric = (TEa eff − |Bias|)/CV · <b>QGI</b> = Quality Goal Index = |Bias|/(1.5×CV) ${unc?"":" · <b>U</b> = Expanded uncertainty = k·u<sub>c</sub> · <b>IQC/EQA</b> = การควบคุมคุณภาพภายใน/ภายนอก"}`:""}</div>`;
+  const abbr=(full,unc)=>abbrBox("ตัวย่อ",[["TEa eff","Effective Total Allowable Error : ค่า TEa (%) ที่ใช้จริงของ level นั้น = max(TEa %, TEa abs / Mean × 100)"],
+    ...(full?[["TEa","Total Allowable Error"],["CV","สัมประสิทธิ์การกระจาย (SD/Mean×100)"],["σ","Sigma metric = (TEa eff − |Bias|)/CV"],["QGI","Quality Goal Index = |Bias|/(1.5×CV)"],
+      ...(unc?[]:[["U","Expanded uncertainty = k·u<sub>c</sub>"],["IQC/EQA","การควบคุมคุณภาพภายใน / การประเมินคุณภาพภายนอก"]])]:[])]);
   const pages=[];
 
   const repSigma=(g,vs)=>{
     const sg=vs.filter(v=>v.c.sigma!=null),skipped=vs.length-sg.length;
-    const body=sg.map(v=>{const c=v.c;return`<tr ${trc(v)}><td>${esc(v.r.test)}</td><td>${esc(v.r.level)}</td><td>${+c.mean.toFixed(3)} ${esc(c.unit)}</td><td>${f2(c.cv)}</td><td>${f2(c.meanBias)}</td>
-      <td>${f2(c.tea)}<br><small>${esc(v.r.src)}${v.r.src===SRC.CUSTOM&&v.r.csrc?": "+esc(v.r.csrc):""}</small></td><td><b>${f2(c.sigma)}</b></td><td>${chip(c.sigma)}</td><td class="l">${cls(c.sigma)[2]}</td></tr>`}).join("");
-    const fn="TEa: CLIA 2025 / Ricos desirable (Westgard QC) · Sigma = (TEa<sub>eff</sub>% − |Bias%|)/CV%";
+    const body=sg.map(v=>{const c=v.c;return`<tr ${trc(v)}><td>${esc(v.r.test)}</td><td>${esc(v.r.level)}</td><td>${fm(c.mean)} ${esc(c.unit)}</td><td>${f2(c.cv)}</td><td>${f2(c.meanBias)}</td>
+      <td>${f2(c.tea)}<br><small>${esc(v.r.src)}${v.r.src===SRC.CUSTOM&&v.r.csrc?": "+esc(v.r.csrc):""}</small></td><td><b>${f2(c.sigma)}</b></td><td>${chip(c.sigma)}</td><td class="l">${cls(c.sigma,v.r.test)[2]}</td></tr>`}).join("");
+    const fn="TEa: CLIA 2025 / Ricos desirable (Westgard QC) · Sigma = (TEa<sub>eff</sub>% − |Bias%|)/CV% · "+optsNote();
     pages.push(`<section class="pg">${head("ผลการคำนวณ Sigma — "+g,"Sigma และ QC rule ที่แนะนำของทุก level",g)}
       ${cards([["จำนวน level",sg.length],["Sigma เฉลี่ย",sg.length?f2(mean_(sg.map(v=>v.c.sigma))):"-"],["σ ≥ 4",`${sg.filter(v=>v.c.sigma>=4).length} / ${sg.length}`],["σ < 3",sg.filter(v=>v.c.sigma<3).length]])}
       ${sg.length?table(["Test","Level","Mean","CV %","Bias %","TEa eff % (แหล่ง)","Sigma","Class","Suggested QC rule"],body):'<p class="note">ยังไม่มีข้อมูล</p>'}
-      ${skipped?`<p class="note">${skipped} แถวไม่มี TEa จึงไม่คำนวณ Sigma</p>`:""}${abbr(false)}${foot(fn,g+" · ผลการคำนวณ")}</section>`);
+      ${skipped?`<p class="note">${skipped} แถวไม่มี TEa จึงไม่คำนวณ Sigma</p>`:""}${abbr(false)}${foot(fn,g+" · ผลการคำนวณ",["clia","ricos","rules"])}</section>`);
     const pts=sg.filter(v=>v.c.tea>0).map(v=>({label:lab(v),x:v.c.cv/v.c.tea*100,y:Math.abs(v.c.meanBias)/v.c.tea*100,sg:v.c.sigma,cc:cls(v.c.sigma)[1],name:cls(v.c.sigma)[0]}));
     const chips=[["World class",6],["Excellent",5],["Good",4],["Marginal",3],["Unacceptable",0]].map(([n,x])=>`<span class="cls ${cls(x)[1]}">${n}: ${sg.filter(v=>cls(v.c.sigma)[0]===n).length}</span>`).join(" ");
     pages.push(`<section class="pg opg">${head("Normalized OPSpecs chart — "+g,"ตำแหน่งของแต่ละ test/level เทียบเส้น Sigma",g)}
       <div class="op-chips">${chips}</div><div class="op-chart">${opSvg(pts,g,true,false,undefined,portrait)}</div>
       <div class="op-guide"><b>วิธีอ่านกราฟ</b> — แกน x = CV/TEa×100 · แกน y = |Bias|/TEa×100 · เส้น σ: y = 100 − σ·x · จุดที่อยู่ใต้/ซ้ายของเส้น σ สูงกว่าคือคุณภาพดีกว่า (พื้นที่แรเงาเขียว = σ ≥ 6) · เส้นประ = 33% TEa</div>
-      ${foot(fn,g+" · OPSpecs chart")}</section>`);
+      ${foot(fn,g+" · OPSpecs chart",["clia","ricos","rules"])}</section>`);
   };
 
   const repUnc=(g,vs)=>{
@@ -880,7 +1330,7 @@ function pageReport(opts){
     const sum=byTest(vs).map(([t,a],ti)=>{const Us=a.map(v=>v.c.U),w=a.reduce((x,v)=>v.c.U>x.c.U?v:x);
       return`<tr class="g${ti%3}"><td>${esc(t)}</td><td>${a.length}</td><td>${f2(Math.min(...Us))} – ${f2(Math.max(...Us))}</td>
       <td class="l">${a.map(v=>`${esc(v.r.level)}: ${fmtU(v.c.mean,v.c.Uabs,v.c.unit)}`).join(" · ")}</td><td class="l">${esc(w.r.level)} (U=${f2(w.c.U)}%)</td></tr>`}).join("");
-    const det=vs.map(v=>{const c=v.c;return`<tr ${trc(v)}><td>${esc(v.r.test)}</td><td>${esc(v.r.level)}</td><td>${esc(c.unit)}</td><td>${+c.mean.toFixed(3)}</td>
+    const det=vs.map(v=>{const c=v.c;return`<tr ${trc(v)}><td>${esc(v.r.test)}</td><td>${esc(v.r.level)}</td><td>${esc(c.unit)}</td><td>${fm(c.mean)}</td>
       <td>${f2(c.cv)}</td><td>${f2(c.rms)}</td><td>${f2(c.uref)}</td><td>${f2(c.ubias)}</td><td>${f2(c.ucal)}</td><td><b>${f2(c.uc)}</b></td><td>${c.k}</td>
       <td><b>${f2(c.U)}</b></td><td>${f2(c.Uabs,3)}</td><td class="l">${fmtU(c.mean,c.Uabs,c.unit)}</td></tr>`}).join("");
     const fn="u<sub>c</sub> = √(u<sub>Rw</sub>² + u<sub>bias</sub>² + u<sub>cal</sub>²) · U = k·u<sub>c</sub> · u<sub>bias</sub> = √(RMS bias² + u<sub>ref</sub>²)";
@@ -900,14 +1350,14 @@ function pageReport(opts){
 
   const repQgi=(g,vs)=>{
     const ok=vs.filter(v=>v.c.qgi!=null),need=ok.filter(v=>v.c.sigma<6),n=c=>need.filter(v=>qgiInfo(v.c.qgi,v.c.sigma).cls===c).length;
-    const sum=byTest(ok).map(([t,a],ti)=>{const w=a.reduce((x,v)=>v.c.sigma<x.c.sigma?v:x),q=qgiInfo(w.c.qgi,w.c.sigma);
-      return`<tr class="g${ti%3}"><td>${esc(t)}</td><td class="l">${a.map(v=>`${esc(v.r.level)}: ${f2(v.c.qgi,2)}`).join(" · ")}</td><td>${esc(w.r.level)} (σ=${f2(w.c.sigma)})</td><td><span class="cls ${q.cls}">${q.name}</span></td><td class="l">${q.need}</td></tr>`}).join("");
+    const sum=byTest(ok).map(([t,a],ti)=>{const w=decisive(a),q=qgiInfo(w.c.qgi,w.c.sigma);
+      return`<tr class="g${ti%3}"><td>${esc(t)}</td><td class="l">${a.map(v=>`${esc(v.r.level)}: ${f2(v.c.qgi,2)}`).join(" · ")}</td><td>${esc(w.r.level)} (σ=${f2(w.c.sigma)})</td><td><span class="cls ${q.cls}">${q.name}</span></td><td class="l">${needHtml(q)}</td></tr>`}).join("");
     const det=ok.map(v=>{const c=v.c,q=qgiInfo(c.qgi,c.sigma);return`<tr ${trc(v)}><td>${esc(v.r.test)}</td><td>${esc(v.r.level)}</td><td>${f2(c.cv)}</td><td>${f2(Math.abs(c.meanBias))}</td>
-      <td>${f2(c.sigma)} ${chip(c.sigma)}</td><td><b>${f2(c.qgi,3)}</b></td><td><span class="cls ${q.cls}">${q.name}</span></td><td class="l">${q.need}</td><td class="l" style="white-space:normal;min-width:260px">${q.act}</td></tr>`}).join("");
+      <td>${f2(c.sigma)} ${chip(c.sigma)}</td><td><b>${f2(c.qgi,3)}</b></td><td><span class="cls ${q.cls}">${q.name}</span></td><td class="l">${needHtml(q)}</td><td class="l" style="white-space:normal;min-width:260px">${q.act}</td></tr>`}).join("");
     const fn="QGI = |Bias%| / (1.5 × CV%) · &lt;0.8 imprecision · 0.8–1.2 ทั้งสอง · &gt;1.2 inaccuracy (bias)";
     pages.push(`<section class="pg">${head("รายงาน QGI (Quality Goal Index) — "+g,"วินิจฉัยสาเหตุเมื่อ Sigma ไม่ถึงเป้า ของทุก level",g)}
       ${cards([["จำนวน level",ok.length],["Imprecision (σ<6)",n("q1")],["Imprecision + Inaccuracy (σ<6)",n("q2")],["Inaccuracy (σ<6)",n("q3")]])}
-      ${ok.length?`<h3 class="pg-h3">สรุปรายเทส (ตัดสินจาก level ที่ Sigma ต่ำสุด)</h3>${table(["Test","QGI แต่ละ level","Level ที่ Sigma ต่ำสุด","สาเหตุหลัก","ความจำเป็น"],sum)}
+      ${ok.length?`<h3 class="pg-h3">สรุปรายเทส (ตัดสินจาก ${decName()})</h3>${table(["Test","QGI แต่ละ level","Level ที่ Sigma ("+decName()+")","สาเหตุหลัก","ความจำเป็น"],sum)}
       <h3 class="pg-h3">รายละเอียด QGI</h3>${table(["Test","Level","CV %","|Bias| %","Sigma","QGI","แปลผล","ความจำเป็น","แนวทางแก้ไข"],det)}`:'<p class="note">ยังไม่มีข้อมูล</p>'}
       ${foot(fn,g+" · ตาราง QGI")}</section>`);
     const items=ok.map(v=>({label:lab(v),value:v.c.qgi,color:`var(${{q1:"--q1",q2:"--q2",q3:"--q3"}[qgiInfo(v.c.qgi,v.c.sigma).cls]})`}));
@@ -929,21 +1379,21 @@ function pageReport(opts){
     byTest(vs.filter(v=>v.c.sigma!=null)).forEach(([test,a])=>{
       if(!keepFn(g,test,a))return;
       tnum++;
-      const p=byName(test),w=a.reduce((x,v)=>v.c.sigma<x.c.sigma?v:x),q=qgiInfo(w.c.qgi,w.c.sigma),wu=a.reduce((x,v)=>v.c.U>x.c.U?v:x);
+      const p=byName(test),w=decisive(a),q=qgiInfo(w.c.qgi,w.c.sigma),wu=a.reduce((x,v)=>v.c.U>x.c.U?v:x);
       const teaParts=v=>{const r=v.r;if(r.src===SRC.CUSTOM)return[num(r.custom)||0,0];if(r.src===SRC.CLIA)return[p.clia_pct||0,p.clia_abs||0];return[p.ric.TE,0]};
       const lv=v=>`<th>${esc(v.r.level)}</th>`;
       const row=(label,fn,cls_)=>`<tr${cls_?` class="${cls_}"`:""}><td class="l">${label}</td>${a.map(v=>`<td>${fn(v)}</td>`).join("")}</tr>`;
       const sec=(title)=>`<tr class="psec"><td colspan="${a.length+1}" class="l">${title}</td></tr>`;
       const R={};  // row builders
-      R.mean=()=>row("Mean ("+esc(p.unit)+")",v=>+v.c.mean.toFixed(3));
+      R.mean=()=>row("Mean ("+esc(p.unit)+")",v=>fm(v.c.mean));
       R.cv=()=>row("CV % (u<sub>Rw</sub>)",v=>f2(v.c.cv));
-      R.bias=()=>row("Mean bias % (signed)",v=>f2(v.c.meanBias));
+      R.bias=()=>row("Bias % (ที่ใช้: "+(state.opts.biasMethod==="signed"?"|เฉลี่ยมีเครื่องหมาย|":"เฉลี่ย |bias|")+")",v=>f2(v.c.meanBias));
       R.tea=()=>row("<b>TEa eff %</b>",v=>`<b>${f2(v.c.tea)}</b>`);
       const blocks=[];
-      if(PARTS.data)blocks.push(sec("ข้อมูล IQC / EQA")+R.mean()+row("SD",v=>esc(v.r.sd))+R.cv()+row("EQA bias % (รอบที่ได้)",v=>`<small>${esc(v.r.bias)||"—"}</small>`)+R.bias());
+      if(PARTS.data)blocks.push(sec("ข้อมูล IQC / EQA")+R.mean()+row("SD",v=>v.c.sd==null?"—":+v.c.sd.toFixed(4))+R.cv()+row("EQA bias % (รอบที่ได้)",v=>`<small>${esc(v.r.bias)||"—"}</small>`)+R.bias());
       if(PARTS.tea)blocks.push(sec("TEa (ความคลาดเคลื่อนรวมที่ยอมรับได้)")+row("แหล่ง TEa",v=>`${esc(v.r.src)}${v.r.src===SRC.CUSTOM&&v.r.csrc?` <small>(${esc(v.r.csrc)})</small>`:""}`)+row("TEa % / TEa abs ("+esc(p.unit)+")",v=>`${f2(teaParts(v)[0])} / ${teaParts(v)[1]?+teaParts(v)[1]:"—"}`)+R.tea());
-      if(PARTS.sigma)blocks.push(sec("Sigma")+(PARTS.data?"":R.cv()+R.bias())+(PARTS.tea?"":R.tea())+row("<b>Sigma</b>",v=>`<b style="font-size:15px">${f2(v.c.sigma)}</b>`,"prow-hi")+row("Class",v=>chip(v.c.sigma))+row("QC rule ที่แนะนำ",v=>`<small>${cls(v.c.sigma)[2]}</small>`));
-      if(PARTS.qgi)blocks.push(sec("QGI — Quality Goal Index")+(PARTS.data||PARTS.sigma?"":R.cv()+row("|Bias| %",v=>f2(Math.abs(v.c.meanBias))))+row("QGI",v=>`${f2(v.c.qgi,2)} <small>${qgiInfo(v.c.qgi,v.c.sigma).name}</small>`)+row("ความจำเป็น",v=>`<small>${qgiInfo(v.c.qgi,v.c.sigma).need}</small>`));
+      if(PARTS.sigma)blocks.push(sec("Sigma")+(PARTS.data?"":R.cv()+R.bias())+(PARTS.tea?"":R.tea())+row("<b>Sigma</b>",v=>`<b style="font-size:15px">${f2(v.c.sigma)}</b>`,"prow-hi")+row("Class",v=>chip(v.c.sigma))+row("QC rule ที่แนะนำ",v=>`<small>${cls(v.c.sigma,test)[2]}</small>`));
+      if(PARTS.qgi)blocks.push(sec("QGI — Quality Goal Index")+(PARTS.data||PARTS.sigma?"":R.cv()+row("|Bias| %",v=>f2(Math.abs(v.c.meanBias))))+row("QGI",v=>`${f2(v.c.qgi,2)} <small>${qgiInfo(v.c.qgi,v.c.sigma).name}</small>`)+row("ความจำเป็น",v=>`<small>${needHtml(qgiInfo(v.c.qgi,v.c.sigma))}</small>`));
       if(PARTS.unc)blocks.push(sec("Measurement Uncertainty (k = "+esc(a[0].c.k)+")")+(PARTS.data?"":R.mean()+R.cv())+(PARTS.data?row("u<sub>bias</sub> % / u<sub>c</sub> %",v=>`${f2(v.c.ubias)} / ${f2(v.c.uc)}`):row("RMS bias % / u<sub>ref</sub> %",v=>`${f2(v.c.rms)} / ${f2(v.c.uref)}`)+row("u<sub>bias</sub> % / u<sub>cal</sub> %",v=>`${f2(v.c.ubias)} / ${f2(v.c.ucal)}`)+row("u<sub>c</sub> %",v=>f2(v.c.uc)))+row("<b>U %</b>",v=>`<b>${f2(v.c.U)}</b>`,"prow-hi")+row("Result (Mean ± U)",v=>`<small>${fmtU(v.c.mean,v.c.Uabs,v.c.unit)}</small>`));
       const hasTable=blocks.length>0;
       const onlyChart=!hasTable&&PARTS.chart;
@@ -951,13 +1401,13 @@ function pageReport(opts){
       const pts=a.filter(v=>v.c.tea>0).map(v=>({label:test+" "+v.r.level,short:v.r.level,x:v.c.cv/v.c.tea*100,y:Math.abs(v.c.meanBias)/v.c.tea*100,sg:v.c.sigma,cc:cls(v.c.sigma)[1],name:cls(v.c.sigma)[0]}));
       const crit=`CLIA 2025: ${p.clia_pct||p.clia_abs?esc(p.clia_text):"ไม่มีเกณฑ์"} · Ricos desirable TE: ${p.ric.TE}%`;
       const cardList=[];
-      if(PARTS.sigma){cardList.push(["Sigma ต่ำสุด",`${f2(w.c.sigma)}<br><small>${esc(w.r.level)}</small>`]);cardList.push(["Class",chip(w.c.sigma)||"-"])}
-      if(PARTS.qgi)cardList.push(["QGI — Quality Goal Index (level ที่ Sigma ต่ำสุด)",f2(w.c.qgi,2)]);
+      if(PARTS.sigma){cardList.push(["Sigma ("+decName()+")",`${f2(w.c.sigma)}<br><small>${esc(w.r.level)}</small>`]);cardList.push(["Class",chip(w.c.sigma)||"-"])}
+      if(PARTS.qgi)cardList.push(["QGI — Quality Goal Index (ตาม "+decName()+")",f2(w.c.qgi,2)]);
       if(PARTS.unc)cardList.push(["U % สูงสุด",`${f2(wu.c.U)}<br><small>${esc(wu.r.level)}</small>`]);
       cardList.push(["จำนวน level",a.length]);
       const bits=[];
-      if(PARTS.sigma)bits.push(`Sigma ต่ำสุดที่ level ${esc(w.r.level)} = <b>${f2(w.c.sigma)}</b> (${cls(w.c.sigma)[0]}) → QC rule ที่แนะนำ: <b>${cls(w.c.sigma)[2]}</b>`);
-      if(PARTS.qgi)bits.push(`QGI ${f2(w.c.qgi,2)} → <b>${q.name}</b> (${q.need})${w.c.sigma<6?` · แนวทาง: ${q.act}`:""}`);
+      if(PARTS.sigma)bits.push(`Sigma (${decName()}) ที่ level ${esc(w.r.level)} = <b>${f2(w.c.sigma)}</b> (${cls(w.c.sigma)[0]}) → QC rule ที่แนะนำ: <b>${cls(w.c.sigma,test)[2]}</b>`);
+      if(PARTS.qgi)bits.push(`QGI ${f2(w.c.qgi,2)} → <b>${q.name}</b> (${needHtml(q)})${w.c.sigma<6?` · แนวทาง: ${q.act}`:""}`);
       if(PARTS.unc)bits.push(`U% สูงสุด <b>${f2(wu.c.U)}%</b> ที่ level ${esc(wu.r.level)} → ${fmtU(wu.c.mean,wu.c.Uabs,wu.c.unit)}`);
       const summary=bits.length?`<div class="op-guide"><b>สรุป</b> — ${bits.join(" · ")}</div>`:"";
       const chartBlock=PARTS.chart?`<div${onlyChart?' style="max-width:70%;margin:0 auto"':""}><h3 class="pg-h3" style="margin-top:0">Normalized OPSpecs chart — ${esc(test)}</h3><div class="op-chart">${opSvg(pts,g,true,true,250)}</div>
@@ -965,11 +1415,12 @@ function pageReport(opts){
       const leftBlock=hasTable?`<div>${params}${PARTS.tea||PARTS.sigma?`<p class="note" style="margin-top:8px">เกณฑ์ TEa — ${crit}</p>`:""}${PARTS.chart?"":summary}</div>`:"";
       const single=!(hasTable&&PARTS.chart);
       const kick="รายงานรายเทส · "+[PARTS.data&&"ข้อมูล IQC/EQA",PARTS.tea&&"TEa",PARTS.sigma&&"Sigma",PARTS.qgi&&"QGI (Quality Goal Index)",PARTS.unc&&"Uncertainty",PARTS.chart&&"OPSpecs"].filter(Boolean).join(" · ");
-      const fn=[(PARTS.sigma||PARTS.tea)&&"Sigma = (TEa<sub>eff</sub>% − |Bias%|)/CV% · TEa eff = max(TEa%, TEa abs/Mean×100)",PARTS.qgi&&"QGI = |Bias|/(1.5·CV)",PARTS.unc&&"U = k·√(u<sub>Rw</sub>² + u<sub>bias</sub>² + u<sub>cal</sub>²)"].filter(Boolean).join(" · ")||"Normalized OPSpecs";
-      tpages.push(`<section class="pg tpg">${head(esc(test),`${g} · หน่วย ${esc(p.unit)} · ${a.length} level`,g,kick)}
+      const fn=[(PARTS.sigma||PARTS.tea)&&"Sigma = (TEa eff − |Bias|)/CV",PARTS.qgi&&"QGI = |Bias|/(1.5·CV)",PARTS.unc&&"U = k·u<sub>c</sub>",(PARTS.sigma||PARTS.qgi)&&optsNote()].filter(Boolean).join(" · ")||"Normalized OPSpecs";
+      const mt=state.meta[eqaKey(g,test)]||{};
+      tpages.push(`<section class="pg tpg">${head(esc(test),`${g} · หน่วย ${esc(p.unit)} · ${a.length} level${mt.method?" · Methodology: "+esc(mt.method):""}`,g,kick,mt.eqa)}
         ${cards(cardList)}
         <div class="tpg-grid"${single?' style="grid-template-columns:1fr!important"':""}>${leftBlock}${chartBlock}</div>
-        ${PARTS.tea||PARTS.sigma?abbr(true,PARTS.unc):(PARTS.qgi?`<div class="abbr"><b>ตัวย่อ</b> — <b>QGI</b> = Quality Goal Index = |Bias%| / (1.5 × CV%) · &lt;0.8 imprecision · 0.8–1.2 ทั้งสอง · &gt;1.2 inaccuracy (bias) · <b>CV</b> = สัมประสิทธิ์การกระจาย (SD/Mean×100) · <b>Bias</b> = ความคลาดเคลื่อนเชิงระบบจาก EQA/PT · <b>σ</b> = Sigma metric</div>`:"")}${PARTS.unc?uncAbbrHtml():""}${foot(fn,`${g} · ${esc(test)} · หน้า ${tnum} / ${ttotal}`)}</section>`);
+        ${PARTS.tea||PARTS.sigma?abbr(true,PARTS.unc):(PARTS.qgi?abbrBox("ตัวย่อ",[["QGI","Quality Goal Index = |Bias%| / (1.5 × CV%) · &lt;0.8 imprecision · 0.8–1.2 ทั้งสอง · &gt;1.2 inaccuracy (bias)"],["CV","สัมประสิทธิ์การกระจาย (SD/Mean×100)"],["Bias","ความคลาดเคลื่อนเชิงระบบจาก EQA/PT"],["σ","Sigma metric"]]):"")}${PARTS.unc?uncAbbrHtml():""}${foot(fn,`${g} · ${esc(test)} · หน้า ${tnum} / ${ttotal}`,[...(PARTS.tea||PARTS.sigma?["clia","ricos"]:[]),...(PARTS.sigma?["rules"]:[])])}</section>`);
     });
   };
   GROUPS.forEach(g=>{
@@ -990,34 +1441,62 @@ const rnd=(v,d=3)=>v==null||!isFinite(v)?"":+v.toFixed(d);
 const asNum=v=>{const t=String(v??"").trim();return t!==""&&/^-?\d*\.?\d+(e-?\d+)?$/i.test(t)?parseFloat(t):v};
 function download(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
 const stamp=()=>new Date().toISOString().slice(0,10);
+const fileBase=()=>(state.info.dataset||"").trim().replace(/[\\/:*?"<>|]+/g,"_").replace(/\s+/g,"_")||"mu_sigma";
 function exportRows(){const out=[];GROUPS.forEach(g=>state.rows[g].forEach(r=>out.push({g,r,c:calc(r)})));return out}
+const biasListOf=(g,r)=>{const bs=eqaBiasList(g,r.test);return bs.length?bs.map(x=>+x.toFixed(3)).join(", "):r.bias};
+const metaOf=(g,test)=>state.meta[eqaKey(g,test)]||{};
+const blankInfo=()=>({hospital:"",lab:"",dataset:"",period:"",preparedBy:"",approvedBy:"",eqa:{Biochemistry:"",CBC:""},analyzer:{Biochemistry:"",CBC:""},sn:{Biochemistry:"",CBC:""},
+  iqc:{Biochemistry:{name:"",lot:["","",""],exp:["","",""]},CBC:{name:"",lot:["","",""],exp:["","",""]}}});
+function infoKV(I,o){
+  const rows=[["Dataset",I.dataset,"ชื่อชุดข้อมูล — ใช้ตั้งชื่อไฟล์"],["Period",I.period,"ช่วงเวลาที่ประเมิน เช่น ต.ค. 2568 – มี.ค. 2569"],["Hospital",I.hospital],["Lab",I.lab],["Prepared by",I.preparedBy],["Approved by",I.approvedBy]];
+  GROUPS.forEach(g=>{
+    rows.push(["EQA "+g,I.eqa[g]],["Analyzer "+g,I.analyzer[g]],["S/N "+g,I.sn[g]],["IQC "+g+" Name",I.iqc[g].name]);
+    for(let k=0;k<(g==="CBC"?3:2);k++)rows.push(["IQC "+g+" L"+(k+1)+" Lot",I.iqc[g].lot[k],k===0?"ถ้ามีหลาย Lot คั่นด้วย comma":""],["IQC "+g+" L"+(k+1)+" Exp",I.iqc[g].exp[k]]);
+  });
+  rows.push(["Bias method",o.biasMethod,"abs = เฉลี่ยของ |bias| · signed = |ค่าเฉลี่ยแบบมีเครื่องหมาย|"],["CV method",o.cvMethod,"avg = ค่าเฉลี่ย · pooled = RMS (ใช้กับ %CV รายเดือน)"],["Decision basis",o.decide,"min = level ที่แย่สุด · avg = CV เฉลี่ยทุก level (สรุป Sigma / QC rule)"],["QC rule set",o.rules||"wg","wg = Westgard Sigma Rules · old = ตารางเดิมของ webapp"]);
+  return rows;
+}
+function eqaSheetRows(){
+  const rows=[["Group","Test","Trial","Lab result","Group mean","Group SD","%Bias","SDI"]];
+  GROUPS.forEach(g=>[...new Set(state.rows[g].map(r=>r.test))].forEach(tst=>(state.eqa[eqaKey(g,tst)]||[]).forEach(x=>{
+    const b=trialBias(x),sd=parseFloat(x.gsd),lab=parseFloat(x.lab),gm=parseFloat(x.gm);
+    rows.push([g,tst,x.t,asNum(x.lab),asNum(x.gm),asNum(x.gsd),b==null?"":rnd(b,4),isFinite(lab)&&isFinite(gm)&&sd>0?rnd((lab-gm)/sd,3):""]);
+  })));
+  return rows;
+}
+const withDec=(mode,fn)=>{const old=state.opts.decide;state.opts.decide=mode;try{return fn()}finally{state.opts.decide=old}};
 function exportCsv(){
   const i=state.info;
-  const rows=[["Hospital","Lab","EQA","Analyzer","S/N","Group","Test","Level","Unit","Mean","SD","EQA_bias_list","u_ref","u_cal","k","TEa_source","Custom_TEa%","Custom_TEa_source","CV%","MeanBias%","RMSBias%","u_bias%","u_c%","U%","U_abs","TEa_eff%","Sigma","Class","QGI","QGI_interpretation","QC_rule"]];
-  exportRows().forEach(({g,r,c})=>{const q=c&&qgiInfo(c.qgi,c.sigma);
-    rows.push([i.hospital,i.lab,i.eqa[g],i.analyzer[g],i.sn[g],g,r.test,r.level,byName(r.test).unit,r.mean,r.sd,r.bias,r.uref,r.ucal,r.k,r.src,r.custom,r.csrc,
-      c?rnd(c.cv):"",c?rnd(c.meanBias):"",c?rnd(c.rms):"",c?rnd(c.ubias):"",c?rnd(c.uc):"",c?rnd(c.U):"",c?rnd(c.Uabs,4):"",c?rnd(c.tea):"",c?rnd(c.sigma):"",c&&c.sigma!=null?cls(c.sigma)[0]:"",c?rnd(c.qgi):"",q?q.name:"",c&&c.sigma!=null?cls(c.sigma)[2]:""])});
-  download(new Blob([IO.toCsv(rows)],{type:"text/csv;charset=utf-8"}),`mu_sigma_${stamp()}.csv`);
-  setStatus(`Export CSV แล้ว (${rows.length-1} แถว)`);
+  const rows=[["Hospital","Lab","EQA","Analyzer","S/N","Dataset","Period","Group","Test","Level","Unit","Mean","SD","CV_monthly_list","EQA_bias_list","u_ref","u_cal","k","TEa_source","Custom_TEa%","Custom_TEa_source","Methodology","EQA_this_test","CV%","CV_source","Bias_used%","MeanBias_signed%","RMSBias%","u_bias%","u_c%","U%","U_abs","TEa_eff%","Sigma","Class","QGI","QGI_interpretation","QC_rule"]];
+  exportRows().forEach(({g,r,c})=>{const q=c&&qgiInfo(c.qgi,c.sigma),m=metaOf(g,r.test);
+    rows.push([i.hospital,i.lab,i.eqa[g],i.analyzer[g],i.sn[g],i.dataset,i.period,g,r.test,r.level,byName(r.test).unit,r.mean,r.sd,r.cvlist||"",biasListOf(g,r),r.uref,r.ucal,r.k,r.src,r.custom,r.csrc,m.method||"",m.eqa||"",
+      c?rnd(c.cv):"",c?c.cvSrc:"",c?rnd(c.meanBias):"",c?rnd(c.meanSigned):"",c?rnd(c.rms):"",c?rnd(c.ubias):"",c?rnd(c.uc):"",c?rnd(c.U):"",c?rnd(c.Uabs,4):"",c?rnd(c.tea):"",c?rnd(c.sigma):"",c&&c.sigma!=null?cls(c.sigma)[0]:"",c?rnd(c.qgi):"",q?q.name:"",c&&c.sigma!=null?cls(c.sigma,r.test)[2]:""])});
+  download(new Blob([IO.toCsv(rows)],{type:"text/csv;charset=utf-8"}),`${fileBase()}_${stamp()}.csv`);
+  setStatus(`Export CSV แล้ว (${rows.length-1} แถว) — ผล EQA รายรอบอยู่ในไฟล์ Excel (CSV ใส่เฉพาะ bias ที่คำนวณได้)`);
 }
 function buildXlsx(){
   const i=state.info,all=exportRows(),ok=all.filter(x=>x.c);
-  const data=[["Group","Test","Level","Mean","SD","EQA bias list","u_ref","u_cal","k","TEa source","Custom TEa %","Custom TEa source"]];
-  all.forEach(({g,r})=>data.push([g,r.test,r.level,asNum(r.mean),asNum(r.sd),r.bias,asNum(r.uref),asNum(r.ucal),asNum(r.k),r.src,asNum(r.custom),r.csrc]));
+  const data=[["Group","Test","Level","Mean","SD","CV monthly list","EQA bias list","u_ref","u_cal","k","TEa source","Custom TEa %","Custom TEa source","Methodology","EQA (this test)"]];
+  all.forEach(({g,r})=>{const m=metaOf(g,r.test);data.push([g,r.test,r.level,asNum(r.mean),asNum(r.sd),r.cvlist||"",r.bias,asNum(r.uref),asNum(r.ucal),asNum(r.k),r.src,asNum(r.custom),r.csrc,m.method||"",m.eqa||""])});
   const unc=[["Group","Test","Level","Unit","Mean","u_Rw = CV %","RMS bias %","u_ref %","u_bias %","u_cal %","u_c %","k","U %","U (abs)","Result (Mean ± U)"]];
-  const sig=[["Group","Test","Level","Mean","CV %","Mean bias %","TEa source","TEa eff %","Sigma","Class","Suggested QC rule"]];
-  const qg=[["Group","Test","Level","CV %","|Bias| %","Sigma","QGI","Interpretation","ความจำเป็น","แนวทางแก้ไข"]];
+  const sig=[["Group","Test","Level","Mean","CV %","CV from","Bias % (ที่ใช้)","Mean bias % (signed)","Bias from","TEa source","TEa eff %","Sigma","Class","Suggested QC rule"]];
+  const qg=[["Group","Test","Level","CV %","|Bias| % (ที่ใช้)","Sigma","QGI","Interpretation","ความจำเป็น","แนวทางแก้ไข"]];
   ok.forEach(({g,r,c})=>{
     unc.push([g,r.test,r.level,c.unit,rnd(c.mean),rnd(c.cv),rnd(c.rms),rnd(c.uref),rnd(c.ubias),rnd(c.ucal),rnd(c.uc),c.k,rnd(c.U),rnd(c.Uabs,4),fmtU(c.mean,c.Uabs,c.unit)]);
     if(c.sigma!=null){const q=qgiInfo(c.qgi,c.sigma);
-      sig.push([g,r.test,r.level,rnd(c.mean),rnd(c.cv),rnd(c.meanBias),r.src+(r.src===SRC.CUSTOM&&r.csrc?" ("+r.csrc+")":""),rnd(c.tea),rnd(c.sigma),cls(c.sigma)[0],cls(c.sigma)[2]]);
+      sig.push([g,r.test,r.level,rnd(c.mean),rnd(c.cv),c.cvSrc,rnd(c.meanBias),rnd(c.meanSigned),c.biasSrc,r.src+(r.src===SRC.CUSTOM&&r.csrc?" ("+r.csrc+")":""),rnd(c.tea),rnd(c.sigma),cls(c.sigma)[0],cls(c.sigma,r.test)[2]]);
       qg.push([g,r.test,r.level,rnd(c.cv),rnd(Math.abs(c.meanBias)),rnd(c.sigma),rnd(c.qgi),q.name,q.need,q.act])}});
-  return IO.makeXlsx([{name:"Info",header:false,rows:[["Hospital",i.hospital],["Lab",i.lab],["EQA Biochemistry",i.eqa.Biochemistry],["EQA CBC",i.eqa.CBC],["Analyzer Biochemistry",i.analyzer.Biochemistry],["S/N Biochemistry",i.sn.Biochemistry],["Analyzer CBC",i.analyzer.CBC],["S/N CBC",i.sn.CBC],["Generated",new Date().toISOString()]]},
-    {name:"Data",rows:data},{name:"Uncertainty",rows:unc},{name:"Sigma",rows:sig},{name:"QGI",rows:qg}]);
+  const sum=[["Group","Test","จำนวน level","Sigma ต่ำสุด","Level ต่ำสุด","Sigma เฉลี่ย (CV เฉลี่ย)","ตัดสินจาก","Sigma ที่ใช้ตัดสิน","Class","Suggested QC rule"]];
+  GROUPS.forEach(g=>byTest(view(g).filter(v=>v.c&&v.c.sigma!=null)).forEach(([tst,a])=>{
+    const mn=withDec("min",()=>decisive(a)),av=withDec("avg",()=>decisive(a)),d=decisive(a);
+    sum.push([g,tst,a.length,rnd(mn.c.sigma),mn.r.level,rnd(av.c.sigma),decName(),rnd(d.c.sigma),cls(d.c.sigma)[0],cls(d.c.sigma,tst)[2]]);
+  }));
+  return IO.makeXlsx([{name:"Info",header:false,rows:[...infoKV(i,state.opts),["Generated",new Date().toISOString()]]},
+    {name:"Data",rows:data},{name:"EQA",rows:eqaSheetRows()},{name:"Uncertainty",rows:unc},{name:"Sigma",rows:sig},{name:"QGI",rows:qg},{name:"Summary",rows:sum}]);
 }
 function exportXlsx(){
-  download(new Blob([buildXlsx()],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}),`mu_sigma_${stamp()}.xlsx`);
-  setStatus("Export Excel แล้ว (ชีต: Info, Data, Uncertainty, Sigma, QGI)");
+  download(new Blob([buildXlsx()],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}),`${fileBase()}_${stamp()}.xlsx`);
+  setStatus("Export Excel แล้ว (ชีต: Info, Data, EQA, Uncertainty, Sigma, QGI, Summary) — Info + Data + EQA ใช้ Import กลับได้");
 }
 function setStatus(t){const e=$("status");if(e)e.textContent=t}
 async function doImport(file){
@@ -1026,18 +1505,25 @@ async function doImport(file){
     if(/\.xlsx$/i.test(file.name))tables=await IO.readXlsx(new Uint8Array(await file.arrayBuffer()));
     else if(/\.xls$/i.test(file.name))throw new Error("ไฟล์ .xls แบบเก่าไม่รองรับ — บันทึกเป็น .xlsx หรือ .csv ก่อน");
     else tables=[{name:"CSV",rows:IO.parseCsv(await file.text())}];
-    const res=IO.importTables(tables,PRESETS,SRC);
-    if(!res.count){setStatus("ไม่พบข้อมูลที่นำเข้าได้ — ไฟล์ต้องมีคอลัมน์ Test, Mean, SD"+(res.skipped.length?` (ไม่รู้จัก: ${res.skipped.slice(0,5).join(", ")})`:""));return}
+    const res=IO.importTables(tables,PRESETS,SRC),eqaKeys=Object.keys(res.eqa),eqaN=eqaKeys.reduce((a,k)=>a+res.eqa[k].length,0);
+    if(!res.count&&!eqaKeys.length){setStatus("ไม่พบข้อมูลที่นำเข้าได้ — ไฟล์ต้องมีคอลัมน์ Test + (Mean และ SD หรือ CV monthly list) หรือชีต EQA (Test, Lab result, Group mean)"+(res.skipped.length?` (ไม่รู้จัก: ${res.skipped.slice(0,5).join(", ")})`:""));return}
     const append=$("appendChk").checked,touched=GROUPS.filter(g=>res.rows[g].length);
     if(!append&&touched.some(g=>state.rows[g].length)&&!confirm(`แทนที่ข้อมูลเดิมของ ${touched.join(" และ ")} ด้วยข้อมูลที่นำเข้า ${res.count} แถว?\n(ยกเลิกแล้วติ๊ก “เพิ่มต่อท้าย” หากต้องการเก็บข้อมูลเดิม)`))return;
-    touched.forEach(g=>{state.rows[g]=append?state.rows[g].concat(res.rows[g]):res.rows[g]});
-    const inf=res.info;if(inf.hospital)state.info.hospital=inf.hospital;if(inf.lab)state.info.lab=inf.lab;
-    if(inf.eqa)Object.keys(inf.eqa).forEach(k=>{if(GROUPS.includes(k))state.info.eqa[k]=inf.eqa[k]});
-    if(inf.analyzer)Object.keys(inf.analyzer).forEach(k=>{if(GROUPS.includes(k))state.info.analyzer[k]=inf.analyzer[k]});
-    if(inf.sn)Object.keys(inf.sn).forEach(k=>{if(GROUPS.includes(k))state.info.sn[k]=inf.sn[k]});
+    touched.forEach(g=>{
+      state.rows[g]=append?state.rows[g].concat(res.rows[g]):res.rows[g];
+      if(!append)Object.keys(state.eqa).filter(k=>k.startsWith(g+"|")).forEach(k=>delete state.eqa[k]);
+    });
+    eqaKeys.forEach(k=>{state.eqa[k]=append&&state.eqa[k]?state.eqa[k].concat(res.eqa[k]):res.eqa[k]});
+    Object.keys(res.meta).forEach(k=>{state.meta[k]=Object.assign(state.meta[k]||{},res.meta[k])});
+    const inf=res.info,I=state.info;
+    ["hospital","lab","dataset","period","preparedBy","approvedBy"].forEach(k=>{if(inf[k])I[k]=inf[k]});
+    ["eqa","analyzer","sn"].forEach(k=>{if(inf[k])Object.keys(inf[k]).forEach(g=>{if(GROUPS.includes(g))I[k][g]=inf[k][g]})});
+    if(inf.iqc)Object.keys(inf.iqc).forEach(g=>{if(!GROUPS.includes(g))return;const q=inf.iqc[g];if(q.name)I.iqc[g].name=q.name;for(let k=0;k<3;k++){if(q.lot[k])I.iqc[g].lot[k]=q.lot[k];if(q.exp[k])I.iqc[g].exp[k]=q.exp[k]}});
+    Object.assign(state.opts,res.opts);
+    const d=$("dsName");if(d)d.value=I.dataset||"";
     if(touched.length&&!touched.includes(state.group))state.group=touched[0];
     save();show();
-    setStatus(`นำเข้า ${res.count} แถว (${res.used.join(", ")})`+(res.skipped.length?` · ข้ามเทสที่ไม่รู้จัก: ${res.skipped.slice(0,6).join(", ")}`:"")+(res.empty?` · ข้าม ${res.empty} แถวที่ Mean/SD ว่าง`:""));
+    setStatus(`นำเข้า ${res.count} แถว${eqaN?` · ผล EQA ${eqaN} รอบ`:""} (${res.used.join(", ")})`+(res.skipped.length?` · ข้ามเทสที่ไม่รู้จัก: ${res.skipped.slice(0,6).join(", ")}`:"")+(res.empty?` · ข้าม ${res.empty} แถวที่ไม่มีข้อมูล`:""));
   }catch(e){setStatus("นำเข้าไม่สำเร็จ: "+e.message)}
 }
 function svgData(svg){
@@ -1101,7 +1587,7 @@ function enterExport(){
   $("view").innerHTML=`<div class="exp-bar">
     <div class="exp-row"><b>📄 Export mode</b><span class="note">รายเทส = A4 แนวนอน (เฉพาะ Uncertainty และ/หรือ QGI = แนวตั้ง) · รวมทุก parameter = A4 แนวตั้ง — เลือกรูปแบบด้านล่าง แล้วกดพิมพ์ → “Save as PDF” (ถ้าหน้าต่างพิมพ์ไม่ตั้งทิศกระดาษให้เอง ให้เลือก Layout/Orientation ตามรูปแบบ)</span>
       <span style="flex:1"></span><span class="note" id="expCount"></span>
-      <button class="btn" id="expPrint">🖨 พิมพ์ / Save as PDF</button><button class="btn" id="expExit">✕ ออกจาก Export mode</button></div>
+      <label>ชื่อไฟล์ PDF <input id="expName" value="${esc(state.info.dataset)}" placeholder="ชื่อชุดข้อมูล" style="width:200px"></label><button class="btn" id="expPrint">🖨 พิมพ์ / Save as PDF</button><button class="btn" id="expExit">✕ ออกจาก Export mode</button></div>
     <div class="exp-row"><label>รูปแบบ <select id="expLayout"><option value="test">รายเทส — 1 parameter / หน้า (ตาราง + กราฟ)</option><option value="group">รวมทุก parameter (ตามกลุ่ม)</option></select></label>
       <label id="expTypeWrap" style="display:none">ประเภทรายงาน <select id="expType">${REPORTS.map(r=>`<option>${r}</option>`).join("")}</select></label></div>
     <div class="exp-row exp-test-only"><b>ส่วนที่จะพิมพ์ (ติ๊กเลือก)</b>${EXP_PARTS.map(([k,l])=>`<label class="exp-chk"><input type="checkbox" data-p="${k}" checked> ${l}</label>`).join("")}
@@ -1111,7 +1597,8 @@ function enterExport(){
       <button class="btn sm exp-test-only" id="expAll">เลือกทุกเทส</button><button class="btn sm exp-test-only" id="expNone">ล้างที่เลือก</button>
       <details class="exp-det exp-test-only"><summary>เลือกเทสที่จะพิมพ์</summary>${checks}</details></div></div>
     <div id="expPages" class="exp-pages"></div>`;
-  $("expPrint").onclick=()=>window.print();
+  $("expName").oninput=e=>{state.info.dataset=e.target.value;save();const d=$("dsName");if(d)d.value=e.target.value};
+  $("expPrint").onclick=()=>{const old=document.title;document.title=fileBase()+"_report";const back=()=>{document.title=old;window.removeEventListener("afterprint",back)};window.addEventListener("afterprint",back);window.print();setTimeout(back,1500)};
   $("expExit").onclick=exitExport;
   const PRESETS_P={all:["data","tea","sigma","qgi","unc","chart"],unc:["unc"],sigma:["sigma","chart"],qgi:["qgi"]};
   const syncParts=()=>document.querySelectorAll("[data-p]").forEach(c=>{c.checked=!!expState.parts[c.dataset.p]});
@@ -1128,64 +1615,82 @@ function enterExport(){
 }
 function exitExport(){document.body.classList.remove("exportmode","portrait");const po=document.getElementById("pageOrient");if(po)po.remove();show()}
 
+const TPL_HEAD=["Group","Test","Level","Mean","SD","CV monthly list","EQA bias list","u_ref","u_cal","k","TEa source","Custom TEa %","Custom TEa source","Methodology","EQA (this test)"];
+const CSV_MAP={"CV monthly list":"CV_monthly_list","EQA bias list":"EQA_bias_list","TEa source":"TEa_source","Custom TEa %":"Custom_TEa%","Custom TEa source":"Custom_TEa_source","EQA (this test)":"EQA_this_test"};
+const EQA_HEAD=["Group","Test","Trial","Lab result","Group mean","Group SD","%Bias","SDI"];
+const eqaFormulas=n=>[{f:`IF(AND(ISNUMBER(D${n}),ISNUMBER(E${n}),E${n}<>0),(D${n}-E${n})/E${n}*100,"")`},{f:`IF(AND(ISNUMBER(D${n}),ISNUMBER(E${n}),ISNUMBER(F${n}),F${n}>0),(D${n}-E${n})/F${n},"")`}];
+const srcOfPreset=p=>(p.clia_pct||p.clia_abs)?SRC.CLIA:SRC.RICOS;
 function templateRows(){
   const rows=[];
   GROUPS.forEach(g=>PRESETS.filter(p=>p.group===g).forEach(p=>{
-    const n=(g==="CBC"?3:2),src=(p.clia_pct||p.clia_abs)?SRC.CLIA:SRC.RICOS;
-    for(let k=1;k<=n;k++)rows.push([g,p.test,"L"+k,"","","",0,0,2,src,"",""]);
+    for(let k=1;k<=(g==="CBC"?3:2);k++)rows.push([g,p.test,"L"+k,"","","","",0,0,2,srcOfPreset(p),"","","",""]);
   }));
   return rows;
 }
-const TPL_HEAD=["Group","Test","Level","Mean","SD","EQA bias list","u_ref","u_cal","k","TEa source","Custom TEa %","Custom TEa source"];
-function downloadTemplate(kind){
-  const rows=templateRows();
-  if(kind==="csv"){
-    const map={"EQA bias list":"EQA_bias_list","TEa source":"TEa_source","Custom TEa %":"Custom_TEa%","Custom TEa source":"Custom_TEa_source"};
-    const head=["Hospital","Lab","EQA","Analyzer","S/N",...TPL_HEAD.map(h=>map[h]||h)];
-    download(new Blob([IO.toCsv([head,...rows.map(r=>["","","","","",...r])])],{type:"text/csv;charset=utf-8"}),"template_mu_sigma.csv");
-  }else{
-    const tests=PRESETS.map(p=>[p.group,p.test,p.unit,p.clia_text,p.ric.TE]);
-    const guide=[["Column","คำอธิบาย"],["Group","Biochemistry หรือ CBC (เว้นว่างได้ ระบบจะดูจากชื่อ Test)"],["Test","ชื่อเทส ต้องตรงกับชีต Test list (เลือกจาก dropdown)"],
-      ["Level","ชื่อ level ของ QC เช่น L1, L2, L3 — เพิ่มแถวใหม่ได้โดยคัดลอกแถวเดิมแล้วเปลี่ยน Level"],["Mean","ค่าเฉลี่ย IQC ของ level นั้น (จำเป็น)"],["SD","SD ของ IQC (จำเป็น)"],
-      ["EQA bias list","Bias % จาก EQA/PT หลายรอบ คั่นด้วย comma เช่น 1.2, -0.8, 0.5 (เว้นว่างได้ = bias 0)"],["u_ref","ความไม่แน่นอนของค่าเป้าหมาย EQA (%) ไม่ทราบใส่ 0"],
-      ["u_cal","ความไม่แน่นอนของ calibrator (%) ไม่ทราบใส่ 0"],["k","coverage factor ปกติ 2"],["TEa source","CLIA 2025 / Ricos Desirable / Custom"],
-      ["Custom TEa %","ใส่เมื่อ TEa source = Custom"],["Custom TEa source","ระบุที่มาของ TEa แบบ Custom"],
-      ["หมายเหตุ","แถวที่ Mean และ SD ว่างจะถูกข้ามตอน Import · ข้อมูล รพ./Lab/EQA กรอกในชีต Info · เสร็จแล้วบันทึกไฟล์และกดปุ่ม Import ในเว็บ"]];
-    const dv=[{sqref:"B2:B600",list:`'Test list'!$B$2:$B$${tests.length+1}`},{sqref:"J2:J600",list:`"${SRC.CLIA},${SRC.RICOS},${SRC.CUSTOM}"`},{sqref:"A2:A600",list:'"Biochemistry,CBC"'}];
-    const bytes=IO.makeXlsx([
-      {name:"Info",header:false,rows:[["Hospital",""],["Lab",""],["EQA Biochemistry",""],["EQA CBC",""],["Analyzer Biochemistry",""],["S/N Biochemistry",""],["Analyzer CBC",""],["S/N CBC",""],["","(กรอกในคอลัมน์ B)"]]},
-      {name:"Data",rows:[TPL_HEAD,...rows],dv},
-      {name:"คำแนะนำ",rows:guide},
-      {name:"Test list",rows:[["Group","Test","Unit","CLIA 2025 criterion","Ricos TE %"],...tests]}]);
-    download(new Blob([bytes],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}),"template_mu_sigma.xlsx");
-  }
-  setStatus(`ดาวน์โหลด template (${kind==="csv"?"CSV":"Excel"}) แล้ว — กรอก Mean, SD, Bias แล้วกด Import`);
+function guideRows(){
+  return[["Sheet / Column","คำอธิบาย"],
+    ["Info","ข้อมูลทั่วไป: ชื่อชุดข้อมูล (ใช้ตั้งชื่อไฟล์), ช่วงเวลาประเมิน, รพ., Lab, ผู้จัดทำ/อนุมัติ, EQA/Analyzer/S/N/IQC ของแต่ละกลุ่ม และวิธีคำนวณ (Bias method / CV method / Decision basis) และชุดกฎ QC (QC rule set) — กรอกในคอลัมน์ B · ค่าที่ใช้ได้: Bias method = abs | signed · CV method = avg | pooled · Decision basis = min | avg · QC rule set = wg (Westgard Sigma Rules) | old (ตารางเดิม)"],
+    ["Data › Group","Biochemistry หรือ CBC (เว้นว่างได้ ระบบดูจากชื่อ Test)"],["Data › Test","ชื่อเทส เลือกจาก dropdown (ดูชีต Test list)"],
+    ["Data › Level","ชื่อ level ของ QC เช่น L1, L2, L3 — เพิ่ม level ได้โดยคัดลอกแถวแล้วเปลี่ยน Level"],
+    ["Data › Mean","ค่าเฉลี่ย IQC ของ level (ถ้าไม่ทราบและมี CV monthly list เว้นว่างได้ — แต่เกณฑ์ TEa หน่วยสัมบูรณ์และ U (abs) ต้องมี Mean)"],
+    ["Data › SD","SD ของ IQC (ไม่ต้องกรอกถ้ากรอก CV monthly list)"],
+    ["Data › CV monthly list","%CV รายเดือนของ level นี้ คั่นด้วย comma เช่น 2.1, 1.8, 2.4 — ถ้ากรอก ระบบใช้ค่านี้แทน SD/Mean (รวมด้วยค่าเฉลี่ยหรือ pooled ตามที่ตั้งใน Info › CV method)"],
+    ["Data › EQA bias list","Bias % จาก EQA/PT คั่นด้วย comma (ใช้เมื่อไม่ได้กรอกชีต EQA ของเทสนั้น)"],
+    ["Data › u_ref / u_cal / k","ความไม่แน่นอนของค่าเป้าหมาย EQA (%), ของ calibrator (%) ไม่ทราบใส่ 0 · k = coverage factor ปกติ 2"],
+    ["Data › TEa source","CLIA 2025 / Ricos Desirable / Custom / Max (CLIA/Ricos) / Min (CLIA/Ricos)"],
+    ["Data › Custom TEa % / source","ใส่เมื่อ TEa source = Custom พร้อมที่มา"],
+    ["Data › Methodology / EQA (this test)","ข้อมูลของเทสนั้น (ใส่ที่แถวใดก็ได้ของเทส): Methodology และชื่อโปรแกรม EQA ถ้าต่างจากของกลุ่ม"],
+    ["EQA","ผล EQA/PT รายเทสรายรอบ: Test, Trial, Lab result, Group mean, Group SD (ถ้ามี) — ระบบคำนวณ %Bias = (Lab − Group mean)/Group mean × 100 และ SDI · เมื่อเทสมีข้อมูลที่นี่ ใช้แทน EQA bias list (ใช้กับทุก level)"],
+    ["หมายเหตุ","แถวที่ไม่มี Mean, SD และ CV monthly list จะถูกข้ามตอน Import · กรอกเสร็จบันทึกไฟล์แล้วกดปุ่ม ⬆ Import ในเว็บ"],
+    ["ไฟล์ template ของแล็บเดิม","เว็บ Import ไฟล์ “Sigma CBC template” (ชีต Raw Data + Performance) ได้โดยตรง — อ่าน %CV รายเดือน, ผล EQA รายรอบ, TEa และข้อมูลหัวรายงาน (Mean ไม่มีใน template เดิม จึงเว้นว่าง)"]];
 }
-const SAMPLE_INFO={hospital:"โรงพยาบาลตัวอย่าง",lab:"ห้องปฏิบัติการตัวอย่าง",
-  eqa:{Biochemistry:"EQA ตัวอย่าง (Biochemistry)",CBC:"EQA ตัวอย่าง (CBC)"},
-  analyzer:{Biochemistry:"Analyzer ตัวอย่าง (Biochemistry)",CBC:"Analyzer ตัวอย่าง (CBC)"},
-  sn:{Biochemistry:"SN-SAMPLE-BIO",CBC:"SN-SAMPLE-CBC"}};
-function sampleRowsAll(){const rows=[];GROUPS.forEach(g=>exampleRows(g).forEach(r=>rows.push([g,r.test,r.level,asNum(r.mean),asNum(r.sd),r.bias,0,0,2,r.src,"",""])));return rows}
+function dvFor(testCount){return[{sqref:"B2:B600",list:`'Test list'!$B$2:$B$${testCount+1}`},{sqref:"K2:K600",list:`"${Object.values(SRC).join(",")}"`},{sqref:"A2:A600",list:'"Biochemistry,CBC"'}]}
+function infoSheet(I,o){return infoKV(I,o).map(r=>[r[0],r[1],r[2]||""])}
+function buildTemplate(){
+  const tests=PRESETS.map(p=>[p.group,p.test,p.unit,p.clia_text,p.ric.TE]),eqaRows=[];
+  GROUPS.forEach(g=>PRESETS.filter(p=>p.group===g).forEach(p=>{for(let k=0;k<6;k++){const n=eqaRows.length+2;eqaRows.push([g,p.test,"","","","",...eqaFormulas(n)])}}));
+  return IO.makeXlsx([
+    {name:"Info",header:false,rows:infoSheet(blankInfo(),{biasMethod:"abs",cvMethod:"avg",decide:"min",rules:"wg"})},
+    {name:"Data",rows:[TPL_HEAD,...templateRows()],dv:dvFor(tests.length)},
+    {name:"EQA",rows:[EQA_HEAD,...eqaRows],dv:[{sqref:"B2:B900",list:`'Test list'!$B$2:$B$${tests.length+1}`},{sqref:"A2:A900",list:'"Biochemistry,CBC"'}]},
+    {name:"คำแนะนำ",rows:guideRows()},
+    {name:"Test list",rows:[["Group","Test","Unit","CLIA 2025 criterion","Ricos TE %"],...tests]}]);
+}
+function downloadTemplate(kind){
+  if(kind==="csv"){
+    const head=["Hospital","Lab","EQA","Analyzer","S/N","Dataset","Period",...TPL_HEAD.map(h=>CSV_MAP[h]||h)];
+    download(new Blob([IO.toCsv([head,...templateRows().map(r=>["","","","","","","",...r])])],{type:"text/csv;charset=utf-8"}),"template_mu_sigma.csv");
+  }else{
+    download(new Blob([buildTemplate()],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}),"template_mu_sigma.xlsx");
+  }
+  setStatus(`ดาวน์โหลด template (${kind==="csv"?"CSV":"Excel"}) แล้ว — กรอกแล้วกด Import${kind==="csv"?" (CSV ไม่มีชีต EQA รายรอบ ใช้ช่อง EQA bias list)":""}`);
+}
+const SAMPLE_INFO=Object.assign(blankInfo(),{hospital:"โรงพยาบาลตัวอย่าง",lab:"ห้องปฏิบัติการตัวอย่าง",dataset:"ตัวอย่าง (Sample)",period:"ต.ค. – มี.ค. (ตัวอย่าง)",preparedBy:"ผู้จัดทำตัวอย่าง",approvedBy:"ผู้อนุมัติตัวอย่าง",
+  eqa:{Biochemistry:"EQA ตัวอย่าง (Biochemistry)",CBC:"EQA ตัวอย่าง (CBC)"},analyzer:{Biochemistry:"Analyzer ตัวอย่าง (Biochemistry)",CBC:"Analyzer ตัวอย่าง (CBC)"},
+  sn:{Biochemistry:"SN-SAMPLE-BIO",CBC:"SN-SAMPLE-CBC"},
+  iqc:{Biochemistry:{name:"IQC ตัวอย่าง (Biochemistry)",lot:["LOT-B1","LOT-B2",""],exp:["31-12-26","31-12-26",""]},CBC:{name:"IQC ตัวอย่าง (CBC)",lot:["LOT-C1","LOT-C2","LOT-C3"],exp:["31-12-26","31-12-26","31-12-26"]}}});
+function sampleRowsAll(){const rows=[];GROUPS.forEach(g=>exampleRows(g).forEach(r=>rows.push([g,r.test,r.level,asNum(r.mean),asNum(r.sd),"",r.bias,0,0,2,r.src,"","","",""])));return rows}
 function downloadSample(kind){
   const rows=sampleRowsAll(),I=SAMPLE_INFO;
   if(kind==="csv"){
-    const map={"EQA bias list":"EQA_bias_list","TEa source":"TEa_source","Custom TEa %":"Custom_TEa%","Custom TEa source":"Custom_TEa_source"};
-    const head=["Hospital","Lab","EQA","Analyzer","S/N",...TPL_HEAD.map(h=>map[h]||h)];
-    download(new Blob([IO.toCsv([head,...rows.map(r=>[I.hospital,I.lab,I.eqa[r[0]],I.analyzer[r[0]],I.sn[r[0]],...r])])],{type:"text/csv;charset=utf-8"}),"sample_data_mu_sigma.csv");
+    const head=["Hospital","Lab","EQA","Analyzer","S/N","Dataset","Period",...TPL_HEAD.map(h=>CSV_MAP[h]||h)];
+    download(new Blob([IO.toCsv([head,...rows.map(r=>[I.hospital,I.lab,I.eqa[r[0]],I.analyzer[r[0]],I.sn[r[0]],I.dataset,I.period,...r])])],{type:"text/csv;charset=utf-8"}),"sample_data_mu_sigma.csv");
   }else{
-    const tests=PRESETS.map(p=>[p.group,p.test,p.unit,p.clia_text,p.ric.TE]);
-    const dv=[{sqref:"B2:B600",list:`'Test list'!$B$2:$B$${tests.length+1}`},{sqref:"J2:J600",list:`"${SRC.CLIA},${SRC.RICOS},${SRC.CUSTOM}"`},{sqref:"A2:A600",list:'"Biochemistry,CBC"'}];
+    const tests=PRESETS.map(p=>[p.group,p.test,p.unit,p.clia_text,p.ric.TE]),eqaRows=[];
+    PRESETS.forEach(p=>exampleTrials(p).forEach(x=>{const n=eqaRows.length+2;eqaRows.push([p.group,p.test,x.t,asNum(x.lab),asNum(x.gm),asNum(x.gsd),...eqaFormulas(n)])}));
     const bytes=IO.makeXlsx([
-      {name:"Info",header:false,rows:[["Hospital",I.hospital],["Lab",I.lab],["EQA Biochemistry",I.eqa.Biochemistry],["EQA CBC",I.eqa.CBC],["Analyzer Biochemistry",I.analyzer.Biochemistry],["S/N Biochemistry",I.sn.Biochemistry],["Analyzer CBC",I.analyzer.CBC],["S/N CBC",I.sn.CBC]]},
-      {name:"Data",rows:[TPL_HEAD,...rows],dv},
+      {name:"Info",header:false,rows:infoSheet(I,{biasMethod:"abs",cvMethod:"avg",decide:"min",rules:"wg"})},
+      {name:"Data",rows:[TPL_HEAD,...rows],dv:dvFor(tests.length)},
+      {name:"EQA",rows:[EQA_HEAD,...eqaRows],dv:[{sqref:"B2:B900",list:`'Test list'!$B$2:$B$${tests.length+1}`},{sqref:"A2:A900",list:'"Biochemistry,CBC"'}]},
       {name:"หมายเหตุ",rows:[["หมายเหตุ"],["ไฟล์นี้เป็นข้อมูลตัวอย่าง (ค่าสมมติ) สำหรับทดลอง Import และดูรูปแบบข้อมูล — ห้ามนำไปใช้รายงานผลจริง"],
-        ["เมื่อ Import ข้อมูล รพ./Lab/EQA/Analyzer/S/N ตัวอย่างในชีต Info จะถูกใส่ในกรอบข้อมูลทั่วไปด้วย แก้ไขได้ภายหลัง"],["ต้องการไฟล์เปล่าสำหรับกรอกข้อมูลจริง ให้ใช้ปุ่ม ⬇ Template"]]},
+        ["เมื่อ Import ข้อมูลในชีต Info (รพ./Lab/EQA/Analyzer/S/N/IQC/ผู้จัดทำ) ตัวอย่างจะถูกใส่ในกรอบข้อมูลทั่วไปด้วย แก้ไขได้ภายหลัง"],["ต้องการไฟล์เปล่าสำหรับกรอกข้อมูลจริง ให้ใช้ปุ่ม ⬇ Template"]]},
       {name:"Test list",rows:[["Group","Test","Unit","CLIA 2025 criterion","Ricos TE %"],...tests]}]);
     download(new Blob([bytes],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}),"sample_data_mu_sigma.xlsx");
   }
   setStatus(`ดาวน์โหลดไฟล์ข้อมูลตัวอย่าง (${kind==="csv"?"CSV":"Excel"}) แล้ว — ใช้ทดลอง Import ได้`);
 }
 function initTools(){
+  {const d=$("dsName");d.value=state.info.dataset||"";d.addEventListener("input",()=>{state.info.dataset=d.value;save();const e=$("inDs");if(e)e.value=d.value;const x=$("expName");if(x)x.value=d.value;infoBar()})}
   $("btnSmpX").onclick=()=>downloadSample("xlsx");$("btnSmpC").onclick=()=>downloadSample("csv");
   $("btnTplX").onclick=()=>downloadTemplate("xlsx");$("btnTplC").onclick=()=>downloadTemplate("csv");
   $("btnImport").onclick=()=>$("fileIn").click();
@@ -1194,7 +1699,7 @@ function initTools(){
   $("btnPdf").onclick=enterExport;
 }
 
-if(!state.rows.Biochemistry.length&&!state.rows.CBC.length){GROUPS.forEach(g=>state.rows[g]=exampleRows(g))}
+if(!state.rows.Biochemistry.length&&!state.rows.CBC.length){GROUPS.forEach(g=>{state.rows[g]=exampleRows(g);exampleEqa(g)})}
 initTools();
 show();
 </script>
