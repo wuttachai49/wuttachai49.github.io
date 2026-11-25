@@ -120,6 +120,7 @@ body.portrait .pg-h3{font-size:12px}body.portrait .op-guide,body.portrait .abbr{
   <button class="btn" id="btnImport">⬆ Import CSV / Excel</button><input type="file" id="fileIn" accept=".csv,.txt,.xlsx" hidden>
   <label class="note"><input type="checkbox" id="appendChk"> เพิ่มต่อท้าย (ไม่แทนที่ข้อมูลเดิม)</label>
   <button class="btn" id="btnTplX" title="ไฟล์ Excel เปล่าสำหรับกรอกข้อมูล แล้วกด Import กลับเข้ามา">⬇ Template (Excel)</button><button class="btn" id="btnTplC" title="ไฟล์ CSV เปล่าสำหรับกรอกข้อมูล แล้วกด Import กลับเข้ามา">⬇ Template (CSV)</button>
+  <button class="btn" id="btnSmpX" title="ไฟล์ Excel ที่กรอกข้อมูลตัวอย่างไว้แล้ว ใช้ทดลอง Import">⬇ ข้อมูลตัวอย่าง (Excel)</button><button class="btn" id="btnSmpC" title="ไฟล์ CSV ที่กรอกข้อมูลตัวอย่างไว้แล้ว ใช้ทดลอง Import">⬇ ข้อมูลตัวอย่าง (CSV)</button>
   <button class="btn" id="btnCsv">⬇ Export CSV</button><button class="btn" id="btnXlsx">⬇ Export Excel (.xlsx)</button><button class="btn" id="btnPdf" title="โหมดเตรียมพิมพ์ PDF แบบ 1 เทส / หน้า">📄 Export mode (PDF)</button>
   <span class="note" id="status"></span></div>
 <div id="infoBar"></div>
@@ -387,11 +388,14 @@ function newRow(group,test,level){
   const p=test?byName(test):PRESETS.find(x=>x.group===group);
   return{test:p.test,level:level||"L1",mean:"",sd:"",bias:"",uref:0,ucal:0,src:(p.clia_pct||p.clia_abs)?SRC.CLIA:SRC.RICOS,custom:"",csrc:"",k:2};
 }
+function seeded(str){let h=2166136261;for(const c of str)h=Math.imul(h^c.charCodeAt(0),16777619);
+  return()=>{h+=0x6D2B79F5;let x=Math.imul(h^h>>>15,1|h);x^=x+Math.imul(x^x>>>7,61|x);return((x^x>>>14)>>>0)/4294967296}}
 function exampleRows(group){
   const out=[];
   PRESETS.filter(p=>p.group===group).forEach(p=>p.ex_levels.forEach(([m,sd],i)=>{
     const r=newRow(group,p.test,"L"+(i+1));r.mean=m;r.sd=sd;
-    r.bias=[0,0,0].map(()=>+((Math.random()*2-1)*Math.max(p.ric.I,.5)*.6).toFixed(2)).join(", ");
+    const rng=seeded(p.test+"|"+r.level);
+    r.bias=[0,0,0].map(()=>+((rng()*2-1)*Math.max(p.ric.I,.5)*.6).toFixed(2)).join(", ");
     out.push(r)}));
   return out;
 }
@@ -575,7 +579,7 @@ function pageKeyin(kind){
     <span class="note">${g}: QC ${g==="CBC"?3:2} level ต่อ test เป็นค่าเริ่มต้น · กด <b>+L</b> เพื่อเพิ่ม level · ข้อมูลบันทึกในเบราว์เซอร์อัตโนมัติ</span></div>`+table(heads,body)+(isU?uncAbbrHtml():"");
   bindInfoForm(g);
   $("addRow").onclick=()=>{rows.push(newRow(g));save();pageKeyin(kind)};
-  $("loadEx").onclick=()=>{state.rows[g]=exampleRows(g);save();pageKeyin(kind)};
+  $("loadEx").onclick=()=>{if(rows.length&&!confirm("แทนที่ข้อมูลของ "+g+" ด้วยข้อมูลตัวอย่าง?\nข้อมูลที่กรอกไว้ในกลุ่มนี้จะหาย (ควร Export สำรองก่อน)"))return;state.rows[g]=exampleRows(g);save();pageKeyin(kind)};
   $("clearAll").onclick=()=>{if(confirm("ล้างข้อมูลทั้งหมดในกลุ่มนี้?")){state.rows[g]=[];save();pageKeyin(kind)}};
   $("view").querySelectorAll("tr[data-i]").forEach(tr=>{
     const i=+tr.dataset.i;
@@ -668,7 +672,7 @@ function pageGuide(){
   const go=(tab,label)=>`<button class="btn sm" data-go="${tab}">${label} →</button>`;
   const steps=[
     ["เตรียมข้อมูลและล้างข้อมูลตัวอย่าง",
-     `เปิดครั้งแรกจะมี <b>ข้อมูลตัวอย่าง (ค่าสมมติ)</b> ใส่ไว้ให้ดูตัวอย่างการทำงาน ก่อนกรอกข้อมูลจริงให้กดล้างข้อมูลตัวอย่างก่อน ข้อมูลทั้งหมดถูกเก็บในเบราว์เซอร์ของเครื่องนี้เท่านั้น (ไม่ส่งออกไปที่ใด)
+     `เปิดครั้งแรกจะมี <b>ข้อมูลตัวอย่าง (ค่าสมมติ)</b> ใส่ไว้ให้ดูตัวอย่างการทำงาน ก่อนกรอกข้อมูลจริงให้กดล้างข้อมูลตัวอย่างก่อน ข้อมูลทั้งหมดถูกเก็บในเบราว์เซอร์ของเครื่องนี้เท่านั้น (ไม่ส่งออกไปที่ใด) · ต้องการดูตัวอย่างอีกครั้ง กด <b>โหลดข้อมูลตัวอย่าง</b> ในหน้า Key-in (ระบบถามยืนยันก่อนแทนที่ข้อมูล และได้ค่าเหมือนเดิมทุกครั้ง) หรือโหลดไฟล์ <b>⬇ ข้อมูลตัวอย่าง</b> ไปลอง Import
       <div class="g-act"><button class="btn sm" id="gClear">🗑 ล้างข้อมูลตัวอย่างทั้ง Biochemistry และ CBC</button></div>`],
     ["กรอกข้อมูลทั่วไป: รพ. / Lab / EQA / Analyzer / S/N",
      `ไปที่หน้า <b>Key-in</b> (Uncertainty หรือ Sigma) กรอกกรอบด้านบน: โรงพยาบาล, Lab, ชื่อ EQA/PT, ชื่อ Analyzer และ S/N ของเครื่อง <u>แยกตามกลุ่ม</u> (Biochemistry / CBC ใช้เครื่องและ EQA คนละชุด — เลือกกลุ่มด้วยปุ่มสลับด้านบนตาราง) ข้อมูลนี้จะแสดงที่หัวรายงานทุกหน้า
@@ -717,6 +721,9 @@ function pageGuide(){
         <td>คีย์ข้อมูลใน Excel แล้ว <b>Import</b> — แถวที่ Mean และ SD ว่างจะถูกข้ามอัตโนมัติ</td></tr>
       <tr><td><b>⬇ Template (CSV)</b></td><td><code>template_mu_sigma.csv</code></td>
         <td>ตารางเดียวกับ Template Excel พร้อมคอลัมน์ Hospital, Lab, EQA, Analyzer, S/N</td><td>เหมือนด้านบน แต่เป็น CSV</td></tr>
+      <tr><td><b>⬇ ข้อมูลตัวอย่าง (Excel / CSV)</b></td><td><code>sample_data_mu_sigma.xlsx / .csv</code></td>
+        <td>ไฟล์ที่กรอกค่า Mean/SD/EQA bias ตัวอย่างครบทุกเทส (Biochemistry 2 level, CBC 3 level) พร้อมข้อมูล รพ./Lab/EQA/Analyzer/S/N ตัวอย่าง — ค่าคงที่ ได้เหมือนเดิมทุกครั้ง</td>
+        <td>ทดลอง <b>Import</b> / ดูรูปแบบข้อมูลที่กรอกแล้ว (<b>ค่าสมมติ ห้ามใช้รายงานจริง</b>)</td></tr>
       <tr><td><b>⬇ PNG / ⬇ SVG</b><br>ใต้กราฟแต่ละอัน</td><td>รูป PNG (ความละเอียด 2 เท่า) หรือ SVG (เวกเตอร์)</td>
         <td>กราฟ U%, Sigma, OPSpecs (มีรายชื่อเทสแยกสีทางขวา) และ QGI ของกลุ่มที่เลือก</td><td>ใส่ในเอกสาร / สไลด์ / รายงาน</td></tr>
       <tr><td><b>📄 Export mode (PDF)</b></td><td>ไฟล์ PDF ผ่านหน้าต่างพิมพ์ (Save as PDF)</td>
@@ -1154,7 +1161,32 @@ function downloadTemplate(kind){
   }
   setStatus(`ดาวน์โหลด template (${kind==="csv"?"CSV":"Excel"}) แล้ว — กรอก Mean, SD, Bias แล้วกด Import`);
 }
+const SAMPLE_INFO={hospital:"โรงพยาบาลตัวอย่าง",lab:"ห้องปฏิบัติการตัวอย่าง",
+  eqa:{Biochemistry:"EQA ตัวอย่าง (Biochemistry)",CBC:"EQA ตัวอย่าง (CBC)"},
+  analyzer:{Biochemistry:"Analyzer ตัวอย่าง (Biochemistry)",CBC:"Analyzer ตัวอย่าง (CBC)"},
+  sn:{Biochemistry:"SN-SAMPLE-BIO",CBC:"SN-SAMPLE-CBC"}};
+function sampleRowsAll(){const rows=[];GROUPS.forEach(g=>exampleRows(g).forEach(r=>rows.push([g,r.test,r.level,asNum(r.mean),asNum(r.sd),r.bias,0,0,2,r.src,"",""])));return rows}
+function downloadSample(kind){
+  const rows=sampleRowsAll(),I=SAMPLE_INFO;
+  if(kind==="csv"){
+    const map={"EQA bias list":"EQA_bias_list","TEa source":"TEa_source","Custom TEa %":"Custom_TEa%","Custom TEa source":"Custom_TEa_source"};
+    const head=["Hospital","Lab","EQA","Analyzer","S/N",...TPL_HEAD.map(h=>map[h]||h)];
+    download(new Blob([IO.toCsv([head,...rows.map(r=>[I.hospital,I.lab,I.eqa[r[0]],I.analyzer[r[0]],I.sn[r[0]],...r])])],{type:"text/csv;charset=utf-8"}),"sample_data_mu_sigma.csv");
+  }else{
+    const tests=PRESETS.map(p=>[p.group,p.test,p.unit,p.clia_text,p.ric.TE]);
+    const dv=[{sqref:"B2:B600",list:`'Test list'!$B$2:$B$${tests.length+1}`},{sqref:"J2:J600",list:`"${SRC.CLIA},${SRC.RICOS},${SRC.CUSTOM}"`},{sqref:"A2:A600",list:'"Biochemistry,CBC"'}];
+    const bytes=IO.makeXlsx([
+      {name:"Info",header:false,rows:[["Hospital",I.hospital],["Lab",I.lab],["EQA Biochemistry",I.eqa.Biochemistry],["EQA CBC",I.eqa.CBC],["Analyzer Biochemistry",I.analyzer.Biochemistry],["S/N Biochemistry",I.sn.Biochemistry],["Analyzer CBC",I.analyzer.CBC],["S/N CBC",I.sn.CBC]]},
+      {name:"Data",rows:[TPL_HEAD,...rows],dv},
+      {name:"หมายเหตุ",rows:[["หมายเหตุ"],["ไฟล์นี้เป็นข้อมูลตัวอย่าง (ค่าสมมติ) สำหรับทดลอง Import และดูรูปแบบข้อมูล — ห้ามนำไปใช้รายงานผลจริง"],
+        ["เมื่อ Import ข้อมูล รพ./Lab/EQA/Analyzer/S/N ตัวอย่างในชีต Info จะถูกใส่ในกรอบข้อมูลทั่วไปด้วย แก้ไขได้ภายหลัง"],["ต้องการไฟล์เปล่าสำหรับกรอกข้อมูลจริง ให้ใช้ปุ่ม ⬇ Template"]]},
+      {name:"Test list",rows:[["Group","Test","Unit","CLIA 2025 criterion","Ricos TE %"],...tests]}]);
+    download(new Blob([bytes],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}),"sample_data_mu_sigma.xlsx");
+  }
+  setStatus(`ดาวน์โหลดไฟล์ข้อมูลตัวอย่าง (${kind==="csv"?"CSV":"Excel"}) แล้ว — ใช้ทดลอง Import ได้`);
+}
 function initTools(){
+  $("btnSmpX").onclick=()=>downloadSample("xlsx");$("btnSmpC").onclick=()=>downloadSample("csv");
   $("btnTplX").onclick=()=>downloadTemplate("xlsx");$("btnTplC").onclick=()=>downloadTemplate("csv");
   $("btnImport").onclick=()=>$("fileIn").click();
   $("fileIn").onchange=e=>{const f=e.target.files[0];if(f)doImport(f);e.target.value=""};
